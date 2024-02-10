@@ -2,29 +2,34 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { User } from 'src/app/model/user.model';
 import { UserService } from 'src/app/service/user.service';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialog, MatDialogConfig, MatDialogModule} from '@angular/material/dialog';
+import { SignupSuccessDialogComponent } from '../Dialog/signup-success-dialog/signup-success-dialog.component';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  styleUrls: ['./signup.component.css'
+]
 })
 export class SignupComponent implements OnInit{
-  constructor(private userService: UserService ){}
+  constructor(private userService: UserService , public dialog: MatDialog , private elementRef: ElementRef){}
 
   ngOnInit() {
       
   }
   users: User = new User();
   @ViewChild('form') form!: NgForm; // Référence au formulaire
-
-  save() {
+    save() {
     this.userService.Register(this.users)
       .subscribe(
         (response: any) => {
           console.log('User registered successfully:', response.message);
           this.users = new User();
           this.form.resetForm();
-          this.clearErrorMessages();  
+          this.clearErrorMessages(); 
+          this.openSuccessDialog(); // Ouvrir le popup de succès
+
 
         },
         error => {
@@ -103,5 +108,59 @@ validatePasswordFields() {
     this.passwordInvalid = !this.users.password;
     this.confirmPasswordInvalid = !this.confirmPassword;
 }
+// openSuccessDialog(): void {
+//   const dialogConfig = new MatDialogConfig();
+//   dialogConfig.width = '500px';
+//   dialogConfig.data = { message: 'User registered successfully!' };
+
+//   // Calculate the position relative to the form
+//   const formRect = this.elementRef.nativeElement.getBoundingClientRect();
+//   const centerX = formRect.left + formRect.width / 2;
+//   const dialogHeight = 250; // Adjust this value based on your dialog content
+
+//   // Move the dialog twice the space with the bottom
+//   const centerY = formRect.top - (2 * dialogHeight); 
+
+//   dialogConfig.position = { top: centerY + 'px', left: centerX + 'px' };
+
+//   const dialogRef = this.dialog.open(SignupSuccessDialogComponent, dialogConfig);
+
+//   dialogRef.afterClosed().subscribe(result => {
+//     console.log('The success dialog was closed');
+//   });
+// } 
+
+openSuccessDialog(): void {
+  const dialogConfig = new MatDialogConfig();
+  dialogConfig.width = '500px';
+  dialogConfig.data = {
+    message: `
+      Votre inscription a été effectuée avec succès.
+      Un e-mail de confirmation vous sera envoyé une fois que votre compte aura été approuvé par l'administrateur.
+    `
+  };
+
+  // Calculate the position relative to the form
+  const formRect = this.elementRef.nativeElement.getBoundingClientRect();
+  const dialogHeight = 250; // Adjust this value based on your dialog content
+
+  // Move the dialog twice the space with the bottom
+  const centerY = formRect.top - (2 * dialogHeight);
+
+  // Shift the dialog slightly to the right, adding a fixed value
+  const centerX = formRect.left + (formRect.width / 2) - 250; // Adjust this value based on your requirement
+
+  dialogConfig.position = { top: centerY + 'px', left: centerX + 'px' };
+
+  const dialogRef = this.dialog.open(SignupSuccessDialogComponent, dialogConfig);
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('The success dialog was closed');
+  });
+}
+
+
+
+
 
 }

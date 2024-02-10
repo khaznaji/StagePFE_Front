@@ -123,8 +123,7 @@ Le rôle est obligatoire                                            </div>
                                                 </div>
                                                 <div *ngIf="thismdp.invalid && thismdp.errors?.['pattern'] && thismdp.touched" class="custom-error-message">
                                                     <small style="color: red;">
-                                                        Votre mot de passe doit contenir entre 8 et 20 caractères, et doit inclure des caractères spéciaux "!@#$%&*_?", des chiffres, ainsi que des lettres minuscules et majuscules uniquement.
-                                                    </small>           
+Le mot de passe est invalide                                                    </small>           
                                                   </div>
 
                                                   <div class="progress mt-2" *ngIf="users.password">
@@ -150,11 +149,11 @@ Le rôle est obligatoire                                            </div>
 <div class="text-danger" *ngIf="thisconfirmedmdp.touched && !passwordsMatch()">Les mots de passe ne correspondent pas</div>
 
                                     <div class="text-center mt-4">
-                                        <button type="submit" class="btn btn-primary btn-block" [disabled]="!form.valid || !passwordsMatch()">S'inscrire</button>
+                                        <button type="submit" class="btn btn-primary btn-block" [disabled]="!form.valid || !passwordsMatch()" >S'inscrire</button>
                                     </div>
                                 </form>
 
-  
+                                
                                 <div class="new-account mt-3">
                                     <p>Vous avez déjà un compte? <a class="text-primary" href="page-login.html">Se connecter</a></p>
                                 </div>

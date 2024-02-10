@@ -1,0 +1,50 @@
+<style>
+    /* Global Styles or Component Styles */
+    .dialog-title {
+      color: #595e63; /* Blue color for the title */
+    }
+    
+    .dialog-message {
+      font-size: 18px; /* Increase font size for the message */
+      color: #333; /* Dark color for the message */
+    }
+    
+    .dialog-actions {
+      justify-content: flex-end; /* Align actions to the right */
+    }
+    
+    .dialog-actions .close-button {
+        background-color: #28a745; /* Green color for the button */
+        color: white; /* White color for the text */
+        border: none; /* Remove border */
+        padding: 8px 16px; /* Add padding */
+        border-radius: 4px; /* Add border radius */
+        cursor: pointer; /* Change cursor to pointer */
+        transition: background-color 0.3s ease; /* Smooth transition */
+    }
+    
+    .dialog-actions .close-button:hover {
+        background-color: #218838; /* Darker green color on hover */
+    }
+    
+    /* Adjust the size and position of the checkmark icon as needed */
+    .checkmark-icon {
+        width: 20px; /* Set width */
+        height: 20px; /* Set height */
+        margin-right: 8px; /* Add margin to separate from text */
+        fill: white; /* Set fill color */
+    }
+</style>
+
+<h1 mat-dialog-title class="dialog-title">Inscription Réussie</h1>
+<div mat-dialog-content>
+  <p class="dialog-message">{{ data.message }}</p>
+</div>
+<div mat-dialog-actions class="dialog-actions">
+  <!-- Use a checkmark icon before the Close button -->
+  <svg class="checkmark-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path fill="none" d="M0 0h24v24H0z"/>
+    <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+  </svg>
+  <button mat-button [mat-dialog-close]="true" class="close-button">Close</button>
+</div>
