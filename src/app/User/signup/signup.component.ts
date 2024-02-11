@@ -4,7 +4,7 @@ import { User } from 'src/app/model/user.model';
 import { UserService } from 'src/app/service/user.service';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialog, MatDialogConfig, MatDialogModule} from '@angular/material/dialog';
-import { SignupSuccessDialogComponent } from '../Dialog/signup-success-dialog/signup-success-dialog.component';
+import { SuccessDialogComponent } from '../Dialog/success-dialog/success-dialog.component';
 
 @Component({
   selector: 'app-signup',
@@ -18,6 +18,8 @@ export class SignupComponent implements OnInit{
   ngOnInit() {
       
   }
+  isHomme: boolean = false;
+  isFemme: boolean = false;
   users: User = new User();
   @ViewChild('form') form!: NgForm; // Référence au formulaire
     save() {
@@ -152,11 +154,12 @@ openSuccessDialog(): void {
 
   dialogConfig.position = { top: centerY + 'px', left: centerX + 'px' };
 
-  const dialogRef = this.dialog.open(SignupSuccessDialogComponent, dialogConfig);
+  const dialogRef = this.dialog.open(SuccessDialogComponent, dialogConfig);
 
   dialogRef.afterClosed().subscribe(result => {
     console.log('The success dialog was closed');
   });
+  
 }
 
 

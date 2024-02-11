@@ -5,12 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { SignupComponent } from './User/signup/signup.component';
 import { FormsModule } from '@angular/forms';
-import { SignupSuccessDialogComponent } from './User/Dialog/signup-success-dialog/signup-success-dialog.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { SuccessDialogComponent } from './User/Dialog/success-dialog/success-dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent, SignupComponent, SignupSuccessDialogComponent
+    AppComponent, SignupComponent, SuccessDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,4 @@
+import { Gender } from "./gender.model";
 import { Role } from "./role.model";
 
 export class User{
@@ -7,6 +8,7 @@ export class User{
   numtel!: number;
   matricule!: string;
   role!: Role;
+  gender!: Gender; 
   email!: string;
   password!: string;
   date!: string; // ou LocalDateTime selon votre besoin
