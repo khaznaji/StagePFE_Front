@@ -1,10 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { User } from 'src/app/model/user.model';
 import { UserService } from 'src/app/service/user.service';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialog, MatDialogConfig, MatDialogModule} from '@angular/material/dialog';
 import { SuccessDialogComponent } from '../Dialog/success-dialog/success-dialog.component';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-signup',
@@ -13,31 +14,100 @@ import { SuccessDialogComponent } from '../Dialog/success-dialog/success-dialog.
 ]
 })
 export class SignupComponent implements OnInit{
-  constructor(private userService: UserService , public dialog: MatDialog , private elementRef: ElementRef){}
+  constructor(private userService: UserService , public dialog: MatDialog , private elementRef: ElementRef,private modalService: BsModalService){}
 
   ngOnInit() {
       
   }
   isHomme: boolean = false;
   isFemme: boolean = false;
+  emailErrorMessage: string = '';
+  matriculeErrorMessage: string = '';
+
   users: User = new User();
-  @ViewChild('form') form!: NgForm; // Référence au formulaire
-    save() {
-    this.userService.Register(this.users)
-      .subscribe(
-        (response: any) => {
-          console.log('User registered successfully:', response.message);
-          this.users = new User();
-          this.form.resetForm();
-          this.clearErrorMessages(); 
-          this.openSuccessDialog(); // Ouvrir le popup de succès
+  @ViewChild('form') form!: NgForm;
+  modalRef!: BsModalRef;
 
+  openModal() {
+    this.modalRef = this.modalService.show(SuccessDialogComponent);
+  }
+  emailExists: boolean = false;
+matriculeExists: boolean = false;
 
-        },
-        error => {
-          console.error('Error registering user:', error);
-        }
-      );
+onEmailChange() {
+  this.emailExists = false;
+}
+onMatriculeChange() {
+  this.matriculeExists = false;
+}
+save() {
+  this.userService.checkEmail(this.users.email)
+    .subscribe((exists: boolean) => {
+      if (exists) {
+        // Display error message for existing email
+        this.emailExists = true;
+      } else {
+        // Check matricule existence
+        this.userService.checkmatricule(this.users.matricule)
+          .subscribe((matriculeExists: boolean) => {
+            if (matriculeExists) {
+              // Display error message for existing matricule
+              this.matriculeExists = true;
+            } else {
+              // Continue with registration
+              this.userService.Register(this.users)
+                .subscribe(
+                  (response: any) => {
+                    console.log('User registered successfully:', response.message);
+                    this.users = new User();
+                    this.form.resetForm();
+                    this.clearErrorMessages();
+                    this.openModal(); 
+                  },
+                  error => {
+                    // Handle registration error if needed
+                  }
+                );
+            }
+          });
+      }
+    });
+}
+
+  handleServerError(errorMessage: string) {
+    // Traitez l'erreur côté serveur et affichez le message approprié
+    if (errorMessage.includes('Cet e-mail est déjà utilisé')) {
+      this.emailErrorMessage = errorMessage;
+    } else if (errorMessage.includes('Ce matricule est déjà utilisé')) {
+      this.matriculeErrorMessage = errorMessage;
+    } else {
+      console.error('Erreur inattendue:', errorMessage);
+    }
+  }
+  openConfirmationDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '500px';
+    dialogConfig.data = {
+      message: 'Votre inscription a été effectuée avec succès.'
+    };
+  
+    // Calculer la position par rapport au formulaire
+    const formRect = this.elementRef.nativeElement.getBoundingClientRect();
+    const dialogHeight = 250; // Ajustez cette valeur en fonction de votre contenu de dialog
+  
+    // Déplacer le dialog deux fois l'espace vers le bas
+    const centerY = formRect.top - (2 * dialogHeight);
+  
+    // Décaler légèrement le dialog vers la droite, en ajoutant une valeur fixe
+    const centerX = formRect.left + (formRect.width / 2) - 250; // Ajustez cette valeur en fonction de vos besoins
+  
+    dialogConfig.position = { top: centerY + 'px', left: centerX + 'px' };
+  
+    const dialogRef = this.dialog.open(SuccessDialogComponent, dialogConfig);
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Le dialog de succès a été fermé');
+    });
   }
   
   clearErrorMessages() {
@@ -99,9 +169,10 @@ export class SignupComponent implements OnInit{
     }
 
 }
-isSopraHrEmail(email: string) {
-  return email.endsWith('@soprahr.com');
+isSopraHrEmail(email: string): boolean {
+  return email.endsWith('@soprahr.com') || email.endsWith('@gmail.com');
 }
+
 passwordInvalid = false;
 confirmPasswordInvalid = false;
 
@@ -110,57 +181,9 @@ validatePasswordFields() {
     this.passwordInvalid = !this.users.password;
     this.confirmPasswordInvalid = !this.confirmPassword;
 }
-// openSuccessDialog(): void {
-//   const dialogConfig = new MatDialogConfig();
-//   dialogConfig.width = '500px';
-//   dialogConfig.data = { message: 'User registered successfully!' };
 
-//   // Calculate the position relative to the form
-//   const formRect = this.elementRef.nativeElement.getBoundingClientRect();
-//   const centerX = formRect.left + formRect.width / 2;
-//   const dialogHeight = 250; // Adjust this value based on your dialog content
 
-//   // Move the dialog twice the space with the bottom
-//   const centerY = formRect.top - (2 * dialogHeight); 
 
-//   dialogConfig.position = { top: centerY + 'px', left: centerX + 'px' };
-
-//   const dialogRef = this.dialog.open(SignupSuccessDialogComponent, dialogConfig);
-
-//   dialogRef.afterClosed().subscribe(result => {
-//     console.log('The success dialog was closed');
-//   });
-// } 
-
-openSuccessDialog(): void {
-  const dialogConfig = new MatDialogConfig();
-  dialogConfig.width = '500px';
-  dialogConfig.data = {
-    message: `
-      Votre inscription a été effectuée avec succès.
-      Un e-mail de confirmation vous sera envoyé une fois que votre compte aura été approuvé par l'administrateur.
-    `
-  };
-
-  // Calculate the position relative to the form
-  const formRect = this.elementRef.nativeElement.getBoundingClientRect();
-  const dialogHeight = 250; // Adjust this value based on your dialog content
-
-  // Move the dialog twice the space with the bottom
-  const centerY = formRect.top - (2 * dialogHeight);
-
-  // Shift the dialog slightly to the right, adding a fixed value
-  const centerX = formRect.left + (formRect.width / 2) - 250; // Adjust this value based on your requirement
-
-  dialogConfig.position = { top: centerY + 'px', left: centerX + 'px' };
-
-  const dialogRef = this.dialog.open(SuccessDialogComponent, dialogConfig);
-
-  dialogRef.afterClosed().subscribe(result => {
-    console.log('The success dialog was closed');
-  });
-  
-}
 
 
 

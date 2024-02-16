@@ -1,183 +1,200 @@
-<style>/* Style pour les champs de saisie invalides */
-.disabled-cursor {
-  cursor: not-allowed; /* Utiliser le curseur "not allowed" lorsque le bouton est désactivé */
-}
-
-.custom-error-message {
-    color: red; /* Couleur du texte en rouge */
-    font-size: 0.8rem; /* Taille de la police */
-    margin-top: 0.25rem; /* Marge en haut pour séparer le message d'erreur du champ de saisie */
-}
-/* Couleur de la barre de progression */
-.progress-bar-strength {
-    background-color: #28a745; /* Couleur verte */
-}
-
-/* Animation de la barre de progression */
-.progress-bar-strength {
-    transition: width 0.3s ease; /* Animation fluide de la largeur */
-}
-
+<style>
+/* Style pour les champs de saisie invalides */
+    .disabled-cursor {
+      cursor: not-allowed; /* Utiliser le curseur "not allowed" lorsque le bouton est désactivé */
+    }
     
-    </style><br>
-<div class="authincation h-100" style="max-height: 80%">
-    <div class="container-fluid h-100">
-        <div class="row justify-content-center h-100 align-items-center">
-            <div class="col-md-9">
-                <div class="authincation-content">
-                    <div class="row no-gutters">
-                        <div class="col-xl-10 offset-xl-1 col-lg-8 offset-lg-2">
-                            <div class="auth-form">
-                                <h4 class="text-center mb-4"><img src="../../../assets/images/logos.PNG" class="img-fluid" style="max-width: 170px;"></h4>
-                               
-                               <div class="mb-4">
-                                   <img src="../../../assets/images/4you.PNG" style="max-width: 40px;">
-                                    <b class="ml-2">Bienvenue sur 4You</b>
-                               
-                               
-                                <p class=" mb-4">Rejoignez-nous pour accéder à l'ensemble de nos fonctionnalités.</p>
-                            </div>
-                                <form (ngSubmit)="save()" #form="ngForm">
-                                    <div class="form-group row">
-                                        <div class="col-md-6 col-lg-6 mb-3 mb-md-0" style="border-right: 1px solid #ccc;">
-                                            <label><strong>Nom</strong></label>
-                                            <input type="text" class="form-control" id="nom" name="nom" [(ngModel)]="users.nom" placeholder="Nom" required #thisnom="ngModel"
-                                                [ngClass]="{ 'is-invalid': thisnom.invalid && thisnom.touched }">
-                                            <div *ngIf="thisnom.invalid && thisnom.errors?.['required'] && thisnom.touched" class="custom-error-message">
-                                                Le nom est obligatoire
-                                            </div>
-                                        </div>
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        <div class="col-md-6 col-lg-6" >
-                                            <label><strong>Prénom</strong></label>
-                                            <input type="text" class="form-control" id="prenom" name="prenom" [(ngModel)]="users.prenom" placeholder="Prénom" required #thisprenom="ngModel" [ngClass]="{ 'is-invalid': thisprenom.invalid && thisprenom.touched }">
-                                            <div *ngIf="thisprenom.invalid && thisprenom.errors?.['required'] && thisprenom.touched" class="custom-error-message">
-                                                Le prénom est obligatoire
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-md-6 col-lg-6 mb-3 mb-md-0" style="border-right: 1px solid #ccc;">
-                                            <label><strong>Numéro de téléphone</strong></label>
-                                            <input type="tel" class="form-control" id="numtel" name="numtel" [(ngModel)]="users.numtel" placeholder="Numéro de téléphone" #thisnumtel="ngModel" required
-                                                [ngClass]="{ 'is-invalid': (thisnumtel.invalid && thisnumtel.touched) }" (input)="onNumTelInput($event)">
-                                            <div *ngIf="thisnumtel.touched && !thisnumtel.value" class="custom-error-message">
-                                                Numéro de téléphone obligatoire
-                                            </div>
-                                            <div *ngIf="thisnumtel.value && thisnumtel.value.toString().length !== 8 && thisnumtel.touched" class="custom-error-message">
-                                                Le numéro de téléphone doit comporter exactement 8 chiffres
-                                            </div>
-                                        </div>
-                                        
-                                        
-                                        
-                                        
-                                        <div class="col-md-6 col-lg-6" >
-                                            <label><strong>Matricule</strong></label>
-                                            <input type="text" class="form-control" id="matricule" name="matricule" [(ngModel)]="users.matricule" placeholder="Matricule"  required #thismatricule="ngModel" [ngClass]="{ 'is-invalid': thismatricule.invalid && thismatricule.touched }">
-                                            <div *ngIf="thismatricule.invalid && thismatricule.errors?.['required'] && thismatricule.touched" class="custom-error-message">
-                                                Le matricule est obligatoire
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-md-6 col-lg-6 mb-3 mb-md-0" style="border-right: 1px solid #ccc;">
-                                            <label><strong>Email</strong></label>
-                                            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="users.email" placeholder="hello@example.com" 
-                                            required #thisemail="ngModel"
-                                            [ngClass]="{ 'is-invalid': (thisemail.invalid && thisemail.touched) || (!thisemail.invalid && thisemail.touched && !isSopraHrEmail(users.email)) }">
-                                            <div *ngIf="thisemail.touched && !thisemail.value" class="custom-error-message">
-                                                L'email est obligatoire
-                                            </div>
-                                            <div *ngIf="thisemail.value && !isSopraHrEmail(thisemail.value) && thisemail.touched" class="custom-error-message">
-                                                L'email doit se terminer par '@soprahr.com'
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-md-6 col-lg-6">
-                                            <label><strong>Rôle</strong></label>
-                                            <select class="form-control" [(ngModel)]="users.role" id="role" name="role" required #thisrole="ngModel"
-                                                [ngClass]="{ 'is-invalid': (thisrole.invalid && thisrole.touched) }">
-                                                <option value="" disabled selected >-- Sélectionnez votre rôle --</option>
-                                                <option value="ManagerRh">Manager Rh</option>
-                                                <option value="Collaborateur">Collaborateur</option>
-                                            </select>
-                                            <div *ngIf="thisrole.invalid && thisrole.touched" class="custom-error-message">
-Le rôle est obligatoire                                            </div>
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="form-group row">
-                                        
-                                            <!-- <div class="progress mt-2">
-                                                <div class="progress-bar" role="progressbar" [style.width]="passwordStrengthPercentage()" [ngClass]="passwordStrengthClass()">{{ passwordStrength() }}</div>
-                                            </div> -->
-                                            
+    .custom-error-message {
+        color: red; /* Couleur du texte en rouge */
+        font-size: 0.8rem; /* Taille de la police */
+        margin-top: 0.25rem; /* Marge en haut pour séparer le message d'erreur du champ de saisie */
+    }
+    /* Couleur de la barre de progression */
+    .progress-bar-strength {
+        background-color: #28a745; /* Couleur verte */
+    }
+    
+    /* Animation de la barre de progression */
+    .progress-bar-strength {
+        transition: width 0.3s ease; /* Animation fluide de la largeur */
+    }
+    
+        
+        </style>
+        <body>
+    <div class="authincation h-100" style="max-height: 80%">
+        <div class="container-fluid h-100">
+            <div class="row justify-content-center h-100 align-items-center">
+                <div class="col-md-9">
+                    <div class="authincation-content">
+                        <div class="row no-gutters">
+                            <div class="col-xl-10 offset-xl-1 col-lg-8 offset-lg-2">
+                                <div class="auth-form">
+                                    <h4 class="text-center mb-4"><img src="../../../assets/images/logos.PNG" class="img-fluid" style="max-width: 170px;"></h4>
+                                   
+                                   <div class="mb-4">
+                                       <img src="../../../assets/images/4you.PNG" style="max-width: 40px;">
+                                        <b class="ml-2">Bienvenue sur 4You</b>
+                                   
+                                   
+                                    <p class=" mb-4">Rejoignez-nous pour accéder à l'ensemble de nos fonctionnalités.</p>
+                                </div>
+                                    <form (ngSubmit)="save()" #form="ngForm">
+                                        <div class="form-group row">
                                             <div class="col-md-6 col-lg-6 mb-3 mb-md-0" style="border-right: 1px solid #ccc;">
-                                                <label><strong>Mot de passe</strong></label>
-                                                <input type="password" class="form-control" [(ngModel)]="users.password" id="password" name="password" placeholder="Mot de passe" required #thismdp="ngModel"
-                                                    [ngClass]="{ 'is-invalid': (thismdp.invalid && thismdp.touched) }" pattern="^(?=.*[!@#$%&*_?])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d!@#$%&*_?]{8,20}$">
-                                                <div *ngIf="thismdp.invalid && thismdp.errors?.['required'] && thismdp.touched" class="custom-error-message">
-                                                    Le mot de passe est obligatoire
+                                                <label><strong>Nom</strong></label>
+                                                <input type="text" class="form-control" id="nom" name="nom" [(ngModel)]="users.nom" placeholder="Nom" required #thisnom="ngModel"
+                                                    [ngClass]="{ 'is-invalid': thisnom.invalid && thisnom.touched }">
+                                                <div *ngIf="thisnom.invalid && thisnom.errors?.['required'] && thisnom.touched" class="custom-error-message">
+                                                    Le nom est obligatoire
                                                 </div>
-                                                <div *ngIf="thismdp.invalid && thismdp.errors?.['pattern'] && thismdp.touched" class="custom-error-message">
-                                                    <small style="color: red;">
-Le mot de passe est invalide                                                    </small>           
-                                                  </div>
-
-                                                  <div class="progress mt-2" *ngIf="users.password">
-                                                    <div class="progress-bar" role="progressbar" [style.width]="passwordStrengthPercentage()" [ngClass]="passwordStrengthClass()">{{ passwordStrength() }}</div>
-                                                </div>
-                                                <small id="passwordHelpBlock" class="form-text text-muted">
-                                                    Votre mot de passe doit contenir entre 8 et 20 caractères, et doit inclure des caractères spéciaux "!@#$%&*_?", des chiffres, ainsi que des lettres minuscules et majuscules uniquement.
-                                                </small>
                                             </div>
-                                                                                    
-                                        
-                                            <div class="col-md-6 col-lg-6 mb-3 mb-md-0">
-                                                <label><strong>Confirmer le mot de passe</strong></label>
-        <input type="password" class="form-control" [(ngModel)]="confirmPassword" id="confirmPassword" name="confirmPassword" placeholder="Confirmer le mot de passe" required #thisconfirmedmdp="ngModel"
-        [ngClass]="{ 'is-invalid': (thisconfirmedmdp.invalid && thisconfirmedmdp.touched) }">
-        <div *ngIf="thisconfirmedmdp.invalid && thisconfirmedmdp.errors?.['required'] && thisconfirmedmdp.touched" class="custom-error-message">
-            Confirmation du mot de passe obligatoire
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <div class="col-md-6 col-lg-6" >
+                                                <label><strong>Prénom</strong></label>
+                                                <input type="text" class="form-control" id="prenom" name="prenom" [(ngModel)]="users.prenom" placeholder="Prénom" required #thisprenom="ngModel" [ngClass]="{ 'is-invalid': thisprenom.invalid && thisprenom.touched }">
+                                                <div *ngIf="thisprenom.invalid && thisprenom.errors?.['required'] && thisprenom.touched" class="custom-error-message">
+                                                    Le prénom est obligatoire
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-6 col-lg-6 mb-3 mb-md-0" style="border-right: 1px solid #ccc;">
+                                                <label><strong>Numéro de téléphone</strong></label>
+                                                <input type="tel" class="form-control" id="numtel" name="numtel" [(ngModel)]="users.numtel" placeholder="Numéro de téléphone" #thisnumtel="ngModel" required
+                                                    [ngClass]="{ 'is-invalid': (thisnumtel.invalid && thisnumtel.touched) }" (input)="onNumTelInput($event)">
+                                                <div *ngIf="thisnumtel.touched && !thisnumtel.value" class="custom-error-message">
+                                                    Numéro de téléphone obligatoire
+                                                </div>
+                                                <div *ngIf="thisnumtel.value && thisnumtel.value.toString().length !== 8 && thisnumtel.touched" class="custom-error-message">
+                                                    Le numéro de téléphone doit comporter exactement 8 chiffres
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            
+                                            
+                                            <div class="col-md-6 col-lg-6" >
+                                                <label><strong>Matricule</strong></label>
+                                                <input type="text" class="form-control" id="matricule" name="matricule" [(ngModel)]="users.matricule" placeholder="Matricule" 
+                                                required #thismatricule="ngModel" (ngModelChange)="onMatriculeChange()"
+                                                [ngClass]="{ 'is-invalid': thismatricule.invalid && thismatricule.touched }">
+                                                                                        <div *ngIf="thismatricule.invalid && thismatricule.errors?.['required'] && thismatricule.touched" class="custom-error-message">
+                                                    Le matricule est obligatoire
+                                                </div>
+                                                <div class="text-danger" *ngIf="matriculeExists">Le matricule existe déjà</div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-6 col-lg-6 mb-3 mb-md-0" style="border-right: 1px solid #ccc;">
+                                                <label><strong>Email</strong></label>
+                                                <input type="email" class="form-control" id="email" name="email" [(ngModel)]="users.email" placeholder="hello@example.com" 
+                                                required #thisemail="ngModel" (ngModelChange)="onEmailChange()"
+                                                [ngClass]="{ 'is-invalid': (thisemail.invalid && thisemail.touched) || (!thisemail.invalid && thisemail.touched && !isSopraHrEmail(users.email)) }">
+                                         <div *ngIf="thisemail.touched && !thisemail.value" class="custom-error-message">
+                                                    L'email est obligatoire
+                                                </div>
+                                                <div *ngIf="thisemail.value && !isSopraHrEmail(thisemail.value) && thisemail.touched" class="custom-error-message">
+                                                    L'email doit se terminer par '@gmail.com' ou '@soprahr.com'
+                                                </div> 
+                                                <div class="text-danger" *ngIf="emailExists">L'email existe déjà.</div>
+
+                                            </div>
+                                            
+                                            <div class="col-md-6 col-lg-6">
+                                                <label><strong>Rôle</strong></label>
+                                                <select class="form-control" [(ngModel)]="users.role" id="role" name="role" required #thisrole="ngModel"
+                                                    [ngClass]="{ 'is-invalid': (thisrole.invalid && thisrole.touched) }">
+                                                    <option value="" disabled selected >-- Sélectionnez votre rôle --</option>
+                                                    <option value="ManagerRh">Manager Rh</option>
+                                                    <option value="Collaborateur">Collaborateur</option>
+                                                </select>
+                                                <div *ngIf="thisrole.invalid && thisrole.touched" class="custom-error-message">
+    Le rôle est obligatoire                                            </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="form-group row">
+                                            
+                                                <!-- <div class="progress mt-2">
+                                                    <div class="progress-bar" role="progressbar" [style.width]="passwordStrengthPercentage()" [ngClass]="passwordStrengthClass()">{{ passwordStrength() }}</div>
+                                                </div> -->
+                                                
+                                                <div class="col-md-6 col-lg-6 mb-3 mb-md-0" style="border-right: 1px solid #ccc;">
+                                                    <label><strong>Mot de passe</strong></label>
+                                                    <input type="password" class="form-control" [(ngModel)]="users.password" id="password" name="password" placeholder="Mot de passe" required #thismdp="ngModel"
+                                                        [ngClass]="{ 'is-invalid': (thismdp.invalid && thismdp.touched) }" pattern="^(?=.*[!@#$%&*_?])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d!@#$%&*_?]{8,20}$">
+                                                    <div *ngIf="thismdp.invalid && thismdp.errors?.['required'] && thismdp.touched" class="custom-error-message">
+                                                        Le mot de passe est obligatoire
+                                                    </div>
+                                                    <div *ngIf="thismdp.invalid && thismdp.errors?.['pattern'] && thismdp.touched" class="custom-error-message">
+                                                        <small style="color: red;">
+    Le mot de passe est invalide                                                    </small>           
+                                                      </div>
+    
+                                                      <div class="progress mt-2" *ngIf="users.password">
+                                                        <div class="progress-bar" role="progressbar" [style.width]="passwordStrengthPercentage()" [ngClass]="passwordStrengthClass()">{{ passwordStrength() }}</div>
+                                                    </div>
+                                                    <small id="passwordHelpBlock" class="form-text text-muted">
+                                                        Votre mot de passe doit contenir entre 8 et 20 caractères, et doit inclure des caractères spéciaux "!@#$%&*_?", des chiffres, ainsi que des lettres minuscules et majuscules uniquement.
+                                                    </small>
+                                                </div>
+                                                                                        
+                                            
+                                                <div class="col-md-6 col-lg-6 mb-3 mb-md-0">
+                                                    <label><strong>Confirmer le mot de passe</strong></label>
+            <input type="password" class="form-control" [(ngModel)]="confirmPassword" id="confirmPassword" name="confirmPassword" placeholder="Confirmer le mot de passe" required #thisconfirmedmdp="ngModel"
+            [ngClass]="{ 'is-invalid': (thisconfirmedmdp.invalid && thisconfirmedmdp.touched) }">
+            <div *ngIf="thisconfirmedmdp.invalid && thisconfirmedmdp.errors?.['required'] && thisconfirmedmdp.touched" class="custom-error-message">
+                Confirmation du mot de passe obligatoire
+            </div>
+        </div>
+        
+        
+    </div>
+    <div class="text-danger" *ngIf="thisconfirmedmdp.touched && !passwordsMatch()">Les mots de passe ne correspondent pas</div>
+    <div class="form-group row">
+        <div class="col-md-6 col-lg-6 mb-3 mb-md-0" style="border-right: 1px solid #ccc;">
+            <label class="mr-3"><strong>Genre</strong></label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="Homme" name="gender" value="Homme" [(ngModel)]="users.gender" required #thisgender="ngModel">
+                <label class="form-check-label" for="homme">Homme</label>
+            </div>
+            <div class="form-check form-check-inline ml-3">
+                <input class="form-check-input" type="radio" id="Femme" name="gender" value="Femme" [(ngModel)]="users.gender">
+                <label class="form-check-label" for="femme">Femme</label>
+            </div>
+            <div *ngIf="thisgender.invalid && thisgender.errors?.['required'] && thisgender.touched" class="custom-error-message">
+                Le genre est obligatoire
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6 mb-3 mb-md-0">
+            <!-- Add content to the second column if needed -->
         </div>
     </div>
     
     
-</div>
-<div class="text-danger" *ngIf="thisconfirmedmdp.touched && !passwordsMatch()">Les mots de passe ne correspondent pas</div>
-<div class="form-group row">
-    <div class="col-md-6 col-lg-6 mb-3 mb-md-0" style="border-right: 1px solid #ccc;">
-        <label><strong>Genre</strong></label><br>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="Homme" name="gender" value="Homme" [(ngModel)]="users.gender">
-            <label class="form-check-label" for="homme">Homme</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="Femme" name="gender" value="Femme" [(ngModel)]="users.gender">
-            <label class="form-check-label" for="femme">Femme</label>
-        </div>
-    </div>
-    <div class="col-md-6 col-lg-6 mb-3 mb-md-0">
-       
+    <!-- Add these lines to display error messages -->
+ 
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary btn-block"
+                [disabled]="emailExists || !form.valid || !passwordsMatch()"
+                [ngClass]="{ 'disabled-cursor': !form.valid || !passwordsMatch() }">
+            S'inscrire
+        </button>
     </div>
     
-</div>
-
-
-
-                                    <div class="text-center mt-4">
-                                        <button type="submit" class="btn btn-primary btn-block" [disabled]="!form.valid || !passwordsMatch()" [ngClass]="{ 'disabled-cursor': !form.valid || !passwordsMatch() }">S'inscrire</button>
+                                    </form>
+    
+                                    
+                                    <div class="new-account mt-3">
+                                        <p>Vous avez déjà un compte? <a class="text-primary" routerLink="/signin">Se connecter</a></p>
                                     </div>
-                                </form>
-
-                                
-                                <div class="new-account mt-3">
-                                    <p>Vous avez déjà un compte? <a class="text-primary" href="page-login.html">Se connecter</a></p>
                                 </div>
                             </div>
                         </div>
@@ -186,5 +203,4 @@ Le mot de passe est invalide                                                    
             </div>
         </div>
     </div>
-</div>
-<br>
+</body>
