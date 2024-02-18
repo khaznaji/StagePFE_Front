@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { UserAuthService } from 'src/app/service/user-auth.service';
 import { UserService } from 'src/app/service/user.service';
 
@@ -13,21 +14,31 @@ export class SigninComponent {
   isLoading: boolean = false;
   emailError!: string;
   passwordError!: string;
+  recaptchaResolved: boolean = false;
 
   accountInactiveError!: string;
   constructor(
     private userService: UserService,
     private userAuthService: UserAuthService,
-    private router: Router
+    private router: Router 
+    
   ){
     this.email = '';
   }
-
+  resolved(captchaResponse: string) {
+    // Cette fonction est appelée lorsque le reCAPTCHA est résolu avec succès
+    this.recaptchaResolved = true;
+  }
   login(loginForm: any) {
+   
     this.isLoading = true;
     this.passwordError = '';
     this.accountInactiveError = ''; // Réinitialiser l'erreur de compte inactif
-
+    if (!this.recaptchaResolved) {
+      // Gérer le cas où le reCAPTCHA n'a pas été résolu
+      this.isLoading = false;
+      return;
+    }
     this.userService.login(loginForm.value).subscribe(
       (response: any) => {
         console.log(response);

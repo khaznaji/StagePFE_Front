@@ -29,6 +29,8 @@ export class UserService {
   checkmatricule(matricule: string): Observable<any> {
     return this.http.get(`${this.BASE_URL}/matricule/${matricule}`);
   }
-  
+  requestPasswordReset(email: string) {
+    return this.http.post('http://localhost:8080/User/request', { email });
+  }
 
 }

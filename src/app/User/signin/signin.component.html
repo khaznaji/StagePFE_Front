@@ -108,7 +108,7 @@
                                                      
                                                 </div>
     <div class="col-md-6 col-lg-12 text-right">
-                                                        <a href="#" class="text-primary">Mot de passe oublié ?</a>
+                                                        <a routerLink="/request-password"> class="text-primary">Mot de passe oublié ?</a>
                                                     </div>
 
                                             
@@ -118,11 +118,16 @@
     </div>
    
     
-    
-    
-                                        <div class="text-center mt-4">
-                                            <button type="submit" class="btn btn-primary btn-block" >Se Connecter</button>
-                                        </div>
+
+    <re-captcha (resolved)="resolved($event)" siteKey="6LcifnUpAAAAANaMqQ15Kl8cCTmRzVae9tUMa_kt"></re-captcha>
+                                       
+<div *ngIf="!recaptchaResolved" class="custom-error-message">
+    Le reCAPTCHA est obligatoire
+  </div>
+  
+  <div class="text-center mt-4">
+    <button type="submit" class="btn btn-primary btn-block" [disabled]="!recaptchaResolved">Se Connecter</button>
+  </div>
                                     </form>
     
                                     

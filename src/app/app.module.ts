@@ -13,23 +13,31 @@ import { MenuComponent } from './menu/menu.component';
 import { MenuloginComponent } from './User/menulogin/menulogin.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { RecaptchaModule } from "ng-recaptcha";
+import { RequestPasswordComponent } from './User/request-password/request-password.component';
+import { EmailSuccessComponent } from './User/Dialog/email-success/email-success.component';
+import { ResetPasswordComponent } from './User/reset-password/reset-password.component';
+
+
 
 @NgModule({
   declarations: [
-    AppComponent, SignupComponent, SuccessDialogComponent, SigninComponent, AllUsersComponent, MenuComponent, MenuloginComponent
+    AppComponent, SignupComponent, SuccessDialogComponent, SigninComponent, AllUsersComponent, MenuComponent, MenuloginComponent, RequestPasswordComponent, EmailSuccessComponent, ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,    
     HttpClientModule, FormsModule, MatDialogModule, BrowserAnimationsModule,
-    ModalModule.forRoot(),
+    ModalModule.forRoot(),  
+    RecaptchaModule,
 
 
     
  
   ],
-  providers: [     
-],
+  providers: [
+   
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
