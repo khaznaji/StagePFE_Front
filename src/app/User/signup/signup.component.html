@@ -107,15 +107,18 @@
                                             </div>
                                             
                                             <div class="col-md-6 col-lg-6">
-                                                <label><strong>Rôle</strong></label>
-                                                <select class="form-control" [(ngModel)]="users.role" id="role" name="role" required #thisrole="ngModel"
-                                                    [ngClass]="{ 'is-invalid': (thisrole.invalid && thisrole.touched) }">
-                                                    <option value="" disabled selected >-- Sélectionnez votre rôle --</option>
-                                                    <option value="ManagerRh">Manager Rh</option>
-                                                    <option value="Collaborateur">Collaborateur</option>
-                                                </select>
-                                                <div *ngIf="thisrole.invalid && thisrole.touched" class="custom-error-message">
-    Le rôle est obligatoire                                            </div>
+                                                <label class="mr-3"><strong>Genre</strong></label>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" id="Homme" name="gender" value="Homme" [(ngModel)]="users.gender" required #thisgender="ngModel">
+                                                    <label class="form-check-label" for="homme">Homme</label>
+                                                </div>
+                                                <div class="form-check form-check-inline ml-3">
+                                                    <input class="form-check-input" type="radio" id="Femme" name="gender" value="Femme" [(ngModel)]="users.gender">
+                                                    <label class="form-check-label" for="femme">Femme</label>
+                                                </div>
+                                                <div *ngIf="thisgender.invalid && thisgender.errors?.['required'] && thisgender.touched" class="custom-error-message">
+                                                    Le genre est obligatoire
+                                                </div>
                                             </div>
                                             
                                         </div>
@@ -160,18 +163,7 @@
     <div class="text-danger" *ngIf="thisconfirmedmdp.touched && !passwordsMatch()">Les mots de passe ne correspondent pas</div>
     <div class="form-group row">
         <div class="col-md-6 col-lg-6 mb-3 mb-md-0" style="border-right: 1px solid #ccc;">
-            <label class="mr-3"><strong>Genre</strong></label>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="Homme" name="gender" value="Homme" [(ngModel)]="users.gender" required #thisgender="ngModel">
-                <label class="form-check-label" for="homme">Homme</label>
-            </div>
-            <div class="form-check form-check-inline ml-3">
-                <input class="form-check-input" type="radio" id="Femme" name="gender" value="Femme" [(ngModel)]="users.gender">
-                <label class="form-check-label" for="femme">Femme</label>
-            </div>
-            <div *ngIf="thisgender.invalid && thisgender.errors?.['required'] && thisgender.touched" class="custom-error-message">
-                Le genre est obligatoire
-            </div>
+         
         </div>
         <div class="col-md-6 col-lg-6 mb-3 mb-md-0">
             <!-- Add content to the second column if needed -->

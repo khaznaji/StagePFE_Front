@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MotdepasseComponent } from '../Dialog/motdepasse/motdepasse.component';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-reset-password',
@@ -15,7 +17,7 @@ export class ResetPasswordComponent  implements OnInit {
   errorMessage!: string;
   successMessage!: string;
 
-  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
+  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient,private modalService: BsModalService ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -25,23 +27,33 @@ export class ResetPasswordComponent  implements OnInit {
   }
   
   onSubmit(form: NgForm): void {
-    console.log('Password:', this.password);
-  
+    console.log('Password:', this.password); // Ajoutez cette ligne pour vérifier la valeur de password
+
     if (this.password !== this.confirmPassword) {
       this.errorMessage = 'Les mots de passe ne correspondent pas.';
       return;
     }
   
     const resetData = {
-      token: this.token, // Incluez le token dans le corps de la requête
       password: this.password
+
     };
   
-    this.http.post<any>('http://localhost:8080/User/reset', resetData).subscribe(
+    const options = {
+      params: { token: this.token ,
+        password: this.password  // Assurez-vous que le nom du champ correspond au paramètre côté serveur
+}
+    };
+  
+    this.http.post<any>('http://localhost:8080/api/User/reset', resetData, options).subscribe(
       response => {
-        this.successMessage = response.text; // Vous pouvez également utiliser response.body selon la structure de la réponse côté serveur
+        this.successMessage = response;
         this.errorMessage = '';
         form.resetForm();
+        this.openModal(); 
+        setTimeout(() => {
+          this.router.navigate(['/signin']);  // Assurez-vous d'importer Router depuis '@angular/router'
+      }, 4000);
       },
       error => {
         console.error('Error Response:', error);
@@ -49,6 +61,37 @@ export class ResetPasswordComponent  implements OnInit {
       }
     );
   }
-  
-  
+  passwordStrengthPercentage(): string {
+   return ((this.password.length / 20) * 100) + '%'; // Par exemple, diviser la longueur par 20 et multiplier par 100 pour obtenir un pourcentage
+  }
+  passwordStrength(): string {
+    // Implémentez la logique pour décrire la force du mot de passe ici
+    // Par exemple, vous pouvez retourner un texte basé sur la longueur ou la complexité du mot de passe
+    if (this.password.length < 8) {
+      return 'Faible';
+    } else if (this.password.length < 15) {
+      return 'Moyen';
+    } else {
+      return 'Fort';
+    }
+  }
+
+
+   passwordStrengthClass(): string {
+    // Attribution de classes CSS en fonction de la force du mot de passe
+    if (this.password.length >= 12 && /[!@#$%&*_?]/.test(this.password)) {
+      return 'progress-bar progress-bar-striped progress-bar-animated progress-bar-success'; // Vert pour fort
+    } else if (this.password.length >= 8) {
+      return 'progress-bar progress-bar-striped progress-bar-animated progress-bar-warning'; // Orange pour moyen
+    } else {
+      return 'progress-bar progress-bar-striped progress-bar-animated progress-bar-danger'; // Rouge pour faible
+    }
+  }
+  passwordsMatch(): boolean {
+    return this.password === this.confirmPassword;
+  }
+  modalRef!: BsModalRef;
+openModal() {
+  this.modalRef = this.modalService.show(MotdepasseComponent);
+}
 }

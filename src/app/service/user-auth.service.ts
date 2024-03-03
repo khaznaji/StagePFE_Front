@@ -6,9 +6,19 @@ import { Injectable } from '@angular/core';
 export class UserAuthService {
 
   constructor() { }
-  public setRoles(roles:any) {
-    localStorage.setItem("roles", JSON.stringify(roles)) ;
+  public setRoles(roles: any) {
+    const prefix = this.getRolePrefix();
+    localStorage.setItem(prefix + "roles", JSON.stringify(roles));
   }
+  private currentRole!: string;
+
+public setRole(role: string) {
+  this.currentRole = role;
+}
+
+private getRolePrefix(): string {
+  return this.currentRole ? this.currentRole + "_" : "";
+}
  public getRoles(): [] {
 
    const roles= JSON.parse(localStorage.getItem('roles')!);

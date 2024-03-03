@@ -1,0 +1,120 @@
+<style>
+    /* Style pour les champs de saisie invalides */
+        .disabled-cursor {
+          cursor: not-allowed; /* Utiliser le curseur "not allowed" lorsque le bouton est désactivé */
+        }
+        
+        .custom-error-message {
+            color: red; /* Couleur du texte en rouge */
+            font-size: 0.8rem; /* Taille de la police */
+            margin-top: 0.25rem; /* Marge en haut pour séparer le message d'erreur du champ de saisie */
+        }
+        /* Couleur de la barre de progression */
+        .progress-bar-strength {
+            background-color: #28a745; /* Couleur verte */
+        }
+        
+        /* Animation de la barre de progression */
+        .progress-bar-strength {
+            transition: width 0.3s ease; /* Animation fluide de la largeur */
+        }
+        
+            
+            </style><div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Ajouter Compte Collaborateur</h4>
+        <hr>
+        <form class="forms-sample" (ngSubmit)="save()">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputName1">Nom</label>
+                <input type="text" class="form-control"  id="nom" name="nom" [(ngModel)]="users.nom" placeholder="Nom" required #thisnom="ngModel"
+                [ngClass]="{ 'is-invalid': thisnom.invalid && thisnom.touched }">
+            <div *ngIf="thisnom.invalid && thisnom.errors?.['required'] && thisnom.touched" class="custom-error-message">
+                Le nom est obligatoire
+            </div>
+            </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputName2">Prénom</label>
+                <input type="text" class="form-control"  id="prenom" name="prenom" [(ngModel)]="users.prenom" placeholder="Prénom" required #thisprenom="ngModel" [ngClass]="{ 'is-invalid': thisprenom.invalid && thisprenom.touched }">
+                <div *ngIf="thisprenom.invalid && thisprenom.errors?.['required'] && thisprenom.touched" class="custom-error-message">
+                    Le prénom est obligatoire
+                </div>
+            </div>
+        </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputPhone">Numéro de téléphone</label>
+                <input type="number" class="form-control"  id="numtel" name="numtel" [(ngModel)]="users.numtel" placeholder="Numéro de téléphone" #thisnumtel="ngModel" required
+                [ngClass]="{ 'is-invalid': (thisnumtel.invalid && thisnumtel.touched) }" (input)="onNumTelInput($event)">
+            <div *ngIf="thisnumtel.touched && !thisnumtel.value" class="custom-error-message">
+                Numéro de téléphone obligatoire
+            </div>
+            <div *ngIf="thisnumtel.value && thisnumtel.value.toString().length !== 8 && thisnumtel.touched" class="custom-error-message">
+                Le numéro de téléphone doit comporter exactement 8 chiffres
+            </div>
+        </div>
+        
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputMatricule">Matricule</label>
+                <input type="text" class="form-control" id="matricule" name="matricule" [(ngModel)]="users.matricule" placeholder="Matricule" 
+                required #thismatricule="ngModel" (ngModelChange)="onMatriculeChange()"
+                [ngClass]="{ 'is-invalid': thismatricule.invalid && thismatricule.touched }">
+                                                        <div *ngIf="thismatricule.invalid && thismatricule.errors?.['required'] && thismatricule.touched" class="custom-error-message">
+                    Le matricule est obligatoire
+                </div>
+                <div class="text-danger" *ngIf="matriculeExists">Le matricule existe déjà</div>
+                
+            </div>
+            </div>
+          </div>
+          <div class="row">
+
+          <div class="col-md-6">
+
+          <div class="form-group">
+            <label for="exampleInputEmail3">Email</label>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="users.email" placeholder="hello@example.com" 
+            required #thisemail="ngModel" (ngModelChange)="onEmailChange()"
+            [ngClass]="{ 'is-invalid': (thisemail.invalid && thisemail.touched) || (!thisemail.invalid && thisemail.touched && !isSopraHrEmail(users.email)) }">
+     <div *ngIf="thisemail.touched && !thisemail.value" class="custom-error-message">
+                L'email est obligatoire
+            </div>
+            <div *ngIf="thisemail.value && !isSopraHrEmail(thisemail.value) && thisemail.touched" class="custom-error-message">
+                L'email doit se terminer par '@gmail.com' ou '@soprahr.com'
+            </div> 
+            <div class="text-danger" *ngIf="emailExists">L'email existe déjà.</div>
+
+        </div>
+          </div>
+          <div class="col-md-6">
+
+          <div class="form-group">
+            <label for="exampleSelectGender">Genre</label>
+            <select class="form-control" id="exampleSelectGender"required  [(ngModel)]="users.gender" id="genre" name="genre"  #thisgenre="ngModel"
+            [ngClass]="{ 'is-invalid': (thisgenre.invalid && thisgenre.touched) }">
+            <option value="" disabled selected >-- Sélectionnez un genre --</option>
+              <option value="Homme">Homme </option>
+              <option value="Femme">Femme</option>
+            </select>
+            <div *ngIf="thisgenre.invalid && thisgenre.touched" class="custom-error-message">
+                Le Genre est obligatoire                                            </div>
+          </div>
+          </div>
+        </div>
+          <button type="submit" class="btn btn-primary mr-2" [disabled]="emailExists || !form.valid "
+          [ngClass]="{ 'disabled-cursor': !form.valid  }">Ajouter</button>
+          <button class="btn btn-light" (click)="cancel()">Annuler</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  

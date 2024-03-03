@@ -42,7 +42,7 @@ export class SigninComponent {
     this.userService.login(loginForm.value).subscribe(
       (response: any) => {
         console.log(response);
-        this.userAuthService.setRoles(response.roles[0]);
+        this.userAuthService.setRole(response.roles[0]);
         this.userAuthService.setToken(response.accessToken);
         this.userAuthService.setRolesSession(response.roles[0]);
         this.userAuthService.setTokenSession(response.accessToken);
@@ -51,11 +51,11 @@ export class SigninComponent {
 
         const role = response.roles[0];
 
-        if (role === 'Admin') {
-          this.router.navigate(['/admin']);
-        } else if (role === 'ManagerRh') {
-          this.router.navigate(['/manager']);
-        } else {
+        if (role === 'ManagerRh') {
+          this.router.navigate(['/managerRh']);
+        } else if (role === 'ManagerService') {
+          this.router.navigate(['/managerService']);
+        } else if (role === 'Collaborateur')  {
           this.router.navigate(['/collaborateur']);
         }
       },

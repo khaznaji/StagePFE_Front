@@ -11,12 +11,22 @@ import { UserService } from 'src/app/service/user.service';
 export class AllUsersComponent implements OnInit {
   ngOnInit() {
     this.reloadData();
-    
+    this.getUserByid(localStorage.getItem('id'));
+
   }
+  
+
   events:any;
-
+  data: any = [];
+  username!:string;
   constructor(private userService: UserService  ,private router: Router,private http: HttpClient){ }
-
+  getUserByid(id: any) {
+    this.userService.getUserById(id).subscribe((res) => {
+      this.data = res;
+      console.log(this.data);
+      this.username = this.data.firstName + ' ' + this.data.lastName;
+    });
+  }
   reloadData() {
     this.events = this.userService.getAll().subscribe((res)=>{
       this.events=res;
