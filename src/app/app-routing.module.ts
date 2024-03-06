@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { SignupComponent } from './User/signup/signup.component';
 import { SigninComponent } from './User/signin/signin.component';
-import { AllUsersComponent } from './Admin/all-users/all-users.component';
+import { AllUsersComponent } from './Admin/all-manager-service/all-users.component';
 import { MenuloginComponent } from './User/menulogin/menulogin.component';
 import { RequestPasswordComponent } from './User/request-password/request-password.component';
 import { ResetPasswordComponent } from './User/reset-password/reset-password.component';
@@ -17,6 +17,7 @@ import { ManagerMenuComponent } from './menu/manager-menu/manager-menu.component
 import { AddCompteComponent } from './Admin/ManagerService/add-compte/add-compte.component';
 import { AddCompteCollabComponent } from './Admin/Collaborateur/add-compte-collab/add-compte-collab.component';
 import { GestionCompetenceComponent } from './Admin/Competence/gestion-competence/gestion-competence.component';
+import { AllcollabComponent } from './Admin/Collaborateur/List/allcollab/allcollab.component';
 
 const routes: Routes = [
   {path:"",component:MenuloginComponent,
@@ -31,12 +32,13 @@ const routes: Routes = [
   ]}
  ,
  {  path: 'managerRh', component: AdminMenuComponent ,children: [
-  {path:'all', component:AllUsersComponent},
+  {path:'all-manager-service', component:AllUsersComponent},
   {path:'edit-profile', component:EditProfileComponent},
   {path:'profile', component:ProfileComponent},
   {path:'add-manager-service', component:AddCompteComponent},
   {path:'add-collaborateur', component:AddCompteCollabComponent},
   {path:'competence', component:GestionCompetenceComponent},
+  {path:'all-collaborateur', component:AllcollabComponent},
 
 
 ]},

@@ -1,9 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { SuccessDialogComponent } from 'src/app/User/Dialog/success-dialog/success-dialog.component';
+import { Competence } from 'src/app/model/competence.model';
+import { ManagerService } from 'src/app/model/managerservice.model';
 import { User } from 'src/app/model/user.model';
+import { CompetenceService } from 'src/app/service/competence.service';
 import { UserAuthService } from 'src/app/service/user-auth.service';
 import { UserService } from 'src/app/service/user.service';
 
@@ -13,14 +17,99 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./add-compte.component.css']
 })
 export class AddCompteComponent implements OnInit{
-  constructor(private userService: UserService , private Auth: UserAuthService,public dialog: MatDialog , private elementRef: ElementRef,private modalService: BsModalService){}
+  constructor(private userService: UserService ,private router: Router ,private competenceService: CompetenceService , private fb: FormBuilder , private Auth: UserAuthService,public dialog: MatDialog , private elementRef: ElementRef,private modalService: BsModalService){}
+  managerServiceForm!: FormGroup;
+  allCompetences: Competence[] = [];
+  selectedCompetences: Competence[] = [];
+
+  competences: number[] = [];
+  domains: string[] = ["Finance_et_comptabilité", "Informatique_et_Technologie", "Ressources_humaines"];
 
   ngOnInit() {
+    this.selectedCompetences = [];
+
     this.getUserByid(localStorage.getItem('id'));
+    this.managerServiceForm = this.fb.group({
+      nom: ['', Validators.required],
+      prenom: ['', Validators.required],
+      numtel: ['', Validators.required],
+      matricule: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      gender: ['', Validators.required],
+      department: ['', Validators.required],
+      poste: ['', Validators.required],
+      bio: [''],
+      dateEntree: ['', Validators.required],
+      competences: [[]] ,
+      domain: ['', Validators.required],
 
+    });
+    this.competenceService.getAll().subscribe(
+      (competences) => {
+        this.allCompetences = competences;
+        console.log(this.allCompetences)
+      },
+      (error) => {
+        console.error('Error fetching competences', error);
+      }
+    );
+   // Watch for changes in the selected domain
+this.managerServiceForm.get('domain')?.valueChanges.subscribe((selectedDomain) => {
+  // Update the available competences based on the selected domain
+  this.competenceService.getCompetencesByDomain(selectedDomain).subscribe(
+    competences => this.allCompetences = competences, // Remove .map(comp => comp.id)
+    error => console.error('Error fetching competences:', error)
+  );
+});
+this.managerServiceForm.get('domain')?.valueChanges.subscribe((selectedDomain) => {
+  // Sauvegarder les compétences sélectionnées actuelles
+  const currentSelectedCompetences = this.managerServiceForm.get('competences')?.value;
+
+  // Mettre à jour la liste des compétences disponibles
+  this.competenceService.getCompetencesByDomain(selectedDomain).subscribe(
+    competences => {
+      this.allCompetences = competences;
+
+      // Restaurer les compétences sélectionnées précédemment
+      this.managerServiceForm.get('competences')?.setValue(
+        currentSelectedCompetences.filter((compId: number) => this.competences.includes(compId))
+        );
+    },
+    error => console.error('Error fetching competences:', error)
+  );
+});
   }
+  toggleCompetenceSelection(competence: Competence): void {
+    const index = this.selectedCompetences.findIndex(c => c.id === competence.id);
+  
+    if (index !== -1) {
+      // Remove the competence if already selected
+      this.selectedCompetences.splice(index, 1);
+    } else {
+      // Add the competence if not selected
+      this.selectedCompetences.push(competence);
+    }
+  }
+  
+  isCompetenceSelected(competence: Competence): boolean {
+    return this.selectedCompetences.some(c => c.id === competence.id);
+  }
+  
   data: any = [];
+  currentStep = 1; // Use a generic type or 'any' if the type is dynamic
+  nextStep() {
+    this.currentStep++;
+  }
+  Step() {
+    this.currentStep--;
+  }
+  filteredCompetences: Competence[] = [];
 
+  onDomainChange(event: any) {
+    const selectedDomain = event.target.value;
+    // Assuming allCompetences is an array of Competence objects
+    this.filteredCompetences = this.allCompetences.filter(comp => comp.domaine === selectedDomain);
+  }
   getUserByid(id: any) {
     const headers = { 'Authorization': 'Bearer ' + this.Auth.getToken() };
     this.userService.getUserById2(id,headers).subscribe((res) => {      this.data = res;
@@ -141,17 +230,12 @@ cancel() {
 
 
   passwordStrengthPercentage(): string {
-    // Implémentez le calcul du pourcentage de force du mot de passe ici
-    // Par exemple, retournez un pourcentage basé sur la longueur du mot de passe
-    // Vous pouvez également utiliser des bibliothèques ou des algorithmes sophistiqués pour évaluer la force du mot de passe
-    return ((this.users.password.length / 20) * 100) + '%'; // Par exemple, diviser la longueur par 20 et multiplier par 100 pour obtenir un pourcentage
+  return ((this.users.password.length / 20) * 100) + '%'; // Par exemple, diviser la longueur par 20 et multiplier par 100 pour obtenir un pourcentage
   }
 
 
   passwordStrength(): string {
-    // Implémentez la logique pour décrire la force du mot de passe ici
-    // Par exemple, vous pouvez retourner un texte basé sur la longueur ou la complexité du mot de passe
-    if (this.users.password.length < 8) {
+   if (this.users.password.length < 8) {
       return 'Faible';
     } else if (this.users.password.length < 15) {
       return 'Moyen';
@@ -162,7 +246,6 @@ cancel() {
 
 
    passwordStrengthClass(): string {
-    // Attribution de classes CSS en fonction de la force du mot de passe
     if (this.users.password.length >= 12 && /[!@#$%&*_?]/.test(this.users.password)) {
       return 'progress-bar progress-bar-striped progress-bar-animated progress-bar-success'; // Vert pour fort
     } else if (this.users.password.length >= 8) {
@@ -174,15 +257,10 @@ cancel() {
   passwordStrengthScore(): number {
     const password = this.users.password;
     let score = 0;
-
-    // Logique de calcul du score du mot de passe (identique à la méthode passwordStrength())
-
     return score;
   }
   onNumTelInput(event: any) {
     const inputValue: string = event.target.value;
-
-    // Limite la longueur à 8 chiffres
     if (inputValue.length > 8) {
         this.users.numtel = parseInt(inputValue.substring(0, 8));
     }
@@ -194,12 +272,42 @@ isSopraHrEmail(email: string): boolean {
 
 passwordInvalid = false;
 confirmPasswordInvalid = false;
-
-// Cette fonction valide les champs de mot de passe
 validatePasswordFields() {
     this.passwordInvalid = !this.users.password;
     this.confirmPasswordInvalid = !this.confirmPassword;
 }
+
+project: ManagerService = new ManagerService();
+projects: User = new User();
+image: File | null = null;
+
+onSubmit() {
+  if (this.managerServiceForm.valid) {
+    const formData = new FormData();
+
+    // Ajoutez les autres contrôles de formulaire
+    Object.keys(this.managerServiceForm.controls).forEach((key) => {
+      if (key !== 'competences') {
+        formData.append(key, this.managerServiceForm.get(key)!.value);
+      }
+    });
+
+    // Ajoutez les compétences en tant qu'ID séparés par des virgules
+    formData.append('competences', this.selectedCompetences.map(comp => comp.id).join(','));
+
+    this.userService.createManagerService(formData).subscribe(
+      (response) => {
+        console.log('Manager service créé avec succès', response);
+        this.router.navigate(['/managerRh/all']);
+      },
+      (error) => {
+        console.error('Erreur lors de la création du service manager', error);
+        // Ajoutez ici le code pour gérer l'erreur, par exemple, afficher un message d'erreur à l'utilisateur.
+      }
+    );
+  }
+}
+
 
 
 

@@ -293,24 +293,27 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
             <li class="nav-item">
-              <a class="nav-link" >
+              <a class="nav-link"  data-toggle="dropdown" >
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">Dashboard</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+              <a class="nav-link" (click)="toggleDropdown($event)">
                 <i class="icon-layout menu-icon"></i>
-                <span class="menu-title">Comptes</span>
+                <span class="menu-title">Personnels</span>
                 <i class="menu-arrow"></i>
               </a>
               <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a  routerLink="/managerRh/add-manager-service" class="nav-link" >Manager Service</a></li>
-                  <li class="nav-item"> <a  routerLink="/managerRh/add-collaborateur" class="nav-link" >Collaborateur</a></li>
+                  <li class="nav-item"> <a routerLink="/managerRh/all-manager-service" class="nav-link">Manager Service</a></li>
+                  <li class="nav-item"> <a routerLink="/managerRh/all-collaborateur" class="nav-link">Collaborateur</a></li>
                 </ul>
               </div>
             </li>
+            
+            
+            
             <li class="nav-item">
               <a class="nav-link" >
                 <i class="icon-grid menu-icon"></i>
@@ -320,16 +323,10 @@
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
                 <i class="icon-columns menu-icon"></i>
-                <span class="menu-title">Products</span>
+                <span class="menu-title">OrganiCom</span>
                 <i class="menu-arrow"></i>
               </a>
-              <div class="collapse" id="form-elements">
-                <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"><a class="nav-link" routerLink="/admin/add-products">Add Product</a></li>
-                  <li class="nav-item"><a class="nav-link" routerLink="/admin/list-products">List Products</a></li>
-  
-                </ul>
-              </div>
+              
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">

@@ -41,7 +41,21 @@ implements OnInit{
       console.log('User photo:', this.image);
     });
   }
-  
+  toggleDropdown(event: Event) {
+    event.preventDefault(); // Prevent the default behavior of the anchor tag
+
+    // Check if the element with ID "ui-basic" exists
+    const uiBasicCollapse = document.getElementById('ui-basic');
+
+    if (uiBasicCollapse) {
+      // Toggle the collapse manually
+      if (uiBasicCollapse.classList.contains('show')) {
+        uiBasicCollapse.classList.remove('show');
+      } else {
+        uiBasicCollapse.classList.add('show');
+      }
+    }
+  }
   logout() {
     Swal.fire({
       title: 'Êtes-vous sûr(e) ?',

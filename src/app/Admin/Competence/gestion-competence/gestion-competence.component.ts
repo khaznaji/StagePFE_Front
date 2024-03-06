@@ -73,10 +73,15 @@ export class GestionCompetenceComponent implements OnInit {
     } 
   }
    createCategory() {
+    if (!this.events) {
+      console.error('Categories are undefined or null.');
+      return;
+    }
+  
     if (!this.selectedCategory) { 
-      if (!this.newCategory.nom || !this.newCategory.domaine) {
-        console.error(' category or image.');
-        this.toastr.error('Nom and Domaine sont obligatoire   ', '', {
+      if (!this.newCategory || !this.newCategory.nom || !this.newCategory.domaine) {
+        console.error('Category or image is undefined.');
+        this.toastr.error('Nom and Domaine are required', '', {
           positionClass: 'toast-top-center',
           timeOut: 5000,
           progressBar: true,
@@ -84,8 +89,9 @@ export class GestionCompetenceComponent implements OnInit {
         });
         return;
       }
-      if (this.categories.some((category: Competence) => category.nom === this.newCategory.nom)) {
-        this.toastr.error('Competence existe deja', '', {
+  
+      if (this.events.some((category: Competence) => category.nom === this.newCategory.nom)) {
+        this.toastr.error('Competence already exists', '', {
           positionClass: 'toast-top-center',
           timeOut: 5000,
           progressBar: true,
@@ -97,13 +103,7 @@ export class GestionCompetenceComponent implements OnInit {
       this.categoryService.addCompetence(this.newCategory).subscribe(
         (data) => {
           console.log('Category created successfully!', data);
-          this.toastr.success('Category created successfully', '', {
-            positionClass: 'toast-top-center', // Positionnez-le en haut au centre
-            timeOut: 5000,
-            progressBar: true,
-            toastClass: 'ngx-toastr', // Appliquez les styles personnalisés
-            // Ajoutez d'autres options de personnalisation de style ici
-          });
+          
           console.log(this.categories.id)
           window.location.reload();
         },

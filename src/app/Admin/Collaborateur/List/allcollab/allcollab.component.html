@@ -1,0 +1,203 @@
+<style>
+    /* Ajoutez ces styles à votre fichier CSS ou à votre balise style dans le composant Angular */
+/* Add these styles to your component's CSS file or global styles */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px; /* Ajoutez une marge en haut pour l'esthétique */
+}
+
+.table th, .table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f2f2f2;
+}
+
+.file-input-wrapper {
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.activated-row {
+    background-color: #c8e6c9;
+ /* Vous pouvez personnaliser la couleur comme vous le souhaitez */
+  }
+
+  /* Style pour les lignes désactivées */
+  .deactivated-row {
+    background-color: #ffcdd2;
+ /* Vous pouvez personnaliser la couleur comme vous le souhaitez */
+  }
+  .check-icon {
+  color: green; /* Couleur verte pour la coche */
+  font-size: 20px; /* Taille de la police */
+}
+
+.cross-icon {
+  color: red; /* Couleur rouge pour la croix */
+  font-size: 20px; /* Taille de la police */
+}
+
+.drag-drop-area {
+  border: 2px dashed #ccc;
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  cursor: pointer;
+  color: #777;
+  transition: border-color 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.drag-drop-area.drag-over {
+  border-color: #4caf50; /* Change border color when dragging over */
+}
+
+/* Optional: Add styles for better visual feedback */
+.custom-file {
+  margin-top: 10px;
+}
+
+/* Optional: Style the file input button */
+.custom-file-label::after {
+  content: 'Browse';
+}
+
+/* Optional: Add styles for selected file display */
+.file-preview {
+  position: relative;
+  width: 100%; /* Adjust the width as needed */
+  height: 100%; /* Adjust the height as needed */
+  overflow: hidden;
+}
+/* Add these styles to your component's CSS file or global styles */
+
+.preview-image {
+  max-width: 100%; /* Adjust the maximum width as needed */
+  max-height: 100%; /* Adjust the maximum height as needed */
+  display: block;
+  margin: auto;
+}
+
+/* Add styles to make the image take the same frame as the drag and drop area */
+.file-preview {
+  position: relative;
+  width: 100%; /* Adjust the width as needed */
+  height: 200px; /* Adjust the height as needed */
+  overflow: hidden;
+}
+
+.file-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  background-color: grey;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 12px;
+}
+
+
+</style>
+
+
+        <br>
+        <!-- Formulaire -->
+          <div class="card">
+            <div class="card-body">
+             
+            
+  
+        <!-- Liste des catégories -->
+        <div class="col-md-">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Liste des Collaborateurs</h4>
+                <div class="d-flex justify-content-end mb-3">
+</div>
+                <div>
+                <!-- Ajoutez le sélecteur de filtre -->
+                <div class="d-flex justify-content-end mb-3">
+                  <button type="button"  class="btn btn-inverse-primary" (click)="ToList()">+Collaborateur </button>
+                </div>    
+              <!-- Ajoutez une barre de recherche -->
+
+<div class="d-flex justify-content-end mb-3">
+  <select class="form-control" [(ngModel)]="sortOption" (change)="applySort()">
+    <option value="recent">Du plus Recent</option>
+    <option value="old">Du plus Ancien</option>
+  </select>
+</div>
+
+<div class="d-flex align-items-center mb-3">
+  <div class="flex-grow-1">
+    <input type="text" [(ngModel)]="searchTerm" class="form-control" placeholder="Search" (input)="applyFilter()" />
+  </div>
+  <div class="ml-2">
+    <select [(ngModel)]="filterOption" class="form-control" (change)="applyFilter()">
+      <option value="all">Tous</option>
+      <option value="activated">Activés</option>
+      <option value="deactivated">Non activés</option>
+    </select>
+  </div>
+</div>
+
+
+<!-- ... le reste du code -->
+
+                
+<div class="table-responsive">
+  <ng-container *ngIf="filteredEvents.length > 0; else noManagerServices">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Matricule</th>
+          <th>Nom</th>
+          <th>Prenom</th>
+          <th>Active</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tr *ngFor="let event of filteredEvents | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: filteredEvents.length }">
+        <td [class.activated-row]="event.activated" [class.deactivated-row]="!event.activated">{{ event.matricule }}</td>
+        <td [class.activated-row]="event.activated" [class.deactivated-row]="!event.activated">{{ event.nom }}</td>
+        <td [class.activated-row]="event.activated" [class.deactivated-row]="!event.activated">{{ event.prenom }}</td>
+        <td [class.activated-row]="event.activated" [class.deactivated-row]="!event.activated">
+          <span *ngIf="event.activated; else deactivatedIcon" class="check-icon">&#10003;</span>
+          <ng-template #deactivatedIcon><span class="cross-icon">&#10008;</span></ng-template>
+        </td>
+        <!-- ... autres colonnes ... -->
+      </tr>
+    </table>
+    <div class="d-flex justify-content-center">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+    
+  </ng-container>
+  <ng-template #noManagerServices>
+    <p>Aucun Collaborateur trouvé</p>
+  </ng-template>
+</div>
+
+              </div>
+            </div>
+          </div>
+          
+      </div>
+    </div>
+  

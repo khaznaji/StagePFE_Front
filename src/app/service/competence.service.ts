@@ -41,4 +41,7 @@ export class CompetenceService {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete<void>(url);
   }
+  getCompetencesByDomain(domain: string): Observable<Competence[]> {
+    return this.http.get<Competence[]>(`${this.apiUrl}/byDomain/${domain}`);
+  }
 }

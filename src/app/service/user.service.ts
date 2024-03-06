@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { User } from '../model/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +25,21 @@ export class UserService {
   getAll(): Observable<any> {
     return this.http.get(`${this.BASE_URL2}/all`);
   }
+  getAllManagerServices(): Observable<any> {
+    return this.http.get(`${this.BASE_URL2}/managerServices`);
+  }
+  getAllCollab(): Observable<any> {
+    return this.http.get(`${this.BASE_URL2}/collaborateur`);
+  }
   checkEmail(email: string): Observable<any> {
     return this.http.get(`${this.BASE_URL}/emailExists/${email}`);
   }
-  
+  createManagerService(formData: FormData): Observable<User> {
+    return this.http.post<User>(`${this.BASE_URL2}/registerManagerService`, formData);
+  } 
+  createCollab(formData: FormData): Observable<User> {
+    return this.http.post<User>(`${this.BASE_URL2}/registerCollaborateur`, formData);
+  } 
   checkmatricule(matricule: string): Observable<any> {
     return this.http.get(`${this.BASE_URL}/matricule/${matricule}`);
   }

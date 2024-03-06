@@ -11,6 +11,6 @@ export class User{
   gender!: Gender; 
   email!: string;
   password!: string;
-  date!: string; // ou LocalDateTime selon votre besoin
+  date!: Date; // ou LocalDateTime selon votre besoin
   isActivated!: boolean;
 }
