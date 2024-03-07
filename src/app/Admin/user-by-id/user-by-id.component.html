@@ -1,0 +1,76 @@
+<div *ngIf="userDetails">
+    <h2>User Details</h2>
+    <p>ID: {{ userDetails.id }}</p>
+    <p>Nom: {{ userDetails.nom }}</p>
+    <p>Prenom: {{ userDetails.prenom }}</p>
+
+
+    <!-- Display other user details as needed -->
+  
+    <ng-container *ngIf="userDetails.role === 'ManagerService'">
+        <img  [src]="'assets/' + userDetails.managerService.image" alt="Admin" class="rounded-circle" width="150">
+
+      <!-- Display ManagerService details -->
+      <p>Manager Service Details:</p>
+      <p>Department: {{ userDetails.managerService.department }}</p>
+      <p>Poste: {{ userDetails.managerService.poste }}</p>
+      <div *ngIf="userDetails.users && userDetails.users.length > 0">
+        <p>Users associated with ManagerService:</p>
+        <ul>
+          <li *ngFor="let user of userDetails.users">
+            Nom: {{ user.nom }} - Prenom: {{ user.prenom }}
+          </li>
+        </ul>
+      </div>
+      <!-- Display ManagerService competences -->
+      <div *ngIf="userDetails.competences && userDetails.competences.length > 0">
+        <p>Competences:</p>
+        <ul>
+          <li *ngFor="let competence of userDetails.competences">
+            {{ competence.nom }} - {{ competence.domaine }}
+          </li>
+        </ul>
+      </div>
+      <!-- Add more ManagerService details as needed -->
+    </ng-container>
+  
+    <ng-container *ngIf="userDetails.role === 'Collaborateur'">
+        <img  [src]="'assets/' + userDetails.collaborateur.image" alt="Admin" class="rounded-circle" width="150">
+
+      <!-- Display Collaborateur details -->
+      <p>Collaborateur Details:</p>
+      <p>Department: {{ userDetails.collaborateur.department }}</p>
+      <p>Poste: {{ userDetails.collaborateur.poste }}</p>
+      <p>Bio: {{ userDetails.collaborateur.bio }}</p>
+      <p>Nom Manager: {{ userDetails['Nom ManagerServices'] }}</p>
+      <p>Prenom Manager: {{ userDetails['Prenom ManagerServices'] }}</p>
+      <p>Date d'Entree: {{ userDetails.collaborateur.dateEntree }}</p>
+     
+      <!-- Display ManagerService details for Collaborateur -->
+      <ng-container *ngIf="userDetails.collaborateur.managerService">
+        <p>Manager Service of Collaborateur:</p>
+        <p>Department: {{ userDetails.collaborateur.managerService.department }}</p>
+        <p>Poste: {{ userDetails.collaborateur.managerService.poste }}</p>
+        <!-- Display ManagerService competences for Collaborateur -->
+        <div *ngIf="userDetails.collaborateur.managerService.competences && userDetails.collaborateur.managerService.competences.length > 0">
+          <p>Competences:</p>
+          <ul>
+            <li *ngFor="let competence of userDetails.collaborateur.managerService.competences">
+              {{ competence.nom }} - {{ competence.domaine }}
+            </li>
+          </ul>
+        </div>
+        <!-- Add more ManagerService details as needed -->
+      </ng-container>
+  
+      <!-- Display competences if available -->
+      <div *ngIf="userDetails.competences && userDetails.competences.length > 0">
+        <p>Competences:</p>
+        <ul>
+          <li *ngFor="let competence of userDetails.competences">
+            {{ competence.nom }} - {{ competence.domaine }}
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+</div>

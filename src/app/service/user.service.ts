@@ -31,6 +31,9 @@ export class UserService {
   getAllCollab(): Observable<any> {
     return this.http.get(`${this.BASE_URL2}/collaborateur`);
   }
+  getById(id: number): Observable<any> {
+    return this.http.get(`${this.BASE_URL2}/${id}`);
+  }
   checkEmail(email: string): Observable<any> {
     return this.http.get(`${this.BASE_URL}/emailExists/${email}`);
   }

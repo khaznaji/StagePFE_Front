@@ -8,7 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { SuccessDialogComponent } from './User/Dialog/success-dialog/success-dialog.component';
 import { SigninComponent } from './User/signin/signin.component';
-import { AllUsersComponent } from './Admin/all-manager-service/all-users.component';
 import { MenuloginComponent } from './User/menulogin/menulogin.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -37,13 +36,15 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { AllcollabComponent } from './Admin/Collaborateur/List/allcollab/allcollab.component';
+import { AllUsersComponent } from './Admin/all-manager-service/all-users.component';
+import { UserByIdComponent } from './Admin/user-by-id/user-by-id.component';
 @NgModule({
   declarations: [
     AppComponent, SignupComponent, SuccessDialogComponent, SigninComponent,
      AllUsersComponent, MenuloginComponent, RequestPasswordComponent, 
      EmailSuccessComponent, ResetPasswordComponent, ActivationCompteComponent, ActivationreussieComponent,
       MotdepasseComponent, EditProfileComponent, ProfileComponent, AdminMenuComponent, CollabMenuComponent,
-       ManagerMenuComponent, AddCompteComponent, AddCompteCollabComponent, GestionCompetenceComponent, AllcollabComponent, 
+       ManagerMenuComponent, AddCompteComponent, AddCompteCollabComponent, GestionCompetenceComponent, AllcollabComponent, UserByIdComponent, 
   ],
   imports: [
     BrowserModule,

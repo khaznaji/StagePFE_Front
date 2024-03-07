@@ -1,4 +1,6 @@
+import { Collaborateur } from "./collaborateur.model";
 import { Gender } from "./gender.model";
+import { ManagerService } from "./managerservice.model";
 import { Role } from "./role.model";
 
 export class User{
@@ -13,4 +15,6 @@ export class User{
   password!: string;
   date!: Date; // ou LocalDateTime selon votre besoin
   isActivated!: boolean;
+  collaborateur!:Collaborateur; 
+  managerService!:ManagerService;
 }
