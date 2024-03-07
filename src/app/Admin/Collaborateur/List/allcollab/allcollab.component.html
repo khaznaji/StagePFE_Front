@@ -181,8 +181,9 @@
           <span *ngIf="event.activated; else deactivatedIcon" class="check-icon">&#10003;</span>
           <ng-template #deactivatedIcon><span class="cross-icon">&#10008;</span></ng-template>
         </td>
-        <!-- ... autres colonnes ... -->
-      </tr>
+        <td  [class.activated-row]="event.activated" [class.deactivated-row]="!event.activated"><div class="col-sm-6 col-md-4 col-lg-3">
+          <a class="mdi mdi-eye" [routerLink]="['/managerRh/user-detail', event.id]"></a>
+        </div></td>        </tr>
     </table>
     <div class="d-flex justify-content-center">
       <pagination-controls (pageChange)="p = $event"></pagination-controls>

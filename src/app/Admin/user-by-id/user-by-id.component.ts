@@ -12,7 +12,7 @@ export class UserByIdComponent implements OnInit {
   userId!: number;
   userDetails: any; // Adjust the type based on your actual data structure
 
-  constructor(private route: ActivatedRoute, private userService: UserService) { }
+  constructor(private route: ActivatedRoute, private userService: UserService ,private router: Router) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -32,4 +32,12 @@ export class UserByIdComponent implements OnInit {
       }
     );
   }
+  // Dans le composant TypeScript
+redirectToUserDetail(userId: number) {
+  console.log('Redirecting to user detail with ID:', userId);
+
+  // Utilisez le service Router pour naviguer vers la route managerRh/user-detail/:id
+  this.router.navigate(['/managerRh/user-detail', userId]);
+}
+
 }

@@ -120,5 +120,6 @@ itemsPerPage: number = 10; // Number of items per page
     this.router.navigate(['managerRh/add-manager-service']);
 
   }
+  
 
 }
