@@ -104,9 +104,9 @@ export class GestionCompetenceComponent implements OnInit {
         (data) => {
           console.log('Category created successfully!', data);
           
-          console.log(this.categories.id)
-          window.location.reload();
-        },
+          this.reloadDatsa();
+          this.clearForm();
+          window.location.reload();        },
         (error) => {
           console.error('Error creating category:', error);
           console.log(this.newCategory.nom);

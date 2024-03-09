@@ -7,17 +7,35 @@
                     <div class="card">
                       <div class="card-body text-center bg-primary rounded-top">
                        <div class="user-box" *ngIf="userDetails">
-                        <img [src]="'assets/' + (userDetails.role === 'ManagerService' ? userDetails.managerService.image : userDetails.collaborateur.image)" alt="Admin" class="rounded-circle" width="150">
+                        <img [src]="'assets/' + userDetails.image " alt="Admin" class="rounded-circle" width="150">
                       </div>
                       <h5 class="mb-1 text-white">{{ userDetails.nom }} {{ userDetails.prenom }}</h5>
                       <h6 class="text-light">{{ userDetails.role === 'ManagerService' ? userDetails.managerService.poste : userDetails.collaborateur.poste }}</h6>
-                     </div>
+
+                    </div>
                       <div class="card-body">
+                        
                         <ul class="list-group shadow-none">
+                          <li class="list-group-item">
+                         
+
+                            <div class="list-icon">
+                              <i class="fa fa-phone-square"></i>
+                            </div>
+  
+                            <div class="list-details">
+                              <span>                            {{ userDetails.isActivated ? 'Compte Activé' : 'Compte Désactivé' }}
+                              </span>
+                              <small>Status Du Compte</small>
+                            </div>
+                          </li>
                         <li class="list-group-item">
+                         
+
                           <div class="list-icon">
                             <i class="fa fa-phone-square"></i>
                           </div>
+
                           <div class="list-details">
                             <span>{{ userDetails.numtel }}</span>
                             <small>Numero de Telephone</small>
@@ -42,8 +60,15 @@
                             <small>Genre</small>
                           </div>
                         </li>
+                        
                         </ul>
-                       
+                        <br>
+                        <div class="d-flex justify-content-center align-items-center">
+                          <button *ngIf="userDetails.isActivated" class="btn btn-inverse-danger" (click)="toggleActivation(userDetails.id)">Bannir Le Compte</button>
+                          <button *ngIf="!userDetails.isActivated" class="btn btn-inverse-success" (click)="toggleActivation(userDetails.id)">Activer Le Compte</button>
+                        </div>
+                        
+                        
                        </div>
                      
                      </div>
@@ -85,7 +110,7 @@
                                     <div *ngIf="userDetails.competences && userDetails.competences.length > 0">
                                       <h6>Competences:</h6>
                                       <div class="d-flex flex-wrap">
-                                        <a  href="javascript:void();" class="badge badge-dark badge-pill" *ngFor="let competence of userDetails.competences">
+                                        <a  href="javascript:void();" class="badge badge-dark badge-pill" style="color: black;" *ngFor="let competence of userDetails.competences">
                                           {{ competence.nom }} 
                                         </a>
 </div>                                   

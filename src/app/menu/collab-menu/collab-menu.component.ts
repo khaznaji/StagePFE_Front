@@ -11,14 +11,15 @@ import Swal from 'sweetalert2';
   styleUrls: ['./collab-menu.component.css']
 })
 export class CollabMenuComponent implements OnInit{
-  constructor(private userService: UserService  ,private router: Router,private http: HttpClient ,       private Auth: UserAuthService,
-    ){      
-  }
-
+  constructor(private userAuthService: UserAuthService , private userService: UserService  ,private router: Router,private http: HttpClient ,       private Auth: UserAuthService,
+    ){ }
   data: any = [];
   username!:string;
   image!:string;
   ngOnInit(): void {
+    const roles = this.userAuthService.getRoles();
+    const token = this.userAuthService.getToken();
+    const userId = this.userAuthService.getId();
     const userData = this.Auth.getUserData();
     if (userData) {
       this.data = userData;
@@ -27,16 +28,14 @@ export class CollabMenuComponent implements OnInit{
       console.log('User info:', this.data);
       console.log('User photo:', this.image);
     }
-    console.log(localStorage.getItem('id'));
     console.log('JWT Token:', this.Auth.getToken());
-    
-    this.getUserByid(localStorage.getItem('id'));
    
+    this.getUserByid(localStorage.getItem('id'));
   }
   getUserByid(id: any) {
-    
     const headers = { 'Authorization': 'Bearer ' + this.Auth.getToken() };
-    this.userService.getUserById2(id,headers).subscribe((res) => {      this.data = res;
+    this.userService.getUserById2(id,headers).subscribe((res) => {
+      this.data = res;
       console.log(this.data);
       this.username = this.data.firstName + ' ' + this.data.lastName;
       this.image = this.data.image
@@ -44,7 +43,21 @@ export class CollabMenuComponent implements OnInit{
       console.log('User photo:', this.image);
     });
   }
-  
+  toggleDropdown(event: Event) {
+    event.preventDefault(); // Prevent the default behavior of the anchor tag
+
+    // Check if the element with ID "ui-basic" exists
+    const uiBasicCollapse = document.getElementById('ui-basic');
+
+    if (uiBasicCollapse) {
+      // Toggle the collapse manually
+      if (uiBasicCollapse.classList.contains('show')) {
+        uiBasicCollapse.classList.remove('show');
+      } else {
+        uiBasicCollapse.classList.add('show');
+      }
+    }
+  }
   logout() {
     Swal.fire({
       title: 'Êtes-vous sûr(e) ?',

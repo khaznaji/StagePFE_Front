@@ -29,6 +29,7 @@ export class SigninComponent {
     // Cette fonction est appelée lorsque le reCAPTCHA est résolu avec succès
     this.recaptchaResolved = true;
   }
+
   login(loginForm: any) {
    
     this.isLoading = true;
@@ -42,12 +43,15 @@ export class SigninComponent {
     this.userService.login(loginForm.value).subscribe(
       (response: any) => {
         console.log(response);
-        this.userAuthService.setRole(response.roles[0]);
+        sessionStorage.setItem('token', response.accessToken);
+        this.userAuthService.setRoles(response.roles[0]);
         this.userAuthService.setToken(response.accessToken);
         this.userAuthService.setRolesSession(response.roles[0]);
         this.userAuthService.setTokenSession(response.accessToken);
         this.userAuthService.setSessionId(response.id);
         this.userAuthService.setId(response.id);
+       
+  
 
         const role = response.roles[0];
 
