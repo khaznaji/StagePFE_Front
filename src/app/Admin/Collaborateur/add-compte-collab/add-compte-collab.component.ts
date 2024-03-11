@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { SuccessDialogComponent } from 'src/app/User/Dialog/success-dialog/success-dialog.component';
 import { Collaborateur } from 'src/app/model/collaborateur.model';
@@ -10,6 +11,7 @@ import { User } from 'src/app/model/user.model';
 import { CompetenceService } from 'src/app/service/competence.service';
 import { UserAuthService } from 'src/app/service/user-auth.service';
 import { UserService } from 'src/app/service/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-compte-collab',
@@ -17,7 +19,7 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./add-compte-collab.component.css']
 })
 export class AddCompteCollabComponent implements OnInit{
-  constructor(private userService: UserService ,private competenceService: CompetenceService , private fb: FormBuilder , private Auth: UserAuthService,public dialog: MatDialog , private elementRef: ElementRef,private modalService: BsModalService){}
+  constructor(private userService: UserService ,private router: Router, private competenceService: CompetenceService , private fb: FormBuilder , private Auth: UserAuthService,public dialog: MatDialog , private elementRef: ElementRef,private modalService: BsModalService){}
   managerServiceForm!: FormGroup;
   allCompetences: Competence[] = [];
   selectedCompetences: Competence[] = [];
@@ -312,12 +314,23 @@ onSubmit() {
 
     this.userService.createCollab(formData).subscribe(
       (response) => {
-        console.log('Manager service créé avec succès', response);
-        // Ajoutez ici le code de gestion du succès, par exemple, une redirection ou un message de succès.
+        Swal.fire({
+          title: 'Succès !',
+          text: 'Collaborateur créé avec succès',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          // Redirect to the desired page after success
+          this.router.navigate(['/managerRh/all-collaborateur']);
+        });
       },
       (error) => {
-        console.error('Erreur lors de la création du service manager', error);
-        // Ajoutez ici le code pour gérer l'erreur, par exemple, afficher un message d'erreur à l'utilisateur.
+        Swal.fire({
+          title: 'Erreur !',
+          text: 'Erreur lors de la création du Collaborateur : ' + error.message, // Display the server error message
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });        // Ajoutez ici le code pour gérer l'erreur, par exemple, afficher un message d'erreur à l'utilisateur.
       }
     );
   }

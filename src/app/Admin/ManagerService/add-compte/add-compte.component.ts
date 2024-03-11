@@ -10,6 +10,7 @@ import { User } from 'src/app/model/user.model';
 import { CompetenceService } from 'src/app/service/competence.service';
 import { UserAuthService } from 'src/app/service/user-auth.service';
 import { UserService } from 'src/app/service/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-compte',
@@ -297,12 +298,23 @@ onSubmit() {
 
     this.userService.createManagerService(formData).subscribe(
       (response) => {
-        console.log('Manager service créé avec succès', response);
-        this.router.navigate(['/managerRh/all']);
+        Swal.fire({
+          title: 'Succès !',
+          text: 'Service manager créé avec succès',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          // Redirect to the desired page after success
+          this.router.navigate(['/managerRh/all-manager-service']);
+        });
       },
       (error) => {
-        console.error('Erreur lors de la création du service manager', error);
-        // Ajoutez ici le code pour gérer l'erreur, par exemple, afficher un message d'erreur à l'utilisateur.
+        Swal.fire({
+          title: 'Erreur !',
+          text: 'Erreur lors de la création du service manager : ' + error.message, // Display the server error message
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });        // Ajoutez ici le code pour gérer l'erreur, par exemple, afficher un message d'erreur à l'utilisateur.
       }
     );
   }

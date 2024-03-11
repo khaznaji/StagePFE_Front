@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
 import { Competence } from 'src/app/model/competence.model';
 import { CompetenceService } from 'src/app/service/competence.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-gestion-competence',
@@ -147,12 +148,31 @@ export class GestionCompetenceComponent implements OnInit {
     }
   }
   deleteEvents = (id: number) => {
-    if (confirm('Are you sure you want to delete this category?')) {
-      this.categoryService.deleteCompetence(id).subscribe(() => {
-        // Recharge la page après la suppression
-        window.location.reload();
-      });
-    }
+    // Utiliser SweetAlert pour afficher une confirmation
+    Swal.fire({
+      title: 'Êtes-vous sûr(e) de vouloir supprimer cette compétence ?',
+      text: "Cette action est irréversible !",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si l'utilisateur clique sur "Oui, supprimer", alors supprimer la compétence
+        this.categoryService.deleteCompetence(id).subscribe(() => {
+          // Utiliser SweetAlert pour afficher un message de suppression réussie
+          Swal.fire({
+            title: 'Supprimé !',
+            text: 'La compétence a été supprimée avec succès.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            // Recharger la page après la suppression
+            window.location.reload();
+          });
+        });
+      }
+    });
   }
   selectedCategory!: Competence; // New property to store the selected category for update
   editCategory(category: Competence) {
