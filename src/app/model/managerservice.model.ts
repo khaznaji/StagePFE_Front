@@ -13,4 +13,5 @@ export class ManagerService {
     image!: string;
     competences!: Competence[];
     collaborateurs!: Collaborateur[];
+    user!:User; 
   }

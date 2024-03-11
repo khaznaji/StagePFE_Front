@@ -79,8 +79,65 @@ updatePassword(oldPassword: string, newPassword: string): Observable<string>
   // Effectuer la demande HTTP avec les paramètres dans la chaîne de requête
   return this.http.put<string>(url, body, { params: { oldPassword, newPassword }, headers });
 }
+regenerateCode(token: string): Observable<any> {
+  return this.http.post<any>(`${this.BASE_URL2}/regenerate/?token=${token}`, {});
+}
+updateProfileE(email?: string, numtel?: number, image?: File): Observable<any> {
+  const authToken = this.authService.getToken();
 
+  const formData = new FormData();
 
+  if (email) {
+    formData.append('email', email);
+  }
+  if (numtel) {
+    formData.append('numtel', numtel.toString());
+  }
+  if (image) {
+    formData.append('image', image, image.name);
+  }
+
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${authToken}`);
+
+  return this.http.put(`${this.BASE_URL2}/updateProfile`, formData, { headers });
+}
+
+updateProfile(projectData: FormData) : Observable<User> {
+  const authToken = this.authService.getToken();
+
+  // Ajoutez le jeton d'authentification aux en-têtes de la requête
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${authToken}`  });
+
+  // Configuration de la requête avec les en-têtes
+  const httpOptions = {
+    headers: headers
+  };
+
+  // Utilisez la configuration de la requête lors de l'appel à http.put
+  return this.http.put<User>(`${this.BASE_URL2}/updateProfile`, projectData, httpOptions);
+}
+
+updateProfilee(email?: string, numtel?: number, image?: File): Observable<any> {
+  const user = this.authService.getToken();
+
+  const formData = new FormData();
+
+  if (email) {
+    formData.append('email', email);
+  }
+  if (numtel) {
+    formData.append('numtel', numtel.toString());
+  }
+  if (image) {
+    formData.append('image', image, image.name);
+  }
+
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${user}`);
+
+  return this.http.put(`${this.BASE_URL2}/updateProfile`, formData, { headers, observe: 'response' });
+}
 
   checkEmail(email: string): Observable<any> {
     return this.http.get(`${this.BASE_URL}/emailExists/${email}`);

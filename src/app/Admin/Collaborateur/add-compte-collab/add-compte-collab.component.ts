@@ -42,7 +42,7 @@ export class AddCompteCollabComponent implements OnInit{
       dateEntree: ['', Validators.required],
       competences: [[]] ,
       domain: ['', Validators.required],
-      managerService: ['', Validators.required],
+      managerServiceId: ['', Validators.required],
 
 
     });
@@ -302,6 +302,10 @@ onSubmit() {
         formData.append(key, this.managerServiceForm.get(key)!.value);
       }
     });
+    console.log('ManagerServiceId:', this.managerServiceForm.get('managerServiceId')!.value);
+
+    // Ajoutez l'ID du ManagerService à partir de la propriété managerServiceId du formulaire
+    formData.append('managerServiceId', this.managerServiceForm.get('managerServiceId')!.value);
 
     // Ajoutez les compétences en tant qu'ID séparés par des virgules
     formData.append('competences', this.selectedCompetences.map(comp => comp.id).join(','));
@@ -318,6 +322,7 @@ onSubmit() {
     );
   }
 }
+
 
 
 

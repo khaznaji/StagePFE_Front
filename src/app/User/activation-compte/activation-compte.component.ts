@@ -6,6 +6,8 @@ import { EmailSuccessComponent } from '../Dialog/email-success/email-success.com
 import { RequestPasswordComponent } from '../request-password/request-password.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivationreussieComponent } from '../Dialog/activationreussie/activationreussie.component';
+import { UserService } from 'src/app/service/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-activation-compte',
@@ -18,7 +20,7 @@ export class ActivationCompteComponent {
   errorMessage!: string;
   successMessage!: string;
 
-  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient , private modalService: BsModalService) { }
+  constructor(private route: ActivatedRoute, private userService: UserService , private router: Router, private http: HttpClient , private modalService: BsModalService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -26,7 +28,31 @@ export class ActivationCompteComponent {
 
     });
   }
-  
+  regenerateCode(): void {
+    // Call the regenerateCode method with the retrieved token
+    this.userService.regenerateCode(this.token).subscribe(
+      response => {
+        // Show a success message using SweetAlert
+        Swal.fire({
+          title: 'Success!',
+          text: 'Code régénéré avec succès. Veuillez vérifier votre boîte mail.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+        // Process the response as needed
+      },
+      error => {
+        // Show an error message using SweetAlert
+        Swal.fire({
+          title: 'Error!',
+          text: 'Erreur lors de la régénération du code : ' + error.message, // Afficher le message d'erreur du serveur
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+        // Handle the error as needed
+      }
+    );
+  }
   onSubmit(form: NgForm): void {
     const resetData = {
         code: this.code

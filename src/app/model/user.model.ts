@@ -10,6 +10,7 @@ export class User{
   numtel!: number;
   matricule!: string;
   role!: Role;
+  image!: string;
   gender!: Gender; 
   email!: string;
   password!: string;

@@ -7,7 +7,7 @@
                     <div class="card">
                       <div class="card-body text-center bg-primary rounded-top">
                        <div class="user-box" *ngIf="userDetails">
-                        <img [src]="'assets/' + userDetails.image " alt="Admin" class="rounded-circle" width="150">
+                        <img [src]="'assets/images/' + userDetails.image " alt="Admin" class="rounded-circle" width="150">
                       </div>
                       <h5 class="mb-1 text-white">{{ userDetails.nom }} {{ userDetails.prenom }}</h5>
                       <h6 class="text-light">{{ userDetails.role === 'ManagerService' ? userDetails.managerService.poste : userDetails.collaborateur.poste }}</h6>

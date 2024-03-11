@@ -168,7 +168,7 @@
           <div class="col-md-6">
             <div class="form-group">   
               <label> Manager Service</label>     <!-- Assuming allManagerService is an array of ManagerService objects -->
-<select id="managerService" formControlName="managerService" class="form-control">
+<select id="managerService" formControlName="managerServiceId" class="form-control">
   <option value="" disabled selected>-- Sélectionnez un manager service --</option>
   <option *ngFor="let managerService of allManagerService" [value]="managerService.id">{{ managerService.nom }} {{ managerService.prenom }}</option>
 </select>

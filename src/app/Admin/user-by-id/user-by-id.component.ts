@@ -46,11 +46,10 @@ toggleActivation(userId: number): void {
       console.log(response); // Gérez la réponse de l'API comme nécessaire
 
       // Afficher l'alerte avec le message approprié
-      const activationStatus = response.toLowerCase() === 'activé' ? 'activé' : 'désactivé';
       
       Swal.fire({
         icon: 'success',
-        title: `Compte ${activationStatus}`,
+        title: `Status Compte Modifié`,
         text: `Le statut d'activation de votre compte a été modifié avec succès. Un e-mail de notification a été envoyé pour vous informer du changement.`,
         confirmButtonText: 'OK',
         timer: 3000,  // Fermer automatiquement après 3 secondes
