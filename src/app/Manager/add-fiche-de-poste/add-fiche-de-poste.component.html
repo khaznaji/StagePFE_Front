@@ -1,0 +1,119 @@
+<style>
+    /* Style pour les champs de saisie invalides */
+        .disabled-cursor {
+          cursor: not-allowed; /* Utiliser le curseur "not allowed" lorsque le bouton est désactivé */
+        }
+        .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+  }
+  
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+        .custom-error-message {
+            color: red; /* Couleur du texte en rouge */
+            font-size: 0.8rem; /* Taille de la police */
+            margin-top: 0.25rem; /* Marge en haut pour séparer le message d'erreur du champ de saisie */
+        }
+        /* Couleur de la barre de progression */
+        .progress-bar-strength {
+            background-color: #28a745; /* Couleur verte */
+        }
+        
+        /* Animation de la barre de progression */
+        .progress-bar-strength {
+            transition: width 0.3s ease; /* Animation fluide de la largeur */
+        }
+        
+            
+            </style>
+ <div class="card">
+  <div class="card-body">
+    <h4 class="card-title">Fiche de poste</h4>
+    <hr>
+    <form [formGroup]="managerServiceForm" (ngSubmit)="onSubmit()">
+      <div>
+        <p class="card-description">Ajout Fiche de poste</p>
+        <div class="row">
+          <div class="col-md-6">
+            <!-- Titre input -->
+            <div class="form-group">
+              <label for="titre">Titre</label>
+              <input type="text" class="form-control" id="titre" formControlName="titre" placeholder="Titre" required
+                [ngClass]="{ 'is-invalid': managerServiceForm.get('titre')?.invalid && managerServiceForm.get('titre')?.touched }">
+              <div *ngIf="managerServiceForm.get('titre')?.invalid && managerServiceForm.get('titre')?.errors?.['required'] && managerServiceForm.get('titre')?.touched"
+                class="custom-error-message">
+                Le titre est obligatoire
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <!-- Description input -->
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea type="text" class="form-control" id="description" formControlName="description" placeholder="Description" required
+                [ngClass]="{ 'is-invalid': managerServiceForm.get('description')?.invalid && managerServiceForm.get('description')?.touched }"></textarea>
+              <div *ngIf="managerServiceForm.get('description')?.invalid && managerServiceForm.get('description')?.errors?.['required'] && managerServiceForm.get('description')?.touched"
+                class="custom-error-message">
+                La description est obligatoire
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <!-- Nombre de Postes Disponibles input -->
+            <div class="form-group">
+              <label for="nombrePostesDisponibles">Nombre de Postes Disponibles</label>
+              <input type="number" class="form-control" id="nombrePostesDisponibles" formControlName="nombrePostesDisponibles" placeholder="Nombre de Postes Disponibles" required
+                [ngClass]="{ 'is-invalid': managerServiceForm.get('nombrePostesDisponibles')?.invalid && managerServiceForm.get('nombrePostesDisponibles')?.touched }">
+              <div *ngIf="managerServiceForm.get('nombrePostesDisponibles')?.invalid && managerServiceForm.get('nombrePostesDisponibles')?.touched"
+                class="custom-error-message">
+                Le Nombre de Postes Disponibles est obligatoire
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <!-- Domaine de competence select box -->
+            <div class="form-group">
+              <label for="domain">Domaine de competence:</label>
+              <select id="domain" class="form-control" formControlName="domain">
+                <option value="" disabled selected>-- Sélectionnez un domaine de competence--</option>
+                <option *ngFor="let domain of domains" [value]="domain">{{ domain }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <!-- Compétences select box -->
+            <div class="form-group">
+              <div class="btn-group" dropdown>
+                <a id="multiselectBtn" type="button" class="btn btn-link dropdown-toggle" dropdownToggle>
+                  Sélectionnez des compétences
+                </a>
+                <div *dropdownMenu aria-labelledby="multiselectBtn">
+                  <a type="button" class="dropdown-item" *ngFor="let competence of allCompetences" (click)="toggleCompetenceSelection(competence)">
+                    {{ competence.nom }}
+                    <span *ngIf="isCompetenceSelected(competence)" class="float-right">✔</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-primary mr-2">Ajouter</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -38,13 +38,15 @@ import { CommonModule } from '@angular/common';
 import { AllcollabComponent } from './Admin/Collaborateur/List/allcollab/allcollab.component';
 import { AllUsersComponent } from './Admin/all-manager-service/all-users.component';
 import { UserByIdComponent } from './Admin/user-by-id/user-by-id.component';
+import { DashboardAdminComponent } from './Admin/dashboard/dashboard-admin/dashboard-admin.component';
+import { AddFicheDePosteComponent } from './Manager/add-fiche-de-poste/add-fiche-de-poste.component';
 @NgModule({
   declarations: [
     AppComponent, SignupComponent, SuccessDialogComponent, SigninComponent,
      AllUsersComponent, MenuloginComponent, RequestPasswordComponent, 
      EmailSuccessComponent, ResetPasswordComponent, ActivationCompteComponent, ActivationreussieComponent,
       MotdepasseComponent, EditProfileComponent, ProfileComponent, AdminMenuComponent, CollabMenuComponent,
-       ManagerMenuComponent, AddCompteComponent, AddCompteCollabComponent, GestionCompetenceComponent, AllcollabComponent, UserByIdComponent, 
+       ManagerMenuComponent, AddCompteComponent, AddCompteCollabComponent, GestionCompetenceComponent, AllcollabComponent, UserByIdComponent, DashboardAdminComponent, AddFicheDePosteComponent, 
   ],
   imports: [
     BrowserModule,

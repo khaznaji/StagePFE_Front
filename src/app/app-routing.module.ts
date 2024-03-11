@@ -19,6 +19,8 @@ import { GestionCompetenceComponent } from './Admin/Competence/gestion-competenc
 import { AllcollabComponent } from './Admin/Collaborateur/List/allcollab/allcollab.component';
 import { AllUsersComponent } from './Admin/all-manager-service/all-users.component';
 import { UserByIdComponent } from './Admin/user-by-id/user-by-id.component';
+import { DashboardAdminComponent } from './Admin/dashboard/dashboard-admin/dashboard-admin.component';
+import { AddFicheDePosteComponent } from './Manager/add-fiche-de-poste/add-fiche-de-poste.component';
 
 const routes: Routes = [
   {path:"",component:MenuloginComponent,
@@ -41,6 +43,7 @@ const routes: Routes = [
   {path:'competence', component:GestionCompetenceComponent},
   {path:'all-collaborateur', component:AllcollabComponent},
   {path:'user-detail/:id', component:UserByIdComponent},
+  {path:'dashboard', component:DashboardAdminComponent},
 
 
 ]},
@@ -50,7 +53,8 @@ const routes: Routes = [
  
 ]}, 
 {  path: 'managerService', component: ManagerMenuComponent ,children: [
-  
+  {path:'add-fiche-de-poste', component:AddFicheDePosteComponent},
+
  
 ]}
 

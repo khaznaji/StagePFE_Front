@@ -80,8 +80,10 @@ updatePassword(oldPassword: string, newPassword: string): Observable<string>
   return this.http.put<string>(url, body, { params: { oldPassword, newPassword }, headers });
 }
 regenerateCode(token: string): Observable<any> {
-  return this.http.post<any>(`${this.BASE_URL2}/regenerate/?token=${token}`, {});
+  return this.http.post<any>(`${this.BASE_URL}/regenerate/?token=${token}`, {});
 }
+
+
 updateProfileE(email?: string, numtel?: number, image?: File): Observable<any> {
   const authToken = this.authService.getToken();
 
