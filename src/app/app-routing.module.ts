@@ -21,6 +21,7 @@ import { AllUsersComponent } from './Admin/all-manager-service/all-users.compone
 import { UserByIdComponent } from './Admin/user-by-id/user-by-id.component';
 import { DashboardAdminComponent } from './Admin/dashboard/dashboard-admin/dashboard-admin.component';
 import { AddFicheDePosteComponent } from './Manager/add-fiche-de-poste/add-fiche-de-poste.component';
+import { GetallposteComponent } from './Admin/Poste/getallposte/getallposte.component';
 
 const routes: Routes = [
   {path:"",component:MenuloginComponent,
@@ -44,6 +45,7 @@ const routes: Routes = [
   {path:'all-collaborateur', component:AllcollabComponent},
   {path:'user-detail/:id', component:UserByIdComponent},
   {path:'dashboard', component:DashboardAdminComponent},
+  {path:'all-poste', component:GetallposteComponent},
 
 
 ]},

@@ -21,5 +21,16 @@ export class PosteService {
   
     return this.http.post<Poste>(`${this.BASE_URL2}/create`, formData, { headers });
   }
-  
+  getAllPostes(): Observable<Poste[]> {
+    return this.http.get<Poste[]>(`${this.BASE_URL2}/getAll`);
+  }
+  getPosteById(postId: number): Observable<Poste> {
+    return this.http.get<Poste>(`${this.BASE_URL2}/getPosteById/${postId}`);
+  }
+  updateApproval(postId: number): Observable<any> {
+    return this.http.put(`${this.BASE_URL2}/updateApproval/${postId}`, {});
+ }
+ updateRefus(postId: number): Observable<any> {
+  return this.http.put(`${this.BASE_URL2}/updateRefus/${postId}`, {});
+}
 }

@@ -67,7 +67,6 @@ this.managerServiceForm.get('domain')?.valueChanges.subscribe((selectedDomain) =
   this.competenceService.getCompetencesByDomain(selectedDomain).subscribe(
     competences => {
       this.allCompetences = competences;
-
       // Restaurer les compétences sélectionnées précédemment
       this.managerServiceForm.get('competences')?.setValue(
         currentSelectedCompetences.filter((compId: number) => this.competences.includes(compId))
@@ -79,30 +78,19 @@ this.managerServiceForm.get('domain')?.valueChanges.subscribe((selectedDomain) =
   }
   toggleCompetenceSelection(competence: Competence): void {
     const index = this.selectedCompetences.findIndex(c => c.id === competence.id);
-  
     if (index !== -1) {
-      // Remove the competence if already selected
       this.selectedCompetences.splice(index, 1);
     } else {
-      // Add the competence if not selected
       this.selectedCompetences.push(competence);
     }
   }
-  
   isCompetenceSelected(competence: Competence): boolean {
     return this.selectedCompetences.some(c => c.id === competence.id);
   }
   
   data: any = [];
-  currentStep = 1; // Use a generic type or 'any' if the type is dynamic
-  nextStep() {
-    this.currentStep++;
-  }
-  Step() {
-    this.currentStep--;
-  }
-  filteredCompetences: Competence[] = [];
 
+  filteredCompetences: Competence[] = [];
   onDomainChange(event: any) {
     const selectedDomain = event.target.value;
     // Assuming allCompetences is an array of Competence objects
@@ -126,54 +114,6 @@ this.managerServiceForm.get('domain')?.valueChanges.subscribe((selectedDomain) =
   @ViewChild('form') form!: NgForm;
   modalRef!: BsModalRef;
 
-  openModal() {
-    this.modalRef = this.modalService.show(SuccessDialogComponent);
-  }
-  emailExists: boolean = false;
-matriculeExists: boolean = false;
-
-onEmailChange() {
-  this.emailExists = false;
-}
-onMatriculeChange() {
-  this.matriculeExists = false;
-}
-save() {
-  const headers = { 'Authorization': 'Bearer ' + this.Auth.getToken() };
-  console.log('Headers:', headers);
-
-  this.userService.checkEmail(this.users.email)
-    .subscribe((exists: boolean) => {
-      if (exists) {
-        // Display error message for existing email
-        this.emailExists = true;
-      } else {
-        // Check matricule existence
-        this.userService.checkmatricule(this.users.matricule)
-          .subscribe((matriculeExists: boolean) => {
-            if (matriculeExists) {
-              // Display error message for existing matricule
-              this.matriculeExists = true;
-            } else {
-              // Continue with registration
-              this.userService.AddCollab(this.users)
-                .subscribe(
-                  (response: any) => {
-                    console.log('User registered successfully:', response.message);
-                    this.users = new User();
-                    this.form.resetForm();
-                    this.clearErrorMessages();
-                    this.openModal(); 
-                  },
-                  error => {
-                    // Handle registration error if needed
-                  }
-                );
-            }
-          });
-      }
-    });
-}
 cancel() {
   // Réinitialiser le formulaire et effacer les messages d'erreur
   this.users = new User();

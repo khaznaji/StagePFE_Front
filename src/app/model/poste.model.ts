@@ -12,5 +12,9 @@ export class Poste{
     description!: string;
     nombrePostesDisponibles!: number;
     dateCreation!: Date;
+    managerNom!: string;  // Declare managerNom and managerPrenom properties
+    managerPrenom!: string;
+    archive!:boolean ; 
+    encours!:boolean ; 
 
   }
