@@ -22,6 +22,7 @@ import { UserByIdComponent } from './Admin/user-by-id/user-by-id.component';
 import { DashboardAdminComponent } from './Admin/dashboard/dashboard-admin/dashboard-admin.component';
 import { AddFicheDePosteComponent } from './Manager/add-fiche-de-poste/add-fiche-de-poste.component';
 import { GetallposteComponent } from './Admin/Poste/getallposte/getallposte.component';
+import { GetAllPosteCollabComponent } from './Collaborateur/poste/get-all-poste-collab/get-all-poste-collab.component';
 
 const routes: Routes = [
   {path:"",component:MenuloginComponent,
@@ -51,11 +52,14 @@ const routes: Routes = [
 ]},
 
 {  path: 'collaborateur', component: CollabMenuComponent ,children: [
-  
+  {path:'all-poste', component:GetAllPosteCollabComponent},
+  {path:'profile', component:ProfileComponent},
+
  
 ]}, 
 {  path: 'managerService', component: ManagerMenuComponent ,children: [
   {path:'add-fiche-de-poste', component:AddFicheDePosteComponent},
+  {path:'profile', component:ProfileComponent},
 
  
 ]}

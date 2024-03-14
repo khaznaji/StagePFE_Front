@@ -23,7 +23,7 @@ export class RequestPasswordComponent {
     const formData = new FormData();
     formData.append('email', this.email);
   
-    this.http.post<any>('http://localhost:8080/api/User/request', formData , { responseType: 'text' as 'json' }).subscribe(
+    this.http.post<any>('http://localhost:8080/auth/request', formData , { responseType: 'text' as 'json' }).subscribe(
       response => {
         this.successMessage = response,
         this.openModal();

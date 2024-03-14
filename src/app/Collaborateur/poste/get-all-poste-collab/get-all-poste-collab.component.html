@@ -1,0 +1,119 @@
+<style>
+    body {
+       font-family: 'Arial', sans-serif; /* Utilisez une police moderne et lisible */
+       background-color: #f4f4f4; /* Ajoutez un fond légèrement grisé pour une meilleure lisibilité */
+    }
+   
+    .card {
+       background-color: #ffffff;
+       border-radius: 10px;
+       box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+       margin: 20px;
+       padding: 20px;
+       width: 100%;
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       transition: transform 0.3s ease; /* Ajoutez une transition pour les animations */
+    }
+   
+    .card:hover {
+       transform: scale(1.02); /* Augmentez légèrement la taille de la carte lorsqu'elle est survolée */
+    }
+   
+    .card-title {
+       font-size: 24px;
+       font-weight: bold;
+       margin-bottom: 10px;
+       color: #3d444a; /* Changez la couleur du titre pour une meilleure esthétique */
+    }
+   
+    .card-description {
+       margin-bottom: 10px;
+       text-align: center;
+       color: #333; /* Changez la couleur du texte pour une meilleure lisibilité */
+    }
+   
+    .pill {
+       background-color: #3498db;
+       color: #ffffff;
+       padding: 5px 10px;
+       margin: 3px;
+       border-radius: 15px;
+       transition: background-color 0.3s ease; /* Ajoutez une transition pour les animations */
+    }
+   
+    .pill:hover {
+       background-color: #2980b9; /* Changez la couleur de fond lorsqu'il est survolé */
+    }
+   
+    .pill-container {
+       display: flex;
+       flex-wrap: wrap;
+       justify-content: center;
+       margin-bottom: 10px;
+    }
+   
+    .card-info {
+       display: flex;
+       justify-content: space-between;
+       width: 100%;
+       margin-bottom: 10px;
+    }
+   
+    .card-info p {
+       margin: 0;
+       width: 45%;
+    }
+   
+    .card-info .icon {
+       margin-right: 5px;
+    }
+   
+    .apply-button {
+       background-color: #3498db;
+       color: #ffffff;
+       padding: 10px 20px;
+       border: none;
+       border-radius: 5px;
+       cursor: pointer;
+       transition: background-color 0.3s ease, transform 0.3s ease; /* Ajoutez une transition pour les animations */
+    }
+   
+    .apply-button:hover {
+       background-color: #2980b9;
+       transform: scale(1.05); /* Augmentez légèrement la taille du bouton lorsqu'il est survolé */
+    }
+    h4 {
+       font-size: 28px; /* Augmentez la taille de la police pour un impact visuel */
+       font-weight: bold;
+       color: #3498db; /* Changez la couleur pour une meilleure esthétique */
+       text-align: center; /* Centrez le texte pour une meilleure présentation */
+       margin-bottom: 30px; /* Ajoutez un espace pour séparer l'en-tête du contenu */
+       text-transform: uppercase; /* Transformez le texte en majuscules pour un aspect plus moderne */
+       letter-spacing: 1px; /* Ajoutez un espace entre les lettres pour une meilleure lisibilité */
+    }
+</style>
+
+<div *ngIf="approvedPostes && approvedPostes.length > 0">
+    <h4>Postes Disponibles </h4>
+    <div class="card" *ngFor="let poste of approvedPostes">
+       <div class="card-title">{{ poste.titre }}</div>
+
+       <div class="card-description">{{ poste.description }}</div>
+       <div class="pill-container">
+         <span *ngFor="let competence of poste.competences; let i = index" class="pill" [style.background-color]="getRandomColor(i)">
+           {{ competence.nom }}
+         </span>
+       </div>
+       <div class="card-info">
+         <p><span class="icon">🏢</span> Departement: {{ poste.managerService ? poste.managerService.department : 'N/A' }}</p>
+         <p><span class="icon">👤</span> Manager Service: {{ poste.managerNom ? poste.managerNom : 'N/A' }} {{ poste.managerPrenom ? poste.managerPrenom : 'N/A' }}</p>
+         <p><span class="icon">📍</span> Nombre de poste ouverts: {{ poste.nombrePostesDisponibles }}</p>
+       </div>
+       <button class="apply-button" (click)="postulerAuPoste(poste.id)">Postuler</button>
+    </div>
+</div>
+<div *ngIf="approvedPostes && approvedPostes.length === 0">
+    <p>Aucun poste approuvé trouvé.</p>
+</div>

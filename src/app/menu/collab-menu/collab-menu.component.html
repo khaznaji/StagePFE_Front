@@ -118,7 +118,7 @@
             <span class="nav-profile-name">{{username}}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-            <a class="dropdown-item" [routerLink]="['/managerRh/profile']">
+            <a class="dropdown-item" [routerLink]="['/collaborateur/profile']">
               <i class="mdi mdi-settings text-primary"></i>
               Mon Compte
             </a>
@@ -146,24 +146,12 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-            <i class="mdi mdi-account menu-icon"></i>
-            <span class="menu-title">Personnels</span>
-            <i class="menu-arrow"></i>
-          </a>
-          <div class="collapse" id="auth">
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" [routerLink]="['/managerRh/all-manager-service']" > Manager Service </a></li>
-              <li class="nav-item"> <a class="nav-link"  [routerLink]="['/managerRh/all-collaborateur']"> Collaborateur </a></li>
-           </ul>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/managerRh/competence']">
-            <i class="mdi mdi-book-open-page-variant menu-icon"></i>
-            <span class="menu-title">Competences</span>
+          <a class="nav-link" [routerLink]="['/collaborateur/all-poste']">
+            <i class="mdi mdi mdi-briefcase menu-icon"></i>
+            <span class="menu-title">Postes</span>
           </a>
         </li>
+        
         <li class="nav-item">
           <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
             <i class="mdi mdi-circle-outline menu-icon"></i>

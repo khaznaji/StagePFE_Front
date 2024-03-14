@@ -41,13 +41,14 @@ import { UserByIdComponent } from './Admin/user-by-id/user-by-id.component';
 import { DashboardAdminComponent } from './Admin/dashboard/dashboard-admin/dashboard-admin.component';
 import { AddFicheDePosteComponent } from './Manager/add-fiche-de-poste/add-fiche-de-poste.component';
 import { GetallposteComponent } from './Admin/Poste/getallposte/getallposte.component';
+import { GetAllPosteCollabComponent } from './Collaborateur/poste/get-all-poste-collab/get-all-poste-collab.component';
 @NgModule({
   declarations: [
     AppComponent, SignupComponent, SuccessDialogComponent, SigninComponent,
      AllUsersComponent, MenuloginComponent, RequestPasswordComponent, 
      EmailSuccessComponent, ResetPasswordComponent, ActivationCompteComponent, ActivationreussieComponent,
       MotdepasseComponent, EditProfileComponent, ProfileComponent, AdminMenuComponent, CollabMenuComponent,
-       ManagerMenuComponent, AddCompteComponent, AddCompteCollabComponent, GestionCompetenceComponent, AllcollabComponent, UserByIdComponent, DashboardAdminComponent, AddFicheDePosteComponent, GetallposteComponent, 
+       ManagerMenuComponent, AddCompteComponent, AddCompteCollabComponent, GestionCompetenceComponent, AllcollabComponent, UserByIdComponent, DashboardAdminComponent, AddFicheDePosteComponent, GetallposteComponent, GetAllPosteCollabComponent, 
   ],
   imports: [
     BrowserModule,

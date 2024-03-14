@@ -33,4 +33,21 @@ export class PosteService {
  updateRefus(postId: number): Observable<any> {
   return this.http.put(`${this.BASE_URL2}/updateRefus/${postId}`, {});
 }
+deletePoste(postId: number): Observable<any> {
+  const url = `${this.BASE_URL2}/delete/${postId}`;
+  return this.http.delete(url);
+}
+getApprovedPostes(): Observable<any> {
+  return this.http.get<any>(`${this.BASE_URL2}/getApprovedPostes`);
+}
+postuler(postId: number): Observable<string> {
+  const authToken = this.authService.getToken();
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${authToken}`
+  });
+
+  // Remove the 'Content-Type' header to allow the browser to set it automatically
+  headers.delete('Content-Type');
+  return this.http.post<string>(`${this.BASE_URL2}/postuler/${postId}`, {headers});
+}
 }

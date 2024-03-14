@@ -33,6 +33,17 @@
     border-radius: 5px;
     margin-bottom: 20px;
   }
+/* Ajoutez ces styles à votre fichier CSS */
+.approval-message {
+  background-color: #d4edda; /* Couleur de fond pour indiquer une approbation */
+  color: #155724; /* Couleur du texte */
+  padding: 10px;
+  border: 1px solid #c3e6cb; /* Bordure légère */
+  border-radius: 5px;
+  margin-top: 10px; /* Espacement du haut */
+  text-align: center; /* Centrage du texte */
+  font-weight: bold;
+}
 
   
 .details-panel .button-container {
@@ -343,7 +354,6 @@
       <div class="details-section">
 
         <h4>{{ selectedPoste.titre }}</h4>
-        <h4>{{ selectedPoste.id }}</h4>
 
         <h6 *ngIf="selectedPoste.managerService" style="font-weight: normal; color: gray; font-style: italic; text-decoration: underline;">
           Demande de :
@@ -367,9 +377,24 @@
         </div>
       </div>
       <div class="button-container">
-        <button class="accept-button" (click)="onAccept(selectedPoste.id )">Accepter</button>
-        <button class="refuse-button" (click)="onRefuse(selectedPoste.id)">Refuser</button>
-       </div>
+        <!-- Si approuveParManagerRH est égal à true, affiche un message -->
+        <ng-container *ngIf="selectedPoste.approuveParManagerRH; else buttonsSection">
+          <div class="justify-content-center">
+          <div class="approval-message">
+            <p>Demande Traitée</p>
+          </div>
+        </div>
+        </ng-container>
+        
+      
+        <!-- Sinon, affiche les boutons -->
+        <ng-template #buttonsSection>
+          <button *ngIf="!selectedPoste.archive" class="refuse-button" (click)="onRefuse(selectedPoste.id)">Refuser</button>
+          <button *ngIf="selectedPoste.archive" class="refuse-button" (click)="onDelete(selectedPoste.id)">Supprimer</button>
+          <button class="accept-button" (click)="onAccept(selectedPoste.id)">Accepter</button>
+        </ng-template>
+      </div>
+      
        
   </div>
     <!-- <div class="d-flex justify-content-center">

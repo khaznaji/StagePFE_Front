@@ -68,7 +68,10 @@ export class GetallposteComponent implements OnInit {
           text: 'Le poste a été approuvé avec succès. Un mail a été envoyé au ManagerService.',
           icon: 'success',
           confirmButtonText: 'OK'
-        });      },
+        });   
+        setTimeout(() => {
+          window.location.reload();  // Recharge la fenêtre après la suppression
+        }, 3000);      },
       error => {
         console.error('Error approving poste', error);
         Swal.fire({
@@ -91,7 +94,9 @@ export class GetallposteComponent implements OnInit {
             text: 'Le poste a été refusé. Un mail a été envoyé au ManagerService.',
             icon: 'success',
             confirmButtonText: 'OK'
-          });      },
+          });  
+          window.location.reload();  // Recharge la fenêtre après la suppression
+        },
         error => {
           console.error('Error approving poste', error);
           Swal.fire({
@@ -170,5 +175,43 @@ this.applyFilter();
         console.error('Error loading poste details:', error);
       }
     );
+  }
+  onDelete(postId: number): void {
+    Swal.fire({
+      title: 'Êtes-vous sûr?',
+      text: 'La suppression du poste est irréversible!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Supprimer',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.posteService.deletePoste(postId).subscribe(
+          response => {
+            console.log('Poste supprimé avec succès:', response);
+            Swal.fire(
+              'Supprimé!',
+              'Le poste a été supprimé avec succès.',
+              'success'
+            );
+            // Ajoutez ici la logique supplémentaire si nécessaire
+            this.closeDetailsPanel(); 
+            window.location.reload();  // Recharge la fenêtre après la suppression
+            // Ferme le panneau après la suppression
+          },
+          error => {
+            console.error('Erreur lors de la suppression du poste:', error);
+            Swal.fire(
+              'Erreur!',
+              'Une erreur s\'est produite lors de la suppression du poste.',
+              'error'
+            );
+            // Gérez les erreurs ici
+          }
+        );
+      }
+    });
   }
 }
