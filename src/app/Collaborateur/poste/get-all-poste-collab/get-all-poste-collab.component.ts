@@ -1,5 +1,7 @@
+import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PosteService } from 'src/app/service/poste.service';
 import { UserAuthService } from 'src/app/service/user-auth.service';
 import Swal from 'sweetalert2';
@@ -7,12 +9,13 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-get-all-poste-collab',
   templateUrl: './get-all-poste-collab.component.html',
-  styleUrls: ['./get-all-poste-collab.component.css']
+  styleUrls: ['./get-all-poste-collab.component.css'] 
+
 })
 export class GetAllPosteCollabComponent implements OnInit {
   approvedPostes!: any[];
 
-  constructor(private posteService: PosteService, private http: HttpClient , private authService: UserAuthService) {}
+  constructor(private posteService: PosteService,private router: Router, private http: HttpClient , private authService: UserAuthService) {}
 
   ngOnInit(): void {
     this.getApprovedPostes();
@@ -22,6 +25,7 @@ export class GetAllPosteCollabComponent implements OnInit {
     const setIndex = Math.floor(index / 10); // Calculate the set index based on competence index
     return colors[setIndex % colors.length]; // Use the set index to determine the color
   }
+  
   private BASE_URL2 = 'http://localhost:8080/api/Poste';
 
   postulerAuPoste(postId: number): void {
@@ -47,20 +51,26 @@ export class GetAllPosteCollabComponent implements OnInit {
                 title: 'Postulation réussie!',
                 text: 'Votre postulation a été enregistrée avec succès.',
             });
+            setTimeout(() => {
+              location.reload();
+            }, 3000);
         },
         error => {
             console.error("Erreur lors de la requête POST:", error);
+            // Extraire le message d'erreur du corps de la réponse
+            const errorMessage = error.error ? error.error.error : 'Une erreur s\'est produite lors de la postulation.';
             Swal.fire({
                 icon: 'error',
                 title: 'Erreur!',
-                text: 'Une erreur s\'est produite lors de la postulation.',
+                text: errorMessage,
             });
         }
     );
 }
 
+
   getApprovedPostes(): void {
-    this.posteService.getApprovedPostes()
+    this.posteService.getApprovedAndNotAppliedPostes()
       .subscribe(
         (data) => {
           this.approvedPostes = data;

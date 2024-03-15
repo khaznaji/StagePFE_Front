@@ -13,17 +13,18 @@
        width: 90%;
        display: flex;
        flex-direction: column;
-       align-items: center;
        transition: transform 0.3s ease; /* Ajoutez une transition pour les animations */
-    }
+   
+       position: relative; /* Permet de positionner le bouton par rapport à la carte */
+    animation: fadeIn 1s ease-out;  }
    
     .card:hover {
        transform: scale(1.02); /* Augmentez légèrement la taille de la carte lorsqu'elle est survolée */
     }
    
     .card-title {
-       font-size: 24px;
-       font-weight: bold;
+     font-size: 15px; /* Réduit la taille du titre */
+    text-align: left;
        margin-bottom: 10px;
        color: #3d444a; /* Changez la couleur du titre pour une meilleure esthétique */
     }
@@ -60,7 +61,21 @@
        width: 100%;
        margin-bottom: 10px;
     }
-   
+    .card-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}   
     .card-info p {
        margin: 0;
        width: 45%;
@@ -93,27 +108,39 @@
        text-transform: uppercase; /* Transformez le texte en majuscules pour un aspect plus moderne */
        letter-spacing: 1px; /* Ajoutez un espace entre les lettres pour une meilleure lisibilité */
     }
+    .poste-etat {
+    color: #888; /* Gris */
+    font-style: italic; /* Italique */
+    margin-left: 10px; /* Espacement à gauche */
+}
+
+    
 </style>
 
-<div *ngIf="approvedPostes && approvedPostes.length > 0">
-    <h4>Postes Disponibles </h4>
-    <div class="card" *ngFor="let poste of approvedPostes" >
-       <div class="card-title">{{ poste.titre }}</div>
-
-       <div class="card-description">{{ poste.description }}</div>
-       <div class="pill-container">
-         <span *ngFor="let competence of poste.competences; let i = index" class="pill" [style.background-color]="getRandomColor(i)">
-           {{ competence.nom }}
-         </span>
-       </div>
-       <div class="card-info">
-         <p><span class="icon">🏢</span> Departement: {{ poste.managerService ? poste.managerService.department : 'N/A' }}</p>
-         <p><span class="icon">👤</span> Manager Service: {{ poste.managerNom ? poste.managerNom : 'N/A' }} {{ poste.managerPrenom ? poste.managerPrenom : 'N/A' }}</p>
-         <p><span class="icon">📍</span> Nombre de poste ouverts: {{ poste.nombrePostesDisponibles }}</p>
-       </div>
-       <button class="apply-button" (click)="postulerAuPoste(poste.id)">Postuler</button>
+<div *ngIf="postulations && postulations.length > 0">
+    <h4>Mes Candidatures </h4>
+    <div class="card" *ngFor="let poste of postulations; let i = index">
+        <div class="card-controls">
+            <button (click)="toggleFormVisibility(i)" class="btn btn-link">
+                <i [ngClass]="cardStates[i] ? 'mdi mdi-window-minimize' : 'mdi mdi-window-maximize'"></i>
+            </button>
+        </div>
+        <div class="card-title">{{ poste.poste.titre }}       <span class="poste-etat"  style="font-size: small;" *ngIf="poste.etatPostulation"> (  {{ poste.etatPostulation.toString().replace('_', ' ') }} )</span>
+        </div>
+        <div class="card-description" *ngIf="cardStates[i]">{{ poste.poste.description }}</div>
+        <div class="pill-container" *ngIf="cardStates[i]">
+            <span *ngFor="let competence of poste.poste.competences; let i = index" class="pill" [style.background-color]="getRandomColor(i)">
+                {{ competence.nom }}
+            </span>
+        </div>
+        <div class="card-info" *ngIf="cardStates[i]">
+            <p><span class="icon">🏢</span> Departement: {{ poste.poste.managerService ? poste.poste.managerService.department : 'N/A' }}</p>
+            <p><span class="icon">👤</span> Manager Service: {{ poste.poste.managerNom ? poste.poste.managerNom : 'N/A' }} {{ poste.poste.managerPrenom ? poste.poste.managerPrenom : 'N/A' }}</p>
+            <p><span class="icon">📍</span> Nombre de poste ouverts: {{ poste.poste.nombrePostesDisponibles }}</p>
+        </div>
     </div>
 </div>
-<div *ngIf="approvedPostes && approvedPostes.length === 0">
-    <p>Aucun poste approuvé trouvé.</p>
+<div *ngIf="postulations && postulations.length === 0">
+    <p>Aucun poste trouvé.</p>
 </div>
+

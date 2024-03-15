@@ -23,6 +23,8 @@ import { DashboardAdminComponent } from './Admin/dashboard/dashboard-admin/dashb
 import { AddFicheDePosteComponent } from './Manager/add-fiche-de-poste/add-fiche-de-poste.component';
 import { GetallposteComponent } from './Admin/Poste/getallposte/getallposte.component';
 import { GetAllPosteCollabComponent } from './Collaborateur/poste/get-all-poste-collab/get-all-poste-collab.component';
+import { MespostulationsComponent } from './Collaborateur/poste/mespostulations/mespostulations.component';
+import { DisplayMesPostesComponent } from './Manager/display-mes-postes/display-mes-postes.component';
 
 const routes: Routes = [
   {path:"",component:MenuloginComponent,
@@ -32,7 +34,6 @@ const routes: Routes = [
     { path: 'request-password', component:RequestPasswordComponent  }    , 
     { path: 'reset-password', component: ResetPasswordComponent },
     { path: 'activate-account', component: ActivationCompteComponent },
-
 
   ]}
  ,
@@ -54,12 +55,14 @@ const routes: Routes = [
 {  path: 'collaborateur', component: CollabMenuComponent ,children: [
   {path:'all-poste', component:GetAllPosteCollabComponent},
   {path:'profile', component:ProfileComponent},
+  {path:'mes-postulations', component:MespostulationsComponent},
 
  
 ]}, 
 {  path: 'managerService', component: ManagerMenuComponent ,children: [
   {path:'add-fiche-de-poste', component:AddFicheDePosteComponent},
   {path:'profile', component:ProfileComponent},
+  {path:'mes-postes', component:DisplayMesPostesComponent},
 
  
 ]}

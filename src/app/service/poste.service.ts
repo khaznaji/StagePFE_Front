@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { UserAuthService } from './user-auth.service';
 import { Observable } from 'rxjs';
 import { Poste } from '../model/poste.model';
+import { Candidature } from '../model/candidature.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,26 @@ export class PosteService {
   getAllPostes(): Observable<Poste[]> {
     return this.http.get<Poste[]>(`${this.BASE_URL2}/getAll`);
   }
+  getApprovedAndNotAppliedPostes(): Observable<Poste[]> {
+    const authToken = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${authToken}`
+    });
+  
+    // Remove the 'Content-Type' header to allow the browser to set it automatically
+    headers.delete('Content-Type');
+    return this.http.get<Poste[]>(`${this.BASE_URL2}/getApprovedAndNotAppliedPostes` , { headers } );
+  } 
+  getMesPostulations(): Observable<Candidature[]> {
+    const authToken = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${authToken}`
+    });
+  
+    // Remove the 'Content-Type' header to allow the browser to set it automatically
+    headers.delete('Content-Type');
+    return this.http.get<Candidature[]>(`${this.BASE_URL2}/postulations` , { headers } );
+  } 
   getPosteById(postId: number): Observable<Poste> {
     return this.http.get<Poste>(`${this.BASE_URL2}/getPosteById/${postId}`);
   }
@@ -49,5 +70,15 @@ postuler(postId: number): Observable<string> {
   // Remove the 'Content-Type' header to allow the browser to set it automatically
   headers.delete('Content-Type');
   return this.http.post<string>(`${this.BASE_URL2}/postuler/${postId}`, {headers});
+}
+mespostes(): Observable<any> {
+  const authToken = this.authService.getToken();
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${authToken}`
+  });
+
+  // Remove the 'Content-Type' header to allow the browser to set it automatically
+  headers.delete('Content-Type');
+  return this.http.get<any>(`${this.BASE_URL2}/AllPostesByManagerService`, {headers});
 }
 }
