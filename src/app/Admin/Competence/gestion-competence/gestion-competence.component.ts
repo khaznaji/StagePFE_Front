@@ -55,7 +55,6 @@ export class GestionCompetenceComponent implements OnInit {
     const endIndex = startIndex + this.pageSize;
     this.filteredCategories = this.categories.slice(startIndex, endIndex);
   }
-  // Utilisez cette propriété pour stocker les catégories filtrées
   filteredCategories: Competence[] = [];
   selectedImage: File | null = null;
   imagePreview: string | undefined;
@@ -253,24 +252,6 @@ export class GestionCompetenceComponent implements OnInit {
       fileInput.click();
     }
   }
- 
-  // applyFilter() {
-  //   switch (this.filterOption) {
-  //     case 'all':
-  //       this.filteredCategories = this.categories;
-  //       break;
-  //     case 'archive':
-  //       this.filteredCategories = this.categories.filter((category: Competence) => category.domaine);
-  //       break;
-  //     case 'nonArchive':
-  //       this.filteredCategories = this.categories.filter((category: Competence) => !category.domaine);
-  //       break;
-  //     default:
-  //       this.filteredCategories = this.categories;
-  //       break;
-  //   }
-  // }
-  
   subcategoryIdsToDelete: number[] = [];
   toggleDelete(subcategoryId: number | undefined) {
     if (subcategoryId === undefined) {

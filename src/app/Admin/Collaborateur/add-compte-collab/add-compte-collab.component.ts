@@ -48,6 +48,7 @@ export class AddCompteCollabComponent implements OnInit{
 
 
     });
+
     this.competenceService.getAll().subscribe(
       (competences) => {
         this.allCompetences = competences;
@@ -153,42 +154,7 @@ onEmailChange() {
 onMatriculeChange() {
   this.matriculeExists = false;
 }
-save() {
-  const headers = { 'Authorization': 'Bearer ' + this.Auth.getToken() };
-  console.log('Headers:', headers);
 
-  this.userService.checkEmail(this.users.email)
-    .subscribe((exists: boolean) => {
-      if (exists) {
-        // Display error message for existing email
-        this.emailExists = true;
-      } else {
-        // Check matricule existence
-        this.userService.checkmatricule(this.users.matricule)
-          .subscribe((matriculeExists: boolean) => {
-            if (matriculeExists) {
-              // Display error message for existing matricule
-              this.matriculeExists = true;
-            } else {
-              // Continue with registration
-              this.userService.AddCollab(this.users)
-                .subscribe(
-                  (response: any) => {
-                    console.log('User registered successfully:', response.message);
-                    this.users = new User();
-                    this.form.resetForm();
-                    this.clearErrorMessages();
-                    this.openModal(); 
-                  },
-                  error => {
-                    // Handle registration error if needed
-                  }
-                );
-            }
-          });
-      }
-    });
-}
 cancel() {
   // Réinitialiser le formulaire et effacer les messages d'erreur
   this.users = new User();

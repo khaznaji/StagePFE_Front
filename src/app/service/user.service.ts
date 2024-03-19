@@ -170,8 +170,5 @@ updateProfilee(email?: string, numtel?: number, image?: File): Observable<any> {
   AddManagerService(events: Object): Observable<Object> {
     return this.http.post(`${this.BASE_URL2}/registerManagerService`, events);
   }  
-  AddCollab(events: Object): Observable<Object> {
-    return this.http.post(`${this.BASE_URL2}/registerCollab`, events);
-  } 
-  
+ 
 }

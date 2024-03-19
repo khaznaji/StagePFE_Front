@@ -18,7 +18,6 @@ import { ResetPasswordComponent } from './User/reset-password/reset-password.com
 import { ActivationCompteComponent } from './User/activation-compte/activation-compte.component';
 import { ActivationreussieComponent } from './User/Dialog/activationreussie/activationreussie.component';
 import { MotdepasseComponent } from './User/Dialog/motdepasse/motdepasse.component';
-import { EditProfileComponent } from './User/edit-profile/edit-profile.component';
 import { ProfileComponent } from './User/profile/profile.component';
 import { AdminMenuComponent } from './menu/admin-menu/admin-menu.component';
 import { CollabMenuComponent } from './menu/collab-menu/collab-menu.component';
@@ -44,13 +43,23 @@ import { GetallposteComponent } from './Admin/Poste/getallposte/getallposte.comp
 import { GetAllPosteCollabComponent } from './Collaborateur/poste/get-all-poste-collab/get-all-poste-collab.component';
 import { MespostulationsComponent } from './Collaborateur/poste/mespostulations/mespostulations.component';
 import { DisplayMesPostesComponent } from './Manager/display-mes-postes/display-mes-postes.component';
+import { EditFicheComponent } from './Manager/edit-fiche/edit-fiche.component';
+import { GestionProfileComponent } from './Collaborateur/gestion-profile/gestion-profile.component';
+import { EditProfileComponent } from './Collaborateur/edit-profile/edit-profile.component';
+
+
 @NgModule({
   declarations: [
     AppComponent, SignupComponent, SuccessDialogComponent, SigninComponent,
-     AllUsersComponent, MenuloginComponent, RequestPasswordComponent, 
-     EmailSuccessComponent, ResetPasswordComponent, ActivationCompteComponent, ActivationreussieComponent,
-      MotdepasseComponent, EditProfileComponent, ProfileComponent, AdminMenuComponent, CollabMenuComponent,
-       ManagerMenuComponent, AddCompteComponent, AddCompteCollabComponent, GestionCompetenceComponent, AllcollabComponent, UserByIdComponent, DashboardAdminComponent, AddFicheDePosteComponent, GetallposteComponent, GetAllPosteCollabComponent, MespostulationsComponent, DisplayMesPostesComponent, 
+    AllUsersComponent, MenuloginComponent, RequestPasswordComponent, 
+    EmailSuccessComponent, ResetPasswordComponent, ActivationCompteComponent,
+    ActivationreussieComponent,MotdepasseComponent, ProfileComponent,
+    AdminMenuComponent, CollabMenuComponent,ManagerMenuComponent, AddCompteComponent, 
+    AddCompteCollabComponent, GestionCompetenceComponent, AllcollabComponent, UserByIdComponent, 
+    DashboardAdminComponent, AddFicheDePosteComponent, GetallposteComponent, GetAllPosteCollabComponent,
+    MespostulationsComponent, DisplayMesPostesComponent, EditFicheComponent, GestionProfileComponent,
+    EditProfileComponent
+
   ],
   imports: [
     BrowserModule,
@@ -70,6 +79,7 @@ import { DisplayMesPostesComponent } from './Manager/display-mes-postes/display-
     }),BrowserAnimationsModule,
     ButtonsModule.forRoot(),
     BsDropdownModule.forRoot(),
+
 
 
 

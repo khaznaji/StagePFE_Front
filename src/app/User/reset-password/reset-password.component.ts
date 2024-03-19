@@ -10,42 +10,37 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.css']
 })
-export class ResetPasswordComponent  implements OnInit {
+
+export class ResetPasswordComponent implements OnInit {
   token!: string;
   password!: string;
   confirmPassword!: string;
   errorMessage!: string;
   successMessage!: string;
-
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient,private modalService: BsModalService ) { }
-
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.token = params['token'];
 
     });
   }
-  
-  onSubmit(form: NgForm): void {
-    console.log('Password:', this.password); // Ajoutez cette ligne pour vérifier la valeur de password
 
+  onSubmit(form: NgForm): void {
+    console.log('Password:', this.password); 
     if (this.password !== this.confirmPassword) {
       this.errorMessage = 'Les mots de passe ne correspondent pas.';
       return;
     }
-  
     const resetData = {
       password: this.password
 
     };
-  
     const options = {
       params: { token: this.token ,
         password: this.password  // Assurez-vous que le nom du champ correspond au paramètre côté serveur
 }
     };
-  
-    this.http.post<any>('http://localhost:8080/api/User/reset', resetData, options).subscribe(
+    this.http.post<any>('http://localhost:8080/auth/reset', resetData, options).subscribe(
       response => {
         this.successMessage = response;
         this.errorMessage = '';
@@ -61,12 +56,12 @@ export class ResetPasswordComponent  implements OnInit {
       }
     );
   }
+
   passwordStrengthPercentage(): string {
    return ((this.password.length / 20) * 100) + '%'; // Par exemple, diviser la longueur par 20 et multiplier par 100 pour obtenir un pourcentage
   }
+
   passwordStrength(): string {
-    // Implémentez la logique pour décrire la force du mot de passe ici
-    // Par exemple, vous pouvez retourner un texte basé sur la longueur ou la complexité du mot de passe
     if (this.password.length < 8) {
       return 'Faible';
     } else if (this.password.length < 15) {
@@ -76,9 +71,7 @@ export class ResetPasswordComponent  implements OnInit {
     }
   }
 
-
-   passwordStrengthClass(): string {
-    // Attribution de classes CSS en fonction de la force du mot de passe
+  passwordStrengthClass(): string {
     if (this.password.length >= 12 && /[!@#$%&*_?]/.test(this.password)) {
       return 'progress-bar progress-bar-striped progress-bar-animated progress-bar-success'; // Vert pour fort
     } else if (this.password.length >= 8) {
@@ -87,11 +80,14 @@ export class ResetPasswordComponent  implements OnInit {
       return 'progress-bar progress-bar-striped progress-bar-animated progress-bar-danger'; // Rouge pour faible
     }
   }
+
   passwordsMatch(): boolean {
     return this.password === this.confirmPassword;
   }
+
   modalRef!: BsModalRef;
-openModal() {
+
+  openModal() {
   this.modalRef = this.modalService.show(MotdepasseComponent);
 }
 }

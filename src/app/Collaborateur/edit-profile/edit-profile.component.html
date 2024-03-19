@@ -1,0 +1,80 @@
+<div class="container db-social">
+    <div class="jumbotron jumbotron-fluid"></div>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-xl-11">
+                <div class="widget head-profile has-shadow">
+                    <div class="widget-body pb-0">
+                        <div class="row d-flex align-items-center">
+                            <div class="col-xl-4 col-md-4 d-flex justify-content-lg-start justify-content-md-start justify-content-center">
+                                <ul>
+                                   
+                                 
+                                </ul>
+                            </div>
+                            <div class="col-xl-4 col-md-4 d-flex justify-content-center" *ngIf="collaborateurInfo">
+                                <div class="image-default">
+                                    <img class="rounded-circle" [src]="'assets/images/' + collaborateurInfo.image" alt="Profile Image">
+                                </div>
+                                <div class="infos">
+                                    <h2>{{ collaborateurInfo.nom }} {{ collaborateurInfo.prenom }}</h2>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-4 d-flex justify-content-lg-end justify-content-md-end justify-content-center">
+                                <div class="follow">
+                                    <div class="actions dark">
+                                        <div class="dropdown">
+                                         
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <!-- Première carte : Biographie -->
+            <div class="col-xl-7">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"> Biographie</h5>
+                        <p class="card-text">Votre texte de biographie ici. Vous pouvez ajouter autant de texte que nécessaire pour décrire la personne.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Deuxième carte : Compétences -->
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Competences</h5>
+                        <p class="card-text">Votre texte de compétences ici. Vous pouvez ajouter autant de texte que nécessaire pour décrire les compétences de la personne.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+            <!-- Première carte : Biographie -->
+            <div class="col-xl-7">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"> Curriculum Vitae </h5>
+                        <p class="card-text">Votre texte de biographie ici. Vous pouvez ajouter autant de texte que nécessaire pour décrire la personne.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Deuxième carte : Compétences -->
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Formations</h5>
+                        <p class="card-text">Votre texte de compétences ici. Vous pouvez ajouter autant de texte que nécessaire pour décrire les compétences de la personne.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>

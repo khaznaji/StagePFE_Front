@@ -19,6 +19,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./add-fiche-de-poste.component.css']
 })
 export class AddFicheDePosteComponent  implements OnInit{
+
   constructor(private userService: UserService , private posteService : PosteService, private router: Router, private competenceService: CompetenceService , private fb: FormBuilder , private Auth: UserAuthService,public dialog: MatDialog , private elementRef: ElementRef,private modalService: BsModalService){}
   managerServiceForm!: FormGroup;
   allCompetences: Competence[] = [];

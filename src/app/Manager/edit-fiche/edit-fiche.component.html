@@ -1,0 +1,28 @@
+<!-- poste-edit.component.html -->
+
+<div>
+    <h2>Modifier Poste</h2>
+    <form (ngSubmit)="onEditPoste()">
+      <div>
+        <label for="titre">Titre:</label>
+        <input type="text" id="titre" name="titre" [(ngModel)]="newCategory.titre">
+      </div>
+      <div>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" [(ngModel)]="newCategory.description"></textarea>
+      </div>
+      <div>
+        <label for="nombrePostesDisponibles">Nombre de Postes Disponibles:</label>
+        <input type="number" id="nombrePostesDisponibles" name="nombrePostesDisponibles" [(ngModel)]="newCategory.nombrePostesDisponibles">
+      </div>
+      <div>
+        <label for="nombrePostesDisponibles">Nombre de Postes Disponibles:</label>
+        <input type="text" id="competences" name="competences" [(ngModel)]="newCategory.competences">
+      </div>
+      <!-- Exemple de champ pour les compétences -->
+      <!-- Vous pouvez les traiter en fonction de votre logique -->
+    
+      <button type="submit">Modifier</button>
+    </form>
+  </div>
+  

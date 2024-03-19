@@ -11,8 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class UserByIdComponent implements OnInit {
   userId!: number;
-  userDetails: any; // Adjust the type based on your actual data structure
-
+  userDetails: any; 
   constructor(private route: ActivatedRoute, private userService: UserService ,private router: Router) { }
 
   ngOnInit(): void {

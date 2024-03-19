@@ -22,11 +22,14 @@ import Swal from 'sweetalert2';
  ]
 })
 export class GetallposteComponent implements OnInit {
+
   postes: Poste[] = [];
   postId!: number;
   poste: any; 
+
   constructor(private route: ActivatedRoute , private posteService: PosteService , private elRef: ElementRef) {}
-  showAllCompetences = false; // Property to track if all competencies should be displayed
+
+  showAllCompetences = false; 
   archive: boolean = false;
   encours: boolean = false;
   approuveParManagerRH: boolean = false;
@@ -34,13 +37,10 @@ export class GetallposteComponent implements OnInit {
   filteredEvents: any[] = [];
 
   applyFilter() {
-    // Copy the main list to avoid modifying it directly
     this.filteredEvents = [...this.postes];
-  
-    // Apply filter based on the selected option
     switch (this.filterOption) {
       case 'NonTraite':
-        this.filteredEvents = this.filteredEvents.filter((poste: { encours: boolean }) => !poste.encours);
+        this.filteredEvents = this.filteredEvents.filter((poste: { encours: boolean }) => poste.encours);
         break;
       case 'Archive':
         this.filteredEvents = this.filteredEvents.filter((poste: { archive: boolean }) => poste.archive);
@@ -49,17 +49,15 @@ export class GetallposteComponent implements OnInit {
         this.filteredEvents = this.filteredEvents.filter((poste: { approuveParManagerRH: boolean }) => poste.approuveParManagerRH);
         break;
       default:
-        // If "All" option is selected, reset the list
         break;
     }
   }
   
-  // Existing methods
   toggleCompetences() {
      this.showAllCompetences = !this.showAllCompetences;
   }
+  
   onAccept(id: any) : void {
-    // Logic for accepting the poste
     this.posteService.updateApproval(id).subscribe(
       response => {
         console.log('Poste approved successfully', response);
@@ -70,8 +68,9 @@ export class GetallposteComponent implements OnInit {
           confirmButtonText: 'OK'
         });   
         setTimeout(() => {
-          window.location.reload();  // Recharge la fenêtre après la suppression
-        }, 3000);      },
+          window.location.reload();  
+        }, 3000);  
+          },
       error => {
         console.error('Error approving poste', error);
         Swal.fire({
@@ -79,13 +78,14 @@ export class GetallposteComponent implements OnInit {
           text: 'Une erreur s\'est produite lors de l\'approbation du poste.',
           icon: 'error',
           confirmButtonText: 'OK'
-        });      }
-    );   }
-    filterOption: string = 'all'; // Option de filtre par défaut
+        });    
+        }
+    ); 
+    }
 
-  
+    filterOption: string = 'all'; 
+
     onRefuse(id: any) : void {
-      // Logic for accepting the poste
       this.posteService.updateRefus(id).subscribe(
         response => {
           console.log('Poste approved successfully', response);
@@ -106,10 +106,10 @@ export class GetallposteComponent implements OnInit {
             confirmButtonText: 'OK'
           });      }
       );   }
+
   ngOnInit(): void {
     this.filteredEvents = [...this.postes];
-this.applyFilter();
-
+    this.applyFilter();
     this.posteService.getAllPostes().subscribe(
       (data) => {
         this.postes = data;
@@ -126,7 +126,8 @@ this.applyFilter();
       this.postId = +params['id'];
       this.loadPosteDetails();
     });
-  }  selectedPoste: Poste | null = null; // Track the selected poste for details
+  }  
+  selectedPoste: Poste | null = null; // Track the selected poste for details
 
   isDetailsPanelOpen = false; // Variable to track the details panel state
 
@@ -141,10 +142,8 @@ this.applyFilter();
 
   toggleDetailsPanel(poste: Poste) {
     if (this.selectedPoste === poste) {
-      // If the same button is clicked again, close the panel
       this.closeDetailsPanel();
     } else {
-      // Show the details panel for the selected poste
       this.showDetails(poste);
     }
     this.updateTableResponsiveClass();
@@ -156,6 +155,7 @@ this.applyFilter();
       tableResponsive.classList.toggle('details-panel-open', this.isDetailsPanelOpen);
     }
   }
+
   handleImageError() {
     console.error('Error loading image:', 'assets/images/' + this.selectedPoste?.managerService.image);
   }
@@ -165,6 +165,7 @@ this.applyFilter();
     const setIndex = Math.floor(index / 10); // Calculate the set index based on competence index
     return colors[setIndex % colors.length]; // Use the set index to determine the color
   }
+
   private loadPosteDetails() {
     this.posteService.getPosteById(this.postId).subscribe(
       data => {
@@ -176,6 +177,7 @@ this.applyFilter();
       }
     );
   }
+
   onDelete(postId: number): void {
     Swal.fire({
       title: 'Êtes-vous sûr?',

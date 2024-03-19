@@ -1,0 +1,413 @@
+body{
+    margin-top:20px;
+    background:#eee;
+}
+.pill-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px; /* Réduction de l'espacement entre les pills */
+    padding: 16px 0; /* Espacement intérieur du conteneur */
+}
+
+.pill {
+    background-color: #007bff; /* Couleur de fond des pills */
+    color: #fff; /* Couleur du texte */
+    border-radius: 20px; /* Coins arrondis */
+    padding: 4px 8px; /* Réduction de l'espacement intérieur des pills */
+    font-size: 12px; /* Réduction de la taille de la police */
+    font-weight: 500; /* Poids de la police */
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.pill:hover {
+    background-color: #0056b3; /* Couleur de fond des pills au survol */
+}
+
+.pill-name {
+    margin-right: 4px; /* Réduction de l'espacement entre le nom de la compétence et l'évaluation */
+}
+
+.pill-evaluation {
+    padding: 2px 4px; /* Réduction de l'espacement intérieur de l'évaluation */
+    border-radius: 5px; /* Réduction des coins arrondis pour l'évaluation */
+    font-weight: 400; /* Poids de la police pour l'évaluation */
+    color: #fff; /* Couleur du texte pour l'évaluation */
+    transition: background-color 0.3s ease;
+}
+
+.evaluation-number {
+    display: inline-block;
+    width: 18px; /* Réduction de la largeur du cercle */
+    height: 18px; /* Réduction de la hauteur du cercle */
+    line-height: 18px; /* Réduction de l'alignement vertical du texte */
+    text-align: center; /* Centrage horizontal du texte */
+    border-radius: 50%; /* Création d'un cercle */
+    background-color: #fff; /* Couleur de fond du cercle */
+    color: #000; /* Couleur du texte */
+    margin-left: 2px; /* Réduction de l'espacement à gauche du cercle */
+}
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Ajoute une ombre pour un effet 3D */
+    transition: 0.3s; /* Transition pour les effets de survol */
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); /* Augmente l'ombre lors du survol */
+}
+
+.card-title {
+    color: #892222; /* Couleur du titre */
+    font-weight: bold; /* Rend le titre en gras */
+}
+
+.custom-list {
+    list-style-type: none; /* Supprime les puces de la liste */
+    padding-left: 0; /* Supprime l'espacement à gauche de la liste */
+    margin-bottom: 0; /* Supprime l'espacement en bas de la liste */
+}
+
+.custom-list li {
+    margin-bottom: 10px; /* Espacement entre les éléments de la liste */
+    padding: 10px 0; /* Espacement vertical autour de chaque élément de la liste */
+    border-bottom: 1px solid #ddd; /* Ajoute une bordure en bas de chaque élément de la liste */
+}
+
+.custom-list li:last-child {
+    border-bottom: none; /* Supprime la bordure du dernier élément de la liste */
+}
+.competences-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pill-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Ajustez l'espacement entre les compétences selon vos besoins */
+}
+
+.add-competence-btn {
+    margin-left: auto; /* Pousse le bouton vers la droite */
+}
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 80%;
+    max-width: 500px;
+}
+
+.popup h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.search-container {
+    margin-top: 20px;
+}
+
+.rating-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.rating {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.rating:hover {
+    background-color: #f0f0f0;
+}
+
+.rating.selected {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.close-btn:hover {
+    color: #000;
+}
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.btn-shadow {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+.rating-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.rating {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    background-color: #ddd;
+}
+
+.rating.selected {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.rating {
+    width: 20px;
+    height: 20px;
+    background-color: #ddd;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.rating:hover {
+    background-color: #bbb;
+}
+
+.rating.selected {
+    background-color: #007bff;
+    color: white;
+}
+
+
+
+.custom-list li strong {
+    color: #333; /* Couleur du texte en gras */
+    font-weight: bold; /* Rend le texte en gras */
+}
+
+
+
+.pdf-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    margin: 0 auto;
+    height: auto;
+    width: 100%; /* Ajoutez cette ligne */
+}
+
+.pdf-wrapper {
+    width: 100%; /* Ajoutez cette ligne */
+    position: relative;
+    padding-bottom: 75%;
+    padding-bottom: 47%; /* Réduisez cette valeur pour réduire la hauteur du conteneur PDF */
+}
+
+.pdf-wrapper iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+  
+
+.db-social .jumbotron {
+    margin: 0;
+    background: url(https://static.latribune.fr/1481845/defaillance-d-entreprise.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: bottom center;
+    color: #fff!important;
+    height: 300px;
+    position: relative;
+    box-shadow: inset 0 0 20px rgba(0,0,0,.3);
+    padding: 0;
+}
+
+.container-fluid {
+    padding: 30px 30px;
+}
+
+.db-social .head-profile {
+    margin-top: -120px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.widget {
+    background: #fff;
+    border-radius: 0;
+    border: none;
+    margin-bottom: 30px;
+}
+.has-shadow {
+    box-shadow: 0 1px 15px 1px rgba(52,40,104,.08);
+}
+.db-social .head-profile:before {
+    content: "";
+    background: rgba(255,255,255,.6);
+    height: 20px;
+    width: 90%;
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    border-radius: 4px 4px 0 0;
+}
+.db-social .head-profile:after {
+    content: "";
+    background: rgba(255,255,255,.3);
+    height: 20px;
+    width: 80%;
+    position: absolute;
+    top: -40px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    border-radius: 4px 4px 0 0;
+}
+.db-social .widget-body {
+    padding: 1rem 1.4rem;
+}
+.widget-body {
+    padding: 1.4rem;
+}
+.pb-0, .py-0 {
+    padding-bottom: 0!important;
+}
+.db-social .image-default img {
+    width: 120px;
+    position: absolute;
+    top: -80px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    box-shadow: 0 0 0 6px rgba(255,255,255,1);
+    z-index: 10;
+}
+.db-social .infos {
+    text-align: center;
+    margin-top: 4rem;
+    margin-bottom: 1rem;
+    line-height: 1.8rem;
+}
+.db-social h2 {
+    color: #2c304d;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: .2rem;
+}
+.db-social .location {
+    color: #aea9c3;
+    font-size: 1rem;
+}
+.db-social .follow .btn {
+    padding: 10px 30px;
+}
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+.btn-shadow, .btn-shadow a {
+    color: #5d5386;
+    background-color: #fff;
+    border-color: #fff;
+    box-shadow: 0 1px 15px 1px rgba(52,40,104,.15);
+}
+.db-social .head-profile .actions {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: .5rem;
+}
+.actions {
+    z-index: 999;
+    display: block;
+}
+.actions.dark .dropdown-toggle {
+    color: #2c304d;
+}
+.actions .dropdown-toggle {
+    color: #98a8b4;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 1.7rem;
+}
+.actions .dropdown-menu {
+    border: none;
+    min-width: auto;
+    font-size: 1rem;
+    border-radius: 4px;
+    padding: 1.4rem 1.8rem;
+    text-align: left;
+    box-shadow: 1px 1px 30px rgba(0,0,0,.15);
+}
+
+.actions .dropdown-menu .dropdown-item {
+    padding: .5rem 0;
+}
+.actions .dropdown-menu a {
+    color: #2c304d;
+    font-weight: 500;
+}
+
+.db-social .head-profile li:first-child {
+    padding-left: 0;
+}
+.db-social .head-profile li {
+    display: inline-block;
+    text-align: center;
+    padding: 0 1rem;
+}
+.db-social .head-profile li .counter {
+    color: #2c304d;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+.db-social .head-profile li .heading {
+    color: #aea9c3;
+    font-size: 1rem;
+}

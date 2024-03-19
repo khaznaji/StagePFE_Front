@@ -7,7 +7,7 @@ import { MenuloginComponent } from './User/menulogin/menulogin.component';
 import { RequestPasswordComponent } from './User/request-password/request-password.component';
 import { ResetPasswordComponent } from './User/reset-password/reset-password.component';
 import { ActivationCompteComponent } from './User/activation-compte/activation-compte.component';
-import { EditProfileComponent } from './User/edit-profile/edit-profile.component';
+import { EditProfileComponent } from './Collaborateur/edit-profile/edit-profile.component';
 import { ProfileComponent } from './User/profile/profile.component';
 import { AcceuilComponent } from './Collaborateur/acceuil/acceuil.component';
 import { AdminMenuComponent } from './menu/admin-menu/admin-menu.component';
@@ -25,16 +25,18 @@ import { GetallposteComponent } from './Admin/Poste/getallposte/getallposte.comp
 import { GetAllPosteCollabComponent } from './Collaborateur/poste/get-all-poste-collab/get-all-poste-collab.component';
 import { MespostulationsComponent } from './Collaborateur/poste/mespostulations/mespostulations.component';
 import { DisplayMesPostesComponent } from './Manager/display-mes-postes/display-mes-postes.component';
+import { EditFicheComponent } from './Manager/edit-fiche/edit-fiche.component';
+import { GestionProfileComponent } from './Collaborateur/gestion-profile/gestion-profile.component';
 
 const routes: Routes = [
+  
   {path:"",component:MenuloginComponent,
   children:[
     { path: 'signup', component:SignupComponent  },
-    { path: 'signin', component:SigninComponent  }    , 
-    { path: 'request-password', component:RequestPasswordComponent  }    , 
+    { path: 'signin', component:SigninComponent  }, 
+    { path: 'request-password', component:RequestPasswordComponent  }, 
     { path: 'reset-password', component: ResetPasswordComponent },
     { path: 'activate-account', component: ActivationCompteComponent },
-
   ]}
  ,
  {  path: 'managerRh', component: AdminMenuComponent ,children: [
@@ -48,23 +50,25 @@ const routes: Routes = [
   {path:'user-detail/:id', component:UserByIdComponent},
   {path:'dashboard', component:DashboardAdminComponent},
   {path:'all-poste', component:GetallposteComponent},
-
-
 ]},
 
 {  path: 'collaborateur', component: CollabMenuComponent ,children: [
   {path:'all-poste', component:GetAllPosteCollabComponent},
-  {path:'profile', component:ProfileComponent},
+  {path:'compte', component:ProfileComponent},
   {path:'mes-postulations', component:MespostulationsComponent},
+  {path:'profile', component:GestionProfileComponent},
+  {path:'edit-profile', component:EditProfileComponent},
 
- 
+
 ]}, 
+
+
 {  path: 'managerService', component: ManagerMenuComponent ,children: [
   {path:'add-fiche-de-poste', component:AddFicheDePosteComponent},
   {path:'profile', component:ProfileComponent},
-  {path:'mes-postes', component:DisplayMesPostesComponent},
+  {path:'mes-postes', component:DisplayMesPostesComponent}, 
+  {path:'edit-postes/:postId', component:EditFicheComponent}, 
 
- 
 ]}
 
 ]

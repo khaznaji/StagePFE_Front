@@ -116,22 +116,23 @@
 
     
 </style>
-
+ 
 <div *ngIf="approvedPostes && approvedPostes.length > 0">
     <h4>Mes Fiches de postes</h4>
     <div class="d-flex justify-content-end ">
         <button type="button"  class="btn btn-inverse-primary"  (click)="ToList()">+ Fiche de poste</button>
-      </div>    
+      </div>  
+      
+       
     <div class="card" *ngFor="let poste of approvedPostes ; let i = index" >
         <div class="card-controls">
             <div class="action-buttons" style="display: flex; align-items: center;">
-                <div class="dropdown">
-                   
+                <div class="dropdown" *ngIf="poste.encours">
                     <div class="btn-group">
                         <button type="button" class="btn btn-outline-info dropdown-toggle" data-bs-toggle="dropdown">Actions</button>
                         <div class="dropdown-menu">
-                          <a class="dropdown-item">Mettre A jour</a>
-                          <a class="dropdown-item">Supprimer</a>
+                          <a class="dropdown-item" >Mettre A jour</a>
+                          <a class="dropdown-item" (click)="onDelete(poste.id)">Supprimer</a>
                         </div>                          
                       </div>
                 </div>
@@ -160,5 +161,6 @@
     </div>
 </div>
 <div *ngIf="approvedPostes && approvedPostes.length === 0">
+    
     <p>Aucune fiche de poste trouvée.</p>
 </div>
