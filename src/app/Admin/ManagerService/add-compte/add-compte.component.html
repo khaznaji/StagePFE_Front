@@ -40,13 +40,9 @@
     <h4 class="card-title"> Manager Service</h4>
     <hr>
     <form [formGroup]="managerServiceForm" (ngSubmit)="onSubmit()">
-    
-      
-      
-      <div *ngIf="currentStep === 1">
+
+      <div>
         <div class="d-flex justify-content-end">
-          <a  class="btn btn-link" (click)="nextStep()">
-            <p> <i class="mdi mdi-arrow-right"> </i>   </p>  </a>  
         </div>
         <p class="card-description">
           Ajout Compte Manager Service  </p>
@@ -137,16 +133,12 @@
           </div>           
         </div>
       </div>
-      <!-- Reste du formulaire -->
-      <!-- ... (ajoutez le reste de votre formulaire ici) ... -->
-      
-      <!-- Boutons de soumission -->
+
     </div>
  
-<div *ngIf="currentStep === 2">
+<div >
   <div class="d-flex justify-content-start">
-    <a  class="btn btn-link" (click)="Step()">
-      <p> <i class="mdi mdi-arrow-left"> </i>   </p>   </a> 
+
   </div>
           <p class="card-description">
 
@@ -203,37 +195,9 @@
           <br>
           <br>
            <!-- Second Column -->
-           <div class="col-md-6">
-            <div class="form-group">
-              <label for="domain">Domaine de competence:</label>
-              <select id="domain" class="form-control" formControlName="domain">
-                <option value="" disabled selected>-- Sélectionnez un domaine de competence--</option>
-                <option *ngFor="let domain of domains" [value]="domain">{{ domain }}</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <div class="btn-group" dropdown>
-                <a id="multiselectBtn" type="button" class="btn btn-link dropdown-toggle" dropdownToggle>
-                  Sélectionnez des compétences
-                </a>
-                <div *dropdownMenu aria-labelledby="multiselectBtn">
-                  <a type="button" class="dropdown-item" *ngFor="let competence of allCompetences" (click)="toggleCompetenceSelection(competence)">
-                    {{ competence.nom }}
-                    <span *ngIf="isCompetenceSelected(competence)" class="float-right">✔</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- First Column -->
-          
         
-         
         </div>
+       
         
         <div class="d-flex justify-content-end">
          

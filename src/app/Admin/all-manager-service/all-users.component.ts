@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { UserService } from 'src/app/service/user.service';
+import { AddCompteComponent } from '../ManagerService/add-compte/add-compte.component';
 
 @Component({
   selector: 'app-all-users',
@@ -98,7 +100,7 @@ itemsPerPage: number = 10; // Number of items per page
   events:any;
   data: any = [];
   username!:string;
-  constructor(private userService: UserService  ,private router: Router,private http: HttpClient){ }
+  constructor(private userService: UserService  ,private router: Router,private http: HttpClient ,private modalService: BsModalService ){ }
   getUserByid(id: any) {
     this.userService.getUserById(id).subscribe((res) => {
       this.data = res;
@@ -120,6 +122,11 @@ itemsPerPage: number = 10; // Number of items per page
     this.router.navigate(['managerRh/add-manager-service']);
 
   }
+  modalRef!: BsModalRef;
+
+openModal() {
+  this.modalRef = this.modalService.show(AddCompteComponent);
+}
   
 
 }
