@@ -9,6 +9,11 @@ import { Chart, RadialLinearScale, registerables } from 'chart.js';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Router } from '@angular/router';
+import { Evaluation } from 'src/app/model/evaluation.model';
+import { EvaluationService } from 'src/app/service/evaluation.service';
+import { EvaluationPopUpComponent } from './evaluation-pop-up/evaluation-pop-up.component';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { BioPopUpComponent } from './bio-pop-up/bio-pop-up.component';
 
   @Component({
     selector: 'app-gestion-profile',
@@ -16,6 +21,9 @@ import { Router } from '@angular/router';
     styleUrls: ['./gestion-profile.component.css']
   })
   export class GestionProfileComponent implements OnInit , AfterViewInit {
+    //test 
+    evaluationet!: Evaluation[];
+
     collaborateurInfo: any;
     @ViewChild('radarChart') radarChart!: ElementRef;
     showPopup = false;
@@ -23,7 +31,7 @@ import { Router } from '@angular/router';
     closePopup(): void {
        this.showPopup = false;
     }
-    constructor(private collaborateurService: CollaborateurService,private competenceService: CompetenceService,  private sanitizer: DomSanitizer , private router: Router)
+    constructor(private evaluationService: EvaluationService ,private collaborateurService: CollaborateurService, private modalService: BsModalService ,private competenceService: CompetenceService,  private sanitizer: DomSanitizer , private router: Router)
      {     Chart.register(...registerables);
 
      }
@@ -41,121 +49,9 @@ import { Router } from '@angular/router';
           console.error('Error fetching competences', error);
         }
       ); 
+      this.getEvaluations(); 
     }
-    showRatingContainer =false ; 
-    showCompetencesList= true;
-    selectExistingCompetence(competenceName: string): void {
-      // Trouver la compétence dans la liste des compétences
-      const competence = this.collaborateurInfo.evaluations.find((evaluation: { competenceName: string; }) => evaluation.competenceName === competenceName);
-      if (competence) {
-         // Sélectionner la compétence
-         this.isCompetenceSelected = true;
-         this.selectedCompetence = competence;
-         // Afficher le conteneur de notation
-         this.showRatingContainer = true;
-      }
-     }
-     
-     
-     
-     
-    searchText = '';
-    filteredCompetencies = [];
-    competencies = [];
-    searchErrorMessage: string = '';
-    onSearchTextChange(event: any): void {
-      this.searchText = event.target.value;
-      this.searchErrorMessage = ''; // Réinitialiser le message d'erreur
-      this.filterCompetencies();
-   }
-    filterCompetencies(): void {
-      if (this.searchText.length >= 3) {
-         // Filtrer les compétences en excluant celles déjà évaluées par le collaborateur
-         this.competences = this.project.competences.filter(competency =>
-           competency.nom.toLowerCase().includes(this.searchText.toLowerCase()) &&
-           !this.collaborateurInfo.evaluations.some((evaluation: { competenceName: string; }) => evaluation.competenceName.toLowerCase() === competency.nom.toLowerCase())
-         );
-         if (this.competences.length === 0) {
-          this.searchErrorMessage = 'Pas de compétence trouvée. Veuillez entrer des termes de recherche différents.';
-        }
-      } else {
-         // Si la recherche est trop courte, réinitialiser la liste des compétences filtrées
-         this.competences = [];
-         this.searchErrorMessage = 'La recherche doit contenir au moins 3 caractères.';
-
-      }
-     }
-     
-     
-     isCompetenceSelected = false;
-     selectedCompetence: Competence | null = null;
-     evaluations: { [key: number]: number } = {}; // Modifiez cette ligne pour utiliser un objet
-     selectedCompetencies: any[] = []; // Tableau pour stocker les compétences sélectionnées
-
-     selectCompetency(competence: Competence): void {
-      this.selectedCompetencies.push(competence); // Ajoute la compétence sélectionnée au tableau
-
-         this.isCompetenceSelected = true;
-         this.selectedCompetence = competence;
-         // Logique pour sélectionner une compétence
-         console.log('Compétence sélectionnée:', competence.nom);
-         // Initialiser la note de la compétence sélectionnée à 1 si elle n'a pas encore de note
-         if (!this.evaluations[competence.id]) {
-             this.evaluations[competence.id] = 1;
-         }
-         // Fermez le pop-up ou effectuez d'autres actions
-     }
- 
-     addAnotherCompetence(): void {
-         this.isCompetenceSelected = false;
-         this.selectedCompetence = null;
-         // Réinitialiser le champ de recherche et afficher à nouveau le pop-up
-         this.showPopup = true;
-     }
-     updateProfile() {
-    const formData = new FormData();
-    
-      this.competences.forEach(competence => {
-        // Ajoutez l'ID de la compétence
-        formData.append('competences', competence.id.toString());
-        // Ajoutez l'évaluation associée
-        formData.append('evaluations', this.evaluations[competence.id].toString());
-      });
-    // Itérez sur les compétences sélectionnées
-    
-   
-      // Appelez le service pour mettre à jour le profil
-      this.collaborateurService.updateCompetence(formData)
-        .subscribe(
-          response => {
-            console.log('Profile updated successfully:', response);
-            // Mettez à jour les compétences dans votre modèle Angular si elles sont renvoyées par le backend
-            if (response && response.competences) {
-              // Réinitialisez les compétences locales avec les compétences mises à jour depuis le backend
-              this.competences = response.competences;
-            }
-            // Mettez à jour les évaluations dans votre modèle Angular si elles sont renvoyées par le backend
-            if (response && response.evaluations) {
-              // Réinitialisez les évaluations locales avec les évaluations mises à jour depuis le backend
-              this.evaluations = response.evaluations;
-            }
-            console.log('comp', this.competences);
-  
-          },
-          error => {
-            console.error('Failed to update profile:', error);
-            // Ajoutez ici la logique pour gérer les erreurs
-          }
-        );
-    }
-   
-    selectRating(competenceId: number, rate: number): void {
-        this.evaluations[competenceId] = rate;
-        // Logique supplémentaire pour traiter la note sélectionnée
-    }
-     
- 
-    ngAfterViewInit(): void {
+ ngAfterViewInit(): void {
        if (this.collaborateurInfo) {
          this.createRadarChart();
        }
@@ -197,7 +93,6 @@ import { Router } from '@angular/router';
     document.body.removeChild(link);
   }
  
-  
   getSafeUrl(path: string): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl('assets/' + path);
   }
@@ -286,5 +181,50 @@ import { Router } from '@angular/router';
     }
 }
 
-   
-   }
+
+
+
+
+
+// test 
+getEvaluations(): void {
+  this.evaluationService.getEvaluation()
+    .subscribe(evaluations => this.evaluationet = evaluations);
+}
+modalRef!: BsModalRef;
+
+openModal() {
+  this.modalRef = this.modalService.show(EvaluationPopUpComponent);
+}
+openModalBio() {
+  this.modalRef = this.modalService.show(BioPopUpComponent);
+}
+onFileSelected(event: any) {
+  this.resume = event.target.files[0] as File;
+}
+updateProfile() {
+  // Assurez-vous que les évaluations sont correctement associées aux compétences sélectionnées
+
+
+  // Créez un FormData et ajoutez les données pertinentes
+  const formData = new FormData();
+  if (this.resume) {
+    formData.append('resume', this.resume);
+  }
+  // Appelez le service pour mettre à jour le profil
+  this.collaborateurService.updateCollaborateurResume(formData)
+    .subscribe(
+      response => {
+        console.log('Profile updated successfully:', response);
+        // Mettez à jour les compétences dans votre modèle Angular si elles sont renvoyées par le backend
+     
+
+      },
+      error => {
+        console.error('Failed to update profile:', error);
+        // Ajoutez ici la logique pour gérer les erreurs
+      }
+    );
+}
+
+}

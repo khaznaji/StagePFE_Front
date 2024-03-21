@@ -1,0 +1,53 @@
+/* Style pour le fond semi-transparent */
+.overlay {
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background-color: rgba(0, 0, 0, 0.5);
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ z-index: 1000;
+}
+
+/* Style pour le pop-up */
+.popup {
+ background-color: #fff;
+ padding: 20px;
+ border-radius: 10px;
+ width: 400px;
+ max-width: 90%;
+ box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour le titre */
+.popup h2 {
+ margin-bottom: 20px;
+}
+
+/* Style pour le champ de texte */
+textarea {
+ width: 100%;
+ height: 200px; /* Augmentez la hauteur du textarea */
+ padding: 10px;
+ border: 1px solid #ccc;
+ border-radius: 5px;
+ resize: none;
+}
+
+/* Style pour le bouton */
+button {
+ background-color: #007bff;
+ color: white;
+ border: none;
+ padding: 10px 20px;
+ margin-top: 10px;
+ border-radius: 5px;
+ cursor: pointer;
+ transition: background-color 0.3s ease;
+}
+
+button:hover {
+ background-color: #0056b3;
+}

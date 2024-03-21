@@ -38,17 +38,13 @@
             <div class="col-xl-7">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">
-                            Biographie
-                            <a href="#" onclick="document.getElementById('bioForm').style.display='block'; document.getElementById('bioText').style.display='none'; return false;">
-                                <i class="mdi mdi-grease-pencil"></i>
-                            </a>
-                        </h5>
-                        <p class="card-text" id="bioText">{{ collaborateurInfo.bio }}</p>
-                        <form id="bioForm" style="display: none;">
-                            <textarea name="bio" rows="4" cols="50">{{ collaborateurInfo.bio }}</textarea>
-                            <input type="submit" value="Mettre à jour">
-                        </form>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title">Biographie</h5>           
+                                          <button class="btn btn-primary add-competence-btn" (click)="openModalBio()">Gerer Ma Bio</button>
+                    </div>
+                         
+                    <p class="card-text" id="bioText">{{ collaborateurInfo.bio && collaborateurInfo.bio.length > 0 ? collaborateurInfo.bio : 'Laissez-vous connaître !' }}</p>
+                       
                     </div>
                 </div>
             </div>
@@ -71,53 +67,7 @@
             </div>
         </div>
         <br>
-        <div *ngIf="showPopup" class="popup">
-            <button class="close-btn" (click)="closePopup()">&times;</button>
-
-            <h2 class="card-title">Ajouter une compétence</h2>
-
-            <div class="search-container">
-                <input type="text" class="form-control" [(ngModel)]="searchText" (input)="onSearchTextChange($event)" placeholder="Entrez 3 lettres afin de trouver votre compétence" *ngIf="!isCompetenceSelected">
-                <br> 
-                <div *ngIf="searchErrorMessage" class="alert alert-warning">
-                    {{ searchErrorMessage }}
-                </div>
-                
-                <!-- Liste des compétences sélectionnées -->
-                <ul *ngIf="selectedCompetencies.length > 0">
-                    <li *ngFor="let competence of selectedCompetencies">
-                        {{ competence.nom }}
-                        <span *ngIf="evaluations[competence.id]">
-                            ({{ evaluations[competence.id] }})
-                        </span>
-                        <span *ngIf="isCompetenceSelected && selectedCompetence === competence">
-                            <div class="rating-container">
-                                <div *ngFor="let rate of [1, 2, 3, 4, 5, 6, 7, 8, 9]" class="rating" (click)="selectRating(competence.id, rate)" [ngClass]="{'selected': evaluations[competence.id] === rate}">
-                                    {{ rate }}
-                                </div>
-                            </div>
-                        </span>
-                    </li>
-                </ul>
-                
-                <!-- Liste des compétences disponibles pour la recherche -->
-                <ul *ngIf="competences.length > 0 && !isCompetenceSelected">
-                    <li *ngFor="let competence of competences" (click)="selectCompetency(competence)">
-                        {{ competence.nom }}
-                        <span *ngIf="evaluations[competence.id]">
-                            ({{ evaluations[competence.id] }})
-                        </span>
-                    </li>
-                </ul>
-                
-                <button class="btn btn-link" *ngIf="isCompetenceSelected" (click)="addAnotherCompetence()">Ajouter une autre compétence</button>
-            </div>
-            
-            <button class="btn btn-link" *ngIf="!isCompetenceSelected" (click)="updateProfile()">Ajouter</button>
-
-               
-
-        </div>
+        
         
         
                
@@ -130,11 +80,11 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="card-title">Compétences</h5>           
-                                          <button class="btn btn-primary add-competence-btn" (click)="showPopup = true">Ajouter une compétence</button>
+                                          <button class="btn btn-primary add-competence-btn" (click)="openModal()">Gerer mes competences</button>
                     </div>
                         <div class="competences-container">
                             <div class="pill-container">
-                                <div class="pill" *ngFor="let evaluation of collaborateurInfo.evaluations" [ngStyle]="{'background-color': getEvaluationColor(evaluation.evaluation)}">
+                                <div class="pill" *ngFor="let evaluation of evaluationet" [ngStyle]="{'background-color': getEvaluationColor(evaluation.evaluation)}">
                                     <span class="pill-content">
                                         {{ evaluation.competenceName }} 
                                         <span class="evaluation-number">{{ evaluation.evaluation }}</span>
@@ -145,7 +95,7 @@
                     </div>
                 </div>
             </div>
-            
+          
             <!-- Radar Chart -->
             <div class="col-xl-5">
                 <div class="card">
@@ -155,6 +105,7 @@
                     </div>
                 </div>
             </div>
+           
         </div>
         <br>
         <div>
@@ -165,18 +116,27 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="card-title">Curriculum Vitae</h5>
                             <div class="pdf-actions">
-                                <a class="mdi mdi-fullscreen" (click)="openPdfFullScreen()"></a>
-                                <a (click)="downloadResume()" class="mdi mdi-download"></a>
+                                <a  *ngIf="collaborateurInfo.resume"class="mdi mdi-fullscreen" (click)="openPdfFullScreen()"></a>
+                                <a *ngIf="collaborateurInfo.resume" (click)="downloadResume()" class="mdi mdi-download"></a>
                             </div>
                         </div>
                         <div class="pdf-container">
-                            <div class="pdf-wrapper">
+                            <div class="pdf-wrapper" *ngIf="collaborateurInfo.resume">
                                 <iframe [src]="getSafeUrl(collaborateurInfo.resume)" frameborder="0"></iframe>
                             </div>
+                            <!-- Conteneur pour le glisser-déposer -->
+                            <div class="dropzone" *ngIf="!collaborateurInfo.resume">
+                                
+                                <input type="file" (change)="onFileSelected($event)">
+                                <button (click)="updateProfile()">Sauvegarder</button>
+                                   
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>

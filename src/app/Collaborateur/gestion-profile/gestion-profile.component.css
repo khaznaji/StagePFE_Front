@@ -171,6 +171,19 @@ body{
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.dropzone {
+    border: 2px dashed #0087F7;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+   }
+   
+   .dropzone p {
+    margin: 0;
+    color: #0087F7;
+   }
+   
 
 
 

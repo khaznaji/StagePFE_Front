@@ -46,6 +46,8 @@ import { DisplayMesPostesComponent } from './Manager/display-mes-postes/display-
 import { EditFicheComponent } from './Manager/edit-fiche/edit-fiche.component';
 import { GestionProfileComponent } from './Collaborateur/gestion-profile/gestion-profile.component';
 import { EditProfileComponent } from './Collaborateur/edit-profile/edit-profile.component';
+import { EvaluationPopUpComponent } from './Collaborateur/gestion-profile/evaluation-pop-up/evaluation-pop-up.component';
+import { BioPopUpComponent } from './Collaborateur/gestion-profile/bio-pop-up/bio-pop-up.component';
 
 
 @NgModule({
@@ -58,7 +60,9 @@ import { EditProfileComponent } from './Collaborateur/edit-profile/edit-profile.
     AddCompteCollabComponent, GestionCompetenceComponent, AllcollabComponent, UserByIdComponent, 
     DashboardAdminComponent, AddFicheDePosteComponent, GetallposteComponent, GetAllPosteCollabComponent,
     MespostulationsComponent, DisplayMesPostesComponent, EditFicheComponent, GestionProfileComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    EvaluationPopUpComponent,
+    BioPopUpComponent
 
   ],
   imports: [
