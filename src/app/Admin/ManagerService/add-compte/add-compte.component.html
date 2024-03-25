@@ -41,9 +41,11 @@
     <hr>
     <form [formGroup]="managerServiceForm" (ngSubmit)="onSubmit()">
 
-      <div>
+      <div *ngIf="currentStep === 1">
         <div class="d-flex justify-content-end">
-        </div>
+          <a  class="btn btn-link" (click)="nextStep()">
+            <p> <i class="mdi mdi-arrow-right"> </i>   </p>  </a>  
+          </div>
         <p class="card-description">
           Ajout Compte Manager Service  </p>
          
@@ -137,8 +139,11 @@
     </div>
  
 <div >
+<div *ngIf="currentStep === 2">
   <div class="d-flex justify-content-start">
-
+    <a  class="btn btn-link" (click)="Step()">
+      <p> <i class="mdi mdi-arrow-left"> </i>   </p>   </a> 
+  </div>
   </div>
           <p class="card-description">
 

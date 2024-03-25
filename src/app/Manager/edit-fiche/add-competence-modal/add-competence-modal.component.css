@@ -1,0 +1,140 @@
+.popup {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    max-width: 90%;
+    margin: 50px auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif; /* Ajoutez une police de caractères */
+   }
+   
+   .popup h2, .popup h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333; /* Changez la couleur du texte */
+   }
+   
+   .popup ul {
+    list-style: none;
+    padding: 0;
+   }
+   
+   .popup li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee; /* Ajoutez une bordure pour séparer les éléments */
+    padding-bottom: 10px; /* Ajoutez un peu de padding pour améliorer l'espacement */
+   }
+   .rating.selected {
+    background-color: #007bff; /* Couleur de fond pour les éléments sélectionnés */
+    color: white; /* Couleur du texte pour les éléments sélectionnés */
+}
+
+   
+   .popup button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s ease; /* Ajoutez une transition pour un effet de survol */
+   }
+   
+   .popup button:hover {
+    background-color: #0056b3;
+   }
+   
+   .popup form {
+    margin-top: 20px;
+   }
+   
+   .popup label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold; /* Rendez le texte des labels plus important */
+   }
+   
+   .popup input[type="text"], .popup input[type="number"] {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+   }
+   
+  
+.rating-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.rating {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    background-color: #ddd;
+}
+
+.rating.selected {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.rating {
+    width: 20px;
+    height: 20px;
+    background-color: #ddd;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.rating:hover {
+    background-color: #bbb;
+}
+
+.rating.selected {
+    background-color: #007bff;
+    color: white;
+}
+.add-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Ajoute un espace en haut pour séparer le bouton des autres éléments */
+}
+
+.add-button {
+    background-color: #007bff; /* Couleur de fond du bouton */
+    color: #fff; /* Couleur du texte du bouton */
+    border: none; /* Supprime la bordure par défaut */
+    border-radius: 5px; /* Arrondit les coins du bouton */
+    padding: 10px 20px; /* Ajoute du padding pour une meilleure apparence */
+    font-size: 16px; /* Taille du texte du bouton */
+    cursor: pointer; /* Change le curseur en main lorsqu'on passe dessus */
+    transition: background-color 0.3s ease; /* Ajoute une transition pour un effet de survol */
+}
+
+.add-button:hover {
+    background-color: #0056b3; /* Change la couleur de fond lorsqu'on passe la souris dessus */
+}
+.left-panel {
+    flex: 1;
+    padding-right: 20px;
+  }
+  
+  .right-panel {
+    flex: 1;
+  }

@@ -25,9 +25,8 @@ export class AddFicheDePosteComponent  implements OnInit{
   allCompetences: Competence[] = [];
   selectedCompetences: Competence[] = [];
   allManagerService: User[] = [];
-  domains: string[] = ["Finance_et_comptabilité", "Informatique_et_Technologie", "Ressources_humaines"];
-
-  competences: number[] = [];
+ 
+  competences: Competence[] = [];
 
   ngOnInit() {
     this.selectedCompetences = [];
@@ -44,7 +43,7 @@ export class AddFicheDePosteComponent  implements OnInit{
     });
     this.competenceService.getAll().subscribe(
       (competences) => {
-        this.allCompetences = competences;
+        this.competences = competences; // Ajoutez cette ligne pour affecter les compétences récupérées à this.competences
         console.log(this.allCompetences)
       },
       (error) => {
@@ -60,22 +59,7 @@ this.managerServiceForm.get('domain')?.valueChanges.subscribe((selectedDomain) =
     error => console.error('Error fetching competences:', error)
   );
 });
-this.managerServiceForm.get('domain')?.valueChanges.subscribe((selectedDomain) => {
-  // Sauvegarder les compétences sélectionnées actuelles
-  const currentSelectedCompetences = this.managerServiceForm.get('competences')?.value;
 
-  // Mettre à jour la liste des compétences disponibles
-  this.competenceService.getCompetencesByDomain(selectedDomain).subscribe(
-    competences => {
-      this.allCompetences = competences;
-      // Restaurer les compétences sélectionnées précédemment
-      this.managerServiceForm.get('competences')?.setValue(
-        currentSelectedCompetences.filter((compId: number) => this.competences.includes(compId))
-        );
-    },
-    error => console.error('Error fetching competences:', error)
-  );
-});
   }
   toggleCompetenceSelection(competence: Competence): void {
     const index = this.selectedCompetences.findIndex(c => c.id === competence.id);
@@ -129,17 +113,50 @@ cancel() {
 
   }
 
-
+  currentStep = 1; // Use a generic type or 'any' if the type is dynamic
+  nextStep() {
+    this.currentStep++;
+  }
+  Step() {
+    this.currentStep--;
+  }
 
 project: Collaborateur = new Collaborateur();
 projects: User = new User();
 image: File | null = null;
+searchTerm: string = '';
+searchResults: Competence[] = [];
 
+cancelSelection(competence: Competence): void {
+  // Supprimer la compétence de la liste des compétences sélectionnées
+  this.selectedCompetences = this.selectedCompetences.filter(comp => comp.id !== competence.id);
+}
+selectCompetence(competence: Competence): void {
+  // Vérifier si la compétence est déjà sélectionnée
+  const alreadySelected = this.selectedCompetences.find(comp => comp.id === competence.id);
+   
+  if (!alreadySelected) {
+     // Ajouter la compétence à la liste des compétences sélectionnées
+     this.selectedCompetences.push(competence);
+  }
+ 
+  // Réinitialiser la barre de recherche et les résultats de recherche
+  this.searchTerm = '';
+  this.searchResults = [];
+ }
+ searchCompetences(): void {
+  if (this.searchTerm.length >= 3) {
+    // Effectuez une recherche dans la liste des compétences pour trouver les correspondances
+    this.searchResults = this.competences.filter(competence =>
+      competence.nom.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  } else {
+    this.searchResults = [];
+  }
+}
 onSubmit() {
   if (this.managerServiceForm.valid) {
     const formData = new FormData();
-
-    // Ajoutez les compétences en tant qu'ID séparés par des virgules
     formData.append('competences', this.selectedCompetences.map(comp => comp.id).join(','));
     formData.append('titre', this.managerServiceForm.get('titre')?.value);
     formData.append('description', this.managerServiceForm.get('description')?.value);

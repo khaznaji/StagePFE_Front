@@ -1,0 +1,55 @@
+<div class="popup">
+
+
+   <div >
+     <h3>Ajouter une competence</h3>
+     <form>
+       <div *ngIf="showSearchBar">
+         <label>Rechercher une compétence:</label>
+         <input type="text" [(ngModel)]="searchTerm" (input)="searchCompetences()" name="searchTerm">
+         <!-- Affichage des résultats de la recherche -->
+         <ul *ngIf="searchResults.length > 0">
+           
+             <li *ngFor="let competence of searchResults" (click)="selectCompetence(competence)">
+                 {{ competence.nom }}
+                
+             </li>
+
+         </ul>
+         <!-- Message si aucune compétence n'est trouvée -->
+         <p *ngIf="searchResults.length === 0 && searchTerm.length >= 3 && !isAlreadyAssociated">Aucune compétence trouvée.</p>
+         <p *ngIf="isAlreadyAssociated">La compétence que vous cherchez est déjà associée.</p>
+
+     </div>
+     
+
+        <!-- Affichage de la compétence sélectionnée -->
+        <div *ngIf="selectedCompetence">
+          <p>Compétence sélectionnée: {{ selectedCompetence.nom }}</p>
+        </div>
+       <button (click)="updatePoste()"> Enregistrer </button>
+     </form>
+    </div>
+    
+    <div *ngIf="selectedCompetences && selectedCompetences.length > 0">
+      <h4>Compétences du poste :</h4>
+      <ul>
+         <li *ngFor="let competence of selectedCompetences">
+           {{ competence.nom }}
+           <button (click)="cancelSelection(competence)" class="btn btn-link" >Annuler</button>
+         </li>
+      </ul>
+     </div>
+     <div *ngIf="newCategory && newCategory.competences && newCategory.competences.length > 0">
+      <h4>Compétences déjà associées au poste :</h4>
+      <ul>
+        <li *ngFor="let competence of newCategory.competences">
+          {{ competence.nom }}
+          <button class="btn btn-danger" (click)="deleteCompetenceFromPoste(competence.id)">Supprimer </button>
+        </li>
+      </ul>
+    </div>
+     
+ 
+ </div>
+ 

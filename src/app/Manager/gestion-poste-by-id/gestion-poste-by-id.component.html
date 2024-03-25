@@ -1,0 +1,185 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+    <h2 *ngIf="poste"> {{poste.titre}} </h2>
+    <h6>Nombre de poste ouverts : {{poste.nombrePostesDisponibles}} </h6>
+   
+    <div class="row">
+       <!-- Première carte de tableau de bord -->
+       <div class="col-md-4">
+         <div class="card accepted">
+           <div class="card-body">
+             <h5 class="card-title" style="color: white;">Accepté</h5>
+             <p class="card-text" style="color: white;">{{ collaborateursAcceptees }}</p>
+           </div>
+         </div>
+       </div>
+   
+       <!-- Deuxième carte de tableau de bord -->
+       <div class="col-md-4">
+         <div class="card pending">
+           <div class="card-body">
+             <h5 class="card-title" style="color: white;">En Attente</h5>
+             <p class="card-text" style="color: white;">{{ collaborateursEnAttente }}</p>
+           </div>
+         </div>
+       </div>
+   
+       <!-- Troisième carte de tableau de bord -->
+       <div class="col-md-4">
+         <div class="card rejected">
+           <div class="card-body">
+             <h5 class="card-title" style="color: white;">Refusé</h5>
+             <p class="card-text" style="color: white;"> {{ collaborateursRefusees }}</p>
+           </div>
+         </div>
+       </div>
+    </div>
+</div>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body dashboard-tabs p-0">
+          <ul class="nav nav-tabs px-4" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="overview-tab" data-bs-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Detail du poste</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="sales-tab" data-bs-toggle="tab" href="#sales" role="tab" aria-controls="sales" aria-selected="false">Candidats</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="purchases-tab" data-bs-toggle="tab" href="#purchases" role="tab" aria-controls="purchases" aria-selected="false">Stat</a>
+            </li>
+          </ul>
+          <div class="tab-content py-0 px-0">
+            <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                <div *ngIf="poste">
+                    <br>
+                    <!-- Première carte pour la description -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Description</h4>
+                                    {{ poste.description }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Deuxième carte pour les compétences -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Compétences</h4>
+                                    <div class="pill-container">
+                                        <span *ngFor="let competence of poste.competences; let i = index" class="pill">
+                                            {{ competence.nom }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-pane fade" id="sales" role="tabpanel" aria-labelledby="sales-tab">
+              <br>
+              <h5>La liste des candidats</h5>
+                <table  class="table table-striped" *ngIf="candidats.length  > 0">
+                    <thead>
+                      <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let candidat of candidats">
+                        <td>{{ candidat.nom }}</td>
+                        <td>{{ candidat.prenom }}</td>
+                        <td>{{ candidat.email }}</td>
+                       <td>
+                        <button (click)="openModal(candidat.id)" type="button" class="btn btn-inverse-info btn-icon">
+                          <i class="mdi mdi mdi-eye      "></i>
+                        </button> 
+                       </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  
+                  <div *ngIf="candidats.length === 0">
+                    <p>Aucun candidat trouvé pour ce poste.</p>
+                  </div>
+                  
+                              </div>
+            <div class="tab-pane fade" id="purchases" role="tabpanel" aria-labelledby="purchases-tab">
+           <!-- app.component.html -->
+           <ul *ngFor="let candidature of candidatures">
+          <li>{{ candidature.nom }} {{ candidature.prenom }}</li></ul>
+<!-- app.component.html -->
+<div class="kanban-board" cdKDropListGroup>
+  <!-- Colonne En attente -->
+  <div class="kanban-column" cdkDropList [cdkDropListData]="candidatures" id="EN_ATTENTE" (cdkDropListDropped)="onDrop($event, 'EN_ATTENTE')" [cdkDropListConnectedTo]="['ACCEPTEE', 'REFUSEE']">
+    <h3>En attente</h3>
+    <div class="kanban-cards" *ngFor="let candidature of candidatures | filter:'EN_ATTENTE'" cdkDrag [id]="candidature.candidature_id">
+      <div class="kanban-card">{{ candidature.nom }} {{ candidature.prenom }}</div>
+    </div>
+  </div>
+
+  <!-- Colonne Acceptées -->
+  <div class="kanban-column" cdkDropList [cdkDropListData]="candidatures" id="ACCEPTEE" (cdkDropListDropped)="onDrop($event, 'ACCEPTEE')" [cdkDropListConnectedTo]="['EN_ATTENTE', 'REFUSEE']">
+    <h3>Acceptées</h3>
+    <div class="kanban-cards" *ngFor="let candidature of candidatures | filter:'ACCEPTEE'" cdkDrag [id]="candidature.candidature_id">
+      <div class="kanban-card">{{ candidature.nom }} {{ candidature.prenom }}</div>
+      <button (click)="openModal(candidature.candidature_id)" class="btn btn-success">Voir</button>
+    </div>
+  </div>
+
+  <!-- Colonne Refusées -->
+  <div class="kanban-column" cdkDropList [cdkDropListData]="candidatures" id="REFUSEE" (cdkDropListDropped)="onDrop($event, 'REFUSEE')" [cdkDropListConnectedTo]="['EN_ATTENTE', 'ACCEPTEE']">
+    <h3>Refusées</h3>
+    <div class="kanban-cards" *ngFor="let candidature of candidatures | filter:'REFUSEE'" cdkDrag [id]="candidature.candidature_id">
+      <div class="kanban-card">{{ candidature.nom }} {{ candidature.prenom }}</div>
+      <button (click)="openModal(candidature.candidature_id)" class="btn btn-danger">Voir</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="kanban-board" cdKDropListGroup>
+  <div class="kanban-column" cdkDropList [cdkDropListData]="candidats" id="EN_ATTENTE" (cdkDropListDropped)="onDrop($event, 'EN_ATTENTE')" [cdkDropListConnectedTo]="['ACCEPTEE', 'REFUSEE']">
+    <h3>En attente</h3>
+    <div class="kanban-cards" *ngFor="let candidat of candidats | filter:'EN_ATTENTE'" cdkDrag [id]="candidat.id">
+      {{ candidat.nom }} {{ candidat.prenom }}
+    </div>
+  </div>
+  <div class="kanban-column" cdkDropList [cdkDropListData]="candidats" id="ACCEPTEE" (cdkDropListDropped)="onDrop($event, 'ACCEPTEE')" [cdkDropListConnectedTo]="['EN_ATTENTE', 'REFUSEE']">
+    <h3>Acceptées</h3>
+    <div class="kanban-cards" *ngFor="let candidat of candidats | filter:'ACCEPTEE'" cdkDrag [id]="candidat.id">
+      <div class="kanban-card">{{ candidat.nom }} {{ candidat.prenom }}</div>
+      <button (click)="openModal(candidat.id)" class="btn btn-success">Voir</button>
+    </div>
+  </div>
+  <div class="kanban-column" cdkDropList [cdkDropListData]="candidats" id="REFUSEE" (cdkDropListDropped)="onDrop($event, 'REFUSEE')" [cdkDropListConnectedTo]="['EN_ATTENTE', 'ACCEPTEE']">
+    <h3>Refusées</h3>
+    <div class="kanban-cards" *ngFor="let candidat of candidats | filter:'REFUSEE'" cdkDrag [id]="candidat.id">
+      {{ candidat.nom }} {{ candidat.prenom }}
+      <button (click)="openModal(candidat.id)" class="btn btn-danger">Voir</button>
+    </div>
+  </div>
+</div> -->
+
+         
+              
+                             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

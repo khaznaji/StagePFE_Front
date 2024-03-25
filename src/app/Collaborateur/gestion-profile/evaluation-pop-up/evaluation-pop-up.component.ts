@@ -5,6 +5,7 @@ import { Evaluation } from 'src/app/model/evaluation.model';
 import { CollaborateurService } from 'src/app/service/collaborateur.service';
 import { CompetenceService } from 'src/app/service/competence.service';
 import { EvaluationService } from 'src/app/service/evaluation.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-evaluation-pop-up',
@@ -82,31 +83,74 @@ getProgressBarWidth(rate: number): string {
   return `${rate}%`;
 }
 
-  updateEvaluation(selectedEvaluation: Evaluation, newEvaluationValue: number): void {
-    if (!selectedEvaluation) return; // Vérifiez si une évaluation est sélectionnée
+updateEvaluation(selectedEvaluation: Evaluation, newEvaluationValue: number): void {
+  if (!selectedEvaluation) return; // Vérifiez si une évaluation est sélectionnée
 
-    // Appel du service pour mettre à jour l'évaluation
-    this.evaluationService.updateEvaluationById(selectedEvaluation.id, newEvaluationValue)
-      .subscribe(() => {
-        // Réactualisez les évaluations après la mise à jour
-        this.getEvaluations(); 
-        this.closeModifyForm(); // Fermez le formulaire de modification après la mise à jour
-      }, error => {
-        console.error("Erreur lors de la mise à jour de l'évaluation:", error);
-        // Gérer l'erreur
-      });
-  }
-
+  // Appel du service pour mettre à jour l'évaluation
+  this.evaluationService.updateEvaluationById(selectedEvaluation.id, newEvaluationValue)
+    .subscribe(() => {
+      // Afficher un message de succès après la mise à jour
+      Swal.fire(
+        'Succès!',
+        'L\'évaluation a été mise à jour avec succès.',
+        'success'
+      );
+      // Réactualisez les évaluations après la mise à jour
+      this.getEvaluations();
+      this.closeModifyForm(); // Fermez le formulaire de modification après la mise à jour
+    }, error => {
+      // Afficher un message d'erreur en cas d'échec de la mise à jour
+      Swal.fire(
+        'Erreur!',
+        'Erreur lors de la mise à jour de l\'évaluation: ' + error.message,
+        'error'
+      );
+      console.error("Erreur lors de la mise à jour de l'évaluation:", error);
+      // Gérer l'erreur
+    });
+}
   deleteEvaluation(evaluationId: number): void {
-    // Appel du service pour supprimer l'évaluation
-    this.evaluationService.deleteEvaluation(evaluationId)
-      .subscribe(() => {
-        // Réactualiser les évaluations après la suppression
-        this.getEvaluations();
-      }, error => {
-        console.error("Erreur lors de la suppression de l'évaluation:", error);
-        // Gérer l'erreur
-      });
+    // Afficher une boîte de dialogue de confirmation
+    Swal.fire({
+      title: 'Êtes-vous sûr?',
+      text: 'Voulez-vous vraiment supprimer cette évaluation?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, supprimer!',
+      cancelButtonText: 'Non, annuler',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Appel du service pour supprimer l'évaluation
+        this.evaluationService.deleteEvaluation(evaluationId)
+          .subscribe(() => {
+            // Afficher un message de succès après la suppression
+            Swal.fire(
+              'Supprimé!',
+              'L\'évaluation a été supprimée avec succès.',
+              'success'
+            );
+            // Réactualiser les évaluations après la suppression
+            this.getEvaluations();
+          }, error => {
+            // Afficher un message d'erreur en cas d'échec de la suppression
+            Swal.fire(
+              'Erreur!',
+              'Erreur lors de la suppression de l\'évaluation: ' + error.message,
+              'error'
+            );
+            console.error("Erreur lors de la suppression de l'évaluation:", error);
+            // Gérer l'erreur
+          });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Action si l'utilisateur annule la suppression
+        Swal.fire(
+          'Annulé',
+          'La suppression de l\'évaluation a été annulée.',
+          'error'
+        );
+      }
+    });
   }
   competences: Competence[] = [];
   selectedCompetenceId: number | null = null;
@@ -128,25 +172,40 @@ getProgressBarWidth(rate: number): string {
     this.searchResults = [];
     this.showSearchBar = false; // Cache la barre de recherche
   }
+ 
 
    
-  addEvaluation(): void {
-    if (this.selectedCompetence && this.newEvaluationValue) {
-      // Appelez le service pour ajouter l'évaluation
-      this.evaluationService.addEvaluation(this.selectedCompetence.id, this.newEvaluationValue)
-        .subscribe(
-          response => {
-            console.log('Évaluation ajoutée avec succès:', response);
-            // Ajoutez ici la logique de traitement de la réponse si nécessaire
-          },
-          error => {
-            console.error('Erreur lors de l\'ajout de l\'évaluation:', error);
-            // Ajoutez ici la logique de gestion des erreurs si nécessaire
-          }
-        );
-    } else {
-      console.error('Veuillez sélectionner une compétence et spécifier une valeur d\'évaluation.');
-      // Ajoutez ici la logique de gestion de l'erreur si les champs ne sont pas valides
-    }
-  }
+ 
+addEvaluation(): void {
+  if (this.selectedCompetence && this.newEvaluationValue) {
+    // Appelez le service pour ajouter l'évaluation
+    this.evaluationService.addEvaluation(this.selectedCompetence.id, this.newEvaluationValue)
+      .subscribe(
+        response => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Succès!',
+            text: 'Évaluation ajoutée avec succès: ' + response.message,
+          });
+          // Ajoutez ici la logique de traitement de la réponse si nécessaire
+
+        },
+        error => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur!',
+            text: 'Erreur lors de l\'ajout de l\'évaluation: ' + error.error.message,
+          });
+          // Ajoutez ici la logique de gestion des erreurs si nécessaire
+
+        }
+      );
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erreur!',
+      text: 'Veuillez sélectionner une compétence et spécifier une valeur d\'évaluation.',
+    });
+    // Ajoutez ici la logique de gestion de l'erreur si les champs ne sont pas valides
+  }}
 }

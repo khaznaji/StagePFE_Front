@@ -72,7 +72,7 @@ export class GestionCompetenceComponent implements OnInit {
       reader.readAsDataURL(this.file);
     } 
   }
-   createCategory() {
+  createCategory() {
     if (!this.events) {
       console.error('Categories are undefined or null.');
       return;
@@ -125,6 +125,9 @@ export class GestionCompetenceComponent implements OnInit {
         });
           return;
       }
+      // Mettez à jour le domaine de la catégorie sélectionnée
+      this.selectedCategory.domaine = this.newCategory.domaine;
+
       this.categoryService.updateCompetence(this.selectedCategory.id, this.selectedCategory).subscribe(
         () => {
           console.log('Category updated successfully!');
@@ -146,6 +149,7 @@ export class GestionCompetenceComponent implements OnInit {
       ); 
     }
   }
+
   deleteEvents = (id: number) => {
     // Utiliser SweetAlert pour afficher une confirmation
     Swal.fire({
@@ -178,7 +182,10 @@ export class GestionCompetenceComponent implements OnInit {
     // Set the selected category for update
     this.selectedCategory = { ...category };
     this.newCategory.nom = category.nom;
-  }
+    // Assurez-vous également de copier le domaine
+    this.newCategory.domaine = category.domaine;
+}
+
   cancelUpdate() {
     this.clearForm();
   }

@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AddCompteComponent } from 'src/app/Admin/ManagerService/add-compte/add-compte.component';
 import { UserService } from 'src/app/service/user.service';
+import { AddCompteCollabComponent } from '../../add-compte-collab/add-compte-collab.component';
 
 @Component({
   selector: 'app-allcollab',
@@ -17,6 +20,11 @@ export class AllcollabComponent implements OnInit {
     this.filterOption = 'all';  // Set the default filter option
     this.applyFilter();         // Apply the default filter
 
+  }
+  modalRef!: BsModalRef;
+
+  openModal() {
+    this.modalRef = this.modalService.show(AddCompteCollabComponent);
   }
   
 filterOption: string = 'all'; // Initialisez à la valeur par défaut
@@ -98,7 +106,7 @@ itemsPerPage: number = 10; // Number of items per page
   events:any;
   data: any = [];
   username!:string;
-  constructor(private userService: UserService  ,private router: Router,private http: HttpClient){ }
+  constructor(private userService: UserService  ,private router: Router,private http: HttpClient , private modalService: BsModalService ){ }
   getUserByid(id: any) {
     this.userService.getUserById(id).subscribe((res) => {
       this.data = res;

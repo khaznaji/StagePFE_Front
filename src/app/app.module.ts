@@ -48,6 +48,12 @@ import { GestionProfileComponent } from './Collaborateur/gestion-profile/gestion
 import { EditProfileComponent } from './Collaborateur/edit-profile/edit-profile.component';
 import { EvaluationPopUpComponent } from './Collaborateur/gestion-profile/evaluation-pop-up/evaluation-pop-up.component';
 import { BioPopUpComponent } from './Collaborateur/gestion-profile/bio-pop-up/bio-pop-up.component';
+import { AddCompetenceModalComponent } from './Manager/edit-fiche/add-competence-modal/add-competence-modal.component';
+import { AjouterCompetenceModalComponent } from './Manager/add-fiche-de-poste/ajouter-competence-modal/ajouter-competence-modal.component';
+import { GestionPosteByIdComponent } from './Manager/gestion-poste-by-id/gestion-poste-by-id.component';
+import { ViewCandidateByIdComponent } from './Manager/gestion-poste-by-id/view-candidate-by-id/view-candidate-by-id.component';
+import { FilterPipe } from './Manager/gestion-poste-by-id/filter.pipe';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -62,7 +68,11 @@ import { BioPopUpComponent } from './Collaborateur/gestion-profile/bio-pop-up/bi
     MespostulationsComponent, DisplayMesPostesComponent, EditFicheComponent, GestionProfileComponent,
     EditProfileComponent,
     EvaluationPopUpComponent,
-    BioPopUpComponent
+    BioPopUpComponent,
+    AddCompetenceModalComponent,
+    AjouterCompetenceModalComponent,
+    GestionPosteByIdComponent,
+    ViewCandidateByIdComponent,FilterPipe
 
   ],
   imports: [
@@ -82,7 +92,8 @@ import { BioPopUpComponent } from './Collaborateur/gestion-profile/bio-pop-up/bi
       // Ajoutez d'autres options de personnalisation de style ici
     }),BrowserAnimationsModule,
     ButtonsModule.forRoot(),
-    BsDropdownModule.forRoot(),
+
+    BsDropdownModule.forRoot(),     DragDropModule
 
 
 

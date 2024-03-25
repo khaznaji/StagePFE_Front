@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserAuthService } from './user-auth.service';
+import { User } from '../model/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,9 @@ getCollaborateurInfo(): Observable<any> {
     'Authorization': `Bearer ${authToken}`
   });
   return this.http.get<any>(`${this.api_url}/collaborateur/info`,  { headers });
-}}
+}
+createCollaborateur(formData: FormData): Observable<User> {
+  return this.http.post<User>(`${this.api_url}/registerCollaborateur`, formData);
+} }
   
 

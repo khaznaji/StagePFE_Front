@@ -76,9 +76,7 @@ cancel() {
   }
  
   clearErrorMessages() {
-    // Effacer les messages d'erreur en réinitialisant les modèles associés
     this.form.resetForm();
-
   }
   confirmPassword: string = '';
 
@@ -92,11 +90,16 @@ cancel() {
 isSopraHrEmail(email: string): boolean {
   return email.endsWith('@soprahr.com') || email.endsWith('@gmail.com');
 }
-
 project: ManagerService = new ManagerService();
 projects: User = new User();
 image: File | null = null;
-
+currentStep = 1; // Use a generic type or 'any' if the type is dynamic
+  nextStep() {
+    this.currentStep++;
+  }
+  Step() {
+    this.currentStep--;
+  }
 onSubmit() {
   if (this.managerServiceForm && this.managerServiceForm.valid) {
     const formData = new FormData();
@@ -109,7 +112,18 @@ onSubmit() {
     formData.append('gender', this.managerServiceForm.get('gender')?.value || '');
     formData.append('department', this.managerServiceForm.get('department')?.value || '');
     formData.append('poste', this.managerServiceForm.get('poste')?.value || '');
+    const dateEntree: Date | null = this.managerServiceForm.get('dateEntree')?.value;
 
+    // Vérifiez si dateEntree est définie et non nulle
+    if (dateEntree instanceof Date && !isNaN(dateEntree.getTime())) {
+        // Formatez la date au format ISO
+        const formattedDate: string = dateEntree.toISOString();
+    
+        // Ajoutez la date formatée à FormData
+        formData.append('dateEntree', formattedDate);
+    } else {
+        console.error('La valeur de dateEntree est invalide ou nulle.');
+    }
     this.managerservice.createManagerService(formData).subscribe(
       (response) => {
         Swal.fire({

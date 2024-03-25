@@ -27,6 +27,8 @@ import { MespostulationsComponent } from './Collaborateur/poste/mespostulations/
 import { DisplayMesPostesComponent } from './Manager/display-mes-postes/display-mes-postes.component';
 import { EditFicheComponent } from './Manager/edit-fiche/edit-fiche.component';
 import { GestionProfileComponent } from './Collaborateur/gestion-profile/gestion-profile.component';
+import { AddCompetenceModalComponent } from './Manager/edit-fiche/add-competence-modal/add-competence-modal.component';
+import { GestionPosteByIdComponent } from './Manager/gestion-poste-by-id/gestion-poste-by-id.component';
 
 const routes: Routes = [
   
@@ -68,6 +70,7 @@ const routes: Routes = [
   {path:'profile', component:ProfileComponent},
   {path:'mes-postes', component:DisplayMesPostesComponent}, 
   {path:'edit-postes/:postId', component:EditFicheComponent}, 
+  {path:'poste/:postId', component: GestionPosteByIdComponent}, 
 
 ]}
 

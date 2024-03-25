@@ -8,6 +8,7 @@ import { Collaborateur } from 'src/app/model/collaborateur.model';
 import { Competence } from 'src/app/model/competence.model';
 import { ManagerService } from 'src/app/model/managerservice.model';
 import { User } from 'src/app/model/user.model';
+import { CollaborateurService } from 'src/app/service/collaborateur.service';
 import { CompetenceService } from 'src/app/service/competence.service';
 import { UserAuthService } from 'src/app/service/user-auth.service';
 import { UserService } from 'src/app/service/user.service';
@@ -19,7 +20,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./add-compte-collab.component.css']
 })
 export class AddCompteCollabComponent implements OnInit{
-  constructor(private userService: UserService ,private router: Router, private competenceService: CompetenceService , private fb: FormBuilder , private Auth: UserAuthService,public dialog: MatDialog , private elementRef: ElementRef,private modalService: BsModalService){}
+  constructor(private userService: UserService ,private router: Router, private collabService: CollaborateurService , private fb: FormBuilder , private Auth: UserAuthService,public dialog: MatDialog , private elementRef: ElementRef,private modalService: BsModalService){}
   managerServiceForm!: FormGroup;
   allCompetences: Competence[] = [];
   selectedCompetences: Competence[] = [];
@@ -42,22 +43,12 @@ export class AddCompteCollabComponent implements OnInit{
       poste: ['', Validators.required],
       bio: [''],
       dateEntree: ['', Validators.required],
-      competences: [[]] ,
-      domain: ['', Validators.required],
       managerServiceId: ['', Validators.required],
 
 
     });
 
-    this.competenceService.getAll().subscribe(
-      (competences) => {
-        this.allCompetences = competences;
-        console.log(this.allCompetences)
-      },
-      (error) => {
-        console.error('Error fetching competences', error);
-      }
-    );
+   
     this.userService.getAllManagerServices().subscribe(
       (competences) => {
         this.allManagerService = competences;
@@ -68,46 +59,10 @@ export class AddCompteCollabComponent implements OnInit{
       }
     );
    // Watch for changes in the selected domain
-this.managerServiceForm.get('domain')?.valueChanges.subscribe((selectedDomain) => {
-  // Update the available competences based on the selected domain
-  this.competenceService.getCompetencesByDomain(selectedDomain).subscribe(
-    competences => this.allCompetences = competences, // Remove .map(comp => comp.id)
-    error => console.error('Error fetching competences:', error)
-  );
-});
-this.managerServiceForm.get('domain')?.valueChanges.subscribe((selectedDomain) => {
-  // Sauvegarder les compétences sélectionnées actuelles
-  const currentSelectedCompetences = this.managerServiceForm.get('competences')?.value;
 
-  // Mettre à jour la liste des compétences disponibles
-  this.competenceService.getCompetencesByDomain(selectedDomain).subscribe(
-    competences => {
-      this.allCompetences = competences;
 
-      // Restaurer les compétences sélectionnées précédemment
-      this.managerServiceForm.get('competences')?.setValue(
-        currentSelectedCompetences.filter((compId: number) => this.competences.includes(compId))
-        );
-    },
-    error => console.error('Error fetching competences:', error)
-  );
-});
   }
-  toggleCompetenceSelection(competence: Competence): void {
-    const index = this.selectedCompetences.findIndex(c => c.id === competence.id);
-  
-    if (index !== -1) {
-      // Remove the competence if already selected
-      this.selectedCompetences.splice(index, 1);
-    } else {
-      // Add the competence if not selected
-      this.selectedCompetences.push(competence);
-    }
-  }
-  
-  isCompetenceSelected(competence: Competence): boolean {
-    return this.selectedCompetences.some(c => c.id === competence.id);
-  }
+ 
   
   data: any = [];
   currentStep = 1; // Use a generic type or 'any' if the type is dynamic
@@ -119,11 +74,7 @@ this.managerServiceForm.get('domain')?.valueChanges.subscribe((selectedDomain) =
   }
   filteredCompetences: Competence[] = [];
 
-  onDomainChange(event: any) {
-    const selectedDomain = event.target.value;
-    // Assuming allCompetences is an array of Competence objects
-    this.filteredCompetences = this.allCompetences.filter(comp => comp.domaine === selectedDomain);
-  }
+ 
   getUserByid(id: any) {
     const headers = { 'Authorization': 'Bearer ' + this.Auth.getToken() };
     this.userService.getUserById2(id,headers).subscribe((res) => {      this.data = res;
@@ -171,73 +122,14 @@ cancel() {
       console.error('Erreur inattendue:', errorMessage);
     }
   }
-  openConfirmationDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = '500px';
-    dialogConfig.data = {
-      message: 'Votre inscription a été effectuée avec succès.'
-    };
-  
-    // Calculer la position par rapport au formulaire
-    const formRect = this.elementRef.nativeElement.getBoundingClientRect();
-    const dialogHeight = 250; // Ajustez cette valeur en fonction de votre contenu de dialog
-  
-    // Déplacer le dialog deux fois l'espace vers le bas
-    const centerY = formRect.top - (2 * dialogHeight);
-  
-    // Décaler légèrement le dialog vers la droite, en ajoutant une valeur fixe
-    const centerX = formRect.left + (formRect.width / 2) - 250; // Ajustez cette valeur en fonction de vos besoins
-  
-    dialogConfig.position = { top: centerY + 'px', left: centerX + 'px' };
-  
-    const dialogRef = this.dialog.open(SuccessDialogComponent, dialogConfig);
-  
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Le dialog de succès a été fermé');
-    });
-  }
+ 
   
   clearErrorMessages() {
     // Effacer les messages d'erreur en réinitialisant les modèles associés
     this.form.resetForm();
 
   }
-  confirmPassword: string = '';
-  passwordsMatch(): boolean {
-    return this.users.password === this.confirmPassword;
-  }
 
-
-  passwordStrengthPercentage(): string {
-  return ((this.users.password.length / 20) * 100) + '%'; // Par exemple, diviser la longueur par 20 et multiplier par 100 pour obtenir un pourcentage
-  }
-
-
-  passwordStrength(): string {
-   if (this.users.password.length < 8) {
-      return 'Faible';
-    } else if (this.users.password.length < 15) {
-      return 'Moyen';
-    } else {
-      return 'Fort';
-    }
-  }
-
-
-   passwordStrengthClass(): string {
-    if (this.users.password.length >= 12 && /[!@#$%&*_?]/.test(this.users.password)) {
-      return 'progress-bar progress-bar-striped progress-bar-animated progress-bar-success'; // Vert pour fort
-    } else if (this.users.password.length >= 8) {
-      return 'progress-bar progress-bar-striped progress-bar-animated progress-bar-warning'; // Orange pour moyen
-    } else {
-      return 'progress-bar progress-bar-striped progress-bar-animated progress-bar-danger'; // Rouge pour faible
-    }
-  }
-  passwordStrengthScore(): number {
-    const password = this.users.password;
-    let score = 0;
-    return score;
-  }
   onNumTelInput(event: any) {
     const inputValue: string = event.target.value;
     if (inputValue.length > 8) {
@@ -249,12 +141,6 @@ isSopraHrEmail(email: string): boolean {
   return email.endsWith('@soprahr.com') || email.endsWith('@gmail.com');
 }
 
-passwordInvalid = false;
-confirmPasswordInvalid = false;
-validatePasswordFields() {
-    this.passwordInvalid = !this.users.password;
-    this.confirmPasswordInvalid = !this.confirmPassword;
-}
 
 project: Collaborateur = new Collaborateur();
 projects: User = new User();
@@ -264,21 +150,33 @@ onSubmit() {
   if (this.managerServiceForm.valid) {
     const formData = new FormData();
 
-    // Ajoutez les autres contrôles de formulaire
-    Object.keys(this.managerServiceForm.controls).forEach((key) => {
-      if (key !== 'competences') {
-        formData.append(key, this.managerServiceForm.get(key)!.value);
-      }
-    });
-    console.log('ManagerServiceId:', this.managerServiceForm.get('managerServiceId')!.value);
+    formData.append('nom', this.managerServiceForm.get('nom')?.value || '');
+    formData.append('prenom', this.managerServiceForm.get('prenom')?.value || '');
+    formData.append('numtel', (this.managerServiceForm.get('numtel')?.value || '').toString());
+    formData.append('matricule', this.managerServiceForm.get('matricule')?.value || '');
+    formData.append('email', this.managerServiceForm.get('email')?.value || '');
+    formData.append('gender', this.managerServiceForm.get('gender')?.value || '');
+    formData.append('department', this.managerServiceForm.get('department')?.value || '');
+    formData.append('poste', this.managerServiceForm.get('poste')?.value || '');
+   formData.append('managerServiceId', this.managerServiceForm.get('managerServiceId')!.value);
+// Obtenez la valeur de dateEntree du formulaire
+const dateEntree: Date | null = this.managerServiceForm.get('dateEntree')?.value;
 
-    // Ajoutez l'ID du ManagerService à partir de la propriété managerServiceId du formulaire
-    formData.append('managerServiceId', this.managerServiceForm.get('managerServiceId')!.value);
+// Vérifiez si dateEntree est définie et non nulle
+if (dateEntree instanceof Date && !isNaN(dateEntree.getTime())) {
+    // Formatez la date au format ISO
+    const formattedDate: string = dateEntree.toISOString();
+
+    // Ajoutez la date formatée à FormData
+    formData.append('dateEntree', formattedDate);
+} else {
+    console.error('La valeur de dateEntree est invalide ou nulle.');
+}
+
 
     // Ajoutez les compétences en tant qu'ID séparés par des virgules
-    formData.append('competences', this.selectedCompetences.map(comp => comp.id).join(','));
 
-    this.userService.createCollab(formData).subscribe(
+    this.collabService.createCollaborateur(formData).subscribe(
       (response) => {
         Swal.fire({
           title: 'Succès !',
@@ -286,8 +184,11 @@ onSubmit() {
           icon: 'success',
           confirmButtonText: 'OK'
         }).then(() => {
-          // Redirect to the desired page after success
-          this.router.navigate(['/managerRh/all-collaborateur']);
+          // Attendre 3 secondes avant de recharger la page
+          setTimeout(() => {
+            // Rediriger vers la page désirée après 3 secondes
+            this.router.navigate(['/managerRh/all-collaborateur']);
+          }, 3000);
         });
       },
       (error) => {

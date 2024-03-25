@@ -33,11 +33,16 @@ export class DisplayMesPostesComponent implements OnInit{
   }
 
 
-   
+  showAllCompetences = false; 
+
   toggleFormVisibility(index: number): void {
     // Inversion de l'état de la carte à l'index spécifié
     this.cardStates[index] = !this.cardStates[index];
   }
+  toggleCompetences() {
+    this.showAllCompetences = !this.showAllCompetences;
+ }
+ 
   getApprovedPostes(): void {
     this.posteService.mespostes()
       .subscribe(
@@ -64,7 +69,7 @@ export class DisplayMesPostesComponent implements OnInit{
       cancelButtonText: 'Annuler'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.posteService.deletePosteByManagerService(postId).subscribe(
+        this.posteService.deletePoste(postId).subscribe(
           response => {
             console.log('Poste supprimé avec succès:', response);
             Swal.fire(
@@ -89,5 +94,11 @@ export class DisplayMesPostesComponent implements OnInit{
       }
     });
   }
- 
+ ToEdit(postid :number  ){
+  this.router.navigate(['managerService/edit-postes', postid]);
+ }
+ ToPostId(postid :number  ){
+  this.router.navigate(['managerService/poste', postid]);
+ }
+
 }

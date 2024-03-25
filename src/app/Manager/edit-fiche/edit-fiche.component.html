@@ -1,28 +1,43 @@
-<!-- poste-edit.component.html -->
-
-<div>
-    <h2>Modifier Poste</h2>
-    <form (ngSubmit)="onEditPoste()">
-      <div>
-        <label for="titre">Titre:</label>
-        <input type="text" id="titre" name="titre" [(ngModel)]="newCategory.titre">
-      </div>
-      <div>
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" [(ngModel)]="newCategory.description"></textarea>
-      </div>
-      <div>
-        <label for="nombrePostesDisponibles">Nombre de Postes Disponibles:</label>
-        <input type="number" id="nombrePostesDisponibles" name="nombrePostesDisponibles" [(ngModel)]="newCategory.nombrePostesDisponibles">
-      </div>
-      <div>
-        <label for="nombrePostesDisponibles">Nombre de Postes Disponibles:</label>
-        <input type="text" id="competences" name="competences" [(ngModel)]="newCategory.competences">
-      </div>
-      <!-- Exemple de champ pour les compétences -->
-      <!-- Vous pouvez les traiter en fonction de votre logique -->
-    
-      <button type="submit">Modifier</button>
-    </form>
+<div class="card">
+  <div class="card-body">
+      <h4 class="card-title">Fiche de poste</h4>
+      <hr>
+      
+      <div class="d-flex justify-content-end">
+        <button class="btn-inverse-info" (click)="openModal()">Gérer les compétences du poste</button>
+       </div>
+         
+      <form (ngSubmit)="updatePoste()">
+        <div>
+          <p class="card-description">Mettre à jour Fiche de poste</p>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="titre">Titre:</label>
+                <input type="text" class="form-control" id="titre" name="titre" [(ngModel)]="titre" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="nombrePostesDisponibles">Nombre Postes Disponibles:</label>
+                <input type="number" class="form-control" id="nombrePostesDisponibles" name="nombrePostesDisponibles" [(ngModel)]="nombrePostesDisponibles" required>
+              </div>
+           
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control description-textarea" id="description" name="description" [(ngModel)]="description" required></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </form>
   </div>
-  
+ </div>
+ 
