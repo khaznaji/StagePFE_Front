@@ -1,11 +1,24 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-    <h2 *ngIf="poste"> {{poste.titre}} </h2>
+          <div class="poste-details">
+            <h2 *ngIf="poste">{{poste.titre}}</h2>
+            <h6>Reference du poste : #{{poste.id}}</h6>
+        </div>
+        
     <h6>Nombre de poste ouverts : {{poste.nombrePostesDisponibles}} </h6>
    
     <div class="row">
        <!-- Première carte de tableau de bord -->
+       <div class="col-md-4">
+        <div class="card pending">
+          <div class="card-body">
+            <h5 class="card-title" style="color: white;">Dans le pipeline</h5>
+            <p class="card-text" style="color: white;">{{ collaborateursEnAttente }}</p>
+          </div>
+        </div>
+      </div>
+      
        <div class="col-md-4">
          <div class="card accepted">
            <div class="card-body">
@@ -16,14 +29,7 @@
        </div>
    
        <!-- Deuxième carte de tableau de bord -->
-       <div class="col-md-4">
-         <div class="card pending">
-           <div class="card-body">
-             <h5 class="card-title" style="color: white;">En Attente</h5>
-             <p class="card-text" style="color: white;">{{ collaborateursEnAttente }}</p>
-           </div>
-         </div>
-       </div>
+      
    
        <!-- Troisième carte de tableau de bord -->
        <div class="col-md-4">
@@ -89,7 +95,9 @@
             
             <div class="tab-pane fade" id="sales" role="tabpanel" aria-labelledby="sales-tab">
               <br>
-              <h5>La liste des candidats</h5>
+              <h4 class="justify-content-center">Liste des candidats</h4>
+              <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Rechercher un candidat..." (input)="filterCandidats()" >
+<br>
                 <table  class="table table-striped" *ngIf="candidats.length  > 0">
                     <thead>
                       <tr>
@@ -99,7 +107,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let candidat of candidats">
+                      <tr *ngFor="let candidat of filteredPostes">
                         <td>{{ candidat.nom }}</td>
                         <td>{{ candidat.prenom }}</td>
                         <td>{{ candidat.email }}</td>
@@ -123,15 +131,16 @@
 <!-- app.component.html -->
 <div class="kanban-board" cdKDropListGroup>
   <!-- Colonne En attente -->
-  <div class="kanban-column" cdkDropList [cdkDropListData]="candidatures" id="EN_ATTENTE" (cdkDropListDropped)="onDrop($event, 'EN_ATTENTE')" [cdkDropListConnectedTo]="['ACCEPTEE', 'REFUSEE']">
-    <h3>En attente</h3>
+  <div class="kanban-column"  style="  border-top: 5px solid #edf127;
+  " cdkDropList [cdkDropListData]="candidatures" id="EN_ATTENTE" (cdkDropListDropped)="onDrop($event, 'EN_ATTENTE')" [cdkDropListConnectedTo]="['ACCEPTEE', 'REFUSEE']">
+    <h3>Nouveaux Candidats</h3>
     <div class="kanban-cards" *ngFor="let candidature of candidatures | filter:'EN_ATTENTE'" cdkDrag [id]="candidature.candidature_id">
       <div class="kanban-card">
         <img class="profile-image rounded-circle" [src]="'assets/images/' + candidature.image" alt="Profile Image">
         <div class="profile-info">
-           {{ candidature.nom }} {{ candidature.prenom }}
+           {{ candidature.nom }} {{ candidature.prenom }} 
         </div>
-              <button (click)="openModal(candidature.candidature_id)" class="btn btn-inverse-secondary btn-icon">
+              <button (click)="openModal(candidature.collaborateur_id)" class="btn btn-inverse-secondary btn-icon">
                 <i class="mdi mdi mdi-eye      "></i>
               </button>
 
@@ -141,16 +150,17 @@
   </div>
 
   <!-- Colonne Acceptées -->
-  <div class="kanban-column" cdkDropList [cdkDropListData]="candidatures" id="ACCEPTEE" (cdkDropListDropped)="onDrop($event, 'ACCEPTEE')" [cdkDropListConnectedTo]="['EN_ATTENTE', 'REFUSEE']">
-    <h3>Acceptées</h3>
+  <div class="kanban-column" style="  border-top: 5px solid #8BC34A;
+  " cdkDropList [cdkDropListData]="candidatures" id="ACCEPTEE" (cdkDropListDropped)="onDrop($event, 'ACCEPTEE')" [cdkDropListConnectedTo]="['EN_ATTENTE', 'REFUSEE']">
+    <h3>Acceptés</h3>
     <div class="kanban-cards" *ngFor="let candidature of candidatures | filter:'ACCEPTEE'" cdkDrag [id]="candidature.candidature_id">
       <div class="kanban-card">
         <img class="profile-image rounded-circle" [src]="'assets/images/' + candidature.image" alt="Profile Image">
         <div class="profile-info">
-           {{ candidature.nom }} {{ candidature.prenom }}
+           {{ candidature.nom }} {{ candidature.prenom }} 
         </div>
-              <button (click)="openModal(candidature.candidature_id)" class="btn btn-inverse-secondary btn-icon">
-                <i class="mdi mdi mdi-eye      "></i>
+              <button (click)="openModal(candidature.collaborateur_id)" class="btn btn-inverse-secondary btn-icon">
+                <i class="mdi mdi mdi-eye "></i>
               </button>
 
        </div>
@@ -159,15 +169,16 @@
   </div>
 
   <!-- Colonne Refusées -->
-  <div class="kanban-column" cdkDropList [cdkDropListData]="candidatures" id="REFUSEE" (cdkDropListDropped)="onDrop($event, 'REFUSEE')" [cdkDropListConnectedTo]="['EN_ATTENTE', 'ACCEPTEE']">
-    <h3>Refusées</h3>
+  <div class="kanban-column" style="  border-top: 5px solid #b72d2d;
+  " cdkDropList [cdkDropListData]="candidatures" id="REFUSEE" (cdkDropListDropped)="onDrop($event, 'REFUSEE')" [cdkDropListConnectedTo]="['EN_ATTENTE', 'ACCEPTEE']">
+    <h3>Refusés</h3>
     <div class="kanban-cards" *ngFor="let candidature of candidatures | filter:'REFUSEE'" cdkDrag [id]="candidature.candidature_id">
       <div class="kanban-card">
         <img class="profile-image rounded-circle" [src]="'assets/images/' + candidature.image" alt="Profile Image">
         <div class="profile-info">
            {{ candidature.nom }} {{ candidature.prenom }}
         </div>
-              <button (click)="openModal(candidature.candidature_id)" class="btn btn-inverse-secondary btn-icon">
+              <button (click)="openModal(candidature.collaborateur_id)" class="btn btn-inverse-secondary btn-icon">
                 <i class="mdi mdi mdi-eye      "></i>
               </button>
 

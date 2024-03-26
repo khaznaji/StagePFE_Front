@@ -275,7 +275,7 @@ footer p {
 .job-listing-container {
   display: flex;
   flex-direction: column;
-  border: 1px solid #2f2f2f;
+  border: 1px solid #9f9e9e;
   margin-bottom: 1rem;
   padding: 1rem;
  }

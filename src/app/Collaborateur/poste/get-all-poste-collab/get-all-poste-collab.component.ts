@@ -15,6 +15,8 @@ import Swal from 'sweetalert2';
 })
 export class GetAllPosteCollabComponent implements OnInit {
   approvedPostes!: any[];
+    filteredPostes: any[] = [];
+    searchTerm: string = ''; // Terme de recherche saisi par l'utilisateur
 
   constructor(private posteService: PosteService,private router: Router, private http: HttpClient , private authService: UserAuthService) {}
 
@@ -22,11 +24,10 @@ export class GetAllPosteCollabComponent implements OnInit {
     this.getApprovedPostes();
    
   }
-  getRandomColor(index: number) {
-    const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#34495e', '#1abc9c', '#d35400'];
-    const setIndex = Math.floor(index / 10); // Calculate the set index based on competence index
-    return colors[setIndex % colors.length]; // Use the set index to determine the color
-  }
+  filterPostes(): void {
+    this.filteredPostes = this.approvedPostes.filter(poste => poste.titre.toLowerCase().includes(this.searchTerm.toLowerCase()));
+}
+ 
   
   private BASE_URL2 = 'http://localhost:8080/api/Poste';
 
@@ -77,6 +78,8 @@ export class GetAllPosteCollabComponent implements OnInit {
         (data) => {
           this.approvedPostes = data;
           console.log('Approved Postes:', this.approvedPostes);
+          this.filterPostes();
+
         },
         (error) => {
           console.error('Error fetching approved postes:', error);

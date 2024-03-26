@@ -133,25 +133,88 @@ import { BioPopUpComponent } from './bio-pop-up/bio-pop-up.component';
       }
     }
      
-   prepareRadarChartData(): any {
-      const labels = this.collaborateurInfo.evaluations.map((evaluation: { competenceName: any; }) => evaluation.competenceName);
-      const data = this.collaborateurInfo.evaluations.map((evaluation: { evaluation: any; }) => evaluation.evaluation);
-  
+    prepareRadarChartData(): any {
+      const seriesData: { [key: string]: any } = {};
+     
+      // Filter evaluations based on the domain
+      const filteredEvaluations = this.collaborateurInfo.evaluations.filter((evaluation: { domaine: string }) => {
+         return evaluation.domaine === 'HardSkills' || evaluation.domaine === 'SoftSkills';
+      });
+     
+      // Generate labels based on the competences associated
+      const labels: string[] = [];
+     
+      // Populate labels with the names of the competences
+      filteredEvaluations.forEach((evaluation: { competenceName: string }) => {
+         if (!labels.includes(evaluation.competenceName)) {
+           labels.push(evaluation.competenceName);
+         }
+      });
+     
+      // Traverse the filtered evaluations
+      filteredEvaluations.forEach((evaluation: { competenceName: any; evaluation: any; domaine: any; }) => {
+         const domaineValue = evaluation.domaine;
+     
+         let backgroundColor, borderColor, pointBackgroundColor, pointHoverBackgroundColor;
+     
+         switch (domaineValue) {
+           case 'SoftSkills':
+             backgroundColor = 'rgba(75, 192, 192, 0.5)';
+             borderColor = 'rgba(75, 192, 192, 1)';
+             pointBackgroundColor = 'rgba(75, 192, 192, 1)';
+             pointHoverBackgroundColor = 'rgba(75, 192, 192, 1)';
+             break;
+           case 'HardSkills':
+             backgroundColor = 'rgba(255, 99, 132, 0.5)';
+             borderColor = 'rgba(255, 99, 132, 1)';
+             pointBackgroundColor = 'rgba(255, 99, 132, 1)';
+             pointHoverBackgroundColor = 'rgba(255, 99, 132, 1)';
+             break;
+           default:
+             backgroundColor = 'rgba(255, 255, 255, 0.5)';
+             borderColor = 'rgba(255, 255, 255, 1)';
+             pointBackgroundColor = 'rgba(255, 255, 255, 1)';
+             pointHoverBackgroundColor = 'rgba(255, 255, 255, 1)';
+             break;
+         }
+     
+         if (!seriesData[domaineValue]) {
+           seriesData[domaineValue] = {
+             label: domaineValue,
+             data: [],
+             backgroundColor: backgroundColor,
+             borderColor: borderColor,
+             pointBackgroundColor: pointBackgroundColor,
+             pointBorderColor: '#fff',
+             pointHoverBackgroundColor: pointHoverBackgroundColor,
+             pointHoverBorderColor: '#fff'
+           };
+         }
+     
+         // Find the index of the competenceName in the labels array
+         const index = labels.indexOf(evaluation.competenceName);
+         // Ensure the data array for the series has the same length as the labels array
+         while (seriesData[domaineValue].data.length <= index) {
+           seriesData[domaineValue].data.push(null); // Fill with nulls if the data array is shorter
+         }
+         // Set the evaluation value at the correct index
+         seriesData[domaineValue].data[index] = evaluation.evaluation;
+      });
+     
+      const datasets = Object.values(seriesData);
+     
       return {
-        labels: labels,
-        datasets: [{
-         label: 'Competences',
-         data: data,
-         backgroundColor: 'rgba(255, 99, 132, 0.5)', // Changed to a shade of red
-         borderColor: 'rgba(255, 99, 132, 1)', // Changed to a solid red
-         pointBackgroundColor: 'rgba(255, 99, 132, 1)', // Changed to a solid red
-         pointBorderColor: '#fff', // White border for points
-         pointHoverBackgroundColor: '#fff', // White background on hover
-         pointHoverBorderColor: 'rgba(255, 99, 132, 1)' // Red border on hover
-        }]
-        
+         labels: labels,
+         datasets: datasets
       };
-   }
+     }
+     
+    
+    
+    
+       
+    
+     
    ToEdit(): void {
     this.router.navigate(['/collaborateur/edit-profile']);
 }

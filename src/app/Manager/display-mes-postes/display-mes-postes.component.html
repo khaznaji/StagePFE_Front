@@ -262,7 +262,9 @@
                <div class="card-body">
                  <h4 class="card-title">Liste de mes Postes</h4>
                  <div class="d-flex justify-content-end mb-3">
-   </div>
+                  <!-- Bouton ajouté ici -->
+                  <button class="btn btn-inverse-primary" (click)="ToList()"> + Fiche De Poste</button>
+              </div>
                  <div>
          
    </div>
@@ -283,6 +285,7 @@
      <table class="table table-striped card-table">
        <thead>
          <tr>
+          <th>Ref</th>
            <th>Poste</th>
            <th>Competences</th>
            <th>Nombre de <br> postes ouverts </th>
@@ -291,6 +294,8 @@
        </thead>
        <tbody>
          <tr *ngFor="let poste of approvedPostes ">
+          <td class="poste-titre">#{{ poste.id }}</td>
+
            <td class="poste-titre">{{ poste.titre }}</td>
            <td *ngIf="poste.competences && poste.competences.length > 0">
              <div class="pill-container">

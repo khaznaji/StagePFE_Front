@@ -104,13 +104,9 @@
             [(ngModel)]="newCategory.domaine" id="domaine" name="domaine" #thisgenre="ngModel"
             [ngClass]="{ 'is-invalid': (thisgenre.invalid && thisgenre.touched) }">
       <option value="" disabled selected>-- Sélectionnez un domaine --</option>
-      <option value="Informatique_et_Technologie">Informatique et Technologie </option>
-      <option value="Business_et_Gestion">Business et Gestion</option>
-      <option value="Finance_et_comptabilité">Finance et comptabilité </option>
-      <option value="Ressources_humaines">Ressources humaines</option>
-       <option value="Marketing_et_Communication">Marketing et Communication </option>
-      <option value="Opérations_et_logistique">Opérations et logistique</option>
-      <option value="Consultation_et_conseil">Consultation et conseil</option>
+      <option value="    HardSkills">HardSkills</option>
+      <option value="SoftSkills">SoftSkills</option>
+    
 
     </select>
     <div *ngIf="thisgenre.invalid && thisgenre.touched" class="custom-error-message">

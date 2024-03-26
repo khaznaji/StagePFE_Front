@@ -1,21 +1,23 @@
+
 <div class="wrapper bg center-x flex-row">
    <main class="flex-row mt-1 mb-4 max-1200 " style="background-color: #f3f3f3;">
-       <div class="left-side flex-col job-main padding-1-0">
-           <div class="job-listing-container flex-col center-x" *ngIf="approvedPostes && approvedPostes.length > 0">
-               <div class="job-listing-container" *ngFor="let poste of approvedPostes" (click)="togglePosteDetails(poste.id)">
-                   <div class="information-container padding-half-0 flex-col">
-                       <div class="job-title-container padding-half-0">
-                           <strong><p class="job-title">{{ poste.titre }}</p></strong>
-    
+      <div class="left-side flex-col job-main padding-1-0">
+         <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Rechercher un poste..." (input)="filterPostes()" >
+         <br>
+         <div class="job-listing-container" *ngFor="let poste of filteredPostes" (click)="togglePosteDetails(poste.id)">
+            <div class="information-container padding-half-0 flex-col">
+                <div class="job-title-container padding-half-0">
+                    <strong><p class="job-title">{{ poste.titre }}</p></strong>
                     <span class="font-light-sm"><p><span class="icon">🏢</span> Departement: {{ poste.managerService ? poste.managerService.department : 'N/A' }}</p></span>
-                       </div>
-                   </div>
-               </div>
-           </div>
-           <div *ngIf="approvedPostes && approvedPostes.length === 0">
-               <p>Aucun poste trouvé.</p>
-           </div>
-       </div>
+                </div>
+            </div>
+        </div>
+        
+         <div *ngIf="filteredPostes && filteredPostes.length === 0">
+             <p>Aucun poste trouvé.</p>
+         </div>
+     </div>
+     
        <div class="right-side job-main" *ngIf="selectedPosteId !== null">
            <header class="header-listing flex-row sticky center padding-1" style="background-color: #f3f3f3;">
                <div class="job-listing-information-container flex-col mr-auto">

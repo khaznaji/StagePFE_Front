@@ -19,6 +19,8 @@ export class GestionPosteByIdComponent implements OnInit{
   collaborateursEnAttente: number = 0;
   collaborateursAcceptees: number = 0;
   collaborateursRefusees: number = 0;
+  filteredPostes: any[] = [];
+  searchTerm: string = ''; 
   ngOnInit(): void {
 
     this.route.params.subscribe(params => {
@@ -56,12 +58,17 @@ export class GestionPosteByIdComponent implements OnInit{
       }
     );
   }
+ 
+ 
   getRandomColor(index: number) {
     const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#34495e', '#1abc9c', '#d35400'];
     const setIndex = Math.floor(index / 10); // Calculate the set index based on competence index
     return colors[setIndex % colors.length]; // Use the set index to determine the color
   }
   //gestion candidat 
+  filterCandidats(): void {
+    this.filteredPostes = this.candidats.filter(poste => poste.nom.toLowerCase().includes(this.searchTerm.toLowerCase()));
+}
   candidats: any[] = [];
   getCandidatsByPoste(): void {
     this.posteService.getCandidatsByPosteId(this.postId)
@@ -69,6 +76,8 @@ export class GestionPosteByIdComponent implements OnInit{
         candidats => {
           this.candidats = candidats;
           console.log('Candidats:', this.candidats);
+          this.filterCandidats();
+
         },
         error => {
           console.error('Erreur lors de la récupération des candidats:', error);

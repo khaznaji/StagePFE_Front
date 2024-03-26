@@ -160,10 +160,16 @@ body {
  }
  
  /* Kanban Cards Container */
- .kanban-cards {
+ .kanban-card {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: center; /* Align items vertically in the center */
+  gap: 10px; /* Space between the image and text */
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: all-scroll; /* Change le curseur en une main lorsqu'il passe sur la carte */
+  transition: transform 0.3s ease;
  }
  
  /* Kanban Card */
@@ -175,7 +181,7 @@ body {
   border-radius: 5px;
   background-color: #e0e0e0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+  cursor: all-scroll; /* Change le curseur en une main lorsqu'il passe sur la carte */
   transition: transform 0.3s ease;
  }
  
@@ -184,7 +190,12 @@ body {
   height: 40px; /* Set a fixed height for the image */
   object-fit: cover; /* Ensure the image covers the area without stretching */
  }
- 
+ .poste-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
  .profile-info {
   display: flex;
   flex-direction: column;
