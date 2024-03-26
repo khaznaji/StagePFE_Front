@@ -1,146 +1,364 @@
 <style>
-    body {
-       font-family: 'Arial', sans-serif; /* Utilisez une police moderne et lisible */
-       background-color: #f4f4f4; /* Ajoutez un fond légèrement grisé pour une meilleure lisibilité */
-    }
+   /* Add these styles to your component's CSS file or global styles */
+ 
+   .table {
+     width: 80%; /* Adjust the width of the table */
+     margin: auto; /* Center the table */
+   }
+   .poste-titre {
+  max-width: 10ch; /* 'ch' is a unit that represents the width of the "0" (zero) character. */
+  white-space: pre-wrap; /* Allows the text to wrap to a new line */
+  overflow: hidden; /* Hides the overflow text */
+  text-overflow: ellipsis; /* Adds an ellipsis (...) to the end of the truncated text */
+ }
+   .table th,
+   .table td {
+     max-width: 200px; /* Set a maximum width for table cells */
+     overflow: hidden;
+     text-overflow: ellipsis; /* Display ellipsis for overflowing content */
+     white-space: nowrap; /* Prevent text from wrapping */
+   }
+ 
+   .table-responsive {
+     overflow-x: auto; /* Add horizontal scrollbar if necessary */
+   }
+   .pill-container {
+     display: flex;
+     flex-wrap: wrap;
+   }
+   .cover-photo {
+     width: 100%;
+     height: 200px; /* Adjust the height as needed */
+     object-fit: cover;
+     border-radius: 5px;
+     margin-bottom: 20px;
+   }
+ /* Ajoutez ces styles à votre fichier CSS */
+ .approval-message {
+   background-color: #d4edda; /* Couleur de fond pour indiquer une approbation */
+   color: #155724; /* Couleur du texte */
+   padding: 10px;
+   border: 1px solid #c3e6cb; /* Bordure légère */
+   border-radius: 5px;
+   margin-top: 10px; /* Espacement du haut */
+   text-align: center; /* Centrage du texte */
+   font-weight: bold;
+ }
+ 
    
-    .card {
-       background-color: #ffffff;
-       border-radius: 10px;
-       box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-       margin: 20px;
-       padding: 20px;
-       width: 90%;
-       display: flex;
-       flex-direction: column;
-       transition: transform 0.3s ease; /* Ajoutez une transition pour les animations */
+ .details-panel .button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+ }
+ 
+ .details-panel .button-container button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+ }
+ 
+ .details-panel .button-container .accept-button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+ }
+ 
+ .details-panel .button-container .accept-button:hover {
+  background-color: #45a049;
+ }
+ 
+ .details-panel .button-container .refuse-button {
+  background-color: #f44336; /* Red */
+  color: white;
+ }
+ 
+ .details-panel .button-container .refuse-button:hover {
+  background-color: #da190b;
+ }.details-panel {
+  /* Existing styles */
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px  #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+ }
+ 
+   .details-section {
+     margin-bottom: 20px;
+   }
+ 
+   .details-section h4 {
+     margin-bottom: 10px;
+     font-family: 'Roboto', sans-serif; /* A modern sans-serif font */
+ 
+   }
+   .pill {
+     background-color: #3498db; /* Change this color to your desired background color */
+     color: #ffffff; /* Change this color to your desired text color */
+     padding: 5px 10px;
+     margin: 3px;
+     border-radius: 15px;
+   }
+   /* Optional: If you want to reduce the width of the entire table, including the header */
+   .table-responsive table {
+     width: 100%; /* Adjust the width as needed */
+   }
+   .card-table {
+     width: 100%; /* Set the width of the table to 100% */
+   }
+   /* Optional: If you want to reduce the width of the table cells in a specific column */
+   .table-responsive .table td {
+     max-width: 150px; /* Adjust the width for all columns */
+   }
+   .view-more-link {
+  color: #007bff; /* Bootstrap primary color */
+  text-decoration: none;
+  cursor: pointer;
+ }
+ .view-less-link {
+  color: #007bff; /* Bootstrap primary color */
+  text-decoration: none;
+  cursor: pointer;
+ }
+ 
+ .view-less-link:hover {
+  text-decoration: underline;
+ }
+ .view-more-link:hover {
+  text-decoration: underline;
+ }
+   /* Add more styles as needed for other columns */
+ 
+ 
+ 
+   .file-input-wrapper {
+     display: flex;
+   flex-direction: column;
+   align-items: center;
+   }
+   .activated-row {
+     background-color: #c8e6c9;
+   /* Vous pouvez personnaliser la couleur comme vous le souhaitez */
+   }
+   .details-panel {
+     position: fixed;
+     top: 0;
+     right: 0;
+     max-height: 100%;
+     overflow-y: auto;
+     height: 100%;
+     background-color: #f2f2f2;
+     padding: 20px;
+     box-shadow: -5px 0 5px -5px #888; /* Add shadow on the left */
+     z-index: 999; /* Ensure it appears above other elements */
+   }
+ 
+   /* Style pour les lignes désactivées */
+   .deactivated-row {
+     background-color: #ffcdd2;
+   /* Vous pouvez personnaliser la couleur comme vous le souhaitez */
+   }
+   .check-icon {
+   color: green; /* Couleur verte pour la coche */
+   font-size: 20px; /* Taille de la police */
+   }
+ 
+   .cross-icon {
+   color: red; /* Couleur rouge pour la croix */
+   font-size: 20px; /* Taille de la police */
+   }
+ 
+   .drag-drop-area {
+   border: 2px dashed #ccc;
+   width: 200px;
+   height: 200px;
+   text-align: center;
+   cursor: pointer;
+   color: #777;
+   transition: border-color 0.3s ease-in-out;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   }
+ 
+   .drag-drop-area.drag-over {
+   border-color: #4caf50; /* Change border color when dragging over */
+   }
+ 
+   /* Optional: Add styles for better visual feedback */
+   .custom-file {
+   margin-top: 10px;
+   }
+ 
+   /* Optional: Style the file input button */
+   .custom-file-label::after {
+   content: 'Browse';
+   }
+ 
+   /* Optional: Add styles for selected file display */
+   .file-preview {
+   position: relative;
+   width: 100%; /* Adjust the width as needed */
+   height: 100%; /* Adjust the height as needed */
+   overflow: hidden;
+   }
+   /* Add these styles to your component's CSS file or global styles */
+ 
+   .preview-image {
+   max-width: 100%; /* Adjust the maximum width as needed */
+   max-height: 100%; /* Adjust the maximum height as needed */
+   display: block;
+   margin: auto;
+   }
+ 
+   /* Add styles to make the image take the same frame as the drag and drop area */
+   .file-preview {
+   position: relative;
+   width: 100%; /* Adjust the width as needed */
+   height: 200px; /* Adjust the height as needed */
+   overflow: hidden;
+   }
+ 
+   .file-preview img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   }
+ 
+   .remove-icon {
+   position: absolute;
+   top: 5px;
+   right: 5px;
+   cursor: pointer;
+   color: white;
+   font-weight: bold;
+   background-color: grey;
+   border-radius: 50%;
+   padding: 5px;
+   font-size: 12px;
+   }
+ 
+ 
+   </style>
+ 
+ 
+         <br>
+         <!-- Formulaire -->
+         <div class="card mx-auto text-center"  tabindex="-1" role="dialog">
+            <div class="card-body">
+             
+             
+ 
+         <!-- Liste des catégories -->
+             <div class="card">
+               <div class="card-body">
+                 <h4 class="card-title">Liste de mes Candidatures</h4>
+                 <div class="d-flex justify-content-end mb-3">
+   </div>
+                 <div>
+         
+   </div>
+ 
+ 
    
-       position: relative; /* Permet de positionner le bouton par rapport à la carte */
-    animation: fadeIn 1s ease-out;  }
-   
-    .card:hover {
-       transform: scale(1.02); /* Augmentez légèrement la taille de la carte lorsqu'elle est survolée */
-    }
-   
-    .card-title {
-     font-size: 15px; /* Réduit la taille du titre */
-    text-align: left;
-       margin-bottom: 10px;
-       color: #3d444a; /* Changez la couleur du titre pour une meilleure esthétique */
-    }
-   
-    .card-description {
-       margin-bottom: 10px;
-       text-align: center;
-       color: #333; /* Changez la couleur du texte pour une meilleure lisibilité */
-    }
-   
-    .pill {
-       background-color: #3498db;
-       color: #ffffff;
-       padding: 5px 10px;
-       margin: 3px;
-       border-radius: 15px;
-       transition: background-color 0.3s ease; /* Ajoutez une transition pour les animations */
-    }
-   
-    .pill:hover {
-       background-color: #2980b9; /* Changez la couleur de fond lorsqu'il est survolé */
-    }
-   
-    .pill-container {
-       display: flex;
-       flex-wrap: wrap;
-       justify-content: center;
-       margin-bottom: 10px;
-    }
-   
-    .card-info {
-       display: flex;
-       justify-content: space-between;
-       width: 100%;
-       margin-bottom: 10px;
-    }
-    .card-controls {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}   
-    .card-info p {
-       margin: 0;
-       width: 45%;
-    }
-   
-    .card-info .icon {
-       margin-right: 5px;
-    }
-   
-    .apply-button {
-       background-color: #3498db;
-       color: #ffffff;
-       padding: 10px 20px;
-       border: none;
-       border-radius: 5px;
-       cursor: pointer;
-       transition: background-color 0.3s ease, transform 0.3s ease; /* Ajoutez une transition pour les animations */
-    }
-   
-    .apply-button:hover {
-       background-color: #2980b9;
-       transform: scale(1.05); /* Augmentez légèrement la taille du bouton lorsqu'il est survolé */
-    }
-    h4 {
-       font-size: 28px; /* Augmentez la taille de la police pour un impact visuel */
-       font-weight: normal;
-       color: #3498db; /* Changez la couleur pour une meilleure esthétique */
-       text-align: center; /* Centrez le texte pour une meilleure présentation */
-       margin-bottom: 30px; /* Ajoutez un espace pour séparer l'en-tête du contenu */
-       text-transform: uppercase; /* Transformez le texte en majuscules pour un aspect plus moderne */
-       letter-spacing: 1px; /* Ajoutez un espace entre les lettres pour une meilleure lisibilité */
-    }
-    .poste-etat {
-    color: #888; /* Gris */
-    font-style: italic; /* Italique */
-    margin-left: 10px; /* Espacement à gauche */
-}
-
-    
-</style>
-
-<div *ngIf="postulations && postulations.length > 0">
-    <h4>Mes Candidatures </h4>
-    <div class="card" *ngFor="let poste of postulations; let i = index">
-        <div class="card-controls">
-            <button (click)="toggleFormVisibility(i)" class="btn btn-link">
-                <i [ngClass]="cardStates[i] ? 'mdi mdi-window-minimize' : 'mdi mdi-window-maximize'"></i>
-            </button>
-        </div>
-        <div class="card-title">{{ poste.poste.titre }}       <span class="poste-etat"  style="font-size: small;" *ngIf="poste.etatPostulation"> (  {{ poste.etatPostulation.toString().replace('_', ' ') }} )</span>
-        </div>
-        <div class="card-description" *ngIf="cardStates[i]">{{ poste.poste.description }}</div>
-        <div class="pill-container" *ngIf="cardStates[i]">
-            <span *ngFor="let competence of poste.poste.competences; let i = index" class="pill" [style.background-color]="getRandomColor(i)">
-                {{ competence.nom }}
+   <!-- <div class="ml-2">
+     <select [(ngModel)]="filterOption" class="form-control" (change)="applyFilter()">
+       <option value="all">Tous</option>
+       <option value="NonTraite">NonTraite</option>
+       <option value="Archive">Archive</option>
+       <option value="Accepter">Accepter</option>
+ 
+     </select>
+   </div> -->
+   <div  class="table-responsive" >
+     
+     <table class="table table-striped card-table">
+       <thead>
+         <tr>
+           <th>Poste</th>
+           <th>Manager Service</th>
+           <th>Status</th>
+           <th>Action</th> 
+         </tr>
+       </thead>
+       <tbody *ngIf="postulations && postulations.length > 0">
+         <tr *ngFor="let poste of postulations; let i = index">
+           <td class="poste-titre">{{ poste.poste.titre }}  </td>
+           <td class="poste-titre">{{ poste.poste.managerNom ? poste.poste.managerNom : 'N/A' }} {{ poste.poste.managerPrenom ? poste.poste.managerPrenom : 'N/A' }} </td>
+           <td *ngIf="poste.etatPostulation">
+            <ng-container  class="pill-container">
+            <span [ngClass]="{
+              'status-accepted': poste.etatPostulation.toString() === 'ACCEPTEE',
+              'status-refused': poste.etatPostulation.toString() === 'REFUSEE',
+              'status-in-progress': poste.etatPostulation.toString() ===  'EN_ATTENTE'
+            }">
+              {{ formatEtat(poste.etatPostulation.toString().replace('_', ' ')) }}
             </span>
-        </div>
-        <div class="card-info" *ngIf="cardStates[i]">
-            <p><span class="icon">🏢</span> Departement: {{ poste.poste.managerService ? poste.poste.managerService.department : 'N/A' }}</p>
-            <p><span class="icon">👤</span> Manager Service: {{ poste.poste.managerNom ? poste.poste.managerNom : 'N/A' }} {{ poste.poste.managerPrenom ? poste.poste.managerPrenom : 'N/A' }}</p>
-            <p><span class="icon">📍</span> Nombre de poste ouverts: {{ poste.poste.nombrePostesDisponibles }}</p>
-        </div>
-    </div>
-</div>
-<div *ngIf="postulations && postulations.length === 0">
-    <p>Aucun poste trouvé.</p>
-</div>
+         </ng-container>
+          </td>
+        <td>
+          <button (click)="togglePosteDetails(poste.poste.id)" type="button" class="btn btn-inverse-info btn-icon">
+            <i class="mdi mdi mdi-eye      "></i>
+          </button>
+        </td>
 
+      
+
+         </tr>
+       </tbody>
+     </table>
+   </div>
+ 
+   
+ 
+             </div>
+           </div>
+           
+       </div>
+     </div>
+    
+     <div *ngIf="selectedPosteId !== null" class="details-panel" style="width: 600px;" (click)="closeDetailsPanel()" [@panelAnimation]="selectedPoste ? '*' : 'void'">
+      <br>
+      <br>
+      <br>
+      <div class="details-container">
+        
+         <!-- Static Cover Photo -->
+         <div class="details-section">
+           <h4>{{ selectedPoste?.titre }}</h4>
+           <h6>Reference du poste : #{{selectedPoste?.id}}</h6>
+           <h6 *ngIf="selectedPoste?.managerService" style="font-weight: normal; color: gray; font-style: italic; text-decoration: underline;">
+             Demande de :
+             {{ selectedPoste?.managerNom ? selectedPoste?.managerNom : 'N/A' }}
+             {{ selectedPoste?.managerPrenom ? selectedPoste?.managerPrenom : 'N/A' }}
+           </h6>
+
+           <h6 style="font-weight: normal; color: rgb(56, 53, 53); font-style: italic;">
+             Nombre de poste ouverts : {{ selectedPoste?.nombrePostesDisponibles }}
+           </h6>
+           <br>
+           <div class="details-section">
+            <h4>Compétences Requises</h4>
+            <div class="pill-container">
+              <span *ngFor="let competence of selectedPoste?.competences; let i = index" class="pill" >
+                {{ competence.nom }}
+              </span>
+            </div>
+          </div>
+        <hr>
+        <h4>Detail Du Poste </h4>
+           <p>{{ selectedPoste?.description }}</p>
+         </div>
+       
+      </div>
+     </div>
+     
+   

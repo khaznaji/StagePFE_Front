@@ -125,23 +125,100 @@
     color: #6c757d; /* Couleur du sous-titre */
     margin-bottom: 20px; /* Espace sous le sous-titre */
    }
-   .kanban-board {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-   }
-   
-   .kanban-column {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    width: 30%;
-   }
-   
-   .kanban-cards {
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-   }
-   
+   /* General Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+ }
+ 
+ /* Kanban Board Container */
+ .kanban-board {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+ }
+ 
+ /* Kanban Column */
+ .kanban-column {
+  width: 30%;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+ }
+ 
+ /* Kanban Column Title */
+ .kanban-column h3 {
+  margin: 0 0 10px;
+  color: #333;
+  font-size: 18px;
+ }
+ 
+ /* Kanban Cards Container */
+ .kanban-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+ }
+ 
+ /* Kanban Card */
+ .kanban-card {
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+  gap: 10px; /* Space between the image and text */
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+ }
+ 
+ .profile-image {
+  width: 40px; /* Set a fixed width for the image */
+  height: 40px; /* Set a fixed height for the image */
+  object-fit: cover; /* Ensure the image covers the area without stretching */
+ }
+ 
+ .profile-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Align text vertically in the center */
+ }
+ 
+ .kanban-card:hover {
+  transform: translateY(-5px);
+ }
+ 
+ /* Buttons */
+ .btn {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+ }
+ 
+ .btn-success {
+  background-color: #4caf50;
+  color: #fff;
+ }
+ 
+ .btn-success:hover {
+  background-color: #45a049;
+ }
+ 
+ .btn-danger {
+  background-color: #f44336;
+  color: #fff;
+ }
+ 
+ .btn-danger:hover {
+  background-color: #da190b;
+ }
+ 

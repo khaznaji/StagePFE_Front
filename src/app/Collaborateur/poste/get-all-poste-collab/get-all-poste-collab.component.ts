@@ -2,6 +2,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Poste } from 'src/app/model/poste.model';
 import { PosteService } from 'src/app/service/poste.service';
 import { UserAuthService } from 'src/app/service/user-auth.service';
 import Swal from 'sweetalert2';
@@ -19,6 +20,7 @@ export class GetAllPosteCollabComponent implements OnInit {
 
   ngOnInit(): void {
     this.getApprovedPostes();
+   
   }
   getRandomColor(index: number) {
     const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#34495e', '#1abc9c', '#d35400'];
@@ -81,4 +83,32 @@ export class GetAllPosteCollabComponent implements OnInit {
         }
       );
   }
+  selectedPosteId: number | null = null
+  togglePosteDetails(posteId: number): void {
+
+    // If the selectedPosteId is the same as the posteId passed to the method, close the details panel
+    if (this.selectedPosteId === posteId) {
+    } else {
+       // Otherwise, load the details for the new posteId
+       this.selectedPosteId = posteId;
+       this.loadSelectedPosteDetails(posteId);
+    }
+   }
+   closeDetailsPanel() {
+    this.selectedPosteId = null;
+  }
+  selectedPoste: Poste | null = null; // Track the selected poste for details
+
+   loadSelectedPosteDetails(posteId: number): void {
+    // Assuming the PosteService has a method to get a Poste by its ID
+    this.posteService.getPosteById(posteId).subscribe(
+       data => {
+         this.selectedPoste = data;
+         console.log('Selected Poste details:', this.selectedPoste);
+       },
+       error => {
+         console.error('Error loading selected Poste details:', error);
+       }
+    );
+   }
 }

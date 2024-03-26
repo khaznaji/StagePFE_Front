@@ -1,0 +1,326 @@
+/* general styling */
+
+* {
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fff;
+  color: #272727;
+  font-family: 'Quicksand', sans-serif;
+  min-height: 100vh;
+  min-width: 625px;
+}
+.message-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Assurez-vous que le conteneur prend toute la hauteur disponible */
+  font-family: 'Arial', sans-serif; /* Choisissez une police claire et moderne */
+  color: #333; /* Choisissez une couleur de texte sombre pour un contraste agréable */
+  background-color: #f3f3f3; /* Utilisez une couleur de fond légère pour un design minimaliste */
+  padding: 20px; /* Ajoutez un peu de padding pour améliorer la lisibilité */
+  box-sizing: border-box; /* Assurez-vous que le padding n'augmente pas la taille totale du conteneur */
+ }
+ 
+a {
+  text-decoration: none;
+}
+
+h4 {
+  font-size: 0.9rem;
+}
+
+.job-title {
+  font-size: 1.2rem;
+}
+
+ul {
+  list-style-position: inside;
+  list-style: disc;
+  margin: 1rem 0;
+  margin-left: 3rem;
+}
+
+ul li {
+  margin-bottom: 1rem;
+}
+
+.input-lg {
+  width: 16rem;
+}
+
+.input-md {
+  width: 10rem;
+}
+
+.input-sm {
+  width: 8rem;
+}
+
+input,
+select,
+button,
+.input {
+  border: 1px solid #2f2f2f;
+  color: #272727;
+  font-family: 'Quicksand', sans-serif;
+  padding: 0.5rem;
+}
+
+input[type='submit']:hover {
+  background-color: #d9d9d9;
+}
+
+.btn {
+  border: none;
+  background-color: #0073b1;
+  color: #f9f7f3;
+  width: 8rem;
+  height: 3rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.btn:hover {
+  background-color: #058ed8;
+  cursor: pointer;
+}
+
+main p {
+  line-height: 1.5;
+}
+
+strong {
+  font-weight: bold;
+}
+
+.job-description-container p {
+  margin: 0.5rem 0;
+}
+
+
+/* utility */
+
+.logo {
+  color: #0073b1;
+  font-family: 'Krona One', sans-serif;
+  font-size: 2rem;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.center {
+  align-items: center;
+  justify-content: center;
+}
+
+.center-x {
+  justify-content: center;
+}
+
+.margin-center {
+  margin: 0 auto;
+}
+
+.sticky {
+  position: sticky;
+  width: 100%;
+  top: 0;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 4rem;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.mr-1 {
+  margin-right: 1rem;
+}
+
+.padding-half {
+  padding: 0.5rem;
+}
+
+.padding-half-0 {
+  padding: 0.5rem 0;
+}
+
+.padding-half-1 {
+  padding: 0.5rem 1rem;
+}
+
+.padding-1 {
+  padding: 1rem;
+}
+
+.padding-1-0 {
+  padding: 1rem 0;
+}
+
+.padding-2 {
+  padding: 2rem;
+}
+
+.header-listing {
+  background-color: #f9f7f3;
+  border-bottom: 1px solid #2f2f2f;
+}
+
+.font-light-sm {
+  font-size: 75%;
+}
+
+
+/* structure */
+
+.search-bar {
+  border: 1px solid #2f2f2f;
+}
+
+.left-side {
+  border-right: 1px solid #272727;
+  flex-basis: 40%;
+  padding: 1rem; /* Ajoutez un padding pour améliorer l'espacement à l'intérieur */
+  overflow-y: auto; /* Permet le défilement si le contenu dépasse la hauteur */
+ }
+
+.right-side {
+  flex-basis: 60%;
+}
+
+.job-main {
+  overflow-y: scroll;
+  height: 100%;
+  max-height: 90vh;
+}
+
+.bg {
+  background: linear-gradient(45deg, #0073b1 85%, #f9f7f3 85%);
+}
+
+.max-1200 {
+  max-width: 1200px;
+  width: 100%;
+}
+
+main {
+  background-color: #f9f7f3;
+  box-shadow: 0 0 3px #333;
+}
+
+
+.job-listing-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #2f2f2f;
+  margin-bottom: 1rem;
+  cursor: pointer; /* Change le curseur en main pour indiquer que l'élément est cliquable */
+ }
+
+ .job-listing-container:hover {
+  box-shadow: 0px 0px 5px #0073b1;
+  transform: scale(1.01); /* Ajoutez une légère mise en évidence lors du survol */
+ }
+
+.job-listing-container:last-child {
+  margin-bottom: 0;
+}
+
+.img {
+  height: 50px;
+  width: 50px;
+  background-color: #d9d9d9;
+}
+
+
+/* footer */
+
+footer {
+  background-color: #0d1321;
+  box-shadow: 0 5px 20px 0 #101111;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  padding: 1rem 0;
+  width: 100%;
+}
+
+footer p {
+  font-size: 14px;
+  color: #fffafb;
+  text-align: center;
+}
+.job-listing-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #2f2f2f;
+  margin-bottom: 1rem;
+  padding: 1rem;
+ }
+ 
+ .job-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+ }
+ 
+ .img-container {
+  margin-right: 1rem;
+ }
+ 
+ .img {
+  height: 50px;
+  width: 50px;
+  background-color: #d9d9d9;
+ }
+ 
+ .information-container {
+  display: flex;
+  flex-direction: column;
+ }
+ 
+ .company-name-container,
+ .job-title-container,
+ .location-container {
+  margin-bottom: 0.5rem;
+ }
+ 
+
+.pill:nth-child(1) { background-color: #ce625a; } /* Rouge */
+.pill:nth-child(2) { background-color: #629b64; } /* Vert */
+.pill:nth-child(3) { background-color: #3a5972; } /* Bleu */
+.pill:nth-child(4) { background-color: #bd79eb; } /* Jaune */
+.pill:nth-child(5) { background-color: #6776b6; } /* Violet */
+.pill-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.pill {
+  background-color: #3498db; /* Change this color to your desired background color */
+  color: #ffffff; /* Change this color to your desired text color */
+  padding: 5px 10px;
+  margin: 3px;
+  border-radius: 15px;
+}

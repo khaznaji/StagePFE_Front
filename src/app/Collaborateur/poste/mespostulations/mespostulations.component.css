@@ -1,0 +1,87 @@
+.pill-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+
+.status-accepted {
+    color: white; /* Ensure text color is white for better contrast */
+    background-color: #4CAF50;
+    padding: 5px 10px;
+    margin: 3px;
+    border-radius: 15px;
+}
+
+   .status-refused {
+    background-color: #F44336;
+    color: white;
+    padding: 5px 10px;
+    margin: 3px;
+    border-radius: 15px;
+   }
+   
+   .status-in-progress {
+    background-color: #ce8a3d;
+    color: white;
+    padding: 5px 10px;
+    margin: 3px;
+    border-radius: 15px;
+   }
+     
+.details-panel .button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+ }
+ 
+ .details-panel .button-container button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+ }
+ 
+ .details-panel .button-container .accept-button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+ }
+ 
+ .details-panel .button-container .accept-button:hover {
+  background-color: #45a049;
+ }
+ 
+ .details-panel .button-container .refuse-button {
+  background-color: #f44336; /* Red */
+  color: white;
+ }
+ 
+ .details-panel .button-container .refuse-button:hover {
+  background-color: #da190b;
+ }.details-panel {
+  /* Existing styles */
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px  #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+ }
+ .pill:nth-child(1) { background-color: #ce625a; } /* Rouge */
+.pill:nth-child(2) { background-color: #629b64; } /* Vert */
+.pill:nth-child(3) { background-color: #3a5972; } /* Bleu */
+.pill:nth-child(4) { background-color: #bd79eb; } /* Jaune */
+.pill:nth-child(5) { background-color: #6776b6; } /* Violet */
+   .details-section {
+     margin-bottom: 20px;
+   }
+ 
+   .details-section h4 {
+     margin-bottom: 10px;
+     font-family: 'Roboto', sans-serif; /* A modern sans-serif font */
+ 
+   }

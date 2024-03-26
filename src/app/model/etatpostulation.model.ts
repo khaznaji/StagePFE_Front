@@ -1,3 +1,5 @@
 export enum EtatPostulation {
-    EN_ATTENTE, ACCEPTEE, REFUSEE , En_Cours_De_Traitement
+    ACCEPTEE = 'ACCEPTEE',
+    REFUSEE = 'REFUSEE',
+    EN_ATTENTE = 'EN_ATTENTE'
   }

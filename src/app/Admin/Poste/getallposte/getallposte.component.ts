@@ -131,11 +131,10 @@ export class GetallposteComponent implements OnInit {
 
   isDetailsPanelOpen = false; // Variable to track the details panel state
 
-
   showDetails(poste: Poste) {
     this.selectedPoste = poste;
   }
-
+  
   closeDetailsPanel() {
     this.selectedPoste = null;
   }
