@@ -1,6 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { EtatPoste } from 'src/app/model/etatposte.model';
 import { Poste } from 'src/app/model/poste.model';
 import { PosteService } from 'src/app/service/poste.service';
 import Swal from 'sweetalert2';
@@ -39,19 +40,21 @@ export class GetallposteComponent implements OnInit {
   applyFilter() {
     this.filteredEvents = [...this.postes];
     switch (this.filterOption) {
-      case 'NonTraite':
-        this.filteredEvents = this.filteredEvents.filter((poste: { encours: boolean }) => poste.encours);
-        break;
-      case 'Archive':
-        this.filteredEvents = this.filteredEvents.filter((poste: { archive: boolean }) => poste.archive);
-        break;
-      case 'Accepter':
-        this.filteredEvents = this.filteredEvents.filter((poste: { approuveParManagerRH: boolean }) => poste.approuveParManagerRH);
-        break;
-      default:
-        break;
+        case 'Nouvelle Demandes':
+            // Filtrer les postes qui ne sont pas traités (par exemple, ceux qui ne sont pas 'Accepte' ou 'Archive')
+            this.filteredEvents = this.filteredEvents.filter(poste => poste.poste !== EtatPoste.Accepte && poste.etatPoste !== EtatPoste.Archive);
+            break;
+        case 'Demandes Rejetées':
+            this.filteredEvents = this.filteredEvents.filter(poste => poste.poste === EtatPoste.Rejete);
+            break;
+        case 'Demandes Acceptées':
+            this.filteredEvents = this.filteredEvents.filter(poste => poste.poste === EtatPoste.Accepte);
+            break;
+          
+        default:
+            break;
     }
-  }
+}
   
   toggleCompetences() {
      this.showAllCompetences = !this.showAllCompetences;
@@ -110,7 +113,7 @@ export class GetallposteComponent implements OnInit {
   ngOnInit(): void {
     this.filteredEvents = [...this.postes];
     this.applyFilter();
-    this.posteService.getAllPostes().subscribe(
+    this.posteService.getDemandesEnCours().subscribe(
       (data) => {
         this.postes = data;
         this.applyFilter();

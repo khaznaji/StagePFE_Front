@@ -165,13 +165,22 @@
             <span class="menu-title">Competences</span>
           </a>
         </li>
+     
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/managerRh/all-poste']">
+          <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="auth">
             <i class="mdi mdi mdi-briefcase menu-icon"></i>
-            <span class="menu-title">Fiche de poste</span>
+            <span class="menu-title">Fiches de poste</span>
+            <i class="menu-arrow"></i>
+      
           </a>
+          <div class="collapse" id="ui-basic">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" [routerLink]="['/managerRh/demande-poste']" > Nouvelles Demandes</a></li>
+              <li class="nav-item"> <a class="nav-link"  [routerLink]="['/managerRh/poste-candidats']"> Candidatures</a></li>
+           </ul>
+          </div>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
             <i class="mdi mdi-circle-outline menu-icon"></i>
             <span class="menu-title">UI Elements</span>
@@ -183,7 +192,7 @@
               <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
             </ul>
           </div>
-        </li>
+        </li> -->
        
         <li class="nav-item">
           <a class="nav-link" href="pages/charts/chartjs.html">

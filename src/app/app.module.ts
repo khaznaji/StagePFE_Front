@@ -54,6 +54,9 @@ import { GestionPosteByIdComponent } from './Manager/gestion-poste-by-id/gestion
 import { ViewCandidateByIdComponent } from './Manager/gestion-poste-by-id/view-candidate-by-id/view-candidate-by-id.component';
 import { FilterPipe } from './Manager/gestion-poste-by-id/filter.pipe';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CandidatureComponent } from './Admin/Poste/candidature/candidature.component';
+import { AppouvedPosteComponent } from './Manager/display-mes-postes/DemandeApprouve/appouved-poste/appouved-poste.component';
+import { PostApprouvedIdComponent } from './Manager/display-mes-postes/PostApprouvedId/post-approuved-id/post-approuved-id.component';
 
 
 @NgModule({
@@ -72,7 +75,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AddCompetenceModalComponent,
     AjouterCompetenceModalComponent,
     GestionPosteByIdComponent,
-    ViewCandidateByIdComponent,FilterPipe
+    ViewCandidateByIdComponent,FilterPipe, CandidatureComponent, AppouvedPosteComponent, PostApprouvedIdComponent, 
 
   ],
   imports: [

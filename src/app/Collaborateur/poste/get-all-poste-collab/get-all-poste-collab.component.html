@@ -1,17 +1,29 @@
 
 <div class="wrapper bg center-x flex-row">
    <main class="flex-row mt-1 mb-4 max-1200 " style="background-color: #f3f3f3;">
+    
       <div class="left-side flex-col job-main padding-1-0">
-         <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Rechercher un poste..." (input)="filterPostes()" >
-         <br>
+        <div class="search-card" >
+            <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Rechercher un poste..." (input)="filterPostes()">
+        </div>
+       <br>
          <div class="job-listing-container" *ngFor="let poste of filteredPostes" (click)="togglePosteDetails(poste.id)">
             <div class="information-container padding-half-0 flex-col">
-                <div class="job-title-container padding-half-0">
-                    <strong><p class="job-title">{{ poste.titre }}</p></strong>
+                <div class="job-title-container padding-half-0" >
+                    <!-- Ajout de l'image ici -->
+                    <div style=" align-items: center;     display: flex;
+                    ">
+                    <div>
+                    <img style="margin-right: 10px;" width="50px" height="50px" src="data:image/png;base64,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" alt="Image du poste" class="job-image">
+                </div>
+                <div>
+                <strong><p class="job-title">{{ poste.titre }}</p></strong></div>
+                </div>
                     <span class="font-light-sm"><p><span class="icon">🏢</span> Departement: {{ poste.managerService ? poste.managerService.department : 'N/A' }}</p></span>
                 </div>
             </div>
         </div>
+        
         
          <div *ngIf="filteredPostes && filteredPostes.length === 0">
              <p>Aucun poste trouvé.</p>

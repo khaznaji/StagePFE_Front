@@ -89,9 +89,29 @@
  align-items: center;
 
 }
+.button-container {
+ display: flex;
+ justify-content: space-between; /* Espace les boutons uniformément */
+ align-items: center; /* Aligne les boutons verticalement au centre */
+ width: 100%; /* Assure que le conteneur prend toute la largeur disponible */
+ gap: 10px; /* Ajoute un espace entre les boutons */
+}
+
+.button-container button {
+ flex: 1; /* Permet aux boutons de s'étirer pour occuper l'espace disponible */
+ padding: 10px 20px;
+ font-size: 16px;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+ transition: background-color 0.3s ease;
+}
+
+
 
   .details-section {
-    margin-bottom: 20px;
+    margin-bottom: 20px;;
+    
   }
 
   .details-section h4 {
@@ -294,10 +314,9 @@
   <div class="ml-2">
     <select [(ngModel)]="filterOption" class="form-control" (change)="applyFilter()">
       <option value="all">Tous</option>
-      <option value="NonTraite">NonTraite</option>
-      <option value="Archive">Archive</option>
-      <option value="Accepter">Accepter</option>
-
+      <option value="En_cours">Nouvelle Demandes</option>
+      <option value="Rejecte">Demandes Rejetées</option>
+      <option value="Accepte">Demandes Acceptées</option>
     </select>
   </div>
   <div  class="table-responsive" >
@@ -305,6 +324,7 @@
     <table class="table table-striped card-table">
       <thead>
         <tr>
+          <th>Ref</th>
           <th>Poste</th>
           <th>Departement</th>
           <th>Manager Service</th>
@@ -315,6 +335,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let poste of filteredEvents">
+          <td>#{{poste.id}}</td>
           <td class="poste-titre">{{ poste.titre }}</td>
           <td *ngIf="poste.managerService">
             <p>{{ poste.managerService.department }}</p>
@@ -325,7 +346,7 @@
           <td *ngIf="poste.competences && poste.competences.length > 0">
             <div class="pill-container">
                <ng-container *ngFor="let competence of poste.competences; let i = index">
-                 <span *ngIf="i < 3 || showAllCompetences" class="pill" [style.background-color]="getRandomColor(i)">
+                 <span *ngIf="i < 3 || showAllCompetences" class="pill" >
                    {{ competence.nom }}
                  </span>
                </ng-container>
@@ -335,7 +356,9 @@
               </div>
            </td>
           <td>
-            <a class="mdi mdi-eye"(click)="toggleDetailsPanel(poste)"></a>
+            <button (click)="toggleDetailsPanel(poste)" type="button" class="btn btn-inverse-info btn-icon">
+              <i class="mdi mdi mdi-eye      "></i>
+            </button>
           </td>
         </tr>
       </tbody>
@@ -343,7 +366,7 @@
   </div>
 
   
-  <div *ngIf="selectedPoste" class="details-panel" style="width: 300px;" (click)="closeDetailsPanel()" [@panelAnimation]="selectedPoste ? '*' : 'void'">
+  <div *ngIf="selectedPoste" class="details-panel" style="width: 600px;" (click)="closeDetailsPanel()" [@panelAnimation]="selectedPoste ? '*' : 'void'">
     <br>
 <br>
 <br>
@@ -352,8 +375,10 @@
       <!-- Static Cover Photo -->
   
       <div class="details-section">
-
+       
         <h4>{{ selectedPoste.titre }}</h4>
+        <h6>Reference du poste : #{{selectedPoste.id}}</h6>
+
 
         <h6 *ngIf="selectedPoste.managerService" style="font-weight: normal; color: gray; font-style: italic; text-decoration: underline;">
           Demande de :
@@ -365,34 +390,30 @@
        Nombre de poste ouverts : {{ selectedPoste.nombrePostesDisponibles }}
       </h6>
        <br>
-        <p>{{ selectedPoste.description }}</p>
-      </div>
-  <hr>
-      <div class="details-section">
-        <h4>Compétences</h4>
+       <div class="details-section">
+        <h4>Compétences Requises</h4>
         <div class="pill-container">
-          <span *ngFor="let competence of selectedPoste.competences; let i = index" class="pill" [style.background-color]="getRandomColor(i)">
+          <span *ngFor="let competence of selectedPoste.competences; let i = index" class="pill" >
             {{ competence.nom }}
           </span>
         </div>
       </div>
-      <div class="button-container">
+      <hr>
+      <h4>Description</h4>
+
+        <p>{{ selectedPoste.description }}</p>
+      </div>
+     
+      <div >
         <!-- Si approuveParManagerRH est égal à true, affiche un message -->
-        <ng-container *ngIf="selectedPoste.approuveParManagerRH; else buttonsSection">
-          <div class="justify-content-center">
-          <div class="approval-message">
-            <p>Demande Traitée</p>
-          </div>
-        </div>
-        </ng-container>
-        
-      
-        <!-- Sinon, affiche les boutons -->
-        <ng-template #buttonsSection>
-          <button *ngIf="!selectedPoste.archive" class="refuse-button" (click)="onRefuse(selectedPoste.id)">Refuser</button>
-          <button *ngIf="selectedPoste.archive" class="refuse-button" (click)="onDelete(selectedPoste.id)">Supprimer</button>
+        <div class="button-container">
+          <button  class="refuse-button" (click)="onRefuse(selectedPoste.id)">Refuser</button>
           <button class="accept-button" (click)="onAccept(selectedPoste.id)">Accepter</button>
-        </ng-template>
+        </div>
+        
+        
+        <!-- Sinon, affiche les boutons -->
+      
       </div>
       
        

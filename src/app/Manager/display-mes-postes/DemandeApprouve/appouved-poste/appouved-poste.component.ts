@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Poste } from 'src/app/model/poste.model';
 import { PosteService } from 'src/app/service/poste.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-display-mes-postes',
-  templateUrl: './display-mes-postes.component.html',
-  styleUrls: ['./display-mes-postes.component.css']
+  selector: 'app-appouved-poste',
+  templateUrl: './appouved-poste.component.html',
+  styleUrls: ['./appouved-poste.component.css']
 })
-export class DisplayMesPostesComponent implements OnInit{
+export class AppouvedPosteComponent implements OnInit{
   ngOnInit(): void {
     this.getApprovedPostes();
 
@@ -40,7 +39,7 @@ export class DisplayMesPostesComponent implements OnInit{
  }
  
   getApprovedPostes(): void {
-    this.posteService.PosteEncoursRefuse()
+    this.posteService.PosteApprouve()
       .subscribe(
         (data) => {
           this.approvedPostes = data;
@@ -94,7 +93,7 @@ export class DisplayMesPostesComponent implements OnInit{
   this.router.navigate(['managerService/edit-postes', postid]);
  }
  ToPostId(postid :number  ){
-  this.router.navigate(['managerService/poste', postid]);
+  this.router.navigate(['managerService/poste-approuve', postid]);
  }
 
 }

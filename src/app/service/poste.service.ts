@@ -47,6 +47,10 @@ getAllCandidatures(posteId: number): Observable<any[]> {
   getAllPostes(): Observable<Poste[]> {
     return this.http.get<Poste[]>(`${this.BASE_URL2}/getAll`);
   }
+  getDemandesEnCours(): Observable<Poste[]> {
+    return this.http.get<Poste[]>(`${this.BASE_URL2}/demandesEnCours`);
+  }
+
 
   getApprovedAndNotAppliedPostes(): Observable<Poste[]> {
     const authToken = this.authService.getToken();
@@ -108,13 +112,21 @@ postuler(postId: number): Observable<string> {
   return this.http.post<string>(`${this.BASE_URL2}/postuler/${postId}`, {headers});
 }
 
-mespostes(): Observable<any> {
+PosteEncoursRefuse(): Observable<any> {
   const authToken = this.authService.getToken();
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${authToken}`
   });
   headers.delete('Content-Type');
-  return this.http.get<any>(`${this.BASE_URL2}/AllPostesByManagerService`, {headers});
+  return this.http.get<any>(`${this.BASE_URL2}/PostesEnCoursRefuseByManagerService`, {headers});
+}
+PosteApprouve(): Observable<any> {
+  const authToken = this.authService.getToken();
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${authToken}`
+  });
+  headers.delete('Content-Type');
+  return this.http.get<any>(`${this.BASE_URL2}/AllPostesApprouveByManagerService`, {headers});
 }
 
 deletePosteByManagerService(postId: number): Observable<any> {

@@ -29,6 +29,9 @@ import { EditFicheComponent } from './Manager/edit-fiche/edit-fiche.component';
 import { GestionProfileComponent } from './Collaborateur/gestion-profile/gestion-profile.component';
 import { AddCompetenceModalComponent } from './Manager/edit-fiche/add-competence-modal/add-competence-modal.component';
 import { GestionPosteByIdComponent } from './Manager/gestion-poste-by-id/gestion-poste-by-id.component';
+import { CandidatureComponent } from './Admin/Poste/candidature/candidature.component';
+import { AppouvedPosteComponent } from './Manager/display-mes-postes/DemandeApprouve/appouved-poste/appouved-poste.component';
+import { PostApprouvedIdComponent } from './Manager/display-mes-postes/PostApprouvedId/post-approuved-id/post-approuved-id.component';
 
 const routes: Routes = [
   
@@ -51,7 +54,9 @@ const routes: Routes = [
   {path:'all-collaborateur', component:AllcollabComponent},
   {path:'user-detail/:id', component:UserByIdComponent},
   {path:'dashboard', component:DashboardAdminComponent},
-  {path:'all-poste', component:GetallposteComponent},
+  {path:'demande-poste', component:GetallposteComponent},
+  {path:'poste-candidats', component:CandidatureComponent},
+
 ]},
 
 {  path: 'collaborateur', component: CollabMenuComponent ,children: [
@@ -71,6 +76,8 @@ const routes: Routes = [
   {path:'mes-postes', component:DisplayMesPostesComponent}, 
   {path:'edit-postes/:postId', component:EditFicheComponent}, 
   {path:'poste/:postId', component: GestionPosteByIdComponent}, 
+  {path:'postes-approuve', component:AppouvedPosteComponent}, 
+  {path:'poste-approuve/:postId', component:PostApprouvedIdComponent}, 
 
 ]}
 

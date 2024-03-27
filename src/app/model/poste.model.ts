@@ -1,5 +1,6 @@
 import { Competence } from "./competence.model";
 import { Departement } from "./departement.model";
+import { EtatPoste } from "./etatposte.model";
 import { ManagerService } from "./managerservice.model";
 
 export class Poste{
@@ -16,5 +17,6 @@ export class Poste{
     managerPrenom!: string;
     archive!:boolean ; 
     encours!:boolean ; 
+    poste!:EtatPoste; 
 
   }

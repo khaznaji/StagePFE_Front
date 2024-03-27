@@ -197,12 +197,22 @@ strong {
 .search-bar {
   border: 1px solid #2f2f2f;
 }
-
+.search-card {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Assure que la carte est au-dessus des autres éléments */
+  background-color: #fff; /* Ajustez la couleur de fond selon vos préférences */
+  padding: 10px; /* Ajoutez un peu de padding pour améliorer l'espacement à l'intérieur */
+}
 .left-side {
   border-right: 1px solid #272727;
   flex-basis: 40%;
   padding: 1rem; /* Ajoutez un padding pour améliorer l'espacement à l'intérieur */
-  overflow-y: auto; /* Permet le défilement si le contenu dépasse la hauteur */
+  overflow-y: auto;
+  position: relative; /* Assure que les éléments enfants peuvent être positionnés par rapport à ce conteneur */
+  overflow-y: auto; 
+  height: 100vh; /* Définissez une hauteur maximale pour le conteneur parent */
+  /* Permet le défilement si le contenu dépasse la hauteur */
  }
 
 .right-side {
@@ -279,7 +289,8 @@ footer p {
   margin-bottom: 1rem;
   padding: 1rem;
  }
- 
+
+
  .job-item {
   display: flex;
   flex-direction: row;
