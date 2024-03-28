@@ -65,6 +65,8 @@ import { AddQuestionComponent } from './Manager/quizQuestions/add-question/add-q
 import { UpdateQuestionComponent } from './Manager/quizQuestions/update-question/update-question.component';
 import { ViewQuestionComponent } from './Manager/quizQuestions/view-question/view-question.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { DisplayDemandePublieComponent } from './Manager/DemandePublie/display-demande-publie/display-demande-publie.component';
+import { PostByIdComponent } from './Manager/display-mes-postes/PostEncours/post-by-id/post-by-id.component';
 
 
 @NgModule({
@@ -85,7 +87,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     GestionPosteByIdComponent,
     ViewCandidateByIdComponent,FilterPipe, CandidatureComponent, AppouvedPosteComponent,
      PostApprouvedIdComponent, AddQuizComponent, UpdateQuizComponent, ViewQuizComponent,
-      AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent
+      AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent
 
   ],
   imports: [

@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Poste } from 'src/app/model/poste.model';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { PosteService } from 'src/app/service/poste.service';
 import Swal from 'sweetalert2';
-import { AddQuizComponent } from '../quiz/add-quiz/add-quiz.component';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
-  selector: 'app-display-mes-postes',
-  templateUrl: './display-mes-postes.component.html',
-  styleUrls: ['./display-mes-postes.component.css']
+  selector: 'app-display-demande-publie',
+  templateUrl: './display-demande-publie.component.html',
+  styleUrls: ['./display-demande-publie.component.css']
 })
-export class DisplayMesPostesComponent implements OnInit{
+export class DisplayDemandePublieComponent  implements OnInit{
   ngOnInit(): void {
     this.getApprovedPostes();
 
@@ -42,7 +40,7 @@ export class DisplayMesPostesComponent implements OnInit{
  }
  
   getApprovedPostes(): void {
-    this.posteService.PosteEncoursRefuse()
+    this.posteService.getPostePulie()
       .subscribe(
         (data) => {
           this.approvedPostes = data;
@@ -96,7 +94,7 @@ export class DisplayMesPostesComponent implements OnInit{
   this.router.navigate(['managerService/edit-postes', postid]);
  }
  ToPostId(postid :number  ){
-  this.router.navigate(['managerService/poste-encours', postid]);
+  this.router.navigate(['managerService/poste', postid]);
  }
  modalRef!: BsModalRef;
 

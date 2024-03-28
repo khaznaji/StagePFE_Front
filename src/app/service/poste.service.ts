@@ -51,7 +51,9 @@ getAllCandidatures(posteId: number): Observable<any[]> {
     return this.http.get<Poste[]>(`${this.BASE_URL2}/demandesEnCours`);
   }
 
-
+  getPostePulie(): Observable<Poste[]> {
+    return this.http.get<Poste[]>(`${this.BASE_URL2}/postepublie`);
+  }
   getApprovedAndNotAppliedPostes(): Observable<Poste[]> {
     const authToken = this.authService.getToken();
     const headers = new HttpHeaders({
@@ -77,7 +79,9 @@ getAllCandidatures(posteId: number): Observable<any[]> {
   updateApproval(postId: number): Observable<any> {
     return this.http.put(`${this.BASE_URL2}/updateApproval/${postId}`, {});
   }
-
+  PubliePoste(postId: number): Observable<any> {
+    return this.http.put(`${this.BASE_URL2}/publieposte/${postId}`, {});
+  }
   updateRefus(postId: number): Observable<any> {
   return this.http.put(`${this.BASE_URL2}/updateRefus/${postId}`, {});
   }

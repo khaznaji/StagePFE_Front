@@ -38,6 +38,8 @@ import { UpdateQuizComponent } from './Manager/quiz/update-quiz/update-quiz.comp
 import { AddQuestionComponent } from './Manager/quizQuestions/add-question/add-question.component';
 import { ViewQuestionComponent } from './Manager/quizQuestions/view-question/view-question.component';
 import { UpdateQuestionComponent } from './Manager/quizQuestions/update-question/update-question.component';
+import { DisplayDemandePublieComponent } from './Manager/DemandePublie/display-demande-publie/display-demande-publie.component';
+import { PostByIdComponent } from './Manager/display-mes-postes/PostEncours/post-by-id/post-by-id.component';
 
 const routes: Routes = [
   
@@ -90,6 +92,9 @@ const routes: Routes = [
   {path:'add-question/:id', component:AddQuestionComponent}, 
   {path: 'view-question/:qid/:qtitle', component: ViewQuestionComponent },
   {path: 'update-question/:quesId', component: UpdateQuestionComponent },
+  {path: 'poste-publie', component: DisplayDemandePublieComponent },
+  {path: 'poste-encours/:postId', component: PostByIdComponent },
+
 
 
 

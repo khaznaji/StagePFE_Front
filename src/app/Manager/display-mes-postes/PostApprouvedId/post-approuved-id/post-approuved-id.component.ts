@@ -98,5 +98,16 @@ ToEdit(postid :number  ){
     }
   });
 }
-
+publierPoste(postId: number): void {
+  this.posteService.PubliePoste(postId).subscribe(
+    () => {
+      console.log('Poste publié avec succès');
+      // Ajoutez ici votre logique après la publication du poste
+    },
+    (error) => {
+      console.error('Erreur lors de la publication du poste :', error);
+      // Ajoutez ici votre logique pour gérer les erreurs de publication du poste
+    }
+  );
+}
 }

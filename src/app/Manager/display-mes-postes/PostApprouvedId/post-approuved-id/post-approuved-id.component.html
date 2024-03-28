@@ -8,15 +8,12 @@
         </div>
         <div class="poste-details">  
     <h6>Nombre de poste ouverts : {{poste.nombrePostesDisponibles}} </h6>
-    <button class="btn btn-inverse-primary"
-    (click)="openModal()"
-            
-            >
-              Ajouter Un Test Technique
-
-            </button>
+    <button class="btn btn-inverse-primary"(click)="openModal()" >
+      Ajouter Un Test Technique</button>
+    
           </div>
-
+          <button class="btn btn-inverse-warning" [disabled]="!quizzes || quizzes.length === 0" (click)="publierPoste(poste.id)">
+Publier</button>
 </div>
 </div>
 </div>
