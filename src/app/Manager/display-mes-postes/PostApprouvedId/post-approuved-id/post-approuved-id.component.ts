@@ -1,11 +1,15 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ViewCandidateByIdComponent } from 'src/app/Manager/gestion-poste-by-id/view-candidate-by-id/view-candidate-by-id.component';
+import { AddQuizComponent } from 'src/app/Manager/quiz/add-quiz/add-quiz.component';
 import { Candidature } from 'src/app/model/candidature.model';
+import { Quiz } from 'src/app/model/quiz.model';
 import { PosteService } from 'src/app/service/poste.service';
+import { QuizService } from 'src/app/service/quiz.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-post-approuved-id',
@@ -23,27 +27,16 @@ export class PostApprouvedIdComponent implements OnInit{
     this.route.params.subscribe(params => {
       this.postId = +params['postId']; // Convertissez la chaîne en nombre
       this.loadPosteDetails(); 
-      this.getCandidatsByPoste();
-      this.getCandidatures();
+      
+      this.loadQuizzesByPostId(this.postId);
 
-      this.posteService.countCollaborateursEnAttente(this.postId).subscribe(count => {
-        this.collaborateursEnAttente = count;
-      });
-  
-      this.posteService.countCollaborateursAcceptees(this.postId).subscribe(count => {
-        this.collaborateursAcceptees = count;
-      });
-  
-      this.posteService.countCollaborateursRefusees(this.postId).subscribe(count => {
-        this.collaborateursRefusees = count;
-      });
       // Fetch post details when component initializes
     });
   }
   postId!: number;
   poste: any; 
 
-  constructor(private route: ActivatedRoute , private posteService: PosteService ,public dialog: MatDialog ,  private modalService: BsModalService) {}
+  constructor( private route: ActivatedRoute ,private router: Router, private quizService : QuizService , private posteService: PosteService ,public dialog: MatDialog ,  private modalService: BsModalService) {}
   private loadPosteDetails() {
     this.posteService.getPosteById(this.postId).subscribe(
       data => {
@@ -57,91 +50,53 @@ export class PostApprouvedIdComponent implements OnInit{
   }
  
  
-  getRandomColor(index: number) {
-    const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#34495e', '#1abc9c', '#d35400'];
-    const setIndex = Math.floor(index / 10); // Calculate the set index based on competence index
-    return colors[setIndex % colors.length]; // Use the set index to determine the color
-  }
-  //gestion candidat 
-  filterCandidats(): void {
-    this.filteredPostes = this.candidats.filter(poste => poste.nom.toLowerCase().includes(this.searchTerm.toLowerCase()));
-}
-  candidats: any[] = [];
-  getCandidatsByPoste(): void {
-    this.posteService.getCandidatsByPosteId(this.postId)
-      .subscribe(
-        candidats => {
-          this.candidats = candidats;
-          console.log('Candidats:', this.candidats);
-          this.filterCandidats();
+ 
 
-        },
-        error => {
-          console.error('Erreur lors de la récupération des candidats:', error);
-        }
-      );
-  }
   modalRef!: BsModalRef;
-  openModal(candidatId: number): void {
-    const initialState = {
-      candidatId: candidatId
-    };
-    this.modalRef = this.modalService.show(ViewCandidateByIdComponent, { initialState });
-  }
+ 
   
-  openCandidatDetailModal(candidatId: number): void {
-    this.posteService.getCollaborateurInfoById(candidatId).subscribe(candidat => {
-      this.dialog.open(ViewCandidateByIdComponent, {
-        width: '400px',
-        data: candidat
-      });
-    });
-  }
   
-
-
-onDrop(event: CdkDragDrop<string[]>, newState: string) {
-  if (event.previousContainer === event.container) {
-    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-  } else {
-    const candidatId = event.item.element.nativeElement.id; // Obtenez l'ID du candidat
-    const posteId = /* Obtenez l'ID du poste */ this.postId;
-    this.modifierEtatCandidature(candidatId, newState);
-    this.getCandidatures();
-
-    transferArrayItem(event.previousContainer.data,
-                      event.container.data,
-                      event.previousIndex,
-                      event.currentIndex);
-  }
+ openModal() {
+  this.modalRef = this.modalService.show(AddQuizComponent);
 }
-modifierEtatCandidature(collaborateurId: string, newState: string) {
-  this.posteService.updateCandidatureState(collaborateurId, newState)
-    .subscribe(
-      (candidature: Candidature) => {
-        console.log('État de la candidature mis à jour avec succès : ', candidature);
-        this.getCandidatures();
 
-        // Mettez à jour votre interface utilisateur ou effectuez d'autres actions en fonction de la réponse
+
+quizzes: Quiz[] = [];
+
+loadQuizzesByPostId(postId: number): void {
+  this.quizService.getQuizzesByPostId(postId)
+    .subscribe(
+      (quizzes: Quiz[]) => {
+        this.quizzes = quizzes;
       },
       (error) => {
-        console.error('Erreur lors de la mise à jour de l\'état de la candidature : ', error);
-        // Gérer les erreurs
+        console.error('Error fetching quizzes:', error);
+        // Gérer l'erreur, par exemple, afficher un message d'erreur à l'utilisateur
       }
     );
 }
-candidatures: any[] = [];
-getCandidatures(): void {
-  this.posteService.getAllCandidatures(this.postId)
-    .subscribe(
-      candidatures => {
-        this.candidatures = candidatures;
-        console.log('Candidatures:', this.candidatures);
-        
-      },
-      error => {
-        console.error('Erreur lors de la récupération des candidatures:', error);
-      }
-    );
+ToEdit(postid :number  ){
+  this.router.navigate(['managerService/update-test', postid]);
+ }
+ deleteQuiz(qid:any) {
+  Swal.fire({
+    icon: 'info',
+    title: 'Are you sure you want to delete?',
+    confirmButtonText: 'Delete',
+    showCancelButton: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.quizService.deleteQuiz(qid).subscribe(
+        (data) => {
+          this.ngOnInit();
+          Swal.fire('Success!', 'Quiz Deleted ', 'success');
+        },
+        (error) => {
+          Swal.fire('Error!', 'server loading error', 'error');
+        }
+      );
+    }
+  });
 }
+
 }

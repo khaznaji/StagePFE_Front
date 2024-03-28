@@ -1,0 +1,24 @@
+<div class="container">
+    <h2>Edit Quiz</h2>
+    <form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" class="form-control" id="title" formControlName="title">
+      </div>
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <input type="text" class="form-control" id="description" formControlName="description">
+      </div>
+      <div class="form-group">
+        <label for="maxMarks">Max Marks:</label>
+        <input type="number" class="form-control" id="maxMarks" formControlName="maxMarks">
+      </div>
+      <div class="form-group">
+        <label for="numberOfQuestions">Number of Questions:</label>
+        <input type="number" class="form-control" id="numberOfQuestions" formControlName="numberOfQuestions">
+      </div>
+     
+      <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+  </div>
+  

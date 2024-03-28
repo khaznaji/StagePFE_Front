@@ -32,6 +32,12 @@ import { GestionPosteByIdComponent } from './Manager/gestion-poste-by-id/gestion
 import { CandidatureComponent } from './Admin/Poste/candidature/candidature.component';
 import { AppouvedPosteComponent } from './Manager/display-mes-postes/DemandeApprouve/appouved-poste/appouved-poste.component';
 import { PostApprouvedIdComponent } from './Manager/display-mes-postes/PostApprouvedId/post-approuved-id/post-approuved-id.component';
+import { AddQuizComponent } from './Manager/quiz/add-quiz/add-quiz.component';
+import { ViewQuizComponent } from './Manager/quiz/view-quiz/view-quiz.component';
+import { UpdateQuizComponent } from './Manager/quiz/update-quiz/update-quiz.component';
+import { AddQuestionComponent } from './Manager/quizQuestions/add-question/add-question.component';
+import { ViewQuestionComponent } from './Manager/quizQuestions/view-question/view-question.component';
+import { UpdateQuestionComponent } from './Manager/quizQuestions/update-question/update-question.component';
 
 const routes: Routes = [
   
@@ -78,6 +84,15 @@ const routes: Routes = [
   {path:'poste/:postId', component: GestionPosteByIdComponent}, 
   {path:'postes-approuve', component:AppouvedPosteComponent}, 
   {path:'poste-approuve/:postId', component:PostApprouvedIdComponent}, 
+  {path:'add-test/:id', component:AddQuizComponent}, 
+  {path:'update-test/:id', component:UpdateQuizComponent}, 
+  {path:'all-test', component:ViewQuizComponent}, 
+  {path:'add-question/:id', component:AddQuestionComponent}, 
+  {path: 'view-question/:qid/:qtitle', component: ViewQuestionComponent },
+  {path: 'update-question/:quesId', component: UpdateQuestionComponent },
+
+
+
 
 ]}
 

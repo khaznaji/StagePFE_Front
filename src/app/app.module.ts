@@ -12,6 +12,7 @@ import { MenuloginComponent } from './User/menulogin/menulogin.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { RecaptchaModule } from "ng-recaptcha";
+
 import { RequestPasswordComponent } from './User/request-password/request-password.component';
 import { EmailSuccessComponent } from './User/Dialog/email-success/email-success.component';
 import { ResetPasswordComponent } from './User/reset-password/reset-password.component';
@@ -57,6 +58,13 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CandidatureComponent } from './Admin/Poste/candidature/candidature.component';
 import { AppouvedPosteComponent } from './Manager/display-mes-postes/DemandeApprouve/appouved-poste/appouved-poste.component';
 import { PostApprouvedIdComponent } from './Manager/display-mes-postes/PostApprouvedId/post-approuved-id/post-approuved-id.component';
+import { AddQuizComponent } from './Manager/quiz/add-quiz/add-quiz.component';
+import { UpdateQuizComponent } from './Manager/quiz/update-quiz/update-quiz.component';
+import { ViewQuizComponent } from './Manager/quiz/view-quiz/view-quiz.component';
+import { AddQuestionComponent } from './Manager/quizQuestions/add-question/add-question.component';
+import { UpdateQuestionComponent } from './Manager/quizQuestions/update-question/update-question.component';
+import { ViewQuestionComponent } from './Manager/quizQuestions/view-question/view-question.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 @NgModule({
@@ -75,11 +83,13 @@ import { PostApprouvedIdComponent } from './Manager/display-mes-postes/PostAppro
     AddCompetenceModalComponent,
     AjouterCompetenceModalComponent,
     GestionPosteByIdComponent,
-    ViewCandidateByIdComponent,FilterPipe, CandidatureComponent, AppouvedPosteComponent, PostApprouvedIdComponent, 
+    ViewCandidateByIdComponent,FilterPipe, CandidatureComponent, AppouvedPosteComponent,
+     PostApprouvedIdComponent, AddQuizComponent, UpdateQuizComponent, ViewQuizComponent,
+      AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent
 
   ],
   imports: [
-    BrowserModule,
+    BrowserModule , 
     CommonModule,
     ReactiveFormsModule,
     MatStepperModule,MatInputModule, MatButtonModule,
@@ -96,9 +106,9 @@ import { PostApprouvedIdComponent } from './Manager/display-mes-postes/PostAppro
     }),BrowserAnimationsModule,
     ButtonsModule.forRoot(),
 
-    BsDropdownModule.forRoot(),     DragDropModule
+    BsDropdownModule.forRoot(),     DragDropModule,
 
-
+    CKEditorModule,
 
 
     

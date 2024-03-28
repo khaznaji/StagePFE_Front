@@ -90,7 +90,7 @@ export class AppouvedPosteComponent implements OnInit{
     });
   }
  ToEdit(postid :number  ){
-  this.router.navigate(['managerService/edit-postes', postid]);
+  this.router.navigate(['managerService/add-test', postid]);
  }
  ToPostId(postid :number  ){
   this.router.navigate(['managerService/poste-approuve', postid]);

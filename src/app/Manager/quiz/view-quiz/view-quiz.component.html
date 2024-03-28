@@ -1,0 +1,33 @@
+
+        <ul class="card" *ngFor="let quiz of quiz">
+            <li>
+            <p>{{ quiz.title }}</p>
+        </li>
+        <li>
+            <p>{{ quiz.poste.titre }}</p> </li>
+            <li>{{ quiz.description }}</li>
+  
+          <div class="container ml-4">
+            <button
+              [routerLink]="'/managerService/view-question/' + quiz.qid + '/' + quiz.title"
+            
+            >
+              Questions
+            </button>
+            <li >
+              Total Question {{ quiz.numberOfQuestions }}
+            </li>
+            <li>
+              Marks {{ quiz.maxMarks }}
+            </li>
+           
+            <button  (click)="ToEdit(quiz.qid)">edit
+            </button>
+            <button  (click)="deleteQuiz(quiz.qid)">
+delete            </button>
+<button  (click)="ToQuestion(quiz.qid)">
+    ajouter question            </button>
+          </div>
+        </ul>
+    
+  

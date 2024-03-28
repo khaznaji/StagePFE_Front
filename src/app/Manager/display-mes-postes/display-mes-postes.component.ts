@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Poste } from 'src/app/model/poste.model';
 import { PosteService } from 'src/app/service/poste.service';
 import Swal from 'sweetalert2';
+import { AddQuizComponent } from '../quiz/add-quiz/add-quiz.component';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-display-mes-postes',
@@ -16,7 +18,7 @@ export class DisplayMesPostesComponent implements OnInit{
   }
 
   approvedPostes!: any[];
-  constructor(private posteService: PosteService , private router: Router){}
+  constructor(private posteService: PosteService , private router: Router ){}
   
   cardStates: boolean[] = []; 
   approuveParManagerRH: boolean = false;
@@ -96,5 +98,7 @@ export class DisplayMesPostesComponent implements OnInit{
  ToPostId(postid :number  ){
   this.router.navigate(['managerService/poste', postid]);
  }
+ modalRef!: BsModalRef;
+
 
 }
