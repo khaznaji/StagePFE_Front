@@ -56,8 +56,12 @@ export class PostApprouvedIdComponent implements OnInit{
  
   
   
- openModal() {
-  this.modalRef = this.modalService.show(AddQuizComponent);
+
+openModal(postId: number): void {
+  const initialState = {
+    postId: postId
+  };
+  this.modalRef = this.modalService.show(AddQuizComponent, { initialState });
 }
 
 

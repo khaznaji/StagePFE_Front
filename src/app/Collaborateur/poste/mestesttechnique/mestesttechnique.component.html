@@ -1,0 +1,31 @@
+<div *ngIf="tests">
+    <h2>Tests associés au collaborateur connecté :</h2>
+    <div class="row">
+        <div *ngFor="let test of tests" class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ test.title }}</h5>
+                    <p class="card-text">{{ test.description }}</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Read the questions carefully</li>
+                        <li class="list-group-item">All questions are MCQ types</li>
+                        <li class="list-group-item">There are <b>{{ test.numberOfQuestions }} Questions</b> in this quiz</li>
+                        <li class="list-group-item">Time limit is <b>{{ test.numberOfQuestions * 2 }} minutes only</b></li>
+                        <li class="list-group-item">Each question carries <b>{{ test.maxMarks / test.numberOfQuestions }} marks</b></li>
+                        <li class="list-group-item">After time finished quiz will be submitted automatically</li>
+                    </ul>
+                    <ul>
+                        <li>Click <b>Start</b> to start the quiz</li>
+                        <li>You can not resume the quiz if gets interrupted</li>
+                        <li>Time will start when you click the quiz</li>
+                        <li>Report will be generated in pdf form</li>
+                    </ul>
+                    <div class="card-body">
+                        <button (click)="startQuiz(test.qid ,  test.candidatureId )" class="btn btn-primary full-width">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</div>

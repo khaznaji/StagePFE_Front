@@ -113,7 +113,7 @@
                         <td>{{ candidat.email }}</td>
                        <td>
                         <button (click)="openModal(candidat.id)" type="button" class="btn btn-inverse-info btn-icon">
-                          <i class="mdi mdi mdi-eye"></i>
+                          <i class="mdi mdi mdi-eye      "></i>
                         </button> 
                        </td>
                       </tr>
@@ -148,29 +148,10 @@
 
     </div>
   </div>
-    <!-- Colonne Preselection -->
-  <div class="kanban-column"  style="  border-top: 5px solid #b38935;
-  " cdkDropList [cdkDropListData]="candidatures" id="Preselection" (cdkDropListDropped)="onDrop($event, 'Preselection')" [cdkDropListConnectedTo]="['Entretien','ACCEPTEE', 'REFUSEE']">
+  <div class="kanban-column"  style="  border-top: 5px solid #edf127;
+  " cdkDropList [cdkDropListData]="candidatures" id="Preselection" (cdkDropListDropped)="onDrop($event, 'Preselection')" [cdkDropListConnectedTo]="['ACCEPTEE', 'REFUSEE']">
     <h3>Pre-selection</h3>
     <div class="kanban-cards" *ngFor="let candidature of candidatures | filter:'Preselection'" cdkDrag [id]="candidature.candidature_id">
-      <div class="kanban-card">
-        <img class="profile-image rounded-circle" [src]="'assets/images/' + candidature.image" alt="Profile Image">
-        <div class="profile-info">
-           {{ candidature.nom }} {{ candidature.prenom }} 
-        </div>
-              <button (click)="openModal(candidature.collaborateur_id)" class="btn btn-inverse-secondary btn-icon">
-                <i class="mdi mdi mdi-eye      "></i>
-              </button>
-
-       </div>
-
-    </div>
-  </div>
-  <!--Colonne  Entretien -->
-  <div class="kanban-column"  style="  border-top: 5px solid #68065d;
-  " cdkDropList [cdkDropListData]="candidatures" id="Entretien" (cdkDropListDropped)="onDrop($event, 'Entretien')" [cdkDropListConnectedTo]="['ACCEPTEE', 'REFUSEE']">
-    <h3>Entretien</h3>
-    <div class="kanban-cards" *ngFor="let candidature of candidatures | filter:'Entretien'" cdkDrag [id]="candidature.candidature_id">
       <div class="kanban-card">
         <img class="profile-image rounded-circle" [src]="'assets/images/' + candidature.image" alt="Profile Image">
         <div class="profile-info">

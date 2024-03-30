@@ -57,7 +57,10 @@ export class ViewQuestionComponent implements OnInit {
     this.router.navigate(['/managerService/update-question/', quesId]);
   }
   modalRef!: BsModalRef;
-  openModal() {
-   this.modalRef = this.modalService.show(AddQuestionComponent);
- }
+  openModal(qid: number): void {
+    const initialState = {
+      qid: qid
+    };
+    this.modalRef = this.modalService.show(AddQuestionComponent, { initialState });
+  }
 }

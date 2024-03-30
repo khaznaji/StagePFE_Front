@@ -12,25 +12,18 @@ import Swal from 'sweetalert2';
 export class DisplayDemandePublieComponent  implements OnInit{
   ngOnInit(): void {
     this.getApprovedPostes();
-
   }
 
   approvedPostes!: any[];
   constructor(private posteService: PosteService , private router: Router ){}
-  
   cardStates: boolean[] = []; 
   approuveParManagerRH: boolean = false;
   archive: boolean = false;
-  encours: boolean = false;// Tableau pour stocker l'état de chaque carte
+  encours: boolean = false;
+
   ToList()
-  {
-    this.router.navigate(['managerService/add-fiche-de-poste']);
-
-  }
-
-
+  {this.router.navigate(['managerService/add-fiche-de-poste']);}
   showAllCompetences = false; 
-
   toggleFormVisibility(index: number): void {
     // Inversion de l'état de la carte à l'index spécifié
     this.cardStates[index] = !this.cardStates[index];
@@ -38,7 +31,6 @@ export class DisplayDemandePublieComponent  implements OnInit{
   toggleCompetences() {
     this.showAllCompetences = !this.showAllCompetences;
  }
- 
   getApprovedPostes(): void {
     this.posteService.getPostePulie()
       .subscribe(
@@ -52,7 +44,6 @@ export class DisplayDemandePublieComponent  implements OnInit{
       );
   }
   selectedFilter: string = '';
- 
   onDelete(postId: number): void {
     Swal.fire({
       title: 'Êtes-vous sûr?',

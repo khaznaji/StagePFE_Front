@@ -298,7 +298,9 @@
             <span [ngClass]="{
               'status-accepted': poste.etatPostulation.toString() === 'ACCEPTEE',
               'status-refused': poste.etatPostulation.toString() === 'REFUSEE',
-              'status-in-progress': poste.etatPostulation.toString() ===  'EN_ATTENTE'
+              'status-in-progress': poste.etatPostulation.toString() ===  'EN_ATTENTE',
+
+
             }">
               {{ formatEtat(poste.etatPostulation.toString().replace('_', ' ')) }}
             </span>

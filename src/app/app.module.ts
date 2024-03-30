@@ -67,7 +67,14 @@ import { ViewQuestionComponent } from './Manager/quizQuestions/view-question/vie
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DisplayDemandePublieComponent } from './Manager/DemandePublie/display-demande-publie/display-demande-publie.component';
 import { PostByIdComponent } from './Manager/display-mes-postes/PostEncours/post-by-id/post-by-id.component';
-
+import { GetpostebyidComponent } from './Admin/Poste/getpostebyid/getpostebyid.component';
+import { MestesttechniqueComponent } from './Collaborateur/poste/mestesttechnique/mestesttechnique.component';
+import { StartTestComponent } from './Collaborateur/poste/start-test/start-test.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -87,10 +94,15 @@ import { PostByIdComponent } from './Manager/display-mes-postes/PostEncours/post
     GestionPosteByIdComponent,
     ViewCandidateByIdComponent,FilterPipe, CandidatureComponent, AppouvedPosteComponent,
      PostApprouvedIdComponent, AddQuizComponent, UpdateQuizComponent, ViewQuizComponent,
-      AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent
+      AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent
 
   ],
   imports: [
+    MatProgressSpinnerModule,
+    MatProgressBarModule, // Importez MatProgressSpinnerModule ici
+    MatRadioModule,
+    MatCardModule, // Importez MatCardModule ici
+    MatDividerModule,
     BrowserModule , 
     CommonModule,
     ReactiveFormsModule,

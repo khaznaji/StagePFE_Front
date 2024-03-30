@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Quiz } from 'src/app/model/quiz.model';
 import { QuizService } from 'src/app/service/quiz.service';
@@ -15,7 +15,8 @@ import { UpdateQuizComponent } from '../update-quiz/update-quiz.component';
   styleUrls: ['./add-quiz.component.css']
 })
 export class AddQuizComponent implements OnInit {
-  postId!: number;
+  @Input() postId!: number;
+
   quizForm: FormGroup;
   submitted = false;
 
@@ -24,6 +25,7 @@ export class AddQuizComponent implements OnInit {
     private quizService: QuizService,
     private route: ActivatedRoute , 
     private router: Router,
+    private modalRef: BsModalRef
 
   ) {
     this.quizForm = this.formBuilder.group({
@@ -35,9 +37,11 @@ export class AddQuizComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.postId = +params['id']; // Convertissez la chaîne en nombre
-    });
+    if (this.modalRef.content) {
+      this.postId = this.modalRef.content.postId;
+
+   }
+  
   }
 
   get f() { return this.quizForm.controls; }

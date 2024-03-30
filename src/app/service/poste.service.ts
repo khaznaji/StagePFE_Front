@@ -52,7 +52,16 @@ getAllCandidatures(posteId: number): Observable<any[]> {
   }
 
   getPostePulie(): Observable<Poste[]> {
-    return this.http.get<Poste[]>(`${this.BASE_URL2}/postepublie`);
+    const authToken = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${authToken}`
+    });
+    headers.delete('Content-Type');
+    return this.http.get<Poste[]>(`${this.BASE_URL2}/postepublie` , { headers });
+  }
+  getPostePulieCoteManagerRh(): Observable<Poste[]> {
+   
+    return this.http.get<Poste[]>(`${this.BASE_URL2}/getPostePublieCoteManagerRh` );
   }
   getApprovedAndNotAppliedPostes(): Observable<Poste[]> {
     const authToken = this.authService.getToken();
@@ -71,6 +80,17 @@ getAllCandidatures(posteId: number): Observable<any[]> {
     headers.delete('Content-Type');
     return this.http.get<Candidature[]>(`${this.BASE_URL2}/postulations` , { headers } );
   } 
+  getMesTestTechnique(): Observable<Candidature[]> {
+    const authToken = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${authToken}`
+    });
+    headers.delete('Content-Type');
+    return this.http.get<Candidature[]>(`${this.BASE_URL2}/testsForConnectedCollaborator` , { headers } );
+  } 
+  updateScore(candidatureId: number, newScore: number) {
+    return this.http.put(`${this.BASE_URL2}/${candidatureId}/score?score=${newScore}`, {});
+  }
 
   getPosteById(postId: number): Observable<Poste> {
     return this.http.get<Poste>(`${this.BASE_URL2}/getPosteById/${postId}`);

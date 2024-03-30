@@ -28,4 +28,7 @@ export class QuestionService {
   public updateQuestion(data: any) {
     return this.http.put(`${this.baseUrl}/update`, data);
   }
+  public getQuestionsOfQuizForUser(qid: any , candidatureId: any) {
+    return this.http.get(`${this.baseUrl}/quiz/${qid}/candidature/${candidatureId}`);
+  }
 }

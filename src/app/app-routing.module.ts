@@ -40,6 +40,9 @@ import { ViewQuestionComponent } from './Manager/quizQuestions/view-question/vie
 import { UpdateQuestionComponent } from './Manager/quizQuestions/update-question/update-question.component';
 import { DisplayDemandePublieComponent } from './Manager/DemandePublie/display-demande-publie/display-demande-publie.component';
 import { PostByIdComponent } from './Manager/display-mes-postes/PostEncours/post-by-id/post-by-id.component';
+import { GetpostebyidComponent } from './Admin/Poste/getpostebyid/getpostebyid.component';
+import { MestesttechniqueComponent } from './Collaborateur/poste/mestesttechnique/mestesttechnique.component';
+import { StartTestComponent } from './Collaborateur/poste/start-test/start-test.component';
 
 const routes: Routes = [
   
@@ -64,6 +67,8 @@ const routes: Routes = [
   {path:'dashboard', component:DashboardAdminComponent},
   {path:'demande-poste', component:GetallposteComponent},
   {path:'poste-candidats', component:CandidatureComponent},
+  {path:'poste/:postId', component: GetpostebyidComponent}, 
+
 
 ]},
 
@@ -73,6 +78,8 @@ const routes: Routes = [
   {path:'mes-postulations', component:MespostulationsComponent},
   {path:'profile', component:GestionProfileComponent},
   {path:'edit-profile', component:EditProfileComponent},
+  {path:'mes-tests-techniques', component:MestesttechniqueComponent},
+  {path:'start-test/:qid/:candidatureId', component:StartTestComponent},
 
 
 ]}, 
@@ -86,7 +93,7 @@ const routes: Routes = [
   {path:'poste/:postId', component: GestionPosteByIdComponent}, 
   {path:'postes-approuve', component:AppouvedPosteComponent}, 
   {path:'poste-approuve/:postId', component:PostApprouvedIdComponent}, 
-  {path:'add-test/:id', component:AddQuizComponent}, 
+  {path:'add-test/:postId', component:AddQuizComponent}, 
   {path:'update-test/:id', component:UpdateQuizComponent}, 
   {path:'all-test', component:ViewQuizComponent}, 
   {path:'add-question/:id', component:AddQuestionComponent}, 
