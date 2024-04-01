@@ -43,6 +43,7 @@ import { PostByIdComponent } from './Manager/display-mes-postes/PostEncours/post
 import { GetpostebyidComponent } from './Admin/Poste/getpostebyid/getpostebyid.component';
 import { MestesttechniqueComponent } from './Collaborateur/poste/mestesttechnique/mestesttechnique.component';
 import { StartTestComponent } from './Collaborateur/poste/start-test/start-test.component';
+import { InterviewOnlineComponent } from './Collaborateur/Entretien/interview-online/interview-online.component';
 
 const routes: Routes = [
   
@@ -80,6 +81,7 @@ const routes: Routes = [
   {path:'edit-profile', component:EditProfileComponent},
   {path:'mes-tests-techniques', component:MestesttechniqueComponent},
   {path:'start-test/:qid/:candidatureId', component:StartTestComponent},
+  {path:'interview', component:InterviewOnlineComponent},
 
 
 ]}, 

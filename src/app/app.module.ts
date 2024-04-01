@@ -75,6 +75,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { EmbedVideoService } from 'ngx-embed-video';
+import { InterviewOnlineComponent } from './Collaborateur/Entretien/interview-online/interview-online.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +96,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     GestionPosteByIdComponent,
     ViewCandidateByIdComponent,FilterPipe, CandidatureComponent, AppouvedPosteComponent,
      PostApprouvedIdComponent, AddQuizComponent, UpdateQuizComponent, ViewQuizComponent,
-      AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent
+      AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent, InterviewOnlineComponent
 
   ],
   imports: [
@@ -129,7 +131,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
  
   ],
   providers: [
-   
+    EmbedVideoService
   ],
   bootstrap: [AppComponent]
 })
