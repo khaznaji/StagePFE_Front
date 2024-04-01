@@ -41,8 +41,19 @@ modifierEtat(collaborateurId: number, posteId: number, newState: string): Observ
   const url = `${this.BASE_URL2}/modifierEtat/${collaborateurId}/${posteId}/${newState}`;
   return this.http.put<Candidature>(url, null); // null est passé comme corps de requête car vous n'avez pas de données à envoyer
 }
+updateStateEntretien(collaborateurId: string): Observable<Candidature> {
+  const url = `${this.BASE_URL2}/updateStateEntretien/${collaborateurId}`;
+  return this.http.put<Candidature>(url, null); // null est passé comme corps de requête car vous n'avez pas de données à envoyer
+}
+updateStateRefus(collaborateurId: string): Observable<Candidature> {
+  const url = `${this.BASE_URL2}/updateStateRefus/${collaborateurId}`;
+  return this.http.put<Candidature>(url, null); // null est passé comme corps de requête car vous n'avez pas de données à envoyer
+}
 getAllCandidatures(posteId: number): Observable<any[]> {
   return this.http.get<any[]>(`${this.BASE_URL2}/AllCandidature/${posteId}`);
+}
+AllCandidaturePreselectionne(posteId: number): Observable<any[]> {
+  return this.http.get<any[]>(`${this.BASE_URL2}/AllCandidaturePreselectionne/${posteId}`);
 }
   getAllPostes(): Observable<Poste[]> {
     return this.http.get<Poste[]>(`${this.BASE_URL2}/getAll`);

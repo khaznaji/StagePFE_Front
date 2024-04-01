@@ -59,6 +59,9 @@
             <li class="nav-item">
               <a class="nav-link" id="purchases-tab" data-bs-toggle="tab" href="#purchases" role="tab" aria-controls="purchases" aria-selected="false">Pipeline Candidat</a>
             </li>
+             <li class="nav-item">
+              <a class="nav-link" id="test-tab" data-bs-toggle="tab" href="#test" role="tab" aria-controls="test" aria-selected="false">Liste Des Scores Du Test Technique</a>
+            </li>
           </ul>
           <div class="tab-content py-0 px-0">
             <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
@@ -229,6 +232,46 @@
               
                              
             </div>
+            <div class="tab-pane fade" id="test" role="tabpanel" aria-labelledby="test-tab">
+              <br>
+              <h4 class="justify-content-center">Liste des candidats</h4>
+              <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Rechercher un candidat..." (input)="filterCandidats()" >
+<br>
+                <table  class="table table-striped" *ngIf="candidats.length  > 0">
+                    <thead>
+                      <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Score</th>
+<th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let candidat of preselectionne">
+                        <td>{{ candidat.nom }}</td>
+                        <td>{{ candidat.prenom }}</td>
+                        <td>{{ candidat.email }}</td>
+                        <td>{{ candidat.score }}</td>
+                      
+                       <td>
+                        <button (click)="openModal(candidat.id)" type="button" class="btn btn-inverse-info btn-icon">
+                          <i class="mdi mdi mdi-eye"></i>
+                        </button> 
+                        <button (click)="updateStateEntretien(candidat.candidature_id)" type="button" class="btn btn-inverse-info btn-icon">
+Entretien                        </button> 
+                        <button (click)="updateStateRefus(candidat.candidature_id)" type="button" class="btn btn-inverse-info btn-icon">
+Refus                        </button> 
+                       </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  
+                  <div *ngIf="candidats.length === 0">
+                    <p>Aucun candidat trouvé pour ce poste.</p>
+                  </div>
+                  
+                              </div>
           </div>
         </div>
       </div>

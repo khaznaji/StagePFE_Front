@@ -28,7 +28,7 @@ export class GestionPosteByIdComponent implements OnInit{
       this.loadPosteDetails(); 
       this.getCandidatsByPoste();
       this.getCandidatures();
-
+this.AllCandidaturePreselectionne();
       this.posteService.countCollaborateursEnAttente(this.postId).subscribe(count => {
         this.collaborateursEnAttente = count;
       });
@@ -180,7 +180,39 @@ modifierEtatCandidature(collaborateurId: string, newState: string) {
       }
     );
 }
+updateStateEntretien(collaborateurId: string) {
+  this.posteService.updateStateEntretien(collaborateurId)
+    .subscribe(
+      (candidature: Candidature) => {
+        console.log('État de la candidature mis à jour avec succès : ', candidature);
+        this.AllCandidaturePreselectionne();
+
+        // Mettez à jour votre interface utilisateur ou effectuez d'autres actions en fonction de la réponse
+      },
+      (error) => {
+        console.error('Erreur lors de la mise à jour de l\'état de la candidature : ', error);
+        // Gérer les erreurs
+      }
+    );
+}
+updateStateRefus(collaborateurId: string) {
+  this.posteService.updateStateRefus(collaborateurId)
+    .subscribe(
+      (candidature: Candidature) => {
+        console.log('État de la candidature mis à jour avec succès : ', candidature);
+        this.AllCandidaturePreselectionne();
+
+        // Mettez à jour votre interface utilisateur ou effectuez d'autres actions en fonction de la réponse
+      },
+      (error) => {
+        console.error('Erreur lors de la mise à jour de l\'état de la candidature : ', error);
+        // Gérer les erreurs
+      }
+    );
+}
 candidatures: any[] = [];
+preselectionne: any[] = [];
+
 getCandidatures(): void {
   this.posteService.getAllCandidatures(this.postId)
     .subscribe(
@@ -194,4 +226,18 @@ getCandidatures(): void {
       }
     );
 }
+AllCandidaturePreselectionne(): void {
+  this.posteService.AllCandidaturePreselectionne(this.postId)
+    .subscribe(
+      preselectionne => {
+        this.preselectionne = preselectionne;
+        console.log('preselectionne:', this.preselectionne);
+        this.filterCandidats();
+      },
+      error => {
+        console.error('Erreur lors de la récupération des candidatures:', error);
+      }
+    );
+}
+
 }

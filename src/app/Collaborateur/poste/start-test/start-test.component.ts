@@ -41,6 +41,7 @@ console.log(this.qid)
     this.preventBackButton();
     this.loadQuestions();
   }
+  
   nextQuestion() {
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.currentQuestionIndex++;
@@ -52,9 +53,11 @@ console.log(this.qid)
       this.currentQuestionIndex--;
     }
  }
+
  selectAnswer(question: any, answer: any) {
   question.givenAnswer = answer;
 }
+
   loadQuestions() {
     this.questionService.getQuestionsOfQuizForUser(this.qid , this.candidatureId).subscribe(
       (data) => {
@@ -69,6 +72,7 @@ console.log(this.qid)
       (error) => {}
     );
   }
+
   preventBackButton() {
     history.pushState(null, '', location.href);
     this.locationStrategy.onPopState(() => {
@@ -92,6 +96,7 @@ console.log(this.qid)
       }
     });
   }
+
   evaluateQuiz() {
     this.isSubmit = true;
     this.value = this.timer;
@@ -111,21 +116,19 @@ console.log(this.qid)
   }
   
   updateScore() {
-    const newScore = this.marksGot; // Utilisez le nouveau score (marksGot)
-
+    const newScore = this.marksGot;
     this.posteService.updateScore(this.candidatureId, newScore).subscribe(
       (response) => {
-        // Gestion de la réponse de l'API en cas de succès
         console.log(response);
         Swal.fire('Score soumis avec succès!', '', 'success');
       },
       (error) => {
-        // Gestion de l'erreur
         console.error(error);
         Swal.fire('Erreur lors de la soumission du score', '', 'error');
       }
     );
   }
+
   startTimer() {
     this.timer = 303;
     const exist = localStorage.getItem('counter');
@@ -159,7 +162,6 @@ console.log(this.qid)
   getFormattedTime() {
     let mm = Math.floor(this.value / 60);
     let ss = this.value - mm * 60;
-
     return `${mm} min : ${ss} sec`;
   }
   print() {
