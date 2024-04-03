@@ -1,0 +1,47 @@
+<!-- full-calendar.component.html -->
+
+<div class="container">
+  <div class="calendar-column">
+    <div class="card">
+      <div *ngIf="showModal" class="modal">
+        <div class="modal-content">
+          <span (click)="cancelAddEvent()" class="close">&times;</span>
+          <h2>New Event</h2>
+          <div>
+            <label for="candidatureId">Candidature ID:</label>
+            <input
+              type="number"
+              id="candidatureId"
+              name="candidatureId"
+              [(ngModel)]="candidatureId"
+              required
+            />
+          </div>
+          <div>
+            <label for="heureDebut">Heure Début:</label>
+            <input
+              type="time"
+              id="heureDebut"
+              name="heureDebut"
+              [(ngModel)]="heureDebut"
+              required
+            />
+          </div>
+          <div>
+            <label for="heureFin">Heure Fin:</label>
+            <input
+              type="time"
+              id="heureFin"
+              name="heureFin"
+              [(ngModel)]="heureFin"
+              required
+            />
+          </div>
+          <button (click)="addEvent()">Add Event</button>
+          <button (click)="cancelAddEvent()">Cancel</button>
+        </div>
+      </div>
+      <full-calendar [options]="calendarOptions"></full-calendar>
+    </div>
+  </div>
+</div>

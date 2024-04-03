@@ -8,7 +8,18 @@
   margin-left: 10px; /* Espace entre les cartes */
 
  }
- 
+ .full-calendar-modal {
+  width: 90%; /* Ajustez la largeur selon vos besoins */
+  background-color: #f0f0f0; /* Fond bleu clair pour le FullCalendar */
+ }
+ .custom-event {
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
  /* Style pour le contenu des cartes */
  .card-body {
   padding: 20px;

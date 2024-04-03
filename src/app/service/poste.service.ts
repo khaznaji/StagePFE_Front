@@ -55,6 +55,9 @@ getAllCandidatures(posteId: number): Observable<any[]> {
 AllCandidaturePreselectionne(posteId: number): Observable<any[]> {
   return this.http.get<any[]>(`${this.BASE_URL2}/AllCandidaturePreselectionne/${posteId}`);
 }
+getCandidatureDates(posteId: number): Observable<any[]> {
+  return this.http.get<any[]>(`${this.BASE_URL2}/${posteId}/datesentretien`);
+}
   getAllPostes(): Observable<Poste[]> {
     return this.http.get<Poste[]>(`${this.BASE_URL2}/getAll`);
   }

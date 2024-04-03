@@ -77,6 +77,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { EmbedVideoService } from 'ngx-embed-video';
 import { InterviewOnlineComponent } from './Collaborateur/Entretien/interview-online/interview-online.component';
+import { FullCalendarModule } from '@fullcalendar/angular'; 
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { FullCalendarComponent } from './Admin/Poste/getpostebyid/full-calendar/full-calendar.component';
 
 @NgModule({
   declarations: [
@@ -95,11 +98,13 @@ import { InterviewOnlineComponent } from './Collaborateur/Entretien/interview-on
     AjouterCompetenceModalComponent,
     GestionPosteByIdComponent,
     ViewCandidateByIdComponent,FilterPipe, CandidatureComponent, AppouvedPosteComponent,
-     PostApprouvedIdComponent, AddQuizComponent, UpdateQuizComponent, ViewQuizComponent,
-      AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent, InterviewOnlineComponent
+    PostApprouvedIdComponent, AddQuizComponent, UpdateQuizComponent, ViewQuizComponent,
+    AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent, InterviewOnlineComponent, FullCalendarComponent
 
   ],
   imports: [
+    FullCalendarModule ,
+   
     MatProgressSpinnerModule,
     MatProgressBarModule, // Importez MatProgressSpinnerModule ici
     MatRadioModule,
@@ -125,7 +130,7 @@ import { InterviewOnlineComponent } from './Collaborateur/Entretien/interview-on
     BsDropdownModule.forRoot(),     DragDropModule,
 
     CKEditorModule,
-
+    FullCalendarModule 
 
     
  

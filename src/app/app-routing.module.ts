@@ -44,6 +44,7 @@ import { GetpostebyidComponent } from './Admin/Poste/getpostebyid/getpostebyid.c
 import { MestesttechniqueComponent } from './Collaborateur/poste/mestesttechnique/mestesttechnique.component';
 import { StartTestComponent } from './Collaborateur/poste/start-test/start-test.component';
 import { InterviewOnlineComponent } from './Collaborateur/Entretien/interview-online/interview-online.component';
+import { FullCalendarComponent } from './Admin/Poste/getpostebyid/full-calendar/full-calendar.component';
 
 const routes: Routes = [
   
@@ -69,6 +70,7 @@ const routes: Routes = [
   {path:'demande-poste', component:GetallposteComponent},
   {path:'poste-candidats', component:CandidatureComponent},
   {path:'poste/:postId', component: GetpostebyidComponent}, 
+  {path:'fullcalendar/:postId', component: FullCalendarComponent}, 
 
 
 ]},
