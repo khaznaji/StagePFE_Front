@@ -23,6 +23,18 @@ export class EntretienService {
 
     return this.http.post<string>(url, {}, { headers: headers });
   }
+  updateEntretien(
+    id: number,
+    candidatureId: number,
+    dateEntretien: string,
+    heureDebut: string,
+    heureFin: string
+  ): Observable<string> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.baseUrl}/${id}/update/?candidatureId=${candidatureId}&dateEntretien=${dateEntretien}&heureDebut=${heureDebut}&heureFin=${heureFin}`;
+
+    return this.http.put<string>(url, {}, { headers: headers });
+  }
   getEntretiensByPosteId(posteId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/poste/${posteId}`);
   }
@@ -32,13 +44,10 @@ export class EntretienService {
   }
   deleteEntretien(id: number): Observable<void> {
     const url = `${this.baseUrl}/${id}`;
-    return this.http.delete<void>(url).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.delete<void>(url).pipe(catchError(this.handleError));
   }
   private handleError(error: any): Observable<never> {
     console.error('An error occurred:', error);
     return throwError('Something went wrong. Please try again later.');
   }
-  
 }
