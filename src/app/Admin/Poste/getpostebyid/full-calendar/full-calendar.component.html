@@ -3,6 +3,46 @@
 <div class="container">
   <div class="calendar-column">
     <div class="card">
+      <!-- full-calendar.component.html -->
+
+      <!-- Modal pour afficher les détails de l'entretien -->
+      <div *ngIf="showModal2" class="modal">
+        <div class="modal-content">
+          <span class="close" (click)="closeModal()">&times;</span>
+          <h2>Détails de l'entretien</h2>
+          <div *ngIf="entretienDetails">
+            <p><strong>ID:</strong> {{ entretienDetails.entretien.id }}</p>
+            <p>
+              <strong>Candidat:</strong>
+              {{ entretienDetails.nomCollaborateur }}
+              {{ entretienDetails.prenomCollaborateur }}
+            </p>
+            <p>
+              <strong>Date de l'entretien:</strong>
+              {{ entretienDetails.entretien.dateEntretien }}
+            </p>
+            <p>
+              <strong>Heure de début:</strong>
+              {{ entretienDetails.entretien.heureDebut | slice : 0 : 5 }}
+            </p>
+            <p>
+              <strong>Heure de fin:</strong>
+              {{ entretienDetails.entretien.heureFin | slice : 0 : 5 }}
+            </p>
+            <p>
+              <strong>Room Id:</strong>
+              {{ entretienDetails.entretien.roomId | slice : 0 : 5 }}
+            </p>
+            <!-- Ajoutez d'autres détails de l'entretien au besoin -->
+          </div>
+          <button (click)="deleteEntretien(entretienDetails.entretien.id)">
+            Supprimer
+          </button>
+
+          <button (click)="closeModal()">Fermer</button>
+        </div>
+      </div>
+
       <div *ngIf="showModal" class="modal">
         <div class="modal-content">
           <span (click)="cancelAddEvent()" class="close">&times;</span>
