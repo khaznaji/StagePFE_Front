@@ -5,12 +5,12 @@ import { EntretienService } from 'src/app/service/entretien.service';
 @Component({
   selector: 'app-mes-entretien-manager',
   templateUrl: './mes-entretien-manager.component.html',
-  styleUrls: ['./mes-entretien-manager.component.css']
+  styleUrls: ['./mes-entretien-manager.component.css'],
 })
 export class MesEntretienManagerComponent {
   entretiens: any[] = [];
 
-  constructor(private service: EntretienService , private router : Router) {}
+  constructor(private service: EntretienService, private router: Router) {}
 
   ngOnInit(): void {
     this.getEntretiens();
@@ -26,9 +26,7 @@ export class MesEntretienManagerComponent {
       }
     );
   }
-  joinInterview(roomId: string) {
-    // Rediriger vers le composant d'interview avec le room ID en tant que paramètre d'URL
-    this.router.navigate(['/managerService/interview', roomId]);
+  joinInterview(roomId: string, candidatureId: string) {
+    this.router.navigate(['/managerService/interview', roomId, candidatureId]);
   }
 }
-

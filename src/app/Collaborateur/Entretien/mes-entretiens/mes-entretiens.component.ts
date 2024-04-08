@@ -10,7 +10,7 @@ import { EntretienService } from 'src/app/service/entretien.service';
 export class MesEntretiensComponent {
   entretiens: any[] = [];
 
-  constructor(private service: EntretienService , private router : Router) {}
+  constructor(private service: EntretienService, private router: Router) {}
 
   ngOnInit(): void {
     this.getEntretiens();
@@ -26,8 +26,7 @@ export class MesEntretiensComponent {
       }
     );
   }
-  joinInterview(roomId: string) {
-    // Rediriger vers le composant d'interview avec le room ID en tant que paramètre d'URL
-    this.router.navigate(['/collaborateur/interview', roomId]);
+  joinInterview(roomId: string, candidatureId: string) {
+    this.router.navigate(['/collaborateur/interview', roomId, candidatureId]);
   }
 }

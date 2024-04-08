@@ -64,8 +64,23 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
 
   handleVideoConferenceLeft = () => {
     console.log('handleVideoConferenceLeft');
-    this.router.navigate(['/thank-you']);
-  };
+
+    const roomId = this.route.snapshot.params['roomId'];
+    const candidatureId = this.route.snapshot.params['candidatureId'];
+
+    // Vérifiez si l'URL actuelle contient "/collaborateur/interview"
+    if (this.router.url.includes(`/collaborateur/interview/${roomId}/${candidatureId}`)) {
+      this.router.navigate(['/collaborateur/thank-you']);
+    } else if (this.router.url.includes(`/managerService/interview/${roomId}/${candidatureId}`)) {
+      // Si l'URL contient "/managerService/interview", redirigez vers "/managerService/evaluate-interview/:candidatureId"
+      this.router.navigate([
+        '/managerService/evaluate-interview',
+        candidatureId,
+      ]);
+    } else {
+      console.error("Impossible de déterminer la redirection à partir de l'URL actuelle.");
+    }
+  };  
 
   handleMuteStatus = (audio: any) => {
     console.log('handleMuteStatus', audio); // { muted: true }

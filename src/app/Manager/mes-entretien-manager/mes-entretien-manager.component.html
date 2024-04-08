@@ -29,9 +29,13 @@
           </p>
 
           <button
-            class="btn btn-inverse-primary"
-            (click)="joinInterview(entretien.entretien.roomId)"
-          >
+          class="btn btn-inverse-primary"
+          (click)="
+            joinInterview(
+              entretien.entretien.roomId,
+              entretien.entretien.id        )
+          "
+        >
             Rejoindre l'interview
           </button>
         </div>

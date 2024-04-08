@@ -10,7 +10,7 @@ import { UserAuthService } from './user-auth.service';
 export class EntretienService {
   private baseUrl = 'http://localhost:8080/api/entretien';
 
-  constructor(private http: HttpClient , private authService: UserAuthService) {}
+  constructor(private http: HttpClient, private authService: UserAuthService) {}
 
   createEntretien(
     postId: number,
@@ -36,6 +36,12 @@ export class EntretienService {
 
     return this.http.put<string>(url, {}, { headers: headers });
   }
+  noter(id: number, note: number, commentaire: string): Observable<string> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.baseUrl}/${id}/noter?note=${note}&commentaire=${commentaire}`;
+
+    return this.http.put<string>(url, {}, { headers: headers });
+  }
   getEntretiensByPosteId(posteId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/poste/${posteId}`);
   }
@@ -53,19 +59,19 @@ export class EntretienService {
   }
   getCollaborateurEntretien(): Observable<any> {
     const authToken = this.authService.getToken();
-  
+
     // Ajoutez le jeton d'authentification aux en-têtes de la requête
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${authToken}`
+      Authorization: `Bearer ${authToken}`,
     });
-    return this.http.get<any>(`${this.baseUrl}/collaborateur`,  { headers });
+    return this.http.get<any>(`${this.baseUrl}/collaborateur`, { headers });
   }
   getManagerEntretien(): Observable<any> {
     const authToken = this.authService.getToken();
-  
+
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${authToken}`
+      Authorization: `Bearer ${authToken}`,
     });
-    return this.http.get<any>(`${this.baseUrl}/managerService`,  { headers });
+    return this.http.get<any>(`${this.baseUrl}/managerService`, { headers });
   }
 }

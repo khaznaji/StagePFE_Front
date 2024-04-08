@@ -82,6 +82,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { FullCalendarComponent } from './Admin/Poste/getpostebyid/full-calendar/full-calendar.component';
 import { MesEntretiensComponent } from './Collaborateur/Entretien/mes-entretiens/mes-entretiens.component';
 import { MesEntretienManagerComponent } from './Manager/mes-entretien-manager/mes-entretien-manager.component';
+import { EvaluateInterviewComponent } from './Manager/mes-entretien-manager/evaluate-interview/evaluate-interview.component';
+import { ThankYouComponent } from './Collaborateur/Entretien/thank-you/thank-you.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +103,7 @@ import { MesEntretienManagerComponent } from './Manager/mes-entretien-manager/me
     GestionPosteByIdComponent,
     ViewCandidateByIdComponent,FilterPipe, CandidatureComponent, AppouvedPosteComponent,
     PostApprouvedIdComponent, AddQuizComponent, UpdateQuizComponent, ViewQuizComponent,
-    AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent, InterviewOnlineComponent, FullCalendarComponent, MesEntretiensComponent, MesEntretienManagerComponent
+    AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent, InterviewOnlineComponent, FullCalendarComponent, MesEntretiensComponent, MesEntretienManagerComponent, EvaluateInterviewComponent, ThankYouComponent
 
   ],
   imports: [

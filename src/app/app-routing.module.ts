@@ -47,6 +47,8 @@ import { InterviewOnlineComponent } from './Collaborateur/Entretien/interview-on
 import { FullCalendarComponent } from './Admin/Poste/getpostebyid/full-calendar/full-calendar.component';
 import { MesEntretiensComponent } from './Collaborateur/Entretien/mes-entretiens/mes-entretiens.component';
 import { MesEntretienManagerComponent } from './Manager/mes-entretien-manager/mes-entretien-manager.component';
+import { EvaluateInterviewComponent } from './Manager/mes-entretien-manager/evaluate-interview/evaluate-interview.component';
+import { ThankYouComponent } from './Collaborateur/Entretien/thank-you/thank-you.component';
 
 const routes: Routes = [
   {
@@ -91,8 +93,13 @@ const routes: Routes = [
       { path: 'edit-profile', component: EditProfileComponent },
       { path: 'mes-tests-techniques', component: MestesttechniqueComponent },
       { path: 'start-test/:qid/:candidatureId', component: StartTestComponent },
-      { path: 'interview/:roomId', component: InterviewOnlineComponent },
+      {
+        path: 'interview/:roomId/:candidatureId',
+        component: InterviewOnlineComponent,
+      },
       { path: 'mes-entretiens', component: MesEntretiensComponent },
+      { path: 'thank-you', component: ThankYouComponent },
+
     ],
   },
 
@@ -116,8 +123,14 @@ const routes: Routes = [
       { path: 'poste-publie', component: DisplayDemandePublieComponent },
       { path: 'poste-encours/:postId', component: PostByIdComponent },
       { path: 'mes-entretiens', component: MesEntretienManagerComponent },
-      { path: 'interview/:roomId', component: InterviewOnlineComponent },
-
+      {
+        path: 'interview/:roomId/:candidatureId',
+        component: InterviewOnlineComponent,
+      },
+      {
+        path: 'evaluate-interview/:candidatureId',
+        component: EvaluateInterviewComponent,
+      },
     ],
   },
 ];
