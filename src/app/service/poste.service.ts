@@ -63,7 +63,7 @@ export class PosteService {
   }
   AllCandidaturePreselectionne(posteId: number): Observable<any[]> {
     return this.http.get<any[]>(
-      `${this.BASE_URL2}/AllCandidaturePreselectionne/${posteId}`
+      `${this.BASE_URL2}/CandidaturesSpecifiques/${posteId}`
     );
   }
   getCandidatureDates(posteId: number): Observable<any[]> {

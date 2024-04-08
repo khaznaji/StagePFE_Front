@@ -466,28 +466,23 @@
                     >
                       <i class="mdi mdi mdi-eye"></i>
                     </button>
-                    <button
-                      (click)="updateStateEntretien(candidat.candidature_id)"
-                      type="button"
-                      class="btn btn-inverse-info btn-icon"
-                    >
-                      Entretien
-                    </button>
-                    <button
-                      (click)="updateStateRefus(candidat.candidature_id)"
-                      type="button"
-                      class="btn btn-inverse-info btn-icon"
-                    >
-                      Refus
-                    </button>
+                
+                 
                   </td>
                 </tr>
               </tbody>
             </table>
+            <canvas #barChart></canvas>
+
+<!-- votre-component.component.html -->
+<div>
+  <canvas id="columnChart" width="400" height="400"></canvas>
+</div>
 
             <div *ngIf="candidats.length === 0">
               <p>Aucun candidat trouvé pour ce poste.</p>
             </div>
+            
           </div>
         </div>
       </div>
