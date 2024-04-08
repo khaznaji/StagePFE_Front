@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Entretien } from '../model/entretien.model';
+import { UserAuthService } from './user-auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ import { Entretien } from '../model/entretien.model';
 export class EntretienService {
   private baseUrl = 'http://localhost:8080/api/entretien';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient , private authService: UserAuthService) {}
 
   createEntretien(
     postId: number,
@@ -49,5 +50,22 @@ export class EntretienService {
   private handleError(error: any): Observable<never> {
     console.error('An error occurred:', error);
     return throwError('Something went wrong. Please try again later.');
+  }
+  getCollaborateurEntretien(): Observable<any> {
+    const authToken = this.authService.getToken();
+  
+    // Ajoutez le jeton d'authentification aux en-têtes de la requête
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${authToken}`
+    });
+    return this.http.get<any>(`${this.baseUrl}/collaborateur`,  { headers });
+  }
+  getManagerEntretien(): Observable<any> {
+    const authToken = this.authService.getToken();
+  
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${authToken}`
+    });
+    return this.http.get<any>(`${this.baseUrl}/managerService`,  { headers });
   }
 }

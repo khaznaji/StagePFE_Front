@@ -1,84 +1,121 @@
 :root {
-    --primary-color: #3f51b5;
-    --secondary-color: #f44336;
-    --text-color: #212121;
-    --background-color: #fafafa;
-   }
-   
-   body {
-    background-color: var(--background-color);
-    color: var(--text-color);
-    font-family: 'Roboto', sans-serif;
-   }
-   
-   .mat-card {
-    background-color: var(--primary-color);
-    color: white;
-    margin-bottom: 20px;
-    padding: 20px;
-   }
-   
-   .mat-card-header {
-    background-color: var(--secondary-color);
-    color: white;
-   }
-   
-   .mat-raised-button {
-    background-color: var(--secondary-color);
-    color: white;
-   }
-   
-   .mat-raised-button:hover {
-    background-color: var(--secondary-color);
-    opacity: 0.8;
-   }
-   
-   .mat-progress-bar {
-    height: 10px;
-   }
-   
-   @media (max-width: 768px) {
-    .col-lg-2, .col-lg-8, .col-lg-2 {
-       flex: 0 0 100%;
-       max-width: 100%;
-    }
-   }
-   .quiz-card {
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    border-radius: 5px;
-    margin-bottom: 20px;
-   }
-   
-   .quiz-card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-   }
-   
-   .quiz-card .mat-card-content {
-    padding: 20px;
-   }
-   
-   .quiz-card .mat-card-actions {
-    padding: 10px;
-   }
-   
-   .quiz-card .mat-raised-button {
-    width: 100%;
-   }
-   
-   .quiz-card .mat-divider {
-    margin: 10px 0;
-   }
-   
-   .quiz-card .mat-radio-group {
-    display: block;
-   }
-   .options-list {
-    width: 100%; /* Assure que la liste prend toute la largeur disponible */
-    display: flex; /* Utilise Flexbox pour un meilleur contrôle de la mise en page */
-    flex-direction: column; /* Aligne les éléments de la liste verticalement */
-    gap: 10px; /* Ajoute un espace entre les éléments de la liste */
+  --primary-color: #3f51b5;
+  --secondary-color: #f44336;
+  --text-color: #212121;
+  --background-color: #fafafa;
 }
 
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: "Roboto", sans-serif;
+}
+
+.mat-card {
+  background-color: var(--primary-color);
+  color: white;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.mat-card-header {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.mat-raised-button {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.mat-raised-button:hover {
+  background-color: var(--secondary-color);
+  opacity: 0.8;
+}
+
+.mat-progress-bar {
+  height: 10px;
+}
+.mat-spinner {
+  margin: 20px auto;
+}
+
+.progress-card {
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+}
+.poste-details {
+  margin-bottom: 20px;
+}
+
+.instructions-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.instructions-list li {
+  padding: 5px 0;
+}
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border: none;
+    width: 100%;
+    margin-bottom: 20px;
+   }
    
+   .card-body {
+    padding: 20px;
+   }
+
+@media (max-width: 768px) {
+  .col-lg-2,
+  .col-lg-8,
+  .col-lg-2 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+.quiz-card {
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.quiz-card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.quiz-card .mat-card-content {
+  padding: 20px;
+}
+
+.quiz-card .mat-card-actions {
+  padding: 10px;
+}
+
+.quiz-card .mat-raised-button {
+  width: 100%;
+}
+
+.quiz-card .mat-divider {
+  margin: 10px 0;
+}
+
+.quiz-card .mat-radio-group {
+  display: block;
+}
+.options-list {
+  width: 100%; /* Assure que la liste prend toute la largeur disponible */
+  display: flex; /* Utilise Flexbox pour un meilleur contrôle de la mise en page */
+  flex-direction: column; /* Aligne les éléments de la liste verticalement */
+  gap: 10px; /* Ajoute un espace entre les éléments de la liste */
+}

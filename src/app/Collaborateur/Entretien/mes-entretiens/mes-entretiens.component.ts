@@ -1,0 +1,33 @@
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { EntretienService } from 'src/app/service/entretien.service';
+
+@Component({
+  selector: 'app-mes-entretiens',
+  templateUrl: './mes-entretiens.component.html',
+  styleUrls: ['./mes-entretiens.component.css'],
+})
+export class MesEntretiensComponent {
+  entretiens: any[] = [];
+
+  constructor(private service: EntretienService , private router : Router) {}
+
+  ngOnInit(): void {
+    this.getEntretiens();
+  }
+  getEntretiens() {
+    this.service.getCollaborateurEntretien().subscribe(
+      (data: any) => {
+        this.entretiens = data;
+        console.log(data); // pour le débogage, vérifiez les données récupérées
+      },
+      (error) => {
+        console.error("Une erreur s'est produite : ", error);
+      }
+    );
+  }
+  joinInterview(roomId: string) {
+    // Rediriger vers le composant d'interview avec le room ID en tant que paramètre d'URL
+    this.router.navigate(['/collaborateur/interview', roomId]);
+  }
+}

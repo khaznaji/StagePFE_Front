@@ -3,6 +3,7 @@ export enum EtatPostulation {
     REFUSEE = 'REFUSEE',
     EN_ATTENTE = 'EN_ATTENTE', 
     Preselection = 'Preselection', 
-    Entretien = 'Entretien'
+    Entretien = 'Entretien' , 
+    EN_ATTENTE_ENTRETIEN ='EN_ATTENTE_ENTRETIEN'
 
   }

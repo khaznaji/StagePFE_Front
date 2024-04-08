@@ -45,77 +45,85 @@ import { MestesttechniqueComponent } from './Collaborateur/poste/mestesttechniqu
 import { StartTestComponent } from './Collaborateur/poste/start-test/start-test.component';
 import { InterviewOnlineComponent } from './Collaborateur/Entretien/interview-online/interview-online.component';
 import { FullCalendarComponent } from './Admin/Poste/getpostebyid/full-calendar/full-calendar.component';
+import { MesEntretiensComponent } from './Collaborateur/Entretien/mes-entretiens/mes-entretiens.component';
+import { MesEntretienManagerComponent } from './Manager/mes-entretien-manager/mes-entretien-manager.component';
 
 const routes: Routes = [
-  
-  {path:"",component:MenuloginComponent,
-  children:[
-    { path: 'signup', component:SignupComponent  },
-    { path: 'signin', component:SigninComponent  }, 
-    { path: 'request-password', component:RequestPasswordComponent  }, 
-    { path: 'reset-password', component: ResetPasswordComponent },
-    { path: 'activate-account', component: ActivationCompteComponent },
-  ]}
- ,
- {  path: 'managerRh', component: AdminMenuComponent ,children: [
-  {path:'all-manager-service', component:AllUsersComponent},
-  {path:'edit-profile', component:EditProfileComponent},
-  {path:'profile', component:ProfileComponent},
-  {path:'add-manager-service', component:AddCompteComponent},
-  {path:'add-collaborateur', component:AddCompteCollabComponent},
-  {path:'competence', component:GestionCompetenceComponent},
-  {path:'all-collaborateur', component:AllcollabComponent},
-  {path:'user-detail/:id', component:UserByIdComponent},
-  {path:'dashboard', component:DashboardAdminComponent},
-  {path:'demande-poste', component:GetallposteComponent},
-  {path:'poste-candidats', component:CandidatureComponent},
-  {path:'poste/:postId', component: GetpostebyidComponent}, 
-  {path:'fullcalendar/:postId', component: FullCalendarComponent}, 
+  {
+    path: '',
+    component: MenuloginComponent,
+    children: [
+      { path: 'signup', component: SignupComponent },
+      { path: 'signin', component: SigninComponent },
+      { path: 'request-password', component: RequestPasswordComponent },
+      { path: 'reset-password', component: ResetPasswordComponent },
+      { path: 'activate-account', component: ActivationCompteComponent },
+    ],
+  },
+  {
+    path: 'managerRh',
+    component: AdminMenuComponent,
+    children: [
+      { path: 'all-manager-service', component: AllUsersComponent },
+      { path: 'edit-profile', component: EditProfileComponent },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'add-manager-service', component: AddCompteComponent },
+      { path: 'add-collaborateur', component: AddCompteCollabComponent },
+      { path: 'competence', component: GestionCompetenceComponent },
+      { path: 'all-collaborateur', component: AllcollabComponent },
+      { path: 'user-detail/:id', component: UserByIdComponent },
+      { path: 'dashboard', component: DashboardAdminComponent },
+      { path: 'demande-poste', component: GetallposteComponent },
+      { path: 'poste-candidats', component: CandidatureComponent },
+      { path: 'poste/:postId', component: GetpostebyidComponent },
+      { path: 'fullcalendar/:postId', component: FullCalendarComponent },
+    ],
+  },
 
+  {
+    path: 'collaborateur',
+    component: CollabMenuComponent,
+    children: [
+      { path: 'all-poste', component: GetAllPosteCollabComponent },
+      { path: 'compte', component: ProfileComponent },
+      { path: 'mes-postulations', component: MespostulationsComponent },
+      { path: 'profile', component: GestionProfileComponent },
+      { path: 'edit-profile', component: EditProfileComponent },
+      { path: 'mes-tests-techniques', component: MestesttechniqueComponent },
+      { path: 'start-test/:qid/:candidatureId', component: StartTestComponent },
+      { path: 'interview/:roomId', component: InterviewOnlineComponent },
+      { path: 'mes-entretiens', component: MesEntretiensComponent },
+    ],
+  },
 
-]},
+  {
+    path: 'managerService',
+    component: ManagerMenuComponent,
+    children: [
+      { path: 'add-fiche-de-poste', component: AddFicheDePosteComponent },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'mes-postes', component: DisplayMesPostesComponent },
+      { path: 'edit-postes/:postId', component: EditFicheComponent },
+      { path: 'poste/:postId', component: GestionPosteByIdComponent },
+      { path: 'postes-approuve', component: AppouvedPosteComponent },
+      { path: 'poste-approuve/:postId', component: PostApprouvedIdComponent },
+      { path: 'add-test/:postId', component: AddQuizComponent },
+      { path: 'update-test/:id', component: UpdateQuizComponent },
+      { path: 'all-test', component: ViewQuizComponent },
+      { path: 'add-question/:id', component: AddQuestionComponent },
+      { path: 'view-question/:qid/:qtitle', component: ViewQuestionComponent },
+      { path: 'update-question/:quesId', component: UpdateQuestionComponent },
+      { path: 'poste-publie', component: DisplayDemandePublieComponent },
+      { path: 'poste-encours/:postId', component: PostByIdComponent },
+      { path: 'mes-entretiens', component: MesEntretienManagerComponent },
+      { path: 'interview/:roomId', component: InterviewOnlineComponent },
 
-{  path: 'collaborateur', component: CollabMenuComponent ,children: [
-  {path:'all-poste', component:GetAllPosteCollabComponent},
-  {path:'compte', component:ProfileComponent},
-  {path:'mes-postulations', component:MespostulationsComponent},
-  {path:'profile', component:GestionProfileComponent},
-  {path:'edit-profile', component:EditProfileComponent},
-  {path:'mes-tests-techniques', component:MestesttechniqueComponent},
-  {path:'start-test/:qid/:candidatureId', component:StartTestComponent},
-  {path:'interview', component:InterviewOnlineComponent},
-
-
-]}, 
-
-
-{  path: 'managerService', component: ManagerMenuComponent ,children: [
-  {path:'add-fiche-de-poste', component:AddFicheDePosteComponent},
-  {path:'profile', component:ProfileComponent},
-  {path:'mes-postes', component:DisplayMesPostesComponent}, 
-  {path:'edit-postes/:postId', component:EditFicheComponent}, 
-  {path:'poste/:postId', component: GestionPosteByIdComponent}, 
-  {path:'postes-approuve', component:AppouvedPosteComponent}, 
-  {path:'poste-approuve/:postId', component:PostApprouvedIdComponent}, 
-  {path:'add-test/:postId', component:AddQuizComponent}, 
-  {path:'update-test/:id', component:UpdateQuizComponent}, 
-  {path:'all-test', component:ViewQuizComponent}, 
-  {path:'add-question/:id', component:AddQuestionComponent}, 
-  {path: 'view-question/:qid/:qtitle', component: ViewQuestionComponent },
-  {path: 'update-question/:quesId', component: UpdateQuestionComponent },
-  {path: 'poste-publie', component: DisplayDemandePublieComponent },
-  {path: 'poste-encours/:postId', component: PostByIdComponent },
-
-
-
-
-
-]}
-
-]
+    ],
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule ]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

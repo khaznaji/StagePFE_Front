@@ -3,9 +3,6 @@
 <div class="container">
   <div class="calendar-column">
     <div class="card">
-      <!-- full-calendar.component.html -->
-
-      <!-- Modal pour afficher les détails de l'entretien -->
       <div *ngIf="showModal2" class="modal">
         <div class="modal-content">
           <span class="close" (click)="closeModal()">&times;</span>
@@ -42,17 +39,26 @@
             Supprimer
           </button>
           <div *ngIf="editMode">
-            <form (submit)="submitUpdatedEntretien(entretienDetails.entretien.id)">
+            <form
+              (submit)="submitUpdatedEntretien(entretienDetails.entretien.id)"
+            >
               <div>
-                <label for="candidatureId">ID de la candidature:</label>
-                <input
-                  type="number"
+                <label for="candidatureId">Candidature:</label>
+                <select
                   id="candidatureId"
                   name="candidatureId"
                   [(ngModel)]="candidatureId"
                   required
-                />
+                >
+                  <option
+                    *ngFor="let candidat of candidats"
+                    [value]="candidat.id"
+                  >
+                    {{ candidat.nom }} {{ candidat.prenom }}
+                  </option>
+                </select>
               </div>
+
               <div>
                 <label for="dateEntretien">Date de l'entretien:</label>
                 <input
@@ -96,14 +102,18 @@
           <span (click)="cancelAddEvent()" class="close">&times;</span>
           <h2>New Event</h2>
           <div>
-            <label for="candidatureId">Candidature ID:</label>
-            <input
-              type="number"
+            <label for="candidatureId">Candidat:</label>
+
+            <select
               id="candidatureId"
               name="candidatureId"
               [(ngModel)]="candidatureId"
               required
-            />
+            >
+              <option *ngFor="let candidat of candidats" [value]="candidat.id">
+                {{ candidat.nom }} {{ candidat.prenom }}
+              </option>
+            </select>
           </div>
           <div>
             <label for="heureDebut">Heure Début:</label>
@@ -129,7 +139,11 @@
           <button (click)="cancelAddEvent()">Cancel</button>
         </div>
       </div>
-      <full-calendar [options]="calendarOptions"></full-calendar>
+
+      <full-calendar
+        [options]="calendarOptions"
+        [ngClass]="{ 'cursor-not-allowed': isPastDate }"
+      ></full-calendar>
     </div>
   </div>
 </div>

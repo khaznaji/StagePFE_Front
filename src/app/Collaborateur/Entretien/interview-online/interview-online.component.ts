@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserAuthService } from 'src/app/service/user-auth.service';
 import { UserService } from 'src/app/service/user.service';
 declare var JitsiMeetExternalAPI: any;
@@ -7,17 +7,16 @@ declare var JitsiMeetExternalAPI: any;
 @Component({
   selector: 'app-interview-online',
   templateUrl: './interview-online.component.html',
-  styleUrls: ['./interview-online.component.css']
+  styleUrls: ['./interview-online.component.css'],
 })
-
-
 export class InterviewOnlineComponent implements OnInit, AfterViewInit {
-  domain: string = "jitsi1.geeksec.de"; // For self-hosted use your domain
+  domain: string = 'jitsi1.geeksec.de'; // For self-hosted use your domain
   room: any;
   options: any;
   api: any;
   users: any = [];
   user: any;
+  roomId!: string;
   username!: string;
   // For Custom Controls
   isAudioMuted = false;
@@ -25,62 +24,62 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
-    private sr: UserService, 
-    private Auth: UserAuthService
-  ) { }
+    private sr: UserService,
+    private Auth: UserAuthService,
+    private route: ActivatedRoute
+  ) {}
 
   handleClose = () => {
-    console.log("handleClose");
-  }
+    console.log('handleClose');
+  };
   data: any = [];
 
   getUserById(id: any) {
-    const headers = { 'Authorization': 'Bearer ' + this.Auth.getToken() };
+    const headers = { Authorization: 'Bearer ' + this.Auth.getToken() };
 
-    this.sr.getUserById2(id,headers).subscribe((res) => {
-    this.data = res;
+    this.sr.getUserById2(id, headers).subscribe((res) => {
+      this.data = res;
       console.log(this.data);
       this.username = this.data.nom + ' ' + this.data.prenom;
       console.log(this.username);
 
-      // Initialize JitsiMeetExternalAPI with the updated username
-      this.initializeJitsi();
+      // Initialize JitsiMeetExternalAPI with the updated username and room ID
     });
   }
 
   handleParticipantLeft = async (participant: any) => {
-    console.log("handleParticipantLeft", participant); // { id: "2baa184e" }
+    console.log('handleParticipantLeft', participant); // { id: "2baa184e" }
     const data = await this.getParticipants();
-  }
+  };
 
   handleParticipantJoined = async (participant: any) => {
-    console.log("handleParticipantJoined", participant); // { id: "2baa184e", displayName: "Shanu Verma", formattedDisplayName: "Shanu Verma" }
+    console.log('handleParticipantJoined', participant); // { id: "2baa184e", displayName: "Shanu Verma", formattedDisplayName: "Shanu Verma" }
     const data = await this.getParticipants();
-  }
+  };
 
   handleVideoConferenceJoined = async (participant: any) => {
-    console.log("handleVideoConferenceJoined", participant); // { roomName: "bwb-bfqi-vmh", id: "8c35a951", displayName: "Akash Verma", formattedDisplayName: "Akash Verma (me)"}
+    console.log('handleVideoConferenceJoined', participant); // { roomName: "bwb-bfqi-vmh", id: "8c35a951", displayName: "Akash Verma", formattedDisplayName: "Akash Verma (me)"}
     const data = await this.getParticipants();
-  }
+  };
 
   handleVideoConferenceLeft = () => {
-    console.log("handleVideoConferenceLeft");
+    console.log('handleVideoConferenceLeft');
     this.router.navigate(['/thank-you']);
-  }
+  };
 
   handleMuteStatus = (audio: any) => {
-    console.log("handleMuteStatus", audio); // { muted: true }
-  }
+    console.log('handleMuteStatus', audio); // { muted: true }
+  };
 
   handleVideoStatus = (video: any) => {
-    console.log("handleVideoStatus", video); // { muted: true }
-  }
+    console.log('handleVideoStatus', video); // { muted: true }
+  };
 
   getParticipants() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(this.api.getParticipantsInfo()); // get all participants
-      }, 500)
+      }, 500);
     });
   }
 
@@ -101,10 +100,18 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.room = 'bwb-bfqi-vmh'; // Set your room name
+    this.route.paramMap.subscribe((params) => {
+      const roomId = params.get('roomId');
+      if (roomId) {
+        // Initialiser la réunion Jitsi directement
+        this.initializeJitsi(roomId);
+      } else {
+        console.error("ID de salle manquant dans l'URL");
+      }
+    });
     this.user = {
-      name: this.username // Set your username
-    }
+      name: this.username, // Set your username
+    };
 
     this.getUserById(localStorage.getItem('id'));
   }
@@ -113,20 +120,22 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
     // Initialization moved to getUserById() method
   }
 
-  initializeJitsi() {
+  initializeJitsi(roomId: string) {
     this.options = {
-      roomName: this.room,
+      roomName: roomId,
       width: 1000,
       height: 600,
-      configOverwrite: { prejoinPageEnabled: false },
+      configOverwrite: {
+        prejoinPageEnabled: false, // Disable the prejoin page
+      },
       interfaceConfigOverwrite: {
         // overwrite interface properties
       },
       parentNode: document.querySelector('#jitsi-iframe'),
       userInfo: {
-        displayName: this.username
-      }
-    }
+        displayName: this.username,
+      },
+    };
 
     this.api = new JitsiMeetExternalAPI(this.domain, this.options);
 
@@ -138,7 +147,7 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
       videoConferenceJoined: this.handleVideoConferenceJoined,
       videoConferenceLeft: this.handleVideoConferenceLeft,
       audioMuteStatusChanged: this.handleMuteStatus,
-      videoMuteStatusChanged: this.handleVideoStatus
+      videoMuteStatusChanged: this.handleVideoStatus,
     });
   }
 }

@@ -27,7 +27,7 @@ export class FullCalendarComponent implements OnInit {
     private route: ActivatedRoute,
     private entretienService: EntretienService,
     public dialog: MatDialog,
-    private modalRef: BsModalRef
+    private posteService: PosteService
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +35,8 @@ export class FullCalendarComponent implements OnInit {
       this.postId = +params['postId'];
       this.loadCandidatureDates();
     });
-    this.loadCandidatureDates();
+    this.loadCandidatureDates(); 
+    this.getCandidatsByPoste();
   }
 
   showModal: boolean = false;
@@ -92,12 +93,32 @@ export class FullCalendarComponent implements OnInit {
       });
   }
 
-  handleDateClick(arg: any) {
-    this.showModal = true;
-    this.eventData.start = arg.dateStr;
-    this.eventData.end = arg.dateStr;
-    this.eventData.date = arg.dateStr;
+  // Déclarer une variable pour suivre si la date est antérieure à aujourd'hui
+isPastDate: boolean = false;
+
+handleDateClick(arg: any) {
+  const clickedDate = new Date(arg.dateStr);
+  const today = new Date(); // Obtenez la date actuelle
+
+  // Vérifiez si la date cliquée est antérieure à aujourd'hui
+  if (clickedDate < today) {
+    // Si la date est antérieure à aujourd'hui, configurez la variable isPastDate sur true
+    this.isPastDate = true;
+    console.log("Vous ne pouvez pas sélectionner une date antérieure à aujourd'hui.");
+    return; // Quittez la fonction sans effectuer d'autres actions
+  } else {
+    // Si la date n'est pas antérieure à aujourd'hui, configurez isPastDate sur false
+    this.isPastDate = false;
   }
+
+  // Si la date est valide, continuez avec votre logique actuelle
+  this.showModal = true;
+  this.eventData.start = arg.dateStr;
+  this.eventData.end = arg.dateStr;
+  this.eventData.date = arg.dateStr;
+}
+
+  
   entretienDetails: any | undefined; // Définissez la propriété entretienDetails de type Entretien | undefined
   closeModal() {
     this.showModal2 = false;
@@ -174,7 +195,21 @@ id ,        this.candidatureId,
         }
       );
   }
-  
+  candidats: any[] = [];
+
+  getCandidatsByPoste(): void {
+    this.posteService.getCandidatsByPosteIdEnAttenteEntretien(this.postId)
+      .subscribe(
+        candidats => {
+          this.candidats = candidats;
+          console.log('Candidats:', this.candidats);
+
+        },
+        error => {
+          console.error('Erreur lors de la récupération des candidats:', error);
+        }
+      );
+  }
   addEvent() {
     const newEvent: EventInput = {
       title: this.eventData.title,

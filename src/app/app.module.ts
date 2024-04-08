@@ -80,6 +80,8 @@ import { InterviewOnlineComponent } from './Collaborateur/Entretien/interview-on
 import { FullCalendarModule } from '@fullcalendar/angular'; 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { FullCalendarComponent } from './Admin/Poste/getpostebyid/full-calendar/full-calendar.component';
+import { MesEntretiensComponent } from './Collaborateur/Entretien/mes-entretiens/mes-entretiens.component';
+import { MesEntretienManagerComponent } from './Manager/mes-entretien-manager/mes-entretien-manager.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +101,7 @@ import { FullCalendarComponent } from './Admin/Poste/getpostebyid/full-calendar/
     GestionPosteByIdComponent,
     ViewCandidateByIdComponent,FilterPipe, CandidatureComponent, AppouvedPosteComponent,
     PostApprouvedIdComponent, AddQuizComponent, UpdateQuizComponent, ViewQuizComponent,
-    AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent, InterviewOnlineComponent, FullCalendarComponent
+    AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent, InterviewOnlineComponent, FullCalendarComponent, MesEntretiensComponent, MesEntretienManagerComponent
 
   ],
   imports: [
