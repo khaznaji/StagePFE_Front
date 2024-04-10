@@ -84,6 +84,7 @@ import { MesEntretiensComponent } from './Collaborateur/Entretien/mes-entretiens
 import { MesEntretienManagerComponent } from './Manager/mes-entretien-manager/mes-entretien-manager.component';
 import { EvaluateInterviewComponent } from './Manager/mes-entretien-manager/evaluate-interview/evaluate-interview.component';
 import { ThankYouComponent } from './Collaborateur/Entretien/thank-you/thank-you.component';
+import { EntretienRhComponent } from './Manager/gestion-poste-by-id/entretien-rh/entretien-rh.component';
 
 @NgModule({
   declarations: [
@@ -103,12 +104,11 @@ import { ThankYouComponent } from './Collaborateur/Entretien/thank-you/thank-you
     GestionPosteByIdComponent,
     ViewCandidateByIdComponent,FilterPipe, CandidatureComponent, AppouvedPosteComponent,
     PostApprouvedIdComponent, AddQuizComponent, UpdateQuizComponent, ViewQuizComponent,
-    AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent, InterviewOnlineComponent, FullCalendarComponent, MesEntretiensComponent, MesEntretienManagerComponent, EvaluateInterviewComponent, ThankYouComponent
+    AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent, InterviewOnlineComponent, FullCalendarComponent, MesEntretiensComponent, MesEntretienManagerComponent, EvaluateInterviewComponent, ThankYouComponent, EntretienRhComponent
 
   ],
   imports: [
     FullCalendarModule ,
-   
     MatProgressSpinnerModule,
     MatProgressBarModule, // Importez MatProgressSpinnerModule ici
     MatRadioModule,

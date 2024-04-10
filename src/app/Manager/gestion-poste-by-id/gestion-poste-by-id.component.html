@@ -100,7 +100,7 @@
               role="tab"
               aria-controls="test"
               aria-selected="false"
-              >Liste Des Scores Du Test Technique</a
+              >Statistiques</a
             >
           </li>
         </ul>
@@ -203,7 +203,11 @@
             <!-- app.component.html -->
 
             <!-- app.component.html -->
-            <div class="kanban-board" cdKDropListGroup>
+            <div
+              class="kanban-board"
+              cdKDropListGroup
+              style="overflow-x: auto; overflow-y: hidden"
+            >
               <!-- Colonne En attente -->
               <div
                 class="kanban-column"
@@ -287,7 +291,7 @@
                 (cdkDropListDropped)="onDrop($event, 'EN_ATTENTE_ENTRETIEN')"
                 [cdkDropListConnectedTo]="['Entretien', 'ACCEPTEE', 'REFUSEE']"
               >
-                <h3>En Attente Entretien</h3>
+                <h3>En Attente Entretien Technique</h3>
                 <div
                   class="kanban-cards"
                   *ngFor="
@@ -323,9 +327,9 @@
                 [cdkDropListData]="candidatures"
                 id="Entretien"
                 (cdkDropListDropped)="onDrop($event, 'Entretien')"
-                [cdkDropListConnectedTo]="['ACCEPTEE', 'REFUSEE']"
+                [cdkDropListConnectedTo]="['ACCEPTEE', 'REFUSEE' , 'EN_ATTENTE_ENTRETIEN_RH']"
               >
-                <h3>Entretien</h3>
+                <h3>Entretien Technique</h3>
                 <div
                   class="kanban-cards"
                   *ngFor="
@@ -352,6 +356,78 @@
                   </div>
                 </div>
               </div>
+              <div
+              class="kanban-column"
+              style="border-top: 5px solid #5e475b"
+              cdkDropList
+              [cdkDropListData]="candidatures"
+              id="Entretien"
+              (cdkDropListDropped)="onDrop($event, 'EN_ATTENTE_ENTRETIEN_RH')"
+              [cdkDropListConnectedTo]="['ACCEPTEE', 'REFUSEE' , 'Entretien_Rh']"
+            >
+              <h3>En Attente Entretien RH</h3>
+              <div
+                class="kanban-cards"
+                *ngFor="
+                  let candidature of candidatures | filter : 'EN_ATTENTE_ENTRETIEN_RH'
+                "
+                cdkDrag
+                [id]="candidature.candidature_id"
+              >
+                <div class="kanban-card">
+                  <img
+                    class="profile-image rounded-circle"
+                    [src]="'assets/images/' + candidature.image"
+                    alt="Profile Image"
+                  />
+                  <div class="profile-info">
+                    {{ candidature.nom }} {{ candidature.prenom }}
+                  </div>
+                  <button
+                    (click)="openModal(candidature.collaborateur_id)"
+                    class="btn btn-inverse-secondary btn-icon"
+                  >
+                    <i class="mdi mdi mdi-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+            class="kanban-column"
+            style="border-top: 5px solid #487eb0"
+            cdkDropList
+            [cdkDropListData]="candidatures"
+            id="Entretien"
+            (cdkDropListDropped)="onDrop($event, 'Entretien_Rh')"
+            [cdkDropListConnectedTo]="['ACCEPTEE', 'REFUSEE' ]"
+          >
+            <h3>Entretien RH</h3>
+            <div
+              class="kanban-cards"
+              *ngFor="
+                let candidature of candidatures | filter : 'Entretien_Rh'
+              "
+              cdkDrag
+              [id]="candidature.candidature_id"
+            >
+              <div class="kanban-card">
+                <img
+                  class="profile-image rounded-circle"
+                  [src]="'assets/images/' + candidature.image"
+                  alt="Profile Image"
+                />
+                <div class="profile-info">
+                  {{ candidature.nom }} {{ candidature.prenom }}
+                </div>
+                <button
+                  (click)="openModal(candidature.collaborateur_id)"
+                  class="btn btn-inverse-secondary btn-icon"
+                >
+                  <i class="mdi mdi mdi-eye"></i>
+                </button>
+              </div>
+            </div>
+          </div>
               <!-- Colonne Acceptées -->
               <div
                 class="kanban-column"
@@ -388,12 +464,11 @@
                 </div>
               </div>
 
-              <!-- Colonne Refusées -->
               <div
                 class="kanban-column"
                 style="border-top: 5px solid #b72d2d"
                 cdkDropList
-                [cdkDropListData]="candidatures"
+                [cdkDropListData]="candidatures"  
                 id="REFUSEE"
                 (cdkDropListDropped)="onDrop($event, 'REFUSEE')"
                 [cdkDropListConnectedTo]="['EN_ATTENTE', 'ACCEPTEE']"
@@ -432,57 +507,34 @@
             aria-labelledby="test-tab"
           >
             <br />
-            <h4 class="justify-content-center">Liste des candidats</h4>
-            <input
-              type="text"
-              class="form-control"
-              [(ngModel)]="searchTerm"
-              placeholder="Rechercher un candidat..."
-              (input)="filterCandidats()"
-            />
-            <br />
-            <table class="table table-striped" *ngIf="candidats.length > 0">
-              <thead>
-                <tr>
-                  <th>Nom</th>
-                  <th>Prénom</th>
-                  <th>Email</th>
-                  <th>Score</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let candidat of preselectionne">
-                  <td>{{ candidat.nom }}</td>
-                  <td>{{ candidat.prenom }}</td>
-                  <td>{{ candidat.email }}</td>
-                  <td>{{ candidat.score }}</td>
-
-                  <td>
-                    <button
-                      (click)="openModal(candidat.id)"
-                      type="button"
-                      class="btn btn-inverse-info btn-icon"
-                    >
-                      <i class="mdi mdi mdi-eye"></i>
-                    </button>
-                
-                 
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <canvas #barChart></canvas>
-
-<!-- votre-component.component.html -->
-<div>
-  <canvas id="columnChart" width="400" height="400"></canvas>
-</div>
-
-            <div *ngIf="candidats.length === 0">
-              <p>Aucun candidat trouvé pour ce poste.</p>
-            </div>
-            
+            <button
+            (click)="openModalEntretien()"
+            type="button"
+            class="btn btn-inverse-info btn-icon"
+          >
+            <i class="mdi mdi mdi-eye"></i>
+          </button>
+            <!-- src/app/score-test-technique/score-test-technique.component.html -->
+            <div class="card-container">
+              <mat-card class="score-test-technique-card">
+                 <mat-card-header>
+                     <mat-card-title>Score du Test Technique</mat-card-title>
+                 </mat-card-header>
+                 <mat-card-content>
+                   <canvas #barChart></canvas>
+                 </mat-card-content>
+              </mat-card>
+             
+              <mat-card class="score-test-technique-card">
+                 <mat-card-header>
+                     <mat-card-title>Note de l'entretien</mat-card-title>
+                 </mat-card-header>
+                 <mat-card-content>
+                   <canvas #barChart2></canvas>
+                 </mat-card-content>
+              </mat-card>
+             </div>
+             
           </div>
         </div>
       </div>

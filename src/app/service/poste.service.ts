@@ -128,6 +128,9 @@ export class PosteService {
       {}
     );
   }
+  updateEtatQuizz(candidatureId: number): Observable<any> {
+    return this.http.put(`${this.BASE_URL2}/updateEtatQuizz/${candidatureId}`, null);
+  }
 
   getPosteById(postId: number): Observable<Poste> {
     return this.http.get<Poste>(`${this.BASE_URL2}/getPosteById/${postId}`);
@@ -251,5 +254,13 @@ export class PosteService {
     return this.http.get<number>(
       `${this.BASE_URL2}/countCollaborateursRefusees/${postId}`
     );
+  }
+  CandidatsVersEntretienRh(posteId: number): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.BASE_URL2}/CandidatsVersEntretienRh/${posteId}`
+    );
+  }
+  updateCandidaturesEtatToEnAttente(candidatureIds: number[]): Observable<any> {
+    return this.http.post<any>(`${this.BASE_URL2}/updateEtatToEnAttente`, candidatureIds);
   }
 }

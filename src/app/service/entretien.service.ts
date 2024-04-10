@@ -74,4 +74,10 @@ export class EntretienService {
     });
     return this.http.get<any>(`${this.baseUrl}/managerService`, { headers });
   }
+  EntretiensSpecifiques(posteId: number): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.baseUrl}/EntretiensSpecifiques/${posteId}`
+    );
+  }
+  
 }

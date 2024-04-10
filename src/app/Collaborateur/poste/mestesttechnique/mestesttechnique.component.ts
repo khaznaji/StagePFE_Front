@@ -48,9 +48,11 @@ export class MestesttechniqueComponent implements OnInit {
       icon: 'info',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.router.navigate([
-          '/collaborateur/start-test/' + qid + '/' + candidatureId,
-        ]);
+        // Appeler le service pour mettre à jour l'état du quiz
+        this.posteService.updateEtatQuizz(candidatureId).subscribe(() => {
+          // Naviguer vers la page de démarrage du quiz
+          this.router.navigate(['/collaborateur/start-test/' + qid + '/' + candidatureId]);
+        });
       } else if (result.isDenied) {
         this.router.navigate(['/collaborateur/mes-tests-techniques']);
       }
