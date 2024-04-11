@@ -53,6 +53,8 @@ import { FullCalendarRhComponent } from './Admin/Poste/getpostebyid/full-calenda
 import { MesEntretiensRhComponent } from './Admin/Entretiens/mes-entretiens-rh/mes-entretiens-rh.component';
 import { EntretienRhCollabComponent } from './Collaborateur/Entretien/entretien-rh-collab/entretien-rh-collab.component';
 import { EvaluateInterviewRhComponent } from './Admin/Entretiens/evaluate-interview-rh/evaluate-interview-rh.component';
+import { AllFormateurComponent } from './Admin/Formateur/List/all-formateur/all-formateur.component';
+import { FormateurMenuComponent } from './menu/formateur-menu/formateur-menu.component';
 
 const routes: Routes = [
   {
@@ -71,6 +73,7 @@ const routes: Routes = [
     component: AdminMenuComponent,
     children: [
       { path: 'all-manager-service', component: AllUsersComponent },
+      { path: 'all-formateurs', component: AllFormateurComponent },
       { path: 'edit-profile', component: EditProfileComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'add-manager-service', component: AddCompteComponent },
@@ -148,6 +151,11 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'formateur',
+    component: FormateurMenuComponent,
+    children: [
+      ]}
 ];
 
 @NgModule({

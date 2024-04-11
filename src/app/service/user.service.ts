@@ -41,6 +41,9 @@ export class UserService {
   getAllCollab(): Observable<any> {
     return this.http.get(`${this.BASE_URL2}/collaborateur`);
   }
+  getAllFormateur(): Observable<any> {
+    return this.http.get(`${this.BASE_URL2}/formateur`);
+  }
   getById(id: number): Observable<any> {
     return this.http.get(`${this.BASE_URL2}/${id}`);
   }

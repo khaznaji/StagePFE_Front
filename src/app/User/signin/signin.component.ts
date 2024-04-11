@@ -59,7 +59,9 @@ export class SigninComponent {
           this.router.navigate(['/managerRh']);
         } else if (role === 'ManagerService') {
           this.router.navigate(['/managerService']);
-        } else if (role === 'Collaborateur')  {
+        } else if (role === 'Formateur') {
+          this.router.navigate(['/formateur']);
+        }  else if (role === 'Collaborateur')  {
           this.router.navigate(['/collaborateur']);
         }
       },

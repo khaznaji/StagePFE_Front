@@ -91,6 +91,8 @@ import { EntretienRhCollabComponent } from './Collaborateur/Entretien/entretien-
 import { EvaluateInterviewRhComponent } from './Admin/Entretiens/evaluate-interview-rh/evaluate-interview-rh.component';
 import { CandidatsEntretienRhComponent } from './Admin/Entretiens/candidats-entretien-rh/candidats-entretien-rh.component';
 import { AddCompteFormateurComponent } from './Admin/Formateur/add-compte-formateur/add-compte-formateur.component';
+import { AllFormateurComponent } from './Admin/Formateur/List/all-formateur/all-formateur.component';
+import { FormateurMenuComponent } from './menu/formateur-menu/formateur-menu.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +113,7 @@ import { AddCompteFormateurComponent } from './Admin/Formateur/add-compte-format
     ViewCandidateByIdComponent,FilterPipe, CandidatureComponent, AppouvedPosteComponent,
     PostApprouvedIdComponent, AddQuizComponent, UpdateQuizComponent, ViewQuizComponent,
     AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent, InterviewOnlineComponent,
-     FullCalendarComponent, MesEntretiensComponent, MesEntretienManagerComponent, EvaluateInterviewComponent, ThankYouComponent, EntretienRhComponent, FullCalendarRhComponent, MesEntretiensRhComponent, EntretienRhCollabComponent, EvaluateInterviewRhComponent, CandidatsEntretienRhComponent, AddCompteFormateurComponent 
+     FullCalendarComponent, MesEntretiensComponent, MesEntretienManagerComponent, EvaluateInterviewComponent, ThankYouComponent, EntretienRhComponent, FullCalendarRhComponent, MesEntretiensRhComponent, EntretienRhCollabComponent, EvaluateInterviewRhComponent, CandidatsEntretienRhComponent, AddCompteFormateurComponent, AllFormateurComponent, FormateurMenuComponent 
 
   ],
   imports: [

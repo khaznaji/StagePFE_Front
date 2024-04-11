@@ -59,6 +59,9 @@ getCollaborateurInfo(): Observable<any> {
 }
 createCollaborateur(formData: FormData): Observable<User> {
   return this.http.post<User>(`${this.api_url}/registerCollaborateur`, formData);
-} }
+} 
+createFormateur(formData: FormData): Observable<User> {
+  return this.http.post<User>(`${this.api_url}/registerFormateur`, formData);
+}}
   
 
