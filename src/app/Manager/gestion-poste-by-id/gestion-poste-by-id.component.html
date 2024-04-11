@@ -507,13 +507,17 @@
             aria-labelledby="test-tab"
           >
             <br />
-            <button
-            (click)="openModalEntretien()"
-            type="button"
-            class="btn btn-inverse-info btn-icon"
-          >
-            <i class="mdi mdi mdi-eye"></i>
-          </button>
+            <div class="text-center">
+              <button
+                (click)="openModalEntretien()"
+                type="button"
+                class="btn btn-inverse-info btn-block"
+              >
+              Appuyer Ici Pour Choisir les candidats pour l'entretien RH.
+              </button>
+            </div>
+            
+          
             <!-- src/app/score-test-technique/score-test-technique.component.html -->
             <div class="card-container">
               <mat-card class="score-test-technique-card">
@@ -533,7 +537,17 @@
                    <canvas #barChart2></canvas>
                  </mat-card-content>
               </mat-card>
+              
              </div>
+             <mat-card class="custom-card">
+              <mat-card-header>
+                  <mat-card-title>Salaire Demandé</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                  <canvas #barChart3></canvas>
+              </mat-card-content>
+          </mat-card>
+          
              
           </div>
         </div>

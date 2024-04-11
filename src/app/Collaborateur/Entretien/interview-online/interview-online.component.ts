@@ -64,10 +64,10 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
 
   handleVideoConferenceLeft = () => {
     console.log('handleVideoConferenceLeft');
-
+  
     const roomId = this.route.snapshot.params['roomId'];
     const candidatureId = this.route.snapshot.params['candidatureId'];
-
+  
     // Vérifiez si l'URL actuelle contient "/collaborateur/interview"
     if (this.router.url.includes(`/collaborateur/interview/${roomId}/${candidatureId}`)) {
       this.router.navigate(['/collaborateur/thank-you']);
@@ -77,10 +77,17 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
         '/managerService/evaluate-interview',
         candidatureId,
       ]);
+    } else if (this.router.url.includes(`/managerRh/interview/${roomId}/${candidatureId}`)) {
+      // Si l'URL contient "/managerRh/interview", redirigez vers "/managerRh/evaluate-interview-Rh"
+      this.router.navigate([
+        '/managerRh/evaluate-interview-Rh',
+        candidatureId,
+      ]);
     } else {
       console.error("Impossible de déterminer la redirection à partir de l'URL actuelle.");
     }
-  };  
+  };
+  
 
   handleMuteStatus = (audio: any) => {
     console.log('handleMuteStatus', audio); // { muted: true }

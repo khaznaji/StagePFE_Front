@@ -5,15 +5,16 @@
         <div class="card-body">
           <div class="d-flex justify-content-between mb-3">
             <h5 class="card-title">{{ entretien.entretien.poste.titre }}</h5>
+
             <p class="card-title">Ref: #{{ entretien.entretien.poste.id }}</p>
           </div>
 
           <h6 class="card-subtitle mb-2" style="color: rgb(72, 55, 55)">
             Avec
             <b
-              >{{ entretien.nomCollaborateur }}
-              {{ entretien.prenomCollaborateur }}
-            </b>
+              >{{ entretien.entretien.user.prenom }}
+              {{ entretien.entretien.user.nom }}</b
+            >
           </h6>
           <p class="card-text">
             <i class="mdi mdi-calendar-range"></i> Date:
@@ -29,13 +30,11 @@
           </p>
 
           <button
-          class="btn btn-inverse-primary"
-          (click)="
-            joinInterview(
-              entretien.entretien.roomId,
-              entretien.entretien.id        )
-          "
-        >
+            class="btn btn-inverse-primary"
+            (click)="
+              joinInterview(entretien.entretien.roomId, entretien.entretien.id)
+            "
+          >
             Rejoindre l'interview
           </button>
         </div>

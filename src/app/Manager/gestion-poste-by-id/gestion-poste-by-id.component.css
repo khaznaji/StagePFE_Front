@@ -13,13 +13,18 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap; /* Permet aux éléments de se déplacer sur la ligne suivante si nécessaire */
- }
- 
- .score-test-technique-card {
+}
+
+.score-test-technique-card {
   flex: 1 1 45%; /* flex-grow, flex-shrink, flex-basis */
   margin: 10px; /* Ajoute un peu d'espace autour des cartes */
- }
- 
+}
+.custom-card {
+  width: 500px; /* Définissez la largeur souhaitée */
+  margin: 0 auto; /* Centrer horizontalement */
+  text-align: center; /* Aligner le contenu au centre */
+  padding: 10px; /* Ajouter un peu de marge interne */
+}
 
 /* Style pour le contenu des cartes */
 .card-body {

@@ -1,0 +1,14 @@
+<div class="container">
+    <h2>Évaluation de l'entretien</h2>
+    
+    <!-- Formulaire de notation -->
+    <form (ngSubmit)="noterEntretien()">
+      <div class="form-group">
+        <label for="note">Salaire :</label>
+        <input type="number" class="form-control" id="salaire" [(ngModel)]="salaire" name="salaire" min="0" max="10" required>
+      </div>
+     
+      <button type="submit" class="btn btn-primary">Soumettre</button>
+    </form>
+  </div>
+  

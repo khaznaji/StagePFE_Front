@@ -85,6 +85,12 @@ import { MesEntretienManagerComponent } from './Manager/mes-entretien-manager/me
 import { EvaluateInterviewComponent } from './Manager/mes-entretien-manager/evaluate-interview/evaluate-interview.component';
 import { ThankYouComponent } from './Collaborateur/Entretien/thank-you/thank-you.component';
 import { EntretienRhComponent } from './Manager/gestion-poste-by-id/entretien-rh/entretien-rh.component';
+import { FullCalendarRhComponent } from './Admin/Poste/getpostebyid/full-calendar-rh/full-calendar-rh.component';
+import { MesEntretiensRhComponent } from './Admin/Entretiens/mes-entretiens-rh/mes-entretiens-rh.component';
+import { EntretienRhCollabComponent } from './Collaborateur/Entretien/entretien-rh-collab/entretien-rh-collab.component';
+import { EvaluateInterviewRhComponent } from './Admin/Entretiens/evaluate-interview-rh/evaluate-interview-rh.component';
+import { CandidatsEntretienRhComponent } from './Admin/Entretiens/candidats-entretien-rh/candidats-entretien-rh.component';
+import { AddCompteFormateurComponent } from './Admin/Formateur/add-compte-formateur/add-compte-formateur.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +110,8 @@ import { EntretienRhComponent } from './Manager/gestion-poste-by-id/entretien-rh
     GestionPosteByIdComponent,
     ViewCandidateByIdComponent,FilterPipe, CandidatureComponent, AppouvedPosteComponent,
     PostApprouvedIdComponent, AddQuizComponent, UpdateQuizComponent, ViewQuizComponent,
-    AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent, InterviewOnlineComponent, FullCalendarComponent, MesEntretiensComponent, MesEntretienManagerComponent, EvaluateInterviewComponent, ThankYouComponent, EntretienRhComponent
+    AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent, InterviewOnlineComponent,
+     FullCalendarComponent, MesEntretiensComponent, MesEntretienManagerComponent, EvaluateInterviewComponent, ThankYouComponent, EntretienRhComponent, FullCalendarRhComponent, MesEntretiensRhComponent, EntretienRhCollabComponent, EvaluateInterviewRhComponent, CandidatsEntretienRhComponent, AddCompteFormateurComponent 
 
   ],
   imports: [

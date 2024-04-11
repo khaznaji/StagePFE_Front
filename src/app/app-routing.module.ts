@@ -49,6 +49,10 @@ import { MesEntretiensComponent } from './Collaborateur/Entretien/mes-entretiens
 import { MesEntretienManagerComponent } from './Manager/mes-entretien-manager/mes-entretien-manager.component';
 import { EvaluateInterviewComponent } from './Manager/mes-entretien-manager/evaluate-interview/evaluate-interview.component';
 import { ThankYouComponent } from './Collaborateur/Entretien/thank-you/thank-you.component';
+import { FullCalendarRhComponent } from './Admin/Poste/getpostebyid/full-calendar-rh/full-calendar-rh.component';
+import { MesEntretiensRhComponent } from './Admin/Entretiens/mes-entretiens-rh/mes-entretiens-rh.component';
+import { EntretienRhCollabComponent } from './Collaborateur/Entretien/entretien-rh-collab/entretien-rh-collab.component';
+import { EvaluateInterviewRhComponent } from './Admin/Entretiens/evaluate-interview-rh/evaluate-interview-rh.component';
 
 const routes: Routes = [
   {
@@ -79,6 +83,16 @@ const routes: Routes = [
       { path: 'poste-candidats', component: CandidatureComponent },
       { path: 'poste/:postId', component: GetpostebyidComponent },
       { path: 'fullcalendar/:postId', component: FullCalendarComponent },
+      { path: 'fullcalendarRh/:postId', component: FullCalendarRhComponent },
+      { path: 'mes-entretiens-Rh', component: MesEntretiensRhComponent },
+      {
+        path: 'interview/:roomId/:candidatureId',
+        component: InterviewOnlineComponent,
+      },
+      {
+        path: 'evaluate-interview-Rh/:candidatureId',
+        component: EvaluateInterviewRhComponent,
+      },
     ],
   },
 
@@ -99,6 +113,7 @@ const routes: Routes = [
       },
       { path: 'mes-entretiens', component: MesEntretiensComponent },
       { path: 'thank-you', component: ThankYouComponent },
+      { path: 'mes-entretiens-Rh', component: EntretienRhCollabComponent },
 
     ],
   },

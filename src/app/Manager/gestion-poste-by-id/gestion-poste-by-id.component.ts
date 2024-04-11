@@ -16,6 +16,7 @@ import { EtatPostulation } from 'src/app/model/etatpostulation.model';
 import { Chart, registerables } from 'chart.js/auto';
 import { EntretienService } from 'src/app/service/entretien.service';
 import { EntretienRhComponent } from './entretien-rh/entretien-rh.component';
+import { EntretienRhService } from 'src/app/service/entretien-rh.service';
 
 @Component({
   selector: 'app-gestion-poste-by-id',
@@ -36,6 +37,8 @@ export class GestionPosteByIdComponent implements OnInit {
       this.getCandidatures();
       this.AllCandidaturePreselectionne();
       this.EntretiensSpecifiques();
+      this.EntretiensRhSpecifiques();
+
       this.posteService
         .countCollaborateursEnAttente(this.postId)
         .subscribe((count) => {
@@ -65,6 +68,8 @@ export class GestionPosteByIdComponent implements OnInit {
     public dialog: MatDialog,
     private modalService: BsModalService, 
     private entretienService: EntretienService, 
+    private entretienRhService: EntretienRhService, 
+
 
   ) {
     Chart.register(...registerables);
@@ -230,6 +235,8 @@ export class GestionPosteByIdComponent implements OnInit {
   candidatures: any[] = [];
   preselectionne: any[] = [];
 entretien:any[]=[];
+entretienrh:any[]=[];
+
   getCandidatures(): void {
     this.posteService.getAllCandidatures(this.postId).subscribe(
       (candidatures) => {
@@ -283,10 +290,30 @@ entretien:any[]=[];
       }
     );
   }
+  EntretiensRhSpecifiques(): void {
+    this.entretienRhService.EntretiensRhSpecifiques(this.postId).subscribe(
+      (entretienrh) => {
+        this.entretienrh = entretienrh;
+        console.log('entretienrh:', this.entretienrh);
+        this.filterCandidats();
+        // Utiliser setTimeout pour retarder l'appel de createBarChart()
+        setTimeout(() => {
+          this.createBarChart3();
+        }, 0);
+      },
+      (error) => {
+        console.error(
+          'Erreur lors de la récupération des candidatures:',
+          error
+        );
+      }
+    );
+  }
 
   ngAfterViewInit(): void {
     this.createBarChart();
         this.createBarChart2();
+        this.createBarChart3();
 
   }
 
@@ -406,5 +433,63 @@ entretien:any[]=[];
       console.error("L'élément barChart n'est pas disponible.");
     }
  }
+ @ViewChild('barChart3') barChart3!: ElementRef;
+ createBarChart3(): void {
+  const ctx = this.barChart3.nativeElement as HTMLCanvasElement;
+  console.log('barChart3:', this.barChart3);
+  if (ctx) {
+    if (this.entretienrh && this.entretienrh.length > 0) {
+      const labels = this.entretienrh.map((candidat: any) => candidat.nomCollaborateur + ' ' + candidat.prenomCollaborateur );
+      const note = this.entretienrh.map((candidat: any) => candidat.salaire);
+      if (labels.length === note.length) {
+        const barChart3 = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Note des candidats',
+              data: note,
+              backgroundColor: [
+                'rgba(153, 102, 255, 0.2)' // Violet
+,
+'rgba(75, 192, 192, 0.2)', // Vert
+'rgba(255, 206, 86, 0.2)', // Jaune
+
+               'rgba(255, 159, 64, 0.2)', // Orange
+               'rgba(255, 99, 132, 0.2)', // Rouge
+               'rgba(54, 162, 235, 0.2)', // Bleu
+              ],
+              borderColor: [
+                'rgba(153, 102, 255, 1)'   , // Violet
+                'rgba(75, 192, 192, 1)',    // Vert
+                'rgba(255, 206, 86, 1)',    // Jaune
+
+               'rgba(255, 159, 64, 1)',    // Orange
+               'rgba(255, 99, 132, 1)',    // Rouge
+               'rgba(54, 162, 235, 1)',    // Bleu
+              ],
+              borderWidth: 1,
+            }],
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+               beginAtZero: true,
+              },
+            },
+          },
+        });
+      } else {
+        console.error('Les labels et les scores ne correspondent pas en longueur.');
+      }
+    } else {
+      console.error('Aucune donnée de preselectionne pour créer le graphique.');
+    }
+  } else {
+    console.error("L'élément barChart n'est pas disponible.");
+  }
+}
+
 
 }

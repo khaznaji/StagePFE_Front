@@ -29,6 +29,9 @@ export class UserService {
   getAllManagerServices(): Observable<any> {
     return this.http.get(`${this.BASE_URL2}/managerServices`);
   }
+  getAllManagerRh(): Observable<any> {
+    return this.http.get(`${this.BASE_URL2}/managerRh`);
+  }
   deleteAccount(id: any) {
     return this.http.delete(
       `${this.BASE_URL2}/deleteAccount/${id}`

@@ -71,5 +71,4 @@ export class EntretienRhComponent {
       );
   }
 
-  // Méthode pour récupérer les candidats (à adapter selon votre implémentation)
 }

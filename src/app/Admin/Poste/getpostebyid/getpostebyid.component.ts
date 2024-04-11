@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -9,6 +9,10 @@ import { PosteService } from 'src/app/service/poste.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { CalendarOptions } from '@fullcalendar/core';
 import { FullCalendarComponent } from 'src/app/Admin/Poste/getpostebyid/full-calendar/full-calendar.component';
+import { EntretienRhService } from 'src/app/service/entretien-rh.service';
+import { EntretienService } from 'src/app/service/entretien.service';
+import { Chart, registerables } from 'chart.js/auto';
+import { CandidatsEntretienRhComponent } from '../../Entretiens/candidats-entretien-rh/candidats-entretien-rh.component';
 @Component({
   selector: 'app-getpostebyid',
   templateUrl: './getpostebyid.component.html',
@@ -28,6 +32,9 @@ export class GetpostebyidComponent implements OnInit{
       this.getCandidatsByPoste();
       this.getCandidatures();
       this.loadCandidatureDates();
+      this.AllCandidaturePreselectionne();
+      this.EntretiensSpecifiques();
+      this.EntretiensRhSpecifiques();
 
       this.posteService.countCollaborateursEnAttente(this.postId).subscribe(count => {
         this.collaborateursEnAttente = count;
@@ -45,9 +52,16 @@ export class GetpostebyidComponent implements OnInit{
   }
   postId!: number;
   poste: any; 
+  candidatures: any[] = [];
+  preselectionne: any[] = [];
+entretien:any[]=[];
+entretienrh:any[]=[];
 
-  constructor(private route: ActivatedRoute ,
-    private s: Router ,  private posteService: PosteService ,public dialog: MatDialog ,  private modalService: BsModalService) {}
+  constructor(private route: ActivatedRoute ,     private entretienService: EntretienService, 
+    private entretienRhService: EntretienRhService, 
+    private s: Router ,  private posteService: PosteService ,public dialog: MatDialog ,  private modalService: BsModalService) 
+    {    Chart.register(...registerables);
+    }
   private loadPosteDetails() {
     this.posteService.getPosteById(this.postId).subscribe(
       data => {
@@ -62,6 +76,10 @@ export class GetpostebyidComponent implements OnInit{
   redirectToFullCalendar(postId: number) {
     // Naviguez vers la page Full Calendar avec le 'postId' dans l'URL
     this.s.navigate(['/managerRh/fullcalendar', postId]);
+  } 
+  redirectToFullCalendarRh(postId: number) {
+    // Naviguez vers la page Full Calendar avec le 'postId' dans l'URL
+    this.s.navigate(['/managerRh/fullcalendarRh', postId]);
   }
  
   getRandomColor(index: number) {
@@ -112,7 +130,14 @@ export class GetpostebyidComponent implements OnInit{
     });
   }
   
-
+  openModalEntretien(): void {
+    const initialState = {
+      postId: this.postId,
+    };
+    this.modalRef = this.modalService.show(CandidatsEntretienRhComponent, {
+      initialState,
+    });
+  }
 
 onDrop(event: CdkDragDrop<string[]>, newState: string) {
   if (event.previousContainer === event.container) {
@@ -163,7 +188,6 @@ modifierEtatCandidature(collaborateurId: string, newState: string) {
       }
     );
 }
-candidatures: any[] = [];
 getCandidatures(): void {
   this.posteService.getAllCandidatures(this.postId)
     .subscribe(
@@ -176,5 +200,244 @@ getCandidatures(): void {
         console.error('Erreur lors de la récupération des candidatures:', error);
       }
     );
+}
+
+AllCandidaturePreselectionne(): void {
+  this.posteService.AllCandidaturePreselectionne(this.postId).subscribe(
+    (preselectionne) => {
+      this.preselectionne = preselectionne;
+      console.log('preselectionne:', this.preselectionne);
+      this.filterCandidats();
+      // Utiliser setTimeout pour retarder l'appel de createBarChart()
+      setTimeout(() => {
+        this.createBarChart();
+      }, 0);
+    },
+    (error) => {
+      console.error(
+        'Erreur lors de la récupération des candidatures:',
+        error
+      );
+    }
+  );
+}
+EntretiensSpecifiques(): void {
+  this.entretienService.EntretiensSpecifiques(this.postId).subscribe(
+    (entretien) => {
+      this.entretien = entretien;
+      console.log('entretien:', this.entretien);
+      this.filterCandidats();
+      // Utiliser setTimeout pour retarder l'appel de createBarChart()
+      setTimeout(() => {
+        this.createBarChart2();
+      }, 0);
+    },
+    (error) => {
+      console.error(
+        'Erreur lors de la récupération des candidatures:',
+        error
+      );
+    }
+  );
+}
+EntretiensRhSpecifiques(): void {
+  this.entretienRhService.EntretiensRhSpecifiques(this.postId).subscribe(
+    (entretienrh) => {
+      this.entretienrh = entretienrh;
+      console.log('entretienrh:', this.entretienrh);
+      this.filterCandidats();
+      // Utiliser setTimeout pour retarder l'appel de createBarChart()
+      setTimeout(() => {
+        this.createBarChart3();
+      }, 0);
+    },
+    (error) => {
+      console.error(
+        'Erreur lors de la récupération des candidatures:',
+        error
+      );
+    }
+  );
+}
+
+ngAfterViewInit(): void {
+  this.createBarChart();
+      this.createBarChart2();
+      this.createBarChart3();
+
+}
+
+@ViewChild('barChart') barChart!: ElementRef;
+createBarChart(): void {
+  const ctx = this.barChart.nativeElement as HTMLCanvasElement;
+  console.log('barChart:', this.barChart); // Ajouter un log ici
+  if (ctx) {
+    if (this.preselectionne && this.preselectionne.length > 0) {
+      const labels = this.preselectionne.map((candidat: any) => candidat.nom + ' ' + candidat.prenom);
+      const scores = this.preselectionne.map(
+        (candidat: any) => candidat.score
+      ); 
+      if (labels.length === scores.length) {
+        const barChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: 'Score des candidats',
+                data: scores,
+                backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',  // Rouge
+                  'rgba(54, 162, 235, 0.2)',  // Bleu
+                  'rgba(255, 206, 86, 0.2)',  // Jaune
+                  'rgba(75, 192, 192, 0.2)',  // Vert
+                  'rgba(153, 102, 255, 0.2)', // Violet
+                  'rgba(255, 159, 64, 0.2)',  // Orange
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',    // Rouge
+                  'rgba(54, 162, 235, 1)',    // Bleu
+                  'rgba(255, 206, 86, 1)',    // Jaune
+                  'rgba(75, 192, 192, 1)',    // Vert
+                  'rgba(153, 102, 255, 1)',   // Violet
+                  'rgba(255, 159, 64, 1)',    // Orange
+              ], // Couleur de la bordure des barres
+                borderWidth: 1, // Largeur de la bordure des barres
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true, // Commence l'axe y à zéro
+              },
+            },
+          },
+        });
+      } else {
+        console.error(
+          'Les labels et les scores ne correspondent pas en longueur.'
+        );
+      }
+    } else {
+      console.error(
+        'Aucune donnée de preselectionne pour créer le graphique.'
+      );
+    }
+  } else {
+    console.error("L'élément barChart n'est pas disponible.");
+  }
+}
+ @ViewChild('barChart2') barChart2!: ElementRef;
+ createBarChart2(): void {
+  const ctx = this.barChart2.nativeElement as HTMLCanvasElement;
+  console.log('barChart2:', this.barChart2);
+  if (ctx) {
+    if (this.entretien && this.entretien.length > 0) {
+      const labels = this.entretien.map((candidat: any) => candidat.nomCollaborateur + ' ' + candidat.prenomCollaborateur );
+      const note = this.entretien.map((candidat: any) => candidat.note);
+      if (labels.length === note.length) {
+        const barChart2 = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Note des candidats',
+              data: note,
+              backgroundColor: [
+               'rgba(255, 159, 64, 0.2)', // Orange
+               'rgba(255, 99, 132, 0.2)', // Rouge
+               'rgba(54, 162, 235, 0.2)', // Bleu
+               'rgba(255, 206, 86, 0.2)', // Jaune
+               'rgba(75, 192, 192, 0.2)', // Vert
+               'rgba(153, 102, 255, 0.2)' // Violet
+              ],
+              borderColor: [
+               'rgba(255, 159, 64, 1)',    // Orange
+               'rgba(255, 99, 132, 1)',    // Rouge
+               'rgba(54, 162, 235, 1)',    // Bleu
+               'rgba(255, 206, 86, 1)',    // Jaune
+               'rgba(75, 192, 192, 1)',    // Vert
+               'rgba(153, 102, 255, 1)'    // Violet
+              ],
+              borderWidth: 1,
+            }],
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+               beginAtZero: true,
+              },
+            },
+          },
+        });
+      } else {
+        console.error('Les labels et les scores ne correspondent pas en longueur.');
+      }
+    } else {
+      console.error('Aucune donnée de preselectionne pour créer le graphique.');
+    }
+  } else {
+    console.error("L'élément barChart n'est pas disponible.");
+  }
+}
+@ViewChild('barChart3') barChart3!: ElementRef;
+createBarChart3(): void {
+const ctx = this.barChart3.nativeElement as HTMLCanvasElement;
+console.log('barChart3:', this.barChart3);
+if (ctx) {
+  if (this.entretienrh && this.entretienrh.length > 0) {
+    const labels = this.entretienrh.map((candidat: any) => candidat.nomCollaborateur + ' ' + candidat.prenomCollaborateur );
+    const note = this.entretienrh.map((candidat: any) => candidat.salaire);
+    if (labels.length === note.length) {
+      const barChart3 = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Note des candidats',
+            data: note,
+            backgroundColor: [
+              'rgba(153, 102, 255, 0.2)' // Violet
+,
+'rgba(75, 192, 192, 0.2)', // Vert
+'rgba(255, 206, 86, 0.2)', // Jaune
+
+             'rgba(255, 159, 64, 0.2)', // Orange
+             'rgba(255, 99, 132, 0.2)', // Rouge
+             'rgba(54, 162, 235, 0.2)', // Bleu
+            ],
+            borderColor: [
+              'rgba(153, 102, 255, 1)'   , // Violet
+              'rgba(75, 192, 192, 1)',    // Vert
+              'rgba(255, 206, 86, 1)',    // Jaune
+
+             'rgba(255, 159, 64, 1)',    // Orange
+             'rgba(255, 99, 132, 1)',    // Rouge
+             'rgba(54, 162, 235, 1)',    // Bleu
+            ],
+            borderWidth: 1,
+          }],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+             beginAtZero: true,
+            },
+          },
+        },
+      });
+    } else {
+      console.error('Les labels et les scores ne correspondent pas en longueur.');
+    }
+  } else {
+    console.error('Aucune donnée de preselectionne pour créer le graphique.');
+  }
+} else {
+  console.error("L'élément barChart n'est pas disponible.");
+}
 }
 }

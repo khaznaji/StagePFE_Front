@@ -1,0 +1,31 @@
+<div class="container">
+    <input type="text" class="form-control mb-3" placeholder="Rechercher par nom" [(ngModel)]="searchTerm" (input)="filterCandidats()">
+    
+    <!-- Tableau des candidats -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Score</th>
+          <th>Note</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let candidat of filteredPostes">
+          <td>{{ candidat.nom }}</td>
+          <td>{{ candidat.prenom }}</td>
+          <td>{{ candidat.score }}</td>
+          <td>{{ candidat.note }}</td>
+          <td>
+            <input type="checkbox" [(ngModel)]="candidat.selected" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <!-- Bouton Valider -->
+    <button class="btn btn-primary" (click)="accepterCandidats()">Accepter les candidats sélectionnés</button>
+  </div>
+  

@@ -233,6 +233,10 @@ export class PosteService {
     const url = `${this.BASE_URL2}/getCandidatsByPosteIdEnAttenteEntretien/${postId}`;
     return this.http.get<any[]>(url);
   }
+  getCandidatsByPosteIdEnAttenteEntretienRh(postId: number): Observable<any[]> {
+    const url = `${this.BASE_URL2}/getCandidatsByPosteIdEnAttenteEntretienRh/${postId}`;
+    return this.http.get<any[]>(url);
+  }
   countCollaborateursEnAttente(postId: number): Observable<number> {
     return this.http.get<number>(
       `${this.BASE_URL2}/countCollaborateursEnAttente/${postId}`
@@ -259,6 +263,14 @@ export class PosteService {
     return this.http.get<any[]>(
       `${this.BASE_URL2}/CandidatsVersEntretienRh/${posteId}`
     );
+  }
+  CandidatsEntretienRh(posteId: number): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.BASE_URL2}/CandidatsEntretienRh/${posteId}`
+    );
+  }
+  accepterCandidature(candidatureIds: number[]): Observable<any> {
+    return this.http.put<any>(`${this.BASE_URL2}/candidatures/accepter`, candidatureIds);
   }
   updateCandidaturesEtatToEnAttente(candidatureIds: number[]): Observable<any> {
     return this.http.post<any>(`${this.BASE_URL2}/updateEtatToEnAttente`, candidatureIds);
