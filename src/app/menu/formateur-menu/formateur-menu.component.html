@@ -174,7 +174,7 @@
               class="dropdown-menu dropdown-menu-right navbar-dropdown"
               aria-labelledby="profileDropdown"
             >
-              <a class="dropdown-item" [routerLink]="['/managerService/profile']">
+              <a class="dropdown-item" [routerLink]="['/formateur/profile']">
                 <i class="mdi mdi-settings text-primary"></i>
                 Mon Compte
               </a>
@@ -207,47 +207,9 @@
           </li>
   
           <li class="nav-item">
-            <a
-              class="nav-link"
-              data-bs-toggle="collapse"
-              href="#ui-basic"
-              aria-expanded="false"
-              aria-controls="ui-basic"
-            >
-              <i class="mdi mdi mdi-briefcase menu-icon"></i>
-              <span class="menu-title">Fiches de Postes</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    [routerLink]="['/managerService/mes-postes']"
-                    >Gestion de poste
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    [routerLink]="['/managerService/postes-approuve']"
-                    >Demandes Approuvées</a
-                  >
-                </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    [routerLink]="['/managerService/poste-publie']"
-                    >Demandes publiées</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/managerService/mes-entretiens']">
-              <i class="mdi mdi-camcorder menu-icon"></i>
-              <span class="menu-title">Mes Entretiens </span>
+            <a class="nav-link" [routerLink]="['/formateur/all']">
+              <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+              <span class="menu-title">Formations </span>
             </a>
           </li>
           <li class="nav-item">

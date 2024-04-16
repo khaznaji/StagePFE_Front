@@ -1,0 +1,42 @@
+.formation-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex; /* Make the container a flex container */
+    flex-direction: column; /* Stack the items vertically */
+    align-items: center; /* Center items horizontally */
+}
+
+h3 {
+    color: #333333;
+    margin-bottom: 20px;
+}
+.image-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; /* Ensure the container takes up the full height */
+   }
+   
+img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+p {
+    color: #666666;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+p b {
+    color: #333333;
+}
+
+/* Override the alignment for specific paragraphs */
+.formation-container p:not(:first-child) {
+    align-self: flex-start; /* Align these paragraphs to the left */
+}

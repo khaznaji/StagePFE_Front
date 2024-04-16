@@ -1,0 +1,131 @@
+<div class="container">
+    <div class="main-body">
+      <!-- <form (ngSubmit)="addProject()" enctype="multipart/form-data"> -->
+        <form (ngSubmit)="update()" #foodForm="ngForm" class="mx-auto">
+
+        <div class="row gutters-sm mt-5">
+      
+        <div class="col-md-8 container">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="text-center"><u>Ajout du produit</u></h4>
+
+             <div class="form-group mb-3">
+                  <label for="name">Titre</label>
+                  <input class="form-control" type="text" id="title" [(ngModel)]="project.title" name="title" required #thisTitle="ngModel">
+        <div class="alert alert-danger" *ngIf="thisTitle.touched && thisTitle.invalid">
+          <div *ngIf="thisTitle?.errors?.['required']">Titre est obligatoire!</div>
+        </div>
+      
+                
+                </div>
+      
+                <div class="form-group mb-3">
+                  <label for="description">Description</label>
+                  <textarea class="form-control" id="description" [(ngModel)]="project.description" name="description" required #thisDesc="ngModel"></textarea>
+                  <div class="alert alert-danger" *ngIf="thisDesc.touched && thisDesc.invalid">
+                    <div *ngIf="thisDesc?.errors?.['required']">Description est obligatoire!</div>
+                  </div>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="description">Chapitre</label>
+                  <textarea class="form-control" id="description" [(ngModel)]="project.chapitre" name="gr" required #gr="ngModel"></textarea>
+                  <div class="alert alert-danger" *ngIf="gr.touched && gr.invalid">
+                    <div *ngIf="gr?.errors?.['required']">Chapitre est obligatoire!</div>
+                  </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="description">duree</label>
+                    <textarea class="form-control" id="description" [(ngModel)]="project.duree" name="duree" required #duree="ngModel"></textarea>
+                    <div class="alert alert-danger" *ngIf="duree.touched && duree.invalid">
+                      <div *ngIf="duree?.errors?.['required']">duree est obligatoire!</div>
+                    </div>
+                  </div>
+
+      
+                <div class="form-group mb-3">
+                
+                  
+                   
+              
+                
+                  <div class="form-group mb-3">
+                    <label for="departement">Département</label>
+                    <select class="form-control" id="departement" [(ngModel)]="project.departement" name="departement" required #departement="ngModel">
+                        <option value="" disabled selected>-- Sélectionnez un département --</option>
+                        <option value="Ressources_Humaines">Ressources Humaines</option>
+                        <option value="Financier">Financier</option>
+                        <option value="Informatique">Informatique</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Production">Production</option>
+                        <option value="Recherche_et_du_Développement">Recherche et du Développement</option>
+                        <option value="Juridique">Juridique</option>
+                        <option value="Opérations">Opérations</option>
+                    </select>
+                    <div class="alert alert-danger" *ngIf="departement.touched && departement.invalid">
+                        <div *ngIf="departement?.errors?.['required']">Département est obligatoire!</div>
+                    </div>
+                </div>
+                
+                    <div class="form-group mb-3">
+                        <label for="disponibilite">Disponibilité</label>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="disponibilite" [(ngModel)]="project.disponibilite" name="disponibilite">
+                            <label class="custom-control-label" for="disponibilite">{{ project.disponibilite ? 'Disponible' : 'Non disponible' }}</label>
+                        </div>
+                    </div>
+                    
+                          
+                          
+                          
+        </div>
+        <div class="form-group mb-3">
+          
+        
+
+          <div class="form-group mb-3">
+            <div class="form-group mb-3">
+              <label for="nbExercices">Image</label>
+              <input type="file" name="files" multiple (change)="onFileChange($event)">
+              <div *ngIf="!selectedFile ">
+
+                Veuillez sélectionner une image.
+              </div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="thumbnails-container">
+      <div *ngFor="let thumbnail of thumbnails" class="thumbnail">
+        <img [src]="thumbnail" alt="Thumbnail">
+      </div>
+    </div>
+  </div>
+</div>
+            </div>
+      
+</div>
+</div>
+             
+              </div>
+              <div class="row d-flex justify-content-center">
+                <div class="col-2">
+
+                  <button type="submit" class="btn btn-primary" [disabled]="!foodForm.form.valid ">Ajouter</button>
+               <br> <br> </div>
+                <div></div>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <div class="row mt-5">
+      </div>
+    </form>
+    </div>
+
+    <div class="row bg-white shadow d-flex justify-content-center">
+      <div class="col-6">
+        <!-- Place additional content here -->
+      </div>
+    </div>
+  </div>

@@ -55,6 +55,9 @@ import { EntretienRhCollabComponent } from './Collaborateur/Entretien/entretien-
 import { EvaluateInterviewRhComponent } from './Admin/Entretiens/evaluate-interview-rh/evaluate-interview-rh.component';
 import { AllFormateurComponent } from './Admin/Formateur/List/all-formateur/all-formateur.component';
 import { FormateurMenuComponent } from './menu/formateur-menu/formateur-menu.component';
+import { CreateFormationComponent } from './Formateur/create-formation/create-formation.component';
+import { AllFormationsComponent } from './Formateur/all-formations/all-formations.component';
+import { ListeDesFormationsComponent } from './Collaborateur/Formation/liste-des-formations/liste-des-formations.component';
 
 const routes: Routes = [
   {
@@ -104,6 +107,8 @@ const routes: Routes = [
     component: CollabMenuComponent,
     children: [
       { path: 'all-poste', component: GetAllPosteCollabComponent },
+      { path: 'all-formations', component: ListeDesFormationsComponent },
+
       { path: 'compte', component: ProfileComponent },
       { path: 'mes-postulations', component: MespostulationsComponent },
       { path: 'profile', component: GestionProfileComponent },
@@ -155,6 +160,9 @@ const routes: Routes = [
     path: 'formateur',
     component: FormateurMenuComponent,
     children: [
+      { path: 'profile', component: ProfileComponent },
+      { path: 'all', component: AllFormationsComponent },
+
       ]}
 ];
 

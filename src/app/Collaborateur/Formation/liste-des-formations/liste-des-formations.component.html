@@ -1,0 +1,30 @@
+<br />
+<ng-container *ngIf="events.length > 0; else noManagerServices">
+
+<div class="container" *ngFor="let event of events">
+  <div class="card hovercard">
+    <img [src]="'assets/images/Formations/' + event.image" alt="" />
+    <div class="avatar">
+      <img [src]="'assets/images/' + event.formateurImage" alt="" />
+    </div>
+    <div class="info">
+
+      <div class="title">
+        {{ event.title }}
+      </div>
+      <div class="desc">Animé par : {{ event.formateurName }}</div>
+
+      <div class="desc">Durée : {{ event.duree }} Heures</div>
+      <div class="desc">Nombre de Chapitre : {{ event.chapitre }}</div>
+    </div>
+    <div class="bottom">
+      <button class="btn btn-inverse-info" (click)="openModalById(event.id )">Voir en Details</button>
+    </div>
+  </div>
+  </div>
+</ng-container>
+<ng-template #noManagerServices>
+  <p>Aucune Formation trouvée</p>
+</ng-template>
+
+ 

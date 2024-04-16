@@ -1,0 +1,79 @@
+<div class="popup">
+  <div class="container">
+    <div class=""></div>
+    <div class="container-fluid" id="profile-container">
+      <div class="row justify-content-center">
+        <div class="col-xl-11">
+          <div class="widget head-profile has-shadow">
+            <div class="widget-body pb-0">
+              <div class="row d-flex align-items-center">
+                <div
+                  class="col-xl-4 col-md-4 d-flex justify-content-lg-start justify-content-md-start justify-content-center"
+                >
+                  <ul></ul>
+                </div>
+                <div
+                  class="col-xl-4 col-md-4 d-flex justify-content-center"
+                  *ngIf="formationInfo"
+                >
+                  <div>
+                    <img
+                      [src]="'assets/images/Formations/' + formationInfo.image"
+                      alt="Admin"
+                      width="600px"
+                      height="200px"
+                    />
+                    <button class="btn btn-inverse-success">
+                      Demander cette formation
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-xl-7">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-title">A propos De La Formation</h5>
+              </div>
+              <p class="card-text" id="bioText">
+                {{ formationInfo.description }}
+              </p>
+              <p><b>Nombre de Chapitres :</b> {{ formationInfo.chapitre }}</p>
+              <p><b>Duree de la Formation :</b> {{ formationInfo.duree }}</p>
+              <p><b>Departement :</b> {{ formationInfo.department }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-5">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">A propos Du Formateur</h5>
+              <p class="card-text"></p>
+              <ul class="custom-list">
+                <div class="image-container">
+                  <img
+                    [src]="'assets/images/' + formationInfo.formateurImage"
+                    alt="Formateur"
+                    width="150"
+                  />
+                </div>
+                <div class="infos">
+                  <h6 style="color: grey">{{ formationInfo.formateurName }}</h6>
+                </div>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+
+      <br />
+      <div></div>
+    </div>
+  </div>
+</div>

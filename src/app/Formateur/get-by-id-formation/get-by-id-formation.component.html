@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-header">
+     <b>{{ formationInfo.title }}</b>  
+    </div>
+    <div class="card-body">
+        <div class="image-container">
+            <img [src]="'assets/images/Formations/' + formationInfo.image" alt="Admin" width="350">
+           </div>
+                  <p>{{ formationInfo.description }}</p>
+       <p><b>Nombre de Chapitres :</b> {{ formationInfo.chapitre }}</p>
+       <p><b>Duree de la Formation :</b> {{ formationInfo.duree }}</p>
+       <p><b>Disponibilite : </b> <span *ngIf="formationInfo.disponibilite; else notAvailable">Oui</span>
+        <ng-template #notAvailable>Non</ng-template>
+       </p>
+       <p><b>Departement :</b> {{ formationInfo.department }}</p>
+    </div>
+   </div>
+   
