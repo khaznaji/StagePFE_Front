@@ -1,0 +1,46 @@
+<br>
+<!-- Formulaire -->
+<div class="card mx-auto text-center"  tabindex="-1" role="dialog">
+   <div class="card-body">
+    
+    
+
+<!-- Liste des catégories -->
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Liste des Formation </h4>
+        <div class="d-flex justify-content-end mb-3">
+         <!-- Bouton ajouté ici -->
+     </div>
+        <div>
+
+</div>
+    <div  class="table-responsive">
+      
+        <table class="table table-striped card-table">
+          <thead>
+  
+        <tr>
+          <th>Titre</th>
+          <th>Formateur</th>
+       
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of events">
+          <td>{{ event.title }}</td>
+          <td class="info">
+            <div class="avatar">
+                <img [src]="'assets/images/' + event.formateurImage" alt="" />
+            </div> &nbsp; &nbsp;
+            <div>{{ event.formateurName }}</div>
+        </td>
+        
+       <td>    <button class="btn btn-primary" [routerLink]="['/managerRh/formation-byId', event.id]">Voir détails</button>
+       </td>
+        </tr>
+      </tbody>
+    </table>
+ </div>
+ 
+  

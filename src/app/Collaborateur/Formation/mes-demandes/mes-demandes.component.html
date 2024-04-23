@@ -1,0 +1,54 @@
+<div class="card mx-auto text-center" tabindex="-1" role="dialog">
+  <div class="card-body">
+    <!-- Liste des catégories -->
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Mes Demandes de Formations</h4>
+        <div class="d-flex justify-content-end mb-3"></div>
+        <div></div>
+        <div
+          *ngIf="mesFormations && mesFormations.length > 0"
+          class="table-responsive"
+        >
+          <table class="table table-striped card-table">
+            <thead>
+              <tr>
+                <th scope="col">Titre de la Formation</th>
+                <th scope="col">État</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let formation of mesFormations">
+                <td>{{ formation.titre }}</td>
+                <td style="width: 15px">
+                  <span
+                    class="badge"
+                    [ngClass]="getBadgeClasses(formation.etatParticipation)"
+                  >
+                    {{ formation.etatParticipation }}
+                  </span>
+                </td>
+                <td>
+                  <div class="bottom">
+                    <button
+                      class="btn btn-inverse-info"
+                      (click)="openModalById(formation.id)"
+                    >
+                      Voir en Details
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          *ngIf="!(mesFormations && mesFormations.length > 0)"
+          class="text-center"
+        >
+          <p>Vous n'avez postuler pour aucune formation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

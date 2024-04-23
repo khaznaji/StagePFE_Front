@@ -1,0 +1,6 @@
+.clickable-link {
+    color: blue; /* Couleur du texte pour un lien par défaut */
+    text-decoration: underline; /* Souligner le texte comme un lien */
+    cursor: pointer; /* Changer le curseur au survol pour indiquer que c'est cliquable */
+  }
+  

@@ -1,0 +1,197 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <div class="poste-details">
+        <h2>{{ formationInfo.title }}</h2>
+        <h6></h6>
+      </div>
+
+      <h6></h6>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body dashboard-tabs p-0">
+        <ul class="nav nav-tabs px-4" role="tablist">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              id="overview-tab"
+              data-bs-toggle="tab"
+              href="#overview"
+              role="tab"
+              aria-controls="overview"
+              aria-selected="true"
+              >Detail de la Formation</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="sales-tab"
+              data-bs-toggle="tab"
+              href="#sales"
+              role="tab"
+              aria-controls="sales"
+              aria-selected="false"
+              >Demandes des Collaborateurs</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="purchases-tab"
+              data-bs-toggle="tab"
+              href="#purchases"
+              role="tab"
+              aria-controls="purchases"
+              aria-selected="false"
+              >Demandes des Manager Service
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content py-0 px-0">
+          <div
+            class="tab-pane fade show active"
+            id="overview"
+            role="tabpanel"
+            aria-labelledby="overview-tab"
+          >
+            <div>
+              <br />
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4>A propos de la Formations</h4>
+                      <p>{{ formationInfo.description }}</p>
+                      <p>
+                        <b>Nombre de Chapitres :</b>
+                        {{ formationInfo.chapitre }}
+                      </p>
+                      <p>
+                        <b>Duree de la Formation :</b> {{ formationInfo.duree }}
+                      </p>
+                      <p><b>Departement :</b> {{ formationInfo.department }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Deuxième carte pour les compétences -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4>A propos Du Formateur</h4>
+                      <ul class="custom-list">
+                        <div class="image-container">
+                          <img
+                            [src]="
+                              'assets/images/' + formationInfo.formateurImage
+                            "
+                            alt="Formateur"
+                            width="150"
+                          />
+                        </div>
+                        <div class="infos">
+                          <h6 style="color: grey">
+                            {{ formationInfo.formateurName }}
+                          </h6>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="tab-pane fade"
+            id="sales"
+            role="tabpanel"
+            aria-labelledby="sales-tab"
+          >
+            <br />
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Liste des Demandes des collaborateurs</h4>
+                <div class="d-flex justify-content-end mb-3">
+                  <!-- Bouton ajouté ici -->
+                </div>
+                <div></div>
+                <div class="table-responsive">
+                  <table class="table table-striped card-table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Collaborateur</th>
+                        <th>Poste</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let formation of formationsAcceptees">
+                        <td>
+                          <img
+                            [src]="'assets/images/' + formation.image"
+                            alt=""
+                            style="max-width: 40px; max-height: 40px"
+                          />
+                        </td>
+                        <td>{{ formation.nom }} {{ formation.prenom }}</td>
+
+                        <td>{{ formation.poste }}</td>
+                        <td>
+                          <button
+                            (click)="
+                              updateEtatAccepte(formation.idParticipation)
+                            "
+                            class="btn btn-success"
+                          >
+                            Accepter
+                          </button>
+                        </td>
+                        <td>
+                          <button
+                            (click)="
+                              updateEtatRefusee(formation.idParticipation)
+                            "
+                            class="btn btn-danger"
+                          >
+                            Refuser
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <ng-template #noFormations>
+                    <p>Aucune demande de collaborateur trouvée.</p>
+                  </ng-template>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="purchases"
+                  role="tabpanel"
+                  aria-labelledby="purchases-tab"
+                ></div>
+                <div
+                  class="tab-pane fade"
+                  id="test"
+                  role="tabpanel"
+                  aria-labelledby="test-tab"
+                >
+                  <br />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

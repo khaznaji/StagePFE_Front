@@ -4,6 +4,9 @@ import { CreateFormationComponent } from 'src/app/Formateur/create-formation/cre
 import { GetByIdFormationComponent } from 'src/app/Formateur/get-by-id-formation/get-by-id-formation.component';
 import { FormationService } from 'src/app/service/formation.service';
 import { FormationDetailComponent } from '../formation-detail/formation-detail.component';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import Swal from 'sweetalert2';
+import { UserAuthService } from 'src/app/service/user-auth.service';
 
 @Component({
   selector: 'app-liste-des-formations',
@@ -14,8 +17,7 @@ export class ListeDesFormationsComponent implements OnInit {
 ngOnInit(): void {
   this.reloadData(); 
 }
-events: any;
-constructor(private formationService : FormationService ,    private modalService: BsModalService
+constructor(private formationService : FormationService ,    private modalService: BsModalService , private http: HttpClient , private authService: UserAuthService 
 ){}
 reloadData() {
   this.events = this.formationService.formationCollab().subscribe((res) => {
@@ -23,6 +25,8 @@ reloadData() {
     console.log(res);
   });
 }
+events: any;
+
 modalRef!: BsModalRef;
 
 openModalById(formationId: number): void {
@@ -33,4 +37,46 @@ openModalById(formationId: number): void {
     initialState,
   });
 }
+private BASE_URL2 = 'http://localhost:8080/api/ParticipationFormation';
+
+postulerAuPoste(postId: number): void {
+  console.log("Début de la méthode postulerAuPoste");
+
+  const authToken = this.authService.getToken();
+  console.log("AuthToken:", authToken);
+
+  const headers = new HttpHeaders({
+      'Authorization': `Bearer ${authToken}`
+  });
+  console.log("Headers:", headers);
+
+  // Supprimez l'en-tête 'Content-Type' pour permettre au navigateur de le définir automatiquement
+  headers.delete('Content-Type');
+
+  console.log("Envoi de la requête HTTP POST avec postId:", postId);
+  this.http.post<string>(`${this.BASE_URL2}/inscription/${postId}` ,{}, {headers}).subscribe(
+      response => {
+          console.log("Réponse de la requête POST:", response);
+          Swal.fire({
+              icon: 'success',
+              title: 'Demande d inscription réussie!',
+              text: 'Votre postulation a été enregistrée avec succès.',
+          });
+          setTimeout(() => {
+            location.reload();
+          }, 3000);
+      },
+      error => {
+          console.error("Erreur lors de la requête POST:", error);
+          // Extraire le message d'erreur du corps de la réponse
+          const errorMessage = error.error ? error.error.error : 'Une erreur s\'est produite lors de la postulation.';
+          Swal.fire({
+              icon: 'error',
+              title: 'Erreur!',
+              text: errorMessage,
+          });
+      }
+  );
+}
+
 }

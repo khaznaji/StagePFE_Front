@@ -99,6 +99,11 @@ import { GetByIdFormationComponent } from './Formateur/get-by-id-formation/get-b
 import { UpdateFormationComponent } from './Formateur/update-formation/update-formation.component';
 import { ListeDesFormationsComponent } from './Collaborateur/Formation/liste-des-formations/liste-des-formations.component';
 import { FormationDetailComponent } from './Collaborateur/Formation/formation-detail/formation-detail.component';
+import { DemandeDesCollabsComponent } from './Manager/Formations/demande-des-collabs/demande-des-collabs.component';
+import { MesDemandesComponent } from './Collaborateur/Formation/mes-demandes/mes-demandes.component';
+import { ListFormationComponent } from './Admin/Formation/list-formation/list-formation.component';
+import { DemandeFormationsComponent } from './Admin/Formation/demande-formations/demande-formations.component';
+import { CreateGroupsComponent } from './Manager/Formations/create-groups/create-groups.component';
 
 @NgModule({
   declarations: [
@@ -119,7 +124,15 @@ import { FormationDetailComponent } from './Collaborateur/Formation/formation-de
     ViewCandidateByIdComponent,FilterPipe, CandidatureComponent, AppouvedPosteComponent,
     PostApprouvedIdComponent, AddQuizComponent, UpdateQuizComponent, ViewQuizComponent,
     AddQuestionComponent, UpdateQuestionComponent, ViewQuestionComponent, DisplayDemandePublieComponent, PostByIdComponent, GetpostebyidComponent, MestesttechniqueComponent, StartTestComponent, InterviewOnlineComponent,
-     FullCalendarComponent, MesEntretiensComponent, MesEntretienManagerComponent, EvaluateInterviewComponent, ThankYouComponent, EntretienRhComponent, FullCalendarRhComponent, MesEntretiensRhComponent, EntretienRhCollabComponent, EvaluateInterviewRhComponent, CandidatsEntretienRhComponent, AddCompteFormateurComponent, AllFormateurComponent, FormateurMenuComponent, CreateFormationComponent, AllFormationsComponent, GetByIdFormationComponent, UpdateFormationComponent, ListeDesFormationsComponent, FormationDetailComponent 
+     FullCalendarComponent, MesEntretiensComponent, MesEntretienManagerComponent, 
+     EvaluateInterviewComponent, ThankYouComponent, EntretienRhComponent, FullCalendarRhComponent,
+      MesEntretiensRhComponent, EntretienRhCollabComponent, EvaluateInterviewRhComponent,
+       CandidatsEntretienRhComponent, AddCompteFormateurComponent, AllFormateurComponent,
+        FormateurMenuComponent, CreateFormationComponent, AllFormationsComponent,
+         GetByIdFormationComponent, UpdateFormationComponent, ListeDesFormationsComponent, 
+         FormationDetailComponent, DemandeDesCollabsComponent, MesDemandesComponent, 
+         ListFormationComponent, DemandeFormationsComponent, CreateGroupsComponent
+          
 
   ],
   imports: [

@@ -1,0 +1,47 @@
+
+  <div class="card mx-auto text-center" tabindex="-1" role="dialog">
+    <div class="card-body">
+      <!-- Liste des catégories -->
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Les Demandes de Formations Des Collaborateurs</h4>
+          <div class="d-flex justify-content-end mb-3"></div>
+          <div></div>
+          <div
+            *ngIf=" formations.length > 0"
+            class="table-responsive"
+          >
+            <table class="table table-striped card-table">
+              <thead>
+                <tr>
+                  <th scope="col">Titre de la Formation</th>
+                  <th scope="col">Collaborateur</th>
+                  <th scope="col">Poste Collabborateur</th>
+                  <th scope="col">Actions</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let formation of formations">
+                  <td><a (click)="openModalById(formation.id)" class="clickable-link">{{ formation.nomFormation }}</a>
+                  </td>
+<td> {{ formation.nom }}  {{ formation.prenom }}</td>
+<td> {{ formation.poste }}</td>             
+<td> <button (click)="updateEtatAccepte(formation.idParticipation)" class="btn btn-success">Accepter</button></td>      
+<td> <button (click)="updateEtatRefusee(formation.idParticipation)" class="btn btn-danger">Refuser</button></td>      
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div
+            *ngIf="!(formations && formations.length > 0)"
+            class="text-center"
+          >
+            <p>Aucune demande de formation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

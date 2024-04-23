@@ -1,0 +1,32 @@
+/* Badges pour les différents états de participation */
+.badge {
+  display: flex;
+    flex-wrap: wrap;
+}
+
+.badge-success {
+  color: white; /* Ensure text color is white for better contrast */
+  background-color: #4CAF50;
+  padding: 5px 10px;
+  margin: 3px;
+  border-radius: 15px;
+}
+
+/* Badge pour l'état "EN_ATTENTE" */
+.badge-warning {
+  color: white; /* Ensure text color is white for better contrast */
+  background-color: #ffc107;
+  padding: 5px 10px;
+  margin: 3px;
+  border-radius: 15px;  
+  max-width: 150px; /* Limitez la largeur maximale des badges */
+}
+
+/* Badge pour l'état "REFUSE" */
+.badge-danger {
+  color: white; /* Ensure text color is white for better contrast */
+  background-color: #dc3545;
+  padding: 5px 10px;
+  margin: 3px;
+  border-radius: 15px;  }
+

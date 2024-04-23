@@ -216,11 +216,20 @@
             <span class="menu-title">Postes</span>
           </a>
         </li>
+      
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/collaborateur/all-formations']">
+          <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
             <i class="mdi mdi-file-document-box-outline menu-icon"></i>
             <span class="menu-title">Formations</span>
+            <i class="menu-arrow"></i>
           </a>
+          <div class="collapse" id="auth">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" [routerLink]="['/collaborateur/all-formations']" > Catalogue </a></li>
+              <li class="nav-item"> <a class="nav-link"  [routerLink]="['/collaborateur/mes-demandes-formation']"> Mes Demandes  </a></li>
+
+           </ul>
+          </div>
         </li>
         <li class="nav-item">
           <a

@@ -58,6 +58,11 @@ import { FormateurMenuComponent } from './menu/formateur-menu/formateur-menu.com
 import { CreateFormationComponent } from './Formateur/create-formation/create-formation.component';
 import { AllFormationsComponent } from './Formateur/all-formations/all-formations.component';
 import { ListeDesFormationsComponent } from './Collaborateur/Formation/liste-des-formations/liste-des-formations.component';
+import { DemandeDesCollabsComponent } from './Manager/Formations/demande-des-collabs/demande-des-collabs.component';
+import { MesDemandesComponent } from './Collaborateur/Formation/mes-demandes/mes-demandes.component';
+import { ListFormationComponent } from './Admin/Formation/list-formation/list-formation.component';
+import { DemandeFormationsComponent } from './Admin/Formation/demande-formations/demande-formations.component';
+import { CreateGroupsComponent } from './Manager/Formations/create-groups/create-groups.component';
 
 const routes: Routes = [
   {
@@ -91,6 +96,7 @@ const routes: Routes = [
       { path: 'fullcalendar/:postId', component: FullCalendarComponent },
       { path: 'fullcalendarRh/:postId', component: FullCalendarRhComponent },
       { path: 'mes-entretiens-Rh', component: MesEntretiensRhComponent },
+      { path: 'create-group/:formationId', component: CreateGroupsComponent },
       {
         path: 'interview/:roomId/:candidatureId',
         component: InterviewOnlineComponent,
@@ -99,6 +105,12 @@ const routes: Routes = [
         path: 'evaluate-interview-Rh/:candidatureId',
         component: EvaluateInterviewRhComponent,
       },
+      {
+        path: 'all-formations',
+        component: ListFormationComponent,
+      },
+      { path: 'formation-byId/:id', component: DemandeFormationsComponent },
+
     ],
   },
 
@@ -122,6 +134,7 @@ const routes: Routes = [
       { path: 'mes-entretiens', component: MesEntretiensComponent },
       { path: 'thank-you', component: ThankYouComponent },
       { path: 'mes-entretiens-Rh', component: EntretienRhCollabComponent },
+      { path: 'mes-demandes-formation', component: MesDemandesComponent },
 
     ],
   },
@@ -154,6 +167,8 @@ const routes: Routes = [
         path: 'evaluate-interview/:candidatureId',
         component: EvaluateInterviewComponent,
       },
+      { path: 'demande-formation', component: DemandeDesCollabsComponent },
+
     ],
   },
   {

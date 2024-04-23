@@ -55,6 +55,10 @@ export class FormationService {
         { headers }
       );
     }
+    FormationDisponible(): Observable<Formation[]> {
+  
+      return this.http.get<Formation[]>(`${this.BASE_URL2}/allAvailable`);
+    }
 
     getFormationById(formationId: number): Observable<Formation> {
       return this.http.get<Formation>(`${this.BASE_URL2}/${formationId}`);

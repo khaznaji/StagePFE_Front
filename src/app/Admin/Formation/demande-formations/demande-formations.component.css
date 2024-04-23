@@ -1,0 +1,19 @@
+.custom-list {
+    list-style-type: none; /* Supprime les puces de la liste */
+    padding-left: 0; /* Supprime l'espacement à gauche de la liste */
+    margin-bottom: 0; /* Supprime l'espacement en bas de la liste */
+}
+
+.custom-list li {
+    margin-bottom: 10px; /* Espacement entre les éléments de la liste */
+    padding: 10px 0; /* Espacement vertical autour de chaque élément de la liste */
+    border-bottom: 1px solid #ddd; /* Ajoute une bordure en bas de chaque élément de la liste */
+}
+
+.custom-list li:last-child {
+    border-bottom: none; /* Supprime la bordure du dernier élément de la liste */
+}
+.info {
+    display: flex;
+    align-items: center;
+}

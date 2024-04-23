@@ -71,6 +71,19 @@
     padding: 0 20px;
     margin-bottom: 17px;
   }
+  .bottom {
+    text-align: center; /* Alignement horizontal au centre */
+  }
+  
+  .button-container {
+    display: inline-block; /* Affichage en ligne */
+  }
+  
+  /* Ajoutez un peu d'espace entre les boutons si nécessaire */
+  .button-container button {
+    margin-right: 10px; /* Marge à droite pour séparer les boutons */
+  }
+  
   
   .card.people .card-bottom {
     position: absolute;
