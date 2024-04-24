@@ -7,6 +7,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 })
 export class GroupsService {
   private baseUrl = 'http://localhost:8080/api/groups/ajouterGroupe';
+  private baseUrl2 = 'http://localhost:8080/api/groups';
 
   constructor(private http: HttpClient) {}
 
@@ -17,5 +18,8 @@ export class GroupsService {
       collaborateursId: collaborateursId
     };
     return this.http.post<any>(url, null, { params: params });
+  }
+  getGroupesByFormation(formationId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl2}/groupesParFormation/${formationId}`);
   }
 }

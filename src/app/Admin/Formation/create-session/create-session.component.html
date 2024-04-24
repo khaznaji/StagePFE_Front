@@ -1,0 +1,149 @@
+<div class="row">
+  <div class="col-md-4">
+    <!-- Utilisation de col-md-4 pour réduire la largeur -->
+    <div *ngIf="showModal" class="card">
+      <span (click)="cancelAddEvent()" class="close">&times;</span>
+      <h2>Ajouter une Session</h2>
+      <div class="form-group">
+        <label for="groupId">Candidat:</label>
+        <select
+          id="groupId"
+          name="groupId"
+          [(ngModel)]="groupId"
+          class="form-control"
+          required
+        >
+          <option *ngFor="let candidat of candidats" [value]="candidat.id">
+            {{ candidat.nom }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="dateDebut">Date début:</label>
+          <input
+            type="date"
+            id="dateDebut"
+            name="dateDebut"
+            [(ngModel)]="dateDebut"
+            class="form-control"
+            required
+          />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="dateFin">Date fin:</label>
+          <input
+            type="date"
+            id="dateFin"
+            name="dateFin"
+            [(ngModel)]="dateFin"
+            class="form-control"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="button-container">
+        <button (click)="cancelAddEvent()" class="btn btn-inverse-primary">
+          Fermer
+        </button>
+        <button (click)="addEvent()" class="btn btn-inverse-danger">
+          Ajouter
+        </button>
+      </div>
+    </div>
+    <div *ngIf="showModal2" class="card">
+      <div>
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>Détails de l'entretien</h2>
+        <div *ngIf="entretienDetails && !editMode">
+          <p><strong>ID:</strong> {{ entretienDetails.id }}</p>
+          <p>
+            <strong>Nom Du Group :</strong>
+            {{ entretienDetails.group.nom }}
+          </p>
+          <p>
+            <strong>Date debut:</strong>
+            {{ entretienDetails.dateDebut }}
+          </p>
+          <p></p>
+          <p>
+            <strong>Date fin:</strong>
+            {{ entretienDetails.dateFin }}
+          </p>
+
+          <p>
+            <strong>Room Id:</strong>
+            {{ entretienDetails.roomId | slice : 0 : 5 }}
+          </p>
+          <!-- Ajoutez d'autres détails de l'entretien au besoin -->
+        </div>
+        <button (click)="updateEntretien(entretienDetails.id)">Modifier</button>
+        <button (click)="deleteEntretien(entretienDetails.id)">
+          Supprimer
+        </button>
+        <div *ngIf="editMode">
+          <form
+            (submit)="submitUpdatedEntretien(entretienDetails.id)"
+          >
+            <div class="form-group">
+              <label for="groupId">Candidat:</label>
+              <select
+                id="groupId"
+                name="groupId"
+                [(ngModel)]="groupId"
+                class="form-control"
+                required
+              >
+                <option
+                  *ngFor="let candidat of candidats"
+                  [value]="candidat.id"
+                >
+                  {{ candidat.nom }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="dateDebut">Date début:</label>
+                <input
+                  type="date"
+                  id="dateDebut"
+                  name="dateDebut"
+                  [(ngModel)]="dateDebut"
+                  class="form-control"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="dateFin">Date fin:</label>
+                <input
+                  type="date"
+                  id="dateFin"
+                  name="dateFin"
+                  [(ngModel)]="dateFin"
+                  class="form-control"
+                  required
+                />
+              </div>
+            </div>
+            <button type="submit">Enregistrer</button>
+            <button type="button" (click)="editMode = false">Annuler</button>
+          </form>
+        </div>
+        <button (click)="closeModal()">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <full-calendar
+      [options]="calendarOptions"
+      [ngClass]="{ 'cursor-not-allowed': isPastDate }"
+    ></full-calendar>
+  </div>
+</div>

@@ -62,7 +62,8 @@ import { DemandeDesCollabsComponent } from './Manager/Formations/demande-des-col
 import { MesDemandesComponent } from './Collaborateur/Formation/mes-demandes/mes-demandes.component';
 import { ListFormationComponent } from './Admin/Formation/list-formation/list-formation.component';
 import { DemandeFormationsComponent } from './Admin/Formation/demande-formations/demande-formations.component';
-import { CreateGroupsComponent } from './Manager/Formations/create-groups/create-groups.component';
+import { CreateGroupsComponent } from './Admin/Formation/create-groups/create-groups.component';
+import { CreateSessionComponent } from './Admin/Formation/create-session/create-session.component';
 
 const routes: Routes = [
   {
@@ -97,6 +98,8 @@ const routes: Routes = [
       { path: 'fullcalendarRh/:postId', component: FullCalendarRhComponent },
       { path: 'mes-entretiens-Rh', component: MesEntretiensRhComponent },
       { path: 'create-group/:formationId', component: CreateGroupsComponent },
+      { path: 'session/:formationId', component: CreateSessionComponent },
+
       {
         path: 'interview/:roomId/:candidatureId',
         component: InterviewOnlineComponent,
