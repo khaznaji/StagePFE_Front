@@ -1,12 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { FormationService } from 'src/app/service/formation.service';
+import { GroupsService } from 'src/app/service/groups.service';
 import { ParticapationFormationService } from 'src/app/service/particapation-formation.service';
 import { UserAuthService } from 'src/app/service/user-auth.service';
 import Swal from 'sweetalert2';
+import { CreateGroupsComponent } from '../create-groups/create-groups.component';
+import { DetailsGroupComponent } from '../details-group/details-group.component';
 
 @Component({
   selector: 'app-demande-formations',
@@ -14,7 +17,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./demande-formations.component.css']
 })
 export class DemandeFormationsComponent implements OnInit  {
-  constructor(private route: ActivatedRoute , private participationFormation : ParticapationFormationService , private formationService: FormationService , private authService: UserAuthService , private http: HttpClient , private modalRef: BsModalRef) { }
+  constructor(private route: ActivatedRoute ,  private modalService: BsModalService,
+    private participationFormation : ParticapationFormationService , private formationService: FormationService , private groupsService: GroupsService , private http: HttpClient , private modalRef: BsModalRef) { }
   id!: number;
   formationsAcceptees: any[] = []; // Initialisez une variable pour stocker les formations acceptées
 
@@ -23,9 +27,65 @@ export class DemandeFormationsComponent implements OnInit  {
       this.id = +params['id']; 
    this.getFormation(); // Appel de la méthode pour récupérer les informations du collaborateur
 this.getFormationsAccepte();
-    });}
-  formationInfo: any;
+this.getGroupesByFormation();
 
+    });}
+  
+     
+  formationInfo: any;
+  groupes: any;
+  openCreateGroupsModal(formationId: number): void {
+    const initialState = {
+      formationId: formationId
+    };
+    this.modalService.show(CreateGroupsComponent, { initialState });
+  }
+  openModael(groupId: number): void {
+    const initialState = {
+      groupId: groupId,
+      id: this.id, // Passer l'ID de la route
+
+    };
+    this.modalService.show(DetailsGroupComponent, { initialState });
+  }
+  deleteGroup(groupId: number): void {
+    // Utilisation de SweetAlert2 pour afficher une boîte de dialogue de confirmation
+    Swal.fire({
+      title: 'Êtes-vous sûr?',
+      text: 'Vous ne pourrez pas annuler cette action!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimer!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Appel de la méthode deleteGroup du service
+        this.groupsService.deleteGroup(groupId)
+          .subscribe(
+            response => {
+              console.log(response);
+              // Afficher un message de succès
+              Swal.fire(
+                'Supprimé!',
+                'Le groupe a été supprimé avec succès.',
+                'success'
+              );
+            },
+            error => {
+              console.error('Error:', error);
+              // Afficher un message d'erreur en cas d'échec de la suppression
+              Swal.fire(
+                'Erreur!',
+                'Une erreur est survenue lors de la suppression du groupe.',
+                'error'
+              );
+            }
+          );
+      }
+    });
+  }
+   
   getFormation(): void {
     this.formationService.getFormationByIdForCollab(this.id)
        .subscribe(data => {
@@ -36,6 +96,28 @@ this.getFormationsAccepte();
          console.log('Une erreur s\'est produite lors de la récupération des informations de la formation:', error);
        });
    }
+   getGroupesByFormation(): void {
+    this.groupsService.getGroupesByFormation(this.id)
+      .subscribe(
+        (data: any[]) => {
+          this.groupes = data;
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+  getGroupesDetails(groupId: number): void {
+    this.groupsService.getGroupesDetails(groupId)
+      .subscribe(
+        (data: any[]) => {
+          this.groupes = data;
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
    getFormationsAccepte() {
 
     // Appelez la méthode du service pour récupérer les formations acceptées pour un utilisateur spécifique

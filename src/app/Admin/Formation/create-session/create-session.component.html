@@ -1,63 +1,62 @@
-<div class="row">
-  <div class="col-md-4">
-    <!-- Utilisation de col-md-4 pour réduire la largeur -->
-    <div *ngIf="showModal" class="card">
-      <span (click)="cancelAddEvent()" class="close">&times;</span>
-      <h2>Ajouter une Session</h2>
-      <div class="form-group">
-        <label for="groupId">Candidat:</label>
-        <select
-          id="groupId"
-          name="groupId"
-          [(ngModel)]="groupId"
-          class="form-control"
-          required
-        >
-          <option *ngFor="let candidat of candidats" [value]="candidat.id">
-            {{ candidat.nom }}
-          </option>
-        </select>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="dateDebut">Date début:</label>
-          <input
-            type="date"
-            id="dateDebut"
-            name="dateDebut"
-            [(ngModel)]="dateDebut"
-            class="form-control"
-            required
-          />
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="dateFin">Date fin:</label>
-          <input
-            type="date"
-            id="dateFin"
-            name="dateFin"
-            [(ngModel)]="dateFin"
-            class="form-control"
-            required
-          />
-        </div>
-      </div>
-
-      <div class="button-container">
-        <button (click)="cancelAddEvent()" class="btn btn-inverse-primary">
-          Fermer
-        </button>
-        <button (click)="addEvent()" class="btn btn-inverse-danger">
-          Ajouter
-        </button>
-      </div>
-    </div>
+<div class="container mt-5">
+  <div class="row">
+     <div class="col-md-4">
+       <div *ngIf="showModal" class="card shadow-lg">
+         <h2 class="text-center mb-4">Ajouter une Session</h2>
+         <div class="form-group">
+           <label for="groupId">Candidat:</label>
+           <select
+             id="groupId"
+             name="groupId"
+             [(ngModel)]="groupId"
+             class="form-control rounded-pill"
+             required
+           >
+             <option *ngFor="let candidat of candidats" [value]="candidat.id">
+               {{ candidat.nom }}
+             </option>
+           </select>
+         </div>
+         <div class="row">
+           <div class="col-md-6">
+             <div class="form-group">
+               <label for="dateDebut">Date début:</label>
+               <input
+                 type="date"
+                 id="dateDebut"
+                 name="dateDebut"
+                 [(ngModel)]="dateDebut"
+                 class="form-control rounded-pill"
+                 required
+               />
+             </div>
+           </div>
+           <div class="col-md-6">
+             <div class="form-group">
+               <label for="dateFin">Date fin:</label>
+               <input
+                 type="date"
+                 id="dateFin"
+                 name="dateFin"
+                 [(ngModel)]="dateFin"
+                 class="form-control rounded-pill"
+                 required
+               />
+             </div>
+           </div>
+         </div>
+ 
+         <div class="button-container d-flex justify-content-center mt-4">
+          
+           <button (click)="addEvent()" class="btn btn-primary mx-2">
+             Ajouter
+           </button>
+         </div>
+       </div>
     <div *ngIf="showModal2" class="card">
       <div>
         <span class="close" (click)="closeModal()">&times;</span>
-        <h2>Détails de l'entretien</h2>
+        <h2>Détails de la session</h2>
         <div *ngIf="entretienDetails && !editMode">
           <p><strong>ID:</strong> {{ entretienDetails.id }}</p>
           <p>

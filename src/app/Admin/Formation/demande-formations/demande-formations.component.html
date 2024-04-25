@@ -118,7 +118,9 @@
             <br />
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Liste des Demandes des collaborateurs</h4>
+                <h4 class="card-title">
+                  Liste des Demandes des collaborateurs
+                </h4>
                 <div class="d-flex justify-content-end mb-3">
                   <!-- Bouton ajouté ici -->
                 </div>
@@ -173,22 +175,121 @@
                     <p>Aucune demande de collaborateur trouvée.</p>
                   </ng-template>
                 </div>
-                <div
-                  class="tab-pane fade"
-                  id="purchases"
-                  role="tabpanel"
-                  aria-labelledby="purchases-tab"
-                ></div>
-                <div
-                  class="tab-pane fade"
-                  id="test"
-                  role="tabpanel"
-                  aria-labelledby="test-tab"
-                >
-                  <br />
+              </div>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="purchases"
+            role="tabpanel"
+            aria-labelledby="purchases-tab"
+          >
+            <br />
+            <button
+              class="btn btn-inverse-info"
+              (click)="openCreateGroupsModal(formationInfo.id)"
+            >
+              Creer un groupe
+            </button>
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-4 col-md-6" *ngFor="let groupe of groupes">
+                  <div class="card">
+                    <div class="row mt-2 mx-2">
+                      <!-- Modifié la classe mt-4 à mt-2 -->
+                      <div class="nav-profile d-flex align-items-center">
+                        <span class="fw-bold">{{ groupe.groupe.nom }}</span>
+                        <span>
+                          <div class="filter">
+                            <button
+                              class="icon"
+                              data-bs-toggle="dropdown"
+                              style="border: none; background-color: #ffffff00"
+                            >
+                              <i
+                                class="mdi mdi-dots-vertical"
+                                style="margin-left: 80px"
+                              ></i>
+                            </button>
+                            <ul
+                              class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                            >
+                              <li class="dropdown-header text-start"></li>
+
+                              <li>
+                                <button class="dropdown-item mb-2"
+                                (click)="openModael(groupe.groupe.id)">
+                                  <span><i class="mdi mdi-eye"></i> </span>
+                                  Insight
+                                </button>
+                              </li>
+
+                              <li>
+                                <button class="dropdown-item mb-2">
+                                  <span
+                                    ><i
+                                      class="fa-regular fa-calendar me-4"
+                                    ></i> </span
+                                  >Calendar
+                                </button>
+                              </li>
+                              <li>
+                                <button
+                                  class="dropdown-item mb-2 text-danger"
+                                  (click)="deleteGroup(groupe.groupe.id)"
+                                >
+                                  <span
+                                    ><i class="mdi mdi-delete me-1"></i> </span
+                                  >Supprimer
+                                </button>
+                              </li>
+                            </ul>
+                          </div></span
+                        >
+                      </div>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="mb-3 align-items-center d-flex">
+                        <span class="fw-bold"
+                          >Nombre de participants: &nbsp; &nbsp; &nbsp;
+                        </span>
+                        <span class="badge bg-danger">{{
+                          groupe.nombreMembres
+                        }}</span>
+                      </div>
+                      <div
+                        class="trainer-profile d-flex align-items-center mb-3"
+                      >
+                        <span class="fw-bold"
+                          >Members: &nbsp; &nbsp; &nbsp;</span
+                        >
+                        <div class="avatar-stack">
+                          <img
+                            *ngFor="
+                              let image of groupe.collaborateurImages;
+                              let i = index
+                            "
+                            [src]="'assets/images/' + image"
+                            [style.left.px]="i * 20"
+                            [style.zIndex]="3 - i"
+                            class="rounded-circle"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="test"
+            role="tabpanel"
+            aria-labelledby="test-tab"
+          >
+            <br />
           </div>
         </div>
       </div>

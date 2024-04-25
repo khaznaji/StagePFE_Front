@@ -1,0 +1,58 @@
+<div *ngIf="groupes">
+    <h2>Détails du Groupe</h2>
+    <div>
+      <p><strong>Nom du Formateur :</strong> {{ groupes.formateurNom }}</p>
+      <p><strong>Prénom du Formateur :</strong> {{ groupes.formateurPrenom }}</p>
+      <button class="btn btn-primary" (click)="showAddParticipantForm()">Ajouter nouveau participant</button>
+      <button class="btn btn-warning" (click)="showEditForm(groupes.group.id, groupes.group.nom)">Modifier Nom</button>
+
+    </div>
+    <div>
+      <div class="container" *ngIf="editing">
+        <h2>Modifier le Nom du Groupe</h2>
+        <form>
+          <div class="form-group">
+            <label for="newGroupName">Nouveau Nom du Groupe:</label>
+            <input type="text" class="form-control" id="newGroupName" [(ngModel)]="nom" name="nom">
+          </div>
+          <button type="button" class="btn btn-primary" (click)="editGroup()">Modifier</button>
+        </form>
+      </div>
+      <h3>Collaborateurs</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Image</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let collaborateur of groupes.collaborateurs">
+            <td>{{ collaborateur.nom }}</td>
+            <td>{{ collaborateur.prenom }}</td>
+            <td><img [src]="'assets/images/' + collaborateur.image" alt="Image Collaborateur"></td>
+        <td>    <button class="btn btn-danger" (click)="removeUserFromGroup(collaborateur.id)">Supprimer</button>
+        </td> 
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="container" *ngIf="showAddParticipantFormFlag">
+    <h2>Ajouter des nouveau participants</h2>
+    <form [formGroup]="groupForm" (ngSubmit)="ajouterGroupe()">
+        
+        <div class="form-group" formGroupName="collaborateursId">
+          <label>Collaborateurs confirmés:</label><br>
+          <div *ngFor="let collaborateur of collaborateursConfirme; let i = index">
+             <input type="checkbox" [formControlName]="i" [value]="collaborateur.idC"> {{ collaborateur.nom }} {{ collaborateur.prenom }}
+          </div>
+         </div>
+         
+      <button type="submit" class="btn btn-primary">Créer</button>
+    </form>
+  </div>
+  
+
+  

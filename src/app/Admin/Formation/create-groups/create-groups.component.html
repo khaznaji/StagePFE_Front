@@ -1,20 +1,17 @@
-<!-- create-groups.component.html -->
-
 <div class="container">
-    <h2>Créer un nouveau groupe</h2>
-    <form [formGroup]="groupForm" (ngSubmit)="ajouterGroupe()">
-        <div>
-          <label for="nom">Nom :</label>
-          <input type="text" id="nom" formControlName="nom">
-        </div>
-      <div class="form-group">
-        <label>Collaborateurs confirmés:</label><br>
-        <div *ngFor="let collaborateur of collaborateursConfirme">
-            <input  [(ngModel)]="selectedCollaborateurs" type="checkbox" [value]="collaborateur.idC" formControlName="collaborateurId"> {{ collaborateur.idC }} {{ collaborateur.nom }} {{ collaborateur.prenom }}
-          </div>
-          
+  <h2>Créer un nouveau groupe</h2>
+  <form [formGroup]="groupForm" (ngSubmit)="ajouterGroupe()">
+      <div>
+        <label for="nom">Nom :</label>
+        <input type="text" id="nom" formControlName="nom">
       </div>
-      <button type="submit" class="btn btn-primary">Créer</button>
-    </form>
-  </div>
-  
+      <div class="form-group" formGroupName="collaborateursId">
+        <label>Collaborateurs confirmés:</label><br>
+        <div *ngFor="let collaborateur of collaborateursConfirme; let i = index">
+           <input type="checkbox" [formControlName]="i" [value]="collaborateur.idC"> {{ collaborateur.nom }} {{ collaborateur.prenom }}
+        </div>
+       </div>
+       
+    <button type="submit" class="btn btn-primary">Créer</button>
+  </form>
+</div>

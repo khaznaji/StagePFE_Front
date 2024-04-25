@@ -105,6 +105,7 @@ import { ListFormationComponent } from './Admin/Formation/list-formation/list-fo
 import { DemandeFormationsComponent } from './Admin/Formation/demande-formations/demande-formations.component';
 import { CreateGroupsComponent } from './Admin/Formation/create-groups/create-groups.component';
 import { CreateSessionComponent } from './Admin/Formation/create-session/create-session.component';
+import { DetailsGroupComponent } from './Admin/Formation/details-group/details-group.component';
 
 @NgModule({
   declarations: [
@@ -132,7 +133,7 @@ import { CreateSessionComponent } from './Admin/Formation/create-session/create-
         FormateurMenuComponent, CreateFormationComponent, AllFormationsComponent,
          GetByIdFormationComponent, UpdateFormationComponent, ListeDesFormationsComponent, 
          FormationDetailComponent, DemandeDesCollabsComponent, MesDemandesComponent, 
-         ListFormationComponent, DemandeFormationsComponent, CreateSessionComponent , CreateGroupsComponent 
+         ListFormationComponent, DemandeFormationsComponent, CreateSessionComponent , CreateGroupsComponent, DetailsGroupComponent 
           
 
   ],
