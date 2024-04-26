@@ -4,18 +4,37 @@
     <h2>Détails du Groupe</h2>
     <button
     type="button"
-    class="btn register p-2 border pe-3"
+    class="btn btn-light"
     (click)="openAddCertifDialog(groupes.group.id)"
   >
-    <i class="bi bi-plus fa-2xl me-3"></i> Certificates
+    Certificates
   </button>
+  <button class="btn btn-primary" (click)="showAddParticipantForm()">Ajouter nouveau participant</button>
+  <button class="btn btn-warning" (click)="showEditForm(groupes.group.id, groupes.group.nom)">Modifier Nom</button>
+
     
-    <div>
+    <div *ngIf="contextModal">
       <p><strong>Nom du Formateur :</strong> {{ groupes.formateurNom }}</p>
       <p><strong>Prénom du Formateur :</strong> {{ groupes.formateurPrenom }}</p>
-      <button class="btn btn-primary" (click)="showAddParticipantForm()">Ajouter nouveau participant</button>
-      <button class="btn btn-warning" (click)="showEditForm(groupes.group.id, groupes.group.nom)">Modifier Nom</button>
-
+      <h2>Collaborateurs </h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Image</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let collaborateur of groupes.collaborateurs">
+            <td>{{ collaborateur.nom }}</td>
+            <td>{{ collaborateur.prenom }}</td>
+            <td><img [src]="'assets/images/' + collaborateur.image" alt="Image Collaborateur"></td>
+        <td>    <button class="btn btn-danger" (click)="removeUserFromGroup(collaborateur.id)">Supprimer</button>
+        </td> 
+        </tr>
+        </tbody>
+      </table>
     </div>
     <div>
       <div *ngIf="modifyCertificatesModal">
@@ -52,9 +71,7 @@
       </div>
       <div *ngIf="certificatesGenerated">
       <h2 mat-dialog-title>Certificates Already Generated</h2>
-      <button mat-icon-button mat-dialog-close class="close-button">
-       close
-      </button>
+     
       <div class="confirmation-dialog">
         <mat-dialog-content>
           <p>The certificates have already been generated for this group.</p>
@@ -71,9 +88,7 @@
            
             Generate Certificates
           </h2>
-          <button mat-icon-button mat-dialog-close class="close-button">
-            close
-          </button>
+        
           <div class="row">
             <form (ngSubmit)="saveCertif()">
               <input type="text" [(ngModel)]="certif.month" name="month" placeholder="Month" class="form-control">
@@ -100,25 +115,7 @@
           <button type="button" class="btn btn-primary" (click)="editGroup()">Modifier</button>
         </form>
       </div>
-      <h3>Collaborateurs</h3>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Image</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let collaborateur of groupes.collaborateurs">
-            <td>{{ collaborateur.nom }}</td>
-            <td>{{ collaborateur.prenom }}</td>
-            <td><img [src]="'assets/images/' + collaborateur.image" alt="Image Collaborateur"></td>
-        <td>    <button class="btn btn-danger" (click)="removeUserFromGroup(collaborateur.id)">Supprimer</button>
-        </td> 
-        </tr>
-        </tbody>
-      </table>
+    
     </div>
   </div>
   <div class="container" *ngIf="showAddParticipantFormFlag">

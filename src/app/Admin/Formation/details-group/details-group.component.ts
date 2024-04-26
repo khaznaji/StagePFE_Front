@@ -75,6 +75,9 @@ export class DetailsGroupComponent  implements OnInit {
           // Réinitialiser les valeurs après la modification réussie
           this.nom = '';
           this.editing = false;
+          this.contextModal = true;
+          this.getGroupesDetails();
+
         },
         error => {
           console.error('Une erreur est survenue lors de la modification du nom du groupe : ', error);
@@ -86,9 +89,12 @@ export class DetailsGroupComponent  implements OnInit {
     this.groupId = groupId;
     this.nom = currentName;
     this.editing = true;
+    this.contextModal=false ; 
+
   }
    showAddParticipantForm(): void {
     this.showAddParticipantFormFlag = true;
+    this.contextModal = false
   }
    groupes: any;
    removeUserFromGroup(userId: number): void {
@@ -130,7 +136,8 @@ export class DetailsGroupComponent  implements OnInit {
            response => {
              console.log('Groupe ajouté avec succès' ,collaborateursId);
              this.showAddParticipantFormFlag = false;
-
+             this.contextModal=true ; 
+             this.getGroupesDetails();
              this.groupForm.reset();
            },
            error => {
@@ -182,6 +189,8 @@ this.showFormGenererCertif=false ;
   group!: any;
 showFormGenererCertif : boolean = false
 certificatesGenerated : boolean = false
+contextModal : boolean = true
+
 nouser : boolean = false
   openAddCertifDialog(groupId: number): void {
     if (this.groupes.collaborateurs?.length === 0) {
@@ -242,6 +251,7 @@ this. certificatesGenerated= false ;
   });
 }
 modifyCertificatesModal :boolean =false ; 
+
 modifyCertificates(): void {
   if (this.certificateForm.valid) {
     const formData = new FormData();
@@ -249,15 +259,30 @@ modifyCertificates(): void {
     this.certificateService.update(this.groupId, formData).subscribe(
       (response) => {
         console.log('Certificates modified successfully:', response);
-this.modifyCertificatesModal = false;    
-this.getGroupesDetails();
-   },
+
+        // Afficher une notification de succès avec Swal
+        Swal.fire({
+          title: 'Success',
+          text: 'Certificates have been modified successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          // Fermer le dialogue de modification des certificats
+          this.modifyCertificatesModal = false;
+          this.certificatesGenerated = false;
+
+          
+          // Recharger les détails du groupe
+          this.getGroupesDetails();
+        });
+      },
       (error) => {
         console.error('Error modifying certificates:', error);
       }
     );
   }
 }
+
   
   isValidCertif(): boolean {
     return this.certif.month !== undefined ;
