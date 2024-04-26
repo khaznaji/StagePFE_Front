@@ -16,4 +16,7 @@ export class CertificatService {
     const url = `${this.baseUrl}/Supprimer/${groupId}`;
     return this.http.delete(url);
   }
+  update(groupId: number, value: FormData): Observable<Object> {
+    return this.http.put(`${this.baseUrl}/ModifierCertificats/${groupId}`, value);
+  }
 }

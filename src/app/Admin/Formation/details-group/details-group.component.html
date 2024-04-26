@@ -9,32 +9,48 @@
   >
     <i class="bi bi-plus fa-2xl me-3"></i> Certificates
   </button>
-    <ng-template #addcertif>
-      <div class="certificate-dialog">
-        <h2 mat-dialog-title class="dialog-title">
-         
-          Generate Certificates
-        </h2>
-        <button mat-icon-button mat-dialog-close class="close-button">
-          close
-        </button>
-        <div class="row">
-          <form (ngSubmit)="saveCertif()">
-            <input type="text" [(ngModel)]="certif.month" name="month" placeholder="Month" class="form-control">
-           <br>
-            <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-  <br>
-            <button class="btn generate-button" type="submit" [disabled]="!isValidCertif()">
-              Generate Certificates
-            </button>
-  
-  
-          </form>
+    
+    <div>
+      <p><strong>Nom du Formateur :</strong> {{ groupes.formateurNom }}</p>
+      <p><strong>Prénom du Formateur :</strong> {{ groupes.formateurPrenom }}</p>
+      <button class="btn btn-primary" (click)="showAddParticipantForm()">Ajouter nouveau participant</button>
+      <button class="btn btn-warning" (click)="showEditForm(groupes.group.id, groupes.group.nom)">Modifier Nom</button>
+
+    </div>
+    <div>
+      <div *ngIf="modifyCertificatesModal">
+        <div class="certificate-dialog">
+          <h2 mat-dialog-title class="dialog-title">
+            Modify Certificates
+          </h2>
+     
+          <div class="form-container">
+            <form [formGroup]="certificateForm" (ngSubmit)="modifyCertificates()" class="form-container">
+              <mat-form-field class="form-field">
+                <mat-label>Month</mat-label>
+                <input matInput formControlName="month" placeholder="Month">
+              </mat-form-field>
+             
+              <button class="btn modify-button" type="submit">
+                Modify Certificates
+              </button>
+            </form>
+            
+            
+          </div>
+          
         </div>
-       
       </div>
-    </ng-template>
-    <ng-template #addcertifNo>
+      <div *ngIf="nouser">
+        <h2 mat-dialog-title>No Users</h2>
+      <mat-dialog-content>
+        <p>No users are assigned to this group.</p>
+      </mat-dialog-content>
+      <mat-dialog-actions>
+        <button mat-button mat-dialog-close>OK</button>
+      </mat-dialog-actions>
+      </div>
+      <div *ngIf="certificatesGenerated">
       <h2 mat-dialog-title>Certificates Already Generated</h2>
       <button mat-icon-button mat-dialog-close class="close-button">
        close
@@ -44,59 +60,36 @@
           <p>The certificates have already been generated for this group.</p>
         </mat-dialog-content>
         <div class="button-container">
-          <button mat-button mat-dialog-close class="btn-no" (click)="openModifyCertifDialog()">Update Certificates</button>
-          <button mat-button class="btn-yes" (click)="openDeleteConfirmationDialog(groupes.group.id)">Delete Certificates</button>
+          <button mat-button  class="btn-yes"(click)="openModifyCertifDialog()">Update Certificates</button>
+          <button mat-button class="btn-yes" (click)="deleteCertificates(groupes.group.id)">Delete Certificates</button>
         </div>
       </div>
-    </ng-template>
-    <ng-template #deleteConfirmationDialog>
-      <div class="confirmation-dialog">
-        <h2 mat-dialog-title>Confirmation</h2>
-        <p>Are you sure you want to delete the certificates for this group?</p>
-        <div class="button-container">
-          <button mat-button class="btn-no" (click)="cancelDeleteCer()">No</button>
-          <button mat-button class="btn-yes" (click)="deleteConfirmationDialogRef?.close('confirmed')">Yes</button>
-        </div>
-      </div>
-    </ng-template>
-    <ng-template #confirmationCertif>
-      <div class="confirmation-dialog">
-        <h2 mat-dialog-title>Generated Certificates</h2>
-        <button mat-icon-button mat-dialog-close class="close-button">
-         close
-        </button>
-        <p>Your certificates have been generated successfully.</p>
-        <div class="check-animation">
-          <svg
-            width="64"
-            height="64"
-            viewBox="0 0 64 64"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="#00C853"
-            stroke="#00C853"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path
-              d="M48 16L27.2 48 16 34"
-              fill="none"
-              stroke-width="6"
-              transform="translate(8,8)"
-            ></path>
-          </svg>
-        </div>
-        
-      </div>
-    </ng-template>
-    <div>
-      <p><strong>Nom du Formateur :</strong> {{ groupes.formateurNom }}</p>
-      <p><strong>Prénom du Formateur :</strong> {{ groupes.formateurPrenom }}</p>
-      <button class="btn btn-primary" (click)="showAddParticipantForm()">Ajouter nouveau participant</button>
-      <button class="btn btn-warning" (click)="showEditForm(groupes.group.id, groupes.group.nom)">Modifier Nom</button>
-
     </div>
-    <div>
+      <div *ngIf="showFormGenererCertif">
+        <div class="certificate-dialog">
+          <h2 mat-dialog-title class="dialog-title">
+           
+            Generate Certificates
+          </h2>
+          <button mat-icon-button mat-dialog-close class="close-button">
+            close
+          </button>
+          <div class="row">
+            <form (ngSubmit)="saveCertif()">
+              <input type="text" [(ngModel)]="certif.month" name="month" placeholder="Month" class="form-control">
+             <br>
+              <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <br>
+              <button class="btn generate-button" type="submit" [disabled]="!isValidCertif()">
+                Generate Certificates
+              </button>
+    
+    
+            </form>
+          </div>
+         
+        </div>
+      </div>
       <div class="container" *ngIf="editing">
         <h2>Modifier le Nom du Groupe</h2>
         <form>

@@ -9,6 +9,7 @@ import { CertificatService } from 'src/app/service/certificat.service';
 import { GroupsService } from 'src/app/service/groups.service';
 import { ParticapationFormationService } from 'src/app/service/particapation-formation.service';
 import { SessionFormationService } from 'src/app/service/session-formation.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-details-group',
@@ -31,6 +32,7 @@ export class DetailsGroupComponent  implements OnInit {
   groupForm!: FormGroup;
   collaborateursConfirme: any[] = [];
   showAddParticipantFormFlag: boolean = false;
+  certificateForm!: FormGroup;
 
   ngOnInit(): void {
     
@@ -40,6 +42,11 @@ export class DetailsGroupComponent  implements OnInit {
     this.groupForm = this.formBuilder.group({
       collaborateursId: this.formBuilder.array([]) // Utilisation d'un FormArray
    });
+   {
+    this.certificateForm = this.formBuilder.group({
+      month: '',
+    });
+  }
 
     this.getGroupesDetails(); 
     this.participationFormation.getFormationsConfirme(this.id).subscribe(
@@ -139,104 +146,119 @@ export class DetailsGroupComponent  implements OnInit {
 
    saveCertif() {
     this.isLoading = true;
+  
+    const formData = new FormData();
+    formData.append('periode', this.certif.periode);
+    formData.append('month', this.certif.month);
+  
+    this.certificateService.create(this.groupId, formData).subscribe(
+      (data) => {
+        console.log(data);
+  
+        this.certif = new Certificat();
+        this.getGroupesDetails();
 
-      const formData = new FormData();
-      formData.append('periode', this.certif.periode);
-      formData.append('month', this.certif.month);
+        this.isLoading = false; // Désactive l'état de chargement après la fin du traitement
+  
+        // Affiche une boîte de dialogue de confirmation après la création réussie du certificat
+        Swal.fire({
+          title: 'Success',
+          text: 'Certificates have been generated successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then((result) => {
+this.certificatesGenerated=false ; 
+this.showFormGenererCertif=false ; 
 
-
-      this.certificateService.create(this.groupId,formData).subscribe(
-        (data) => {
-          console.log(data);
-
-          this.certif = new Certificat();
-          this.isLoading = false; // Disable loading state after completion
-    
-// After generating certificates
-this.openConfirmationCertifDialog();
-setTimeout(() => {
-  window.location.reload();
-}, 4000);
-
-        },
-        (error) => {
-          console.log(error);
-          this.isLoading = false; // Disable loading state in case of error
-        }
-
-      );
-    
+        });
+      },
+      (error) => {
+        console.log(error);
+        this.isLoading = false; // Désactive l'état de chargement en cas d'erreur
+      }
+    );
   }
-  @ViewChild('addcertif') addcertif!: TemplateRef<any>;
-  addcertifRef!: MatDialogRef<any> | undefined;
-  @ViewChild('addcertifNo') addcertifNo!: TemplateRef<any>;
-  addcertifNoRef!: MatDialogRef<any> | undefined;
+ 
   group!: any;
-
+showFormGenererCertif : boolean = false
+certificatesGenerated : boolean = false
+nouser : boolean = false
   openAddCertifDialog(groupId: number): void {
     if (this.groupes.collaborateurs?.length === 0) {
       this.openBottomSheet();
     }
-    else if (this.groupes.certificatesGenerated) {
-      this.addcertifRef = this.dialog.open(this.addcertifNo);
+    else if (this.groupes.group.certificatesGenerated) {
+      this.certificatesGenerated = true;
     } else {
     this.groupId = groupId;
-    this.addcertifRef = this.dialog.open(this.addcertif);
+    this.showFormGenererCertif = true;
   }}
-  @ViewChild('nouser') nouser!: TemplateRef<any>;
-  nouserRef!: MatDialogRef<any> | undefined;
-
+ 
   openBottomSheet(): void {
-    this.nouserRef = this.dialog.open(this.nouser);
+    this.nouser = true;
   }
   showAddCertifNoDialog: boolean = false;     
 
-  @ViewChild('confirmationCertif') confirmationCertif!: TemplateRef<any>;
-  confirmationCertifRef!: MatDialogRef<any> | undefined;
-  openConfirmationCertifDialog(): void {
-    this.confirmationCertifRef = this.dialog.open(this.confirmationCertif, {
-      width: '400px', // Set the desired width
-    });
-    this.confirmationCertifRef.afterClosed().subscribe(result => {
-      // Perform actions based on user interaction
-      if (result) {
-        this.showAddCertifNoDialog = true;
-        window.location.reload();
-        // Additional logic after user clicks "OK" in confirmationCertif
-      }
-    });
-  }
-  @ViewChild('updatecertif') updatecertif!: TemplateRef<any>;
-  updatecertifRef!: MatDialogRef<any> | undefined;
+ 
+
   openModifyCertifDialog(): void {
-    this.updatecertifRef = this.dialog.open(this.updatecertif);
-  }
-  @ViewChild('deleteConfirmationDialog') deleteConfirmationDialog!: TemplateRef<any>;
-  deleteConfirmationDialogRef!: MatDialogRef<any> | undefined;
-  openDeleteConfirmationDialog(groupId: number): void {
-    this.deleteConfirmationDialogRef = this.dialog.open(this.deleteConfirmationDialog);
-    this.deleteConfirmationDialogRef.afterClosed().subscribe(result => {
-      if (result === 'confirmed') {
-        this.deleteCertificates(groupId);
-        window.location.reload();
-      }
-    });
-  }
-  deleteCertificates(groupId: number): void {
-    this.certificateService.deleteCertificatesForGroup(groupId).subscribe(
-      () => {
-        console.log('Certificates deleted successfully');
-        // Additional logic or notifications here
-      },
+    this.modifyCertificatesModal= true ;   }
+
+ 
+deleteCertificates(groupId: number): void {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You are about to delete certificates for this group. This action cannot be undone.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // L'utilisateur a cliqué sur "OK", appeler la méthode pour supprimer les certificats
+      this.certificateService.deleteCertificatesForGroup(groupId).subscribe(
+        () => {
+          console.log('Certificates deleted successfully');
+this.getGroupesDetails();
+this. certificatesGenerated= false ; 
+         Swal.fire(
+            'Deleted!',
+            'Certificates have been deleted.',
+            'success'
+          );
+        },
+        (error) => {
+          console.error('Error deleting certificates:', error);
+          // Gérer l'erreur, afficher un message d'erreur, etc.
+          Swal.fire(
+            'Error!',
+            'Failed to delete certificates.',
+            'error'
+          );
+        }
+      );
+    }
+  });
+}
+modifyCertificatesModal :boolean =false ; 
+modifyCertificates(): void {
+  if (this.certificateForm.valid) {
+    const formData = new FormData();
+    formData.append('month', this.certificateForm.value.month);     // Use form value
+    this.certificateService.update(this.groupId, formData).subscribe(
+      (response) => {
+        console.log('Certificates modified successfully:', response);
+this.modifyCertificatesModal = false;    
+this.getGroupesDetails();
+   },
       (error) => {
-        console.error('Error deleting certificates:', error);
-        // Handle error, show error message, etc.
+        console.error('Error modifying certificates:', error);
       }
     );
   }
-  cancelDeleteCer(): void {
-    this.deleteConfirmationDialogRef?.close();
-  }
+}
+  
   isValidCertif(): boolean {
     return this.certif.month !== undefined ;
   }
