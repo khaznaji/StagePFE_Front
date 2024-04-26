@@ -1,5 +1,94 @@
 <div *ngIf="groupes">
+ 
+  
     <h2>Détails du Groupe</h2>
+    <button
+    type="button"
+    class="btn register p-2 border pe-3"
+    (click)="openAddCertifDialog(groupes.group.id)"
+  >
+    <i class="bi bi-plus fa-2xl me-3"></i> Certificates
+  </button>
+    <ng-template #addcertif>
+      <div class="certificate-dialog">
+        <h2 mat-dialog-title class="dialog-title">
+         
+          Generate Certificates
+        </h2>
+        <button mat-icon-button mat-dialog-close class="close-button">
+          close
+        </button>
+        <div class="row">
+          <form (ngSubmit)="saveCertif()">
+            <input type="text" [(ngModel)]="certif.month" name="month" placeholder="Month" class="form-control">
+           <br>
+            <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  <br>
+            <button class="btn generate-button" type="submit" [disabled]="!isValidCertif()">
+              Generate Certificates
+            </button>
+  
+  
+          </form>
+        </div>
+       
+      </div>
+    </ng-template>
+    <ng-template #addcertifNo>
+      <h2 mat-dialog-title>Certificates Already Generated</h2>
+      <button mat-icon-button mat-dialog-close class="close-button">
+       close
+      </button>
+      <div class="confirmation-dialog">
+        <mat-dialog-content>
+          <p>The certificates have already been generated for this group.</p>
+        </mat-dialog-content>
+        <div class="button-container">
+          <button mat-button mat-dialog-close class="btn-no" (click)="openModifyCertifDialog()">Update Certificates</button>
+          <button mat-button class="btn-yes" (click)="openDeleteConfirmationDialog(groupes.group.id)">Delete Certificates</button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #deleteConfirmationDialog>
+      <div class="confirmation-dialog">
+        <h2 mat-dialog-title>Confirmation</h2>
+        <p>Are you sure you want to delete the certificates for this group?</p>
+        <div class="button-container">
+          <button mat-button class="btn-no" (click)="cancelDeleteCer()">No</button>
+          <button mat-button class="btn-yes" (click)="deleteConfirmationDialogRef?.close('confirmed')">Yes</button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #confirmationCertif>
+      <div class="confirmation-dialog">
+        <h2 mat-dialog-title>Generated Certificates</h2>
+        <button mat-icon-button mat-dialog-close class="close-button">
+         close
+        </button>
+        <p>Your certificates have been generated successfully.</p>
+        <div class="check-animation">
+          <svg
+            width="64"
+            height="64"
+            viewBox="0 0 64 64"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="#00C853"
+            stroke="#00C853"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M48 16L27.2 48 16 34"
+              fill="none"
+              stroke-width="6"
+              transform="translate(8,8)"
+            ></path>
+          </svg>
+        </div>
+        
+      </div>
+    </ng-template>
     <div>
       <p><strong>Nom du Formateur :</strong> {{ groupes.formateurNom }}</p>
       <p><strong>Prénom du Formateur :</strong> {{ groupes.formateurPrenom }}</p>

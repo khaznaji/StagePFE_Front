@@ -71,6 +71,8 @@ this.getGroupesByFormation();
                 'Le groupe a été supprimé avec succès.',
                 'success'
               );
+              this.getGroupesByFormation();
+
             },
             error => {
               console.error('Error:', error);

@@ -1,21 +1,24 @@
 <div class="container mt-5">
   <div class="row">
      <div class="col-md-4">
-       <div *ngIf="showModal" class="card shadow-lg">
+       <div *ngIf="showModal">
          <h2 class="text-center mb-4">Ajouter une Session</h2>
          <div class="form-group">
            <label for="groupId">Candidat:</label>
            <select
-             id="groupId"
-             name="groupId"
-             [(ngModel)]="groupId"
-             class="form-control rounded-pill"
-             required
+           id="groupId"
+           name="groupId"
+           [(ngModel)]="groupId"
+           class="form-control"
+           required
+         >
+           <option
+             *ngFor="let candidat of candidats"
+             [value]="candidat.groupe.id"
            >
-             <option *ngFor="let candidat of candidats" [value]="candidat.id">
-               {{ candidat.nom }}
-             </option>
-           </select>
+             {{ candidat.groupe.nom }}
+           </option>
+         </select>
          </div>
          <div class="row">
            <div class="col-md-6">
@@ -96,12 +99,12 @@
                 class="form-control"
                 required
               >
-                <option
-                  *ngFor="let candidat of candidats"
-                  [value]="candidat.id"
-                >
-                  {{ candidat.nom }}
-                </option>
+              <option
+             *ngFor="let candidat of candidats"
+             [value]="candidat.groupe.id"
+           >
+             {{ candidat.groupe.nom }}
+           </option>
               </select>
             </div>
             <div class="col-md-6">

@@ -1,9 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Certificat } from 'src/app/model/Certificat';
 import { Collaborateur } from 'src/app/model/collaborateur.model';
+import { CertificatService } from 'src/app/service/certificat.service';
 import { GroupsService } from 'src/app/service/groups.service';
 import { ParticapationFormationService } from 'src/app/service/particapation-formation.service';
 import { SessionFormationService } from 'src/app/service/session-formation.service';
@@ -15,7 +17,7 @@ import { SessionFormationService } from 'src/app/service/session-formation.servi
 })
 export class DetailsGroupComponent  implements OnInit {
   constructor(
-    private groupsService: GroupsService,
+    private groupsService: GroupsService, private certificateService: CertificatService,
     public dialog: MatDialog,
     private modalRef: BsModalRef,
     private formBuilder: FormBuilder,
@@ -132,4 +134,110 @@ export class DetailsGroupComponent  implements OnInit {
        console.error("Le formulaire n'est pas initialisé correctement.");
     }
    }
+   isLoading = false;
+   certif: Certificat = new Certificat();
+
+   saveCertif() {
+    this.isLoading = true;
+
+      const formData = new FormData();
+      formData.append('periode', this.certif.periode);
+      formData.append('month', this.certif.month);
+
+
+      this.certificateService.create(this.groupId,formData).subscribe(
+        (data) => {
+          console.log(data);
+
+          this.certif = new Certificat();
+          this.isLoading = false; // Disable loading state after completion
+    
+// After generating certificates
+this.openConfirmationCertifDialog();
+setTimeout(() => {
+  window.location.reload();
+}, 4000);
+
+        },
+        (error) => {
+          console.log(error);
+          this.isLoading = false; // Disable loading state in case of error
+        }
+
+      );
+    
+  }
+  @ViewChild('addcertif') addcertif!: TemplateRef<any>;
+  addcertifRef!: MatDialogRef<any> | undefined;
+  @ViewChild('addcertifNo') addcertifNo!: TemplateRef<any>;
+  addcertifNoRef!: MatDialogRef<any> | undefined;
+  group!: any;
+
+  openAddCertifDialog(groupId: number): void {
+    if (this.groupes.collaborateurs?.length === 0) {
+      this.openBottomSheet();
+    }
+    else if (this.groupes.certificatesGenerated) {
+      this.addcertifRef = this.dialog.open(this.addcertifNo);
+    } else {
+    this.groupId = groupId;
+    this.addcertifRef = this.dialog.open(this.addcertif);
+  }}
+  @ViewChild('nouser') nouser!: TemplateRef<any>;
+  nouserRef!: MatDialogRef<any> | undefined;
+
+  openBottomSheet(): void {
+    this.nouserRef = this.dialog.open(this.nouser);
+  }
+  showAddCertifNoDialog: boolean = false;     
+
+  @ViewChild('confirmationCertif') confirmationCertif!: TemplateRef<any>;
+  confirmationCertifRef!: MatDialogRef<any> | undefined;
+  openConfirmationCertifDialog(): void {
+    this.confirmationCertifRef = this.dialog.open(this.confirmationCertif, {
+      width: '400px', // Set the desired width
+    });
+    this.confirmationCertifRef.afterClosed().subscribe(result => {
+      // Perform actions based on user interaction
+      if (result) {
+        this.showAddCertifNoDialog = true;
+        window.location.reload();
+        // Additional logic after user clicks "OK" in confirmationCertif
+      }
+    });
+  }
+  @ViewChild('updatecertif') updatecertif!: TemplateRef<any>;
+  updatecertifRef!: MatDialogRef<any> | undefined;
+  openModifyCertifDialog(): void {
+    this.updatecertifRef = this.dialog.open(this.updatecertif);
+  }
+  @ViewChild('deleteConfirmationDialog') deleteConfirmationDialog!: TemplateRef<any>;
+  deleteConfirmationDialogRef!: MatDialogRef<any> | undefined;
+  openDeleteConfirmationDialog(groupId: number): void {
+    this.deleteConfirmationDialogRef = this.dialog.open(this.deleteConfirmationDialog);
+    this.deleteConfirmationDialogRef.afterClosed().subscribe(result => {
+      if (result === 'confirmed') {
+        this.deleteCertificates(groupId);
+        window.location.reload();
+      }
+    });
+  }
+  deleteCertificates(groupId: number): void {
+    this.certificateService.deleteCertificatesForGroup(groupId).subscribe(
+      () => {
+        console.log('Certificates deleted successfully');
+        // Additional logic or notifications here
+      },
+      (error) => {
+        console.error('Error deleting certificates:', error);
+        // Handle error, show error message, etc.
+      }
+    );
+  }
+  cancelDeleteCer(): void {
+    this.deleteConfirmationDialogRef?.close();
+  }
+  isValidCertif(): boolean {
+    return this.certif.month !== undefined ;
+  }
 }
