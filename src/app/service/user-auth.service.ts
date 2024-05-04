@@ -35,8 +35,12 @@ export class UserAuthService {
   public getId(): number {
   return Number(localStorage.getItem("id"))! ;
   }
-
-
+  public getNom(): string {
+    return localStorage.getItem("nom")!;
+  }
+  public setNom(nom:string) {
+    localStorage.setItem("nom",nom) ;
+  }
   public getFirstName(): string {
     return localStorage.getItem("firstName")!;
   }

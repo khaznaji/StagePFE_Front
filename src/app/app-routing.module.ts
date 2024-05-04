@@ -76,6 +76,7 @@ import { ListBilanDesCollabComponent } from './Manager/Annuel/list-bilan-des-col
 import { GetBilanByIdComponent } from './Manager/Annuel/get-bilan-by-id/get-bilan-by-id.component';
 import { EntretienAnnuelCalendarComponent } from './Manager/Annuel/entretien-annuel-calendar/entretien-annuel-calendar.component';
 import { MesEntretienAnnuelManagerComponent } from './Manager/Annuel/mes-entretien-annuel-manager/mes-entretien-annuel-manager.component';
+import { ChatComponent } from './User/chat/chat.component';
 
 const routes: Routes = [
   {
@@ -194,6 +195,7 @@ const routes: Routes = [
       { path: 'entretien-annuel', component: EntretienAnnuelCalendarComponent },
 
       { path: 'mes-entretien-annuel', component: MesEntretienAnnuelManagerComponent },
+      {    path: 'chat/:user', component: ChatComponent    }
 
     ],
   },

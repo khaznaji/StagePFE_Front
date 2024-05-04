@@ -1,0 +1,111 @@
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+
+        <link
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet"
+        />
+        <div class="component" style="width: 1000px">
+          <div class="col-md-10 col-xl-6 chat">
+            <div class="card">
+              <div class="card-header msg_head">
+                <div class="d-flex bd-highlight">
+                  <div class="img_cont_msg">
+                    <img
+                      [src]="'assets/images/' + otherUser?.image"
+                      class="rounded-circle"
+                      alt="Avatar"
+                      width="45px"
+                    />
+                  </div>
+                  <div class="user_info">
+                    <span>Chat {{ otherUser?.nom }}</span>
+                  </div>
+                </div>
+              </div>
+              <div #chat id="chat" class="card-body msg_card_body">
+                <!--messages - start> -->
+                <div *ngFor="let msg of messages | async">
+                  <div
+                    class="d-flex justify-content-start mb-4"
+                    *ngIf="
+                      msg!.id!.toString().includes(otherUser!.id!.toString());
+                      else thisUserMsg
+                    "
+                  >
+                    <div class="img_cont_msg">
+                      <img
+                      [src]="'assets/images/' + otherUser?.image"
+                      class="rounded-circle user_img_msg"
+                      />
+                    </div>
+                    <div class="msg_cotainer">
+                      {{ msg.content }}
+                      <span class="msg_time">{{
+                        whenWasItPublished(msg!.t_stamp!)
+                      }}</span>
+                    </div>
+                  </div>
+
+                  <ng-template #thisUserMsg>
+                    <div class="d-flex justify-content-end mb-4">
+                      <div class="msg_cotainer_send">
+                        {{ msg.content }}
+                        <span class="msg_time_send">{{
+                          whenWasItPublished(msg!.t_stamp!)
+                        }}</span>
+                      </div>
+                      <div class="img_cont_msg">
+                        <img
+                        [src]="'assets/images/' + image"
+                          class="rounded-circle user_img_msg"
+                        />
+                      </div>
+                    </div>
+                  </ng-template>
+                </div>
+                <!--messages - end-->
+              </div>
+              <div class="card-footer">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <span class="input-group-text attach_btn"
+                      ><i class="fas fa-paperclip"></i
+                    ></span>
+                  </div>
+                  <textarea
+                    [formControl]="newMessage"
+                    name=""
+                    class="form-control type_msg"
+                    placeholder="Type your message..."
+                  ></textarea>
+                  <div class="input-group-append">
+                    <span (click)="sendMsg()" class="input-group-text send_btn"
+                      ><i class="material-icons" style="font-size: 36px"
+                        >send</i
+                      ></span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- / Layout page -->
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+  </div>
+  <!-- / Layout wrapper -->
+</body>
