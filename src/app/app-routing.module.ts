@@ -64,6 +64,18 @@ import { ListFormationComponent } from './Admin/Formation/list-formation/list-fo
 import { DemandeFormationsComponent } from './Admin/Formation/demande-formations/demande-formations.component';
 import { CreateGroupsComponent } from './Admin/Formation/create-groups/create-groups.component';
 import { CreateSessionComponent } from './Admin/Formation/create-session/create-session.component';
+import { GetByIdFormationComponent } from './Formateur/get-by-id-formation/get-by-id-formation.component';
+import { BilanComponent } from './Manager/Annuel/bilan/bilan.component';
+import { MesBilanComponent } from './Collaborateur/Annuel/bilan/bilan.component';
+import { UpdateBilanComponent } from './Collaborateur/Annuel/update-bilan/update-bilan.component';
+import { SessionsFormationsCollabComponent } from './Collaborateur/Formation/sessions-formations-collab/sessions-formations-collab.component';
+import { MesSessionsFormateurComponent } from './Formateur/mes-sessions-formateur/mes-sessions-formateur.component';
+import { MeetFormationsComponent } from './Formateur/meet-formations/meet-formations.component';
+import { GetBilanByIdCollabComponent } from './Collaborateur/Annuel/get-bilan-by-id-collab/get-bilan-by-id-collab.component';
+import { ListBilanDesCollabComponent } from './Manager/Annuel/list-bilan-des-collab/list-bilan-des-collab.component';
+import { GetBilanByIdComponent } from './Manager/Annuel/get-bilan-by-id/get-bilan-by-id.component';
+import { EntretienAnnuelCalendarComponent } from './Manager/Annuel/entretien-annuel-calendar/entretien-annuel-calendar.component';
+import { MesEntretienAnnuelManagerComponent } from './Manager/Annuel/mes-entretien-annuel-manager/mes-entretien-annuel-manager.component';
 
 const routes: Routes = [
   {
@@ -113,7 +125,6 @@ const routes: Routes = [
         component: ListFormationComponent,
       },
       { path: 'formation-byId/:id', component: DemandeFormationsComponent },
-
     ],
   },
 
@@ -138,7 +149,12 @@ const routes: Routes = [
       { path: 'thank-you', component: ThankYouComponent },
       { path: 'mes-entretiens-Rh', component: EntretienRhCollabComponent },
       { path: 'mes-demandes-formation', component: MesDemandesComponent },
+      { path: 'mes-sessions', component: SessionsFormationsCollabComponent },
 
+      { path: 'mes-bilans', component: MesBilanComponent },
+      { path: 'bilan/:id', component: GetBilanByIdCollabComponent },
+
+      { path: 'updateBilan/:id', component: UpdateBilanComponent },
     ],
   },
 
@@ -162,6 +178,8 @@ const routes: Routes = [
       { path: 'poste-publie', component: DisplayDemandePublieComponent },
       { path: 'poste-encours/:postId', component: PostByIdComponent },
       { path: 'mes-entretiens', component: MesEntretienManagerComponent },
+      { path: 'mon-equipe', component: BilanComponent },
+
       {
         path: 'interview/:roomId/:candidatureId',
         component: InterviewOnlineComponent,
@@ -171,6 +189,11 @@ const routes: Routes = [
         component: EvaluateInterviewComponent,
       },
       { path: 'demande-formation', component: DemandeDesCollabsComponent },
+      { path: 'bilan-collab/:id', component: ListBilanDesCollabComponent },
+      { path: 'bilan-by-id/:id/:idCollab', component: GetBilanByIdComponent },
+      { path: 'entretien-annuel', component: EntretienAnnuelCalendarComponent },
+
+      { path: 'mes-entretien-annuel', component: MesEntretienAnnuelManagerComponent },
 
     ],
   },
@@ -180,8 +203,14 @@ const routes: Routes = [
     children: [
       { path: 'profile', component: ProfileComponent },
       { path: 'all', component: AllFormationsComponent },
-
-      ]}
+      { path: 'formation-byId/:id', component: GetByIdFormationComponent },
+      { path: 'mes-sessions', component: MesSessionsFormateurComponent },
+      {
+        path: 'interview/:roomId/:candidatureId',
+        component: MeetFormationsComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({

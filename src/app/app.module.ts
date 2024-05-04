@@ -106,6 +106,20 @@ import { DemandeFormationsComponent } from './Admin/Formation/demande-formations
 import { CreateGroupsComponent } from './Admin/Formation/create-groups/create-groups.component';
 import { CreateSessionComponent } from './Admin/Formation/create-session/create-session.component';
 import { DetailsGroupComponent } from './Admin/Formation/details-group/details-group.component';
+import { BilanComponent } from './Manager/Annuel/bilan/bilan.component';
+import { MesBilanComponent } from './Collaborateur/Annuel/bilan/bilan.component';
+import { UpdateBilanComponent } from './Collaborateur/Annuel/update-bilan/update-bilan.component';
+import { DetailsGroupsOfFormateurComponent } from './Formateur/details-groups-of-formateur/details-groups-of-formateur.component';
+import { SessionsFormationsCollabComponent } from './Collaborateur/Formation/sessions-formations-collab/sessions-formations-collab.component';
+import { MesSessionsFormateurComponent } from './Formateur/mes-sessions-formateur/mes-sessions-formateur.component';
+import { MeetFormationsComponent } from './Formateur/meet-formations/meet-formations.component';
+import { GetBilanByIdCollabComponent } from './Collaborateur/Annuel/get-bilan-by-id-collab/get-bilan-by-id-collab.component';
+import { ListBilanDesCollabComponent } from './Manager/Annuel/list-bilan-des-collab/list-bilan-des-collab.component';
+import { GetBilanByIdComponent } from './Manager/Annuel/get-bilan-by-id/get-bilan-by-id.component';
+import { PopUpEvaluateBilanComponent } from './Manager/Annuel/pop-up-evaluate-bilan/pop-up-evaluate-bilan.component';
+import { EntretienAnnuelCalendarComponent } from './Manager/Annuel/entretien-annuel-calendar/entretien-annuel-calendar.component';
+import { MesEntretienAnnuelManagerComponent } from './Manager/Annuel/mes-entretien-annuel-manager/mes-entretien-annuel-manager.component';
+import { MesEntretiensAnnuelCollabComponent } from './Collaborateur/Annuel/mes-entretiens-annuel-collab/mes-entretiens-annuel-collab.component';
 
 @NgModule({
   declarations: [
@@ -133,7 +147,7 @@ import { DetailsGroupComponent } from './Admin/Formation/details-group/details-g
         FormateurMenuComponent, CreateFormationComponent, AllFormationsComponent,
          GetByIdFormationComponent, UpdateFormationComponent, ListeDesFormationsComponent, 
          FormationDetailComponent, DemandeDesCollabsComponent, MesDemandesComponent, 
-         ListFormationComponent, DemandeFormationsComponent, CreateSessionComponent , CreateGroupsComponent, DetailsGroupComponent 
+         ListFormationComponent, DemandeFormationsComponent, CreateSessionComponent , CreateGroupsComponent, DetailsGroupComponent, BilanComponent , MesBilanComponent, UpdateBilanComponent, DetailsGroupsOfFormateurComponent, SessionsFormationsCollabComponent, MesSessionsFormateurComponent, MeetFormationsComponent, GetBilanByIdCollabComponent, ListBilanDesCollabComponent, GetBilanByIdComponent, PopUpEvaluateBilanComponent, EntretienAnnuelCalendarComponent, MesEntretienAnnuelManagerComponent, MesEntretiensAnnuelCollabComponent, 
           
 
   ],

@@ -132,14 +132,14 @@ export class AllFormationsComponent implements OnInit {
   openModal() {
     this.modalRef = this.modalService.show(CreateFormationComponent);
   }
-  openModalById(formationId: number): void {
-    const initialState = {
-      formationId: formationId,
-    };
-    this.modalRef = this.modalService.show(GetByIdFormationComponent, {
-      initialState,
-    });
-  }
+  // openModalById(formationId: number): void {
+  //   const initialState = {
+  //     formationId: formationId,
+  //   };
+  //   this.modalRef = this.modalService.show(GetByIdFormationComponent, {
+  //     initialState,
+  //   });
+  // }
   openModalUpdate(formationId: number): void {
     const initialState = {
       formationId: formationId,

@@ -1,18 +1,244 @@
-<div class="card">
-    <div class="card-header">
-     <b>{{ formationInfo.title }}</b>  
-    </div>
+<div class="container">
+  <div class="card">
     <div class="card-body">
-        <div class="image-container">
-            <img [src]="'assets/images/Formations/' + formationInfo.image" alt="Admin" width="350">
-           </div>
-                  <p>{{ formationInfo.description }}</p>
-       <p><b>Nombre de Chapitres :</b> {{ formationInfo.chapitre }}</p>
-       <p><b>Duree de la Formation :</b> {{ formationInfo.duree }}</p>
-       <p><b>Disponibilite : </b> <span *ngIf="formationInfo.disponibilite; else notAvailable">Oui</span>
-        <ng-template #notAvailable>Non</ng-template>
-       </p>
-       <p><b>Departement :</b> {{ formationInfo.department }}</p>
+      <div class="poste-details">
+        <h2>{{ formationInfo.title }}</h2>
+        <h6></h6>
+      </div>
+
+      <h6></h6>
     </div>
-   </div>
-   
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body dashboard-tabs p-0">
+        <ul class="nav nav-tabs px-4" role="tablist">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              id="overview-tab"
+              data-bs-toggle="tab"
+              href="#overview"
+              role="tab"
+              aria-controls="overview"
+              aria-selected="true"
+              >Detail de la Formation</a
+            >
+          </li>
+        
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="purchases-tab"
+              data-bs-toggle="tab"
+              href="#purchases"
+              role="tab"
+              aria-controls="purchases"
+              aria-selected="false"
+              >Groupes
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content py-0 px-0">
+          <div
+            class="tab-pane fade show active"
+            id="overview"
+            role="tabpanel"
+            aria-labelledby="overview-tab"
+          >
+            <div>
+              <br />
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4>A propos de la Formations</h4>
+                      <p>{{ formationInfo.description }}</p>
+                      <p>
+                        <b>Nombre de Chapitres :</b>
+                        {{ formationInfo.chapitre }}
+                      </p>
+                      <p>
+                        <b>Duree de la Formation :</b> {{ formationInfo.duree }}
+                      </p>
+                      <p><b>Departement :</b> {{ formationInfo.department }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Deuxième carte pour les compétences -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4>A propos Du Formateur</h4>
+                      <ul class="custom-list">
+                        <div class="image-container">
+                          <img
+                            [src]="
+                              'assets/images/' + formationInfo.formateurImage
+                            "
+                            alt="Formateur"
+                            width="150"
+                          />
+                        </div>
+                        <div class="infos">
+                          <h6 style="color: grey">
+                            {{ formationInfo.formateurName }}
+                          </h6>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="tab-pane fade"
+            id="sales"
+            role="tabpanel"
+            aria-labelledby="sales-tab"
+          >
+            <br />
+           
+          </div>
+          <div
+            class="tab-pane fade"
+            id="purchases"
+            role="tabpanel"
+            aria-labelledby="purchases-tab"
+          >
+            <br />
+           
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-4 col-md-6" *ngFor="let groupe of groupes">
+                  <div class="card">
+                    <div class="row mt-2 mx-2">
+                      <!-- Modifié la classe mt-4 à mt-2 -->
+                      <div class="nav-profile d-flex align-items-center">
+                        <span class="fw-bold">{{ groupe.groupe.nom }}</span>
+                        <span>
+                          <div class="filter">
+                            <button
+                              class="icon"
+                              data-bs-toggle="dropdown"
+                              style="border: none; background-color: #ffffff00"
+                            >
+                              <i
+                                class="mdi mdi-dots-vertical"
+                                style="margin-left: 80px"
+                              ></i>
+                            </button>
+                            <ul
+                              class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                            >
+                              <li class="dropdown-header text-start"></li>
+
+                              <li>
+                                <button
+                                  class="dropdown-item mb-2"
+                                  (click)="openModael(groupe.groupe.id)"
+                                >
+                                  <span><i class="mdi mdi-eye"></i> </span>
+                                  Insight
+                                </button>
+                              </li>
+
+                              <li>
+                                <button class="dropdown-item mb-2">
+                                  <span
+                                    ><i
+                                      class="fa-regular fa-calendar me-4"
+                                    ></i> </span
+                                  >Calendar
+                                </button>
+                              </li>
+                              <li>
+                                <button
+                                  class="dropdown-item mb-2 text-danger"
+                                  (click)="deleteGroup(groupe.groupe.id)"
+                                >
+                                  <span
+                                    ><i class="mdi mdi-delete me-1"></i> </span
+                                  >Supprimer
+                                </button>
+                              </li>
+                            </ul>
+                          </div></span
+                        >
+                      </div>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="mb-3 align-items-center d-flex">
+                        <span class="fw-bold"
+                          >Nombre de participants: &nbsp; &nbsp; &nbsp;
+                        </span>
+                        <span class="badge bg-danger">{{
+                          groupe.nombreMembres
+                        }}</span>
+                      </div>
+                      <div class="mb-3 align-items-center d-flex">
+                        <span class="fw-bold">Etat: &nbsp; &nbsp; &nbsp; </span>
+                        <span
+                          class="badge"
+                          [class.bg-danger]="
+                            groupe.groupe.etat === 'En_Attente'
+                          "
+                          [class.bg-warning]="groupe.groupe.etat === 'Termine'"
+                          [class.bg-success]="groupe.groupe.etat === 'Certifie'"
+                          [style.color]="'white'"
+                        >
+                          {{
+                            groupe.groupe.etat === "En_Attente"
+                              ? "En Attente"
+                              : groupe.groupe.etat === "Termine"
+                              ? "Session Crée"
+                              : groupe.groupe.etat
+                          }}
+                        </span>
+                      </div>
+                      <div
+                        class="trainer-profile d-flex align-items-center mb-3"
+                      >
+                        <span class="fw-bold"
+                          >Members: &nbsp; &nbsp; &nbsp;</span
+                        >
+                        <div class="avatar-stack">
+                          <img
+                            *ngFor="
+                              let image of groupe.collaborateurImages;
+                              let i = index
+                            "
+                            [src]="'assets/images/' + image"
+                            [style.left.px]="i * 20"
+                            [style.zIndex]="3 - i"
+                            class="rounded-circle"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="test"
+            role="tabpanel"
+            aria-labelledby="test-tab"
+          >
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,6 @@
 <br />
+<div class="card-container">
+
 <ng-container *ngIf="events.length > 0; else noManagerServices">
   <div class="container" *ngFor="let event of events">
     <div class="card hovercard">
@@ -34,6 +36,7 @@
     </div>
   </div>
 </ng-container>
+</div>
 <ng-template #noManagerServices>
   <p>Aucune formation disponible pour le moment.</p>
 </ng-template>

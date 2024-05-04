@@ -102,6 +102,7 @@ import { BioPopUpComponent } from './bio-pop-up/bio-pop-up.component';
       this.collaborateurService.getCollaborateurInfo()
         .subscribe((data: any) => {
           this.collaborateurInfo = data;
+          console.log(this.collaborateurInfo)
         });
     }
     createRadarChart(): void {

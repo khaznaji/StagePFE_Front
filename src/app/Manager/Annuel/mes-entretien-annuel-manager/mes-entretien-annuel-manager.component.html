@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row">
+      <div *ngFor="let entretien of entretiens" class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-3">
+              <h5 class="card-title">{{ entretien.nomCollaborateur }}
+                {{ entretien.prenomCollaborateur }}</h5>
+            </div>
+  
+            <p class="card-text">
+              <i class="mdi mdi-calendar-range"></i> Date:
+              {{ entretien.entretien.dateEntretien }}
+            </p>
+            <p class="card-text">
+              <i class="mdi mdi-clock-outline"></i> Heure de début:
+              {{ entretien.entretien.heureDebut | slice : 0 : 5 }}
+            </p>
+            <p class="card-text">
+              <i class="mdi mdi-clock-outline"></i> Heure de fin:
+              {{ entretien.entretien.heureFin | slice : 0 : 5 }}
+            </p>
+  
+            <button
+            class="btn btn-inverse-primary"
+            (click)="
+              joinInterview(
+                entretien.entretien.roomId,
+                entretien.entretien.id        )
+            "
+          >
+              Rejoindre l'interview
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

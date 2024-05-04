@@ -19,6 +19,10 @@ export class EvaluationService {
     headers.delete('Content-Type');
     return this.http.get<Evaluation[]>(`${this.api_url}/evaluations` , { headers } );
   } 
+  getEvaluationCollab(collaborateurId : number): Observable<Evaluation[]> {
+  
+    return this.http.get<Evaluation[]>(`${this.api_url}/evaluations/${collaborateurId}` );
+  } 
   updateEvaluationById(evaluationId: number, newEvaluationValue: number): Observable<any> {
     const authToken = this.authService.getToken();
     const headers = new HttpHeaders({
@@ -29,6 +33,13 @@ export class EvaluationService {
     };
     return this.http.put<any>(`${this.api_url}/evaluation/${evaluationId}?evaluation=${newEvaluationValue}`, body, { headers });
   }
+  updateEvaluationByIdForCollab(evaluationId: number, newEvaluationValue: number , collaborateurId : number): Observable<any> {
+  
+    const body = {
+      evaluation: newEvaluationValue
+    };
+    return this.http.put<any>(`${this.api_url}/evaluation/${evaluationId}/${collaborateurId}?evaluation=${newEvaluationValue}`, body);
+  }
   deleteEvaluation(evaluationId: number): Observable<any> {
     const authToken = this.authService.getToken();
     const headers = new HttpHeaders({
@@ -38,6 +49,11 @@ export class EvaluationService {
     const url = `${this.api_url}/evaluation/${evaluationId}`;
     return this.http.delete(url , { headers } );
     }
+    deleteEvaluationForCollab(evaluationId: number , collaborateurId: number): Observable<any> {
+    
+      const url = `${this.api_url}/evaluation/${evaluationId}/${collaborateurId}`;
+      return this.http.delete(url );
+      }
     addEvaluation(competenceId: number, evaluationValue: number): Observable<any> {
       const authToken = this.authService.getToken();
       const headers = new HttpHeaders({
@@ -49,6 +65,13 @@ export class EvaluationService {
         evaluationValue: evaluationValue.toString()
       };
       return this.http.post<any>(`${this.api_url}/evaluation?competenceId=${competenceId}&evaluationValue=${evaluationValue}`, params ,  { headers });
+    }
+    addEvaluationForCollab(collaborateurId : number , competenceId: number, evaluationValue: number): Observable<any> {
+      const params = {
+        competenceId: competenceId.toString(),
+        evaluationValue: evaluationValue.toString()
+      };
+      return this.http.post<any>(`${this.api_url}/evaluation/${collaborateurId}?competenceId=${competenceId}&evaluationValue=${evaluationValue}`, params );
     }
     updateProfile(projectData: FormData): Observable<any> {
       const authToken = this.authService.getToken();

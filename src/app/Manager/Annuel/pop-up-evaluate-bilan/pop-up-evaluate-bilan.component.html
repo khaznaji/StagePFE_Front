@@ -1,0 +1,94 @@
+<div class="popup">
+
+    <table *ngIf="showMainContent">
+      <h2>Liste des competences</h2>
+
+      <div class="add-button-container" >
+        <button class="add-button" (click)="openAddForm()">+ Competence</button>
+    </div>
+    
+      <tr *ngFor="let evaluation of evaluations">
+        <td> {{ evaluation.competenceName }} - {{ evaluation.evaluation }}</td>
+        <td> <button (click)="openModifyForm(evaluation)">Modifier</button></td>
+        <td> <button (click)="deleteEvaluation(evaluation.id)">Supprimer</button></td>
+      </tr>
+    </table>
+
+    
+    <div *ngIf="showAddForm">
+      <h3>Ajouter une évaluation</h3>
+      <form>
+        <div *ngIf="showSearchBar">
+          <label>Rechercher une compétence:</label>
+          <input type="text" [(ngModel)]="searchTerm" (input)="searchCompetences()" name="searchTerm">
+          <!-- Affichage des résultats de la recherche -->
+          <ul *ngIf="searchResults.length > 0">
+            
+              <li *ngFor="let competence of searchResults" (click)="selectCompetence(competence)">
+                  {{ competence.nom }}
+                 
+              </li>
+
+          </ul>
+          <!-- Message si aucune compétence n'est trouvée -->
+          <p *ngIf="searchResults.length === 0 && searchTerm.length >= 3">Aucune compétence trouvée.</p>
+
+      </div>
+      
+
+         <!-- Affichage de la compétence sélectionnée -->
+         <div *ngIf="selectedCompetence">
+           <p>Compétence sélectionnée: {{ selectedCompetence.nom }}</p>
+         </div>
+         <div *ngIf="selectedCompetence">
+           <label>Nouvelle valeur d'évaluation:</label>
+           <div class="rating-container">
+            <div class="rating" *ngFor="let rate of [1, 2, 3, 4, 5, 6, 7, 8, 9]" (click)="selectRating(rate)"
+            [ngClass]="{'selected': selectedRate === rate}">
+            
+               <div class="rating-circle">
+                 {{ rate }}
+               </div>
+            </div>
+           </div>
+           
+           
+           
+           <!-- Affiche la valeur de l'évaluation sélectionnée -->
+           <div *ngIf="selectedRate">
+            <p>Valeur d'évaluation sélectionnée: {{ selectedRate }}</p>
+           </div>
+           
+          
+           <button type="button" (click)="addEvaluation()">Ajouter évaluation</button>
+           <button (click)="closeAddForm()">Annuler</button>
+
+         </div>
+      </form>
+     </div>
+     
+     
+    <!-- Formulaire de modification -->
+    <div *ngIf="showModifyForm && selectedEvaluation">
+      <!-- Remplacez les champs suivants par les champs de votre formulaire de modification -->
+      <h3>Modifier l'évaluation</h3>
+      <form>
+        <label>Nouvelle évaluation:</label>
+        <div class="rating-container">
+          <div class="rating" *ngFor="let rate of [1, 2, 3, 4, 5, 6, 7, 8, 9]" (click)="selectRating(rate)"
+          [ngClass]="{'selected': selectedRate === rate}">
+          
+             <div class="rating-circle">
+               {{ rate }}
+             </div>
+          </div>
+         </div> 
+         <div *ngIf="selectedRate">
+          <p>Valeur d'évaluation sélectionnée: {{ selectedRate }}</p>
+         </div>
+         <button (click)="updateEvaluation(selectedEvaluation, newEvaluationValue)">Mettre à jour</button>
+        <button (click)="closeModifyForm()">Annuler</button>
+      </form>
+    </div>
+  </div>
+  

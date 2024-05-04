@@ -1,0 +1,39 @@
+<div class="col-lg-12 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Bilans Annuels</h4>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Date Bilan</th>
+              <th>Action</th>
+              <!-- Ajout d'une colonne pour les actions -->
+            </tr>
+          </thead>
+          <tbody *ngIf="bilansAnnuel && bilansAnnuel.length > 0">
+            <tr *ngFor="let bilan of bilansAnnuel; let i = index">
+              <td>Bilan n°{{ i + 1 }}</td>
+              <td>{{ bilan.dateBilan }}</td>
+              <td>
+                <!-- Affichage du bouton "Voir détails" uniquement si l'état du bilan est "Envoyé" -->
+                <button
+                  class="btn btn-inverse-info"
+                  (click)="redirigerVersBilan(bilan.id, collaborateurId)"
+                >
+                  Voir détails
+                </button>
+
+                <!-- Si l'état n'est pas "Envoyé", affichez un message ou une action différente -->
+              </td>
+            </tr>
+          </tbody>
+          <div *ngIf="!bilansAnnuel || bilansAnnuel.length === 0">
+            <p>Aucun bilan annuel trouvé.</p>
+          </div>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -79,5 +79,56 @@ export class EntretienService {
       `${this.baseUrl}/EntretiensSpecifiques/${posteId}`
     );
   }
-  
+  createEntretienAnnuel(
+    collaborateurId: number,
+    dateEntretien: string,
+    heureDebut: string,
+    heureFin: string
+  ): Observable<string> {
+    const authToken = this.authService.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${authToken}`,
+      'Content-Type': 'application/json' 
+    });
+    headers.delete('Content-Type');
+    const url = `${this.baseUrl}/ajoutAnnuel?collaborateurId=${collaborateurId}&dateEntretien=${dateEntretien}&heureDebut=${heureDebut}&heureFin=${heureFin}`;
+
+    return this.http.post<string>(url, {}, { headers: headers });
+  }
+  updateEntretienAnnuel(
+    entretienId: number,
+    dateEntretien: string,
+    heureDebut: string,
+    heureFin: string
+  ): Observable<string> {
+    const authToken = this.authService.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${authToken}`,
+      'Content-Type': 'application/json' 
+    });
+    headers.delete('Content-Type');
+        const url = `${this.baseUrl}/updateAnnuel/${entretienId}?dateEntretien=${dateEntretien}&heureDebut=${heureDebut}&heureFin=${heureFin}`;
+
+    return this.http.put<string>(url, {}, { headers: headers });
+  }
+  getEntretiensAnnuelDuManagerConnecte(): Observable<any> {
+    const authToken = this.authService.getToken();
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${authToken}`,
+    });
+    return this.http.get<any>(`${this.baseUrl}/entretiens/annuel`, { headers });
+  }
+  getEntretiensAnnuelDuCollabConnecte(): Observable<any> {
+    const authToken = this.authService.getToken();
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${authToken}`,
+    });
+    return this.http.get<any>(`${this.baseUrl}/entretiensCollab/annuel`, { headers });
+  }
+  getEntretienannuelbyId(entretienId: number): Observable<any[]> {
+    const url = `${this.baseUrl}/annuelbyId/${entretienId}`;
+    return this.http.get<any[]>(url);
+  }
 }

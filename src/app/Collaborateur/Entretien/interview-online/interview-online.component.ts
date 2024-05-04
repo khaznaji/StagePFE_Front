@@ -39,9 +39,9 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
 
     this.sr.getUserById2(id, headers).subscribe((res) => {
       this.data = res;
-      console.log(this.data);
+      console.log( "data " , this.data);
       this.username = this.data.nom + ' ' + this.data.prenom;
-      console.log(this.username);
+      console.log("username " ,this.username);
 
       // Initialize JitsiMeetExternalAPI with the updated username and room ID
     });

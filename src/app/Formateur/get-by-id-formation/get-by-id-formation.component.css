@@ -1,42 +1,65 @@
-.formation-container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex; /* Make the container a flex container */
-    flex-direction: column; /* Stack the items vertically */
-    align-items: center; /* Center items horizontally */
-}
-
-h3 {
-    color: #333333;
-    margin-bottom: 20px;
-}
-.image-container {
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 100%; /* Ensure the container takes up the full height */
-   }
+.custom-list {
+    list-style-type: none; /* Supprime les puces de la liste */
+    padding-left: 0; /* Supprime l'espacement à gauche de la liste */
+    margin-bottom: 0; /* Supprime l'espacement en bas de la liste */
+  }
+  .card {
+      margin-bottom: 20px; /* Ajoute un espace en bas de chaque carte */
+      margin-right: 15px; /* Ajoute un espace à droite de chaque carte */
+  
+     }
    
-img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-}
-
-p {
-    color: #666666;
-    line-height: 1.6;
-    margin-bottom: 10px;
-}
-
-p b {
-    color: #333333;
-}
-
-/* Override the alignment for specific paragraphs */
-.formation-container p:not(:first-child) {
-    align-self: flex-start; /* Align these paragraphs to the left */
-}
+     
+     
+  .custom-list li {
+    margin-bottom: 10px; /* Espacement entre les éléments de la liste */
+    padding: 10px 0; /* Espacement vertical autour de chaque élément de la liste */
+    border-bottom: 1px solid #ddd; /* Ajoute une bordure en bas de chaque élément de la liste */
+  }
+  
+  .custom-list li:last-child {
+    border-bottom: none; /* Supprime la bordure du dernier élément de la liste */
+  }
+  .info {
+    display: flex;
+    align-items: center;
+  }
+  
+    .avatar-stack {
+      position: relative;
+      display: inline-block;
+     }
+     
+     .avatar-stack .badge {
+      position: absolute;
+      top: -10px; /* Ajustez cette valeur pour positionner le badge au-dessus des avatars */
+      right: -10px; /* Ajustez cette valeur pour positionner le badge à droite des avatars */
+      border-radius: 50%;
+      padding: 5px 10px;
+      background-color: red; /* Utilisez la couleur de votre choix */
+      color: white; /* Utilisez la couleur de votre choix */
+     }
+     
+     
+     .avatar-stack img {
+      position: absolute;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+     }
+     
+     .avatar-stack img:nth-child(1) {
+      z-index: 3;
+     }
+     
+     .avatar-stack img:nth-child(2) {
+      left: 20px;
+      z-index: 2;
+     }
+     
+     .avatar-stack img:nth-child(3) {
+      left: 40px;
+      z-index: 1;
+     }
+     

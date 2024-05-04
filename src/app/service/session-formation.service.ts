@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
+import { UserAuthService } from './user-auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,8 @@ export class SessionFormationService {
 
   private baseUrl = 'http://localhost:8080/api/session';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient , private authService: UserAuthService) {}
+
   createSession(
     formationId : number, 
     groupId: number,
@@ -21,6 +23,7 @@ export class SessionFormationService {
 
     return this.http.post<string>(url, {}, { headers: headers });
   }
+
   updateSession(
     sessionId: number,
     groupId: number,
@@ -46,4 +49,27 @@ export class SessionFormationService {
   private handleError(error: any): Observable<never> {
     console.error('An error occurred:', error);
     return throwError('Something went wrong. Please try again later.');
-  }}
+  }
+  mesSessionFormateurs(): Observable<any> {
+    const authToken = this.authService.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${authToken}`,
+    });
+    headers.delete('Content-Type');
+    return this.http.get<any>(
+      `${this.baseUrl}/sessions`,
+      { headers }
+    );
+  }
+   mesSessionsCollab(): Observable<any> {
+    const authToken = this.authService.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${authToken}`,
+    });
+    headers.delete('Content-Type');
+    return this.http.get<any>(
+      `${this.baseUrl}/sessionsCollab`,
+      { headers }
+    );
+  }
+}

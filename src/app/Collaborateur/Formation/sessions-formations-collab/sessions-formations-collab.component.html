@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="row">
+      <div *ngFor="let entretien of entretiens" class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-3">
+              <h5 class="card-title">{{ entretien.group.formation.title }}</h5>
+  
+            </div>
+  
+            <h6 class="card-subtitle mb-2" style="color: rgb(72, 55, 55)">
+                Duree : 
+              <b
+                >{{ entretien.group.formation.duree }} Heures
+                </b
+              >
+            </h6>
+            <p class="card-text">
+              <i class="mdi mdi-calendar-range"></i> Date Debut :
+              {{ entretien.dateDebut }}
+            </p>
+            <p class="card-text">
+              <i class="mdi mdi-calendar-range"></i> Date Fin:
+              {{ entretien.dateFin}}
+            </p>
+            
+  
+            <button
+              class="btn btn-inverse-primary"
+              (click)="
+                joinInterview(
+                  entretien.roomId,
+                  entretien.id           )
+              "
+            >
+              Rejoindre la session
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
