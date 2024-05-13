@@ -94,16 +94,42 @@ project: ManagerService = new ManagerService();
 projects: User = new User();
 image: File | null = null;
 currentStep = 1; // Use a generic type or 'any' if the type is dynamic
-  nextStep() {
+errorMessage: string = '';
+
+nextStep(): void {
+  // Réinitialisez errorMessage
+  this.errorMessage = '';
+
+  // Vérifiez la validité des champs spécifiques
+  const nomControl = this.managerServiceForm.get('nom');
+  const prenomControl = this.managerServiceForm.get('prenom');
+  const matriculeControl = this.managerServiceForm.get('matricule');
+  const numtelControl = this.managerServiceForm.get('numtel');
+  const genderControl = this.managerServiceForm.get('gender');
+
+  if (
+    nomControl && prenomControl && matriculeControl && numtelControl && genderControl &&
+    nomControl.valid && prenomControl.valid && matriculeControl.valid && numtelControl.valid && genderControl.valid
+  ) {
+    // Passez au step suivant
     this.currentStep++;
+    this.errorMessage = '';
+
+  } else {
+    // Affichez un message d'erreur si l'une des validations échoue
+    this.errorMessage = 'Veuillez remplir correctement les champs obligatoires avant de passer à l\'étape suivante.';
   }
+}
+
+
+
+
   Step() {
     this.currentStep--;
   }
 onSubmit() {
   if (this.managerServiceForm && this.managerServiceForm.valid) {
     const formData = new FormData();
-
     formData.append('nom', this.managerServiceForm.get('nom')?.value || '');
     formData.append('prenom', this.managerServiceForm.get('prenom')?.value || '');
     formData.append('numtel', (this.managerServiceForm.get('numtel')?.value || '').toString());
@@ -112,18 +138,7 @@ onSubmit() {
     formData.append('gender', this.managerServiceForm.get('gender')?.value || '');
     formData.append('department', this.managerServiceForm.get('department')?.value || '');
     formData.append('poste', this.managerServiceForm.get('poste')?.value || '');
-    const dateEntree: Date | null = this.managerServiceForm.get('dateEntree')?.value;
-
-    // Vérifiez si dateEntree est définie et non nulle
-    if (dateEntree instanceof Date && !isNaN(dateEntree.getTime())) {
-        // Formatez la date au format ISO
-        const formattedDate: string = dateEntree.toISOString();
-    
-        // Ajoutez la date formatée à FormData
-        formData.append('dateEntree', formattedDate);
-    } else {
-        console.error('La valeur de dateEntree est invalide ou nulle.');
-    }
+    formData.append('dateEntree', this.managerServiceForm.get('dateEntree')?.value || '');
     this.managerservice.createManagerService(formData).subscribe(
       (response) => {
         Swal.fire({
@@ -140,12 +155,12 @@ onSubmit() {
         });
       },
       (error) => {
-        Swal.fire({
-          title: 'Erreur !',
-          text: 'Erreur lors de la création du service manager : ' + error.message,
-          icon: 'error',
-          confirmButtonText: 'OK'
-        });
+        let errorMessage = 'Erreur lors de la création du service manager.';
+
+        if (error.error && error.error.message) {
+          errorMessage += ' ' + error.error.message;
+        }
+       
       }
     );
   }

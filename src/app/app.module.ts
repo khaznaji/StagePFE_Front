@@ -121,6 +121,7 @@ import { EntretienAnnuelCalendarComponent } from './Manager/Annuel/entretien-ann
 import { MesEntretienAnnuelManagerComponent } from './Manager/Annuel/mes-entretien-annuel-manager/mes-entretien-annuel-manager.component';
 import { MesEntretiensAnnuelCollabComponent } from './Collaborateur/Annuel/mes-entretiens-annuel-collab/mes-entretiens-annuel-collab.component';
 import { ChatComponent } from './User/chat/chat.component';
+import { DashboardManagerRhComponent } from './Admin/dashboard-manager-rh/dashboard-manager-rh.component';
 
 @NgModule({
   declarations: [
@@ -148,7 +149,7 @@ import { ChatComponent } from './User/chat/chat.component';
         FormateurMenuComponent, CreateFormationComponent, AllFormationsComponent,
          GetByIdFormationComponent, UpdateFormationComponent, ListeDesFormationsComponent, 
          FormationDetailComponent, DemandeDesCollabsComponent, MesDemandesComponent, 
-         ListFormationComponent, DemandeFormationsComponent, CreateSessionComponent , CreateGroupsComponent, DetailsGroupComponent, BilanComponent , MesBilanComponent, UpdateBilanComponent, DetailsGroupsOfFormateurComponent, SessionsFormationsCollabComponent, MesSessionsFormateurComponent, MeetFormationsComponent, GetBilanByIdCollabComponent, ListBilanDesCollabComponent, GetBilanByIdComponent, PopUpEvaluateBilanComponent, EntretienAnnuelCalendarComponent, MesEntretienAnnuelManagerComponent, MesEntretiensAnnuelCollabComponent, ChatComponent, 
+         ListFormationComponent, DemandeFormationsComponent, CreateSessionComponent , CreateGroupsComponent, DetailsGroupComponent, BilanComponent , MesBilanComponent, UpdateBilanComponent, DetailsGroupsOfFormateurComponent, SessionsFormationsCollabComponent, MesSessionsFormateurComponent, MeetFormationsComponent, GetBilanByIdCollabComponent, ListBilanDesCollabComponent, GetBilanByIdComponent, PopUpEvaluateBilanComponent, EntretienAnnuelCalendarComponent, MesEntretienAnnuelManagerComponent, MesEntretiensAnnuelCollabComponent, ChatComponent, DashboardManagerRhComponent, 
           
 
   ],

@@ -50,13 +50,10 @@ export class SigninComponent {
         this.userAuthService.setTokenSession(response.accessToken);
         this.userAuthService.setSessionId(response.id);
         this.userAuthService.setId(response.id);
-       
-  
 
         const role = response.roles[0];
-
         if (role === 'ManagerRh') {
-          this.router.navigate(['/managerRh']);
+          this.router.navigate(['/managerRh/dashboard']);
         } else if (role === 'ManagerService') {
           this.router.navigate(['/managerService']);
         } else if (role === 'Formateur') {
@@ -65,21 +62,27 @@ export class SigninComponent {
           this.router.navigate(['/collaborateur']);
         }
       },
+      
       (error) => {
         console.log(error);
         if (error.status === 400) {
        const errorResponse = error.error;
          
-          if (errorResponse.message === "Error: Invalid credentials!" )
-           {
-            this.passwordError = 'Email ou mot de passe invalides.';
-          }
-          if (errorResponse.message === 'Error: User Inactive!') {
-            this.accountInactiveError = 'Votre compte n\'est pas actif.';
-          }
+       if (errorResponse.message === "Error: Mot de passe invalide!") {
+        this.passwordError = 'Mot de passe invalide.';
+      } 
+       if (errorResponse.message === 'Error: Compte inactif!') {
+        this.accountInactiveError = 'Votre compte n\'est pas actif.';
+      } 
+       if (errorResponse.message === 'Error: Email not found!') {
+        this.passwordError = 'Cet email n\'existe pas.';
+      } 
         }
         this.isLoading = false;
       }
     );
+  }
+  isSopraHrEmail(email: string): boolean {
+    return email.endsWith('@soprahr.com') || email.endsWith('@gmail.com');
   }
 }

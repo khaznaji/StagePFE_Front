@@ -1,0 +1,27 @@
+  /* Style pour les champs de saisie invalides */
+  .disabled-cursor {
+    cursor: not-allowed; /* Utiliser le curseur "not allowed" lorsque le bouton est désactivé */
+  }
+  .dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown-menu {
+display: none;
+position: absolute;
+z-index: 1000;
+}
+
+.dropdown:hover .dropdown-menu {
+display: block;
+}
+
+  .custom-error-message {
+      color: red; /* Couleur du texte en rouge */
+      font-size: 0.8rem; /* Taille de la police */
+      margin-top: 0.25rem; /* Marge en haut pour séparer le message d'erreur du champ de saisie */
+  }
+  
+      
+      

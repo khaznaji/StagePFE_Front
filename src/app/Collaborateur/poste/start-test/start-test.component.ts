@@ -1,5 +1,5 @@
 import { LocationStrategy } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PosteService } from 'src/app/service/poste.service';
 import { QuestionService } from 'src/app/service/question.service';
@@ -41,6 +41,14 @@ console.log(this.qid)
     this.preventBackButton();
     this.loadQuestions();
   }
+  // @HostListener('window:beforeunload', ['$event'])
+  // onWindowClose(event: any): void {
+  //   this.submitQuiz();
+  // }
+
+  // ngOnDestroy(): void {
+  //   this.submitQuiz();
+  // }
   
   nextQuestion() {
     if (this.currentQuestionIndex < this.questions.length - 1) {

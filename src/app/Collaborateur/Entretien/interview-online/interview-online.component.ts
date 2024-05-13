@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserAuthService } from 'src/app/service/user-auth.service';
@@ -26,8 +27,10 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
     private router: Router,
     private sr: UserService,
     private Auth: UserAuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private http: HttpClient
   ) {}
+ 
 
   handleClose = () => {
     console.log('handleClose');
@@ -39,9 +42,9 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
 
     this.sr.getUserById2(id, headers).subscribe((res) => {
       this.data = res;
-      console.log( "data " , this.data);
+      console.log('data ', this.data);
       this.username = this.data.nom + ' ' + this.data.prenom;
-      console.log("username " ,this.username);
+      console.log('username ', this.username);
 
       // Initialize JitsiMeetExternalAPI with the updated username and room ID
     });
@@ -61,33 +64,44 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
     console.log('handleVideoConferenceJoined', participant); // { roomName: "bwb-bfqi-vmh", id: "8c35a951", displayName: "Akash Verma", formattedDisplayName: "Akash Verma (me)"}
     const data = await this.getParticipants();
   };
+ 
 
   handleVideoConferenceLeft = () => {
     console.log('handleVideoConferenceLeft');
-  
+
     const roomId = this.route.snapshot.params['roomId'];
     const candidatureId = this.route.snapshot.params['candidatureId'];
-  
+
     // Vérifiez si l'URL actuelle contient "/collaborateur/interview"
-    if (this.router.url.includes(`/collaborateur/interview/${roomId}/${candidatureId}`)) {
+    if (
+      this.router.url.includes(
+        `/collaborateur/interview/${roomId}/${candidatureId}`
+      )
+    ) {
       this.router.navigate(['/collaborateur/thank-you']);
-    } else if (this.router.url.includes(`/managerService/interview/${roomId}/${candidatureId}`)) {
+    } else if (
+      this.router.url.includes(
+        `/managerService/interview/${roomId}/${candidatureId}`
+      )
+    ) {
       // Si l'URL contient "/managerService/interview", redirigez vers "/managerService/evaluate-interview/:candidatureId"
       this.router.navigate([
         '/managerService/evaluate-interview',
         candidatureId,
       ]);
-    } else if (this.router.url.includes(`/managerRh/interview/${roomId}/${candidatureId}`)) {
+    } else if (
+      this.router.url.includes(
+        `/managerRh/interview/${roomId}/${candidatureId}`
+      )
+    ) {
       // Si l'URL contient "/managerRh/interview", redirigez vers "/managerRh/evaluate-interview-Rh"
-      this.router.navigate([
-        '/managerRh/evaluate-interview-Rh',
-        candidatureId,
-      ]);
+      this.router.navigate(['/managerRh/evaluate-interview-Rh', candidatureId]);
     } else {
-      console.error("Impossible de déterminer la redirection à partir de l'URL actuelle.");
+      console.error(
+        "Impossible de déterminer la redirection à partir de l'URL actuelle."
+      );
     }
   };
-  
 
   handleMuteStatus = (audio: any) => {
     console.log('handleMuteStatus', audio); // { muted: true }

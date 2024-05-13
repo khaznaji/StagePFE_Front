@@ -1,0 +1,27 @@
+h3 {
+    font-family: 'Roboto', sans-serif; /* Police moderne et élégante */
+    font-size: 24px; /* Taille de police ajustée */
+    color: #333; /* Couleur de texte en gris foncé */
+    text-align: center; /* Centrer le titre */
+    margin-top: 20px; /* Espacement au-dessus du titre */
+    margin-bottom: 20px; /* Espacement en dessous du titre */
+    text-decoration: none; /* Suppression du soulignement */
+    font-weight: bold; /* Mise en gras pour plus de contraste */
+    transition: color 0.3s ease; /* Animation douce pour le changement de couleur */
+}
+
+h3:hover {
+    color: #666; /* Changement de couleur lors du survol pour un effet interactif */
+}
+
+.iframe-container {
+    border: none; /* Supprime la bordure par défaut */
+    margin: 20px auto; /* Ajoute une marge pour centrer et distancer l'iframe */
+    max-width: 1140px; /* Limite la largeur maximale de l'iframe */
+}
+iframe {
+    width: 100%; /* Fait que l'iframe prenne toute la largeur de son conteneur */
+    height: 541.25px; /* Hauteur fixe */
+    border: none; /* Supprime la bordure */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Ajoute une légère ombre pour un effet 3D */
+}

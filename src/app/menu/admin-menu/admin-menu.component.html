@@ -24,94 +24,9 @@
             <i class="mdi mdi-message-text mx-0"></i>
             <span class="count"></span>
           </a>
-          <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="messageDropdown">
-            <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
-            <a class="dropdown-item">
-              <div class="item-thumbnail">
-                  <img src="images/faces/face4.jpg" alt="image" class="profile-pic">
-              </div>
-              <div class="item-content flex-grow">
-                <h6 class="ellipsis font-weight-normal">David Grey
-                </h6>
-                <p class="font-weight-light small-text text-muted mb-0">
-                  The meeting is cancelled
-                </p>
-              </div>
-            </a>
-            <a class="dropdown-item">
-              <div class="item-thumbnail">
-                  <img src="images/faces/face2.jpg" alt="image" class="profile-pic">
-              </div>
-              <div class="item-content flex-grow">
-                <h6 class="ellipsis font-weight-normal">Tim Cook
-                </h6>
-                <p class="font-weight-light small-text text-muted mb-0">
-                  New product launch
-                </p>
-              </div>
-            </a>
-            <a class="dropdown-item">
-              <div class="item-thumbnail">
-                  <img src="images/faces/face3.jpg" alt="image" class="profile-pic">
-              </div>
-              <div class="item-content flex-grow">
-                <h6 class="ellipsis font-weight-normal"> Johnson
-                </h6>
-                <p class="font-weight-light small-text text-muted mb-0">
-                  Upcoming board meeting
-                </p>
-              </div>
-            </a>
-          </div>
+          
         </li>
-        <li class="nav-item dropdown me-4">
-          <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
-            <i class="mdi mdi-bell mx-0"></i>
-            <span class="count"></span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="notificationDropdown">
-            <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-            <a class="dropdown-item">
-              <div class="item-thumbnail">
-                <div class="item-icon bg-success">
-                  <i class="mdi mdi-information mx-0"></i>
-                </div>
-              </div>
-              <div class="item-content">
-                <h6 class="font-weight-normal">Application Error</h6>
-                <p class="font-weight-light small-text mb-0 text-muted">
-                  Just now
-                </p>
-              </div>
-            </a>
-            <a class="dropdown-item">
-              <div class="item-thumbnail">
-                <div class="item-icon bg-warning">
-                  <i class="mdi mdi-settings mx-0"></i>
-                </div>
-              </div>
-              <div class="item-content">
-                <h6 class="font-weight-normal">Settings</h6>
-                <p class="font-weight-light small-text mb-0 text-muted">
-                  Private message
-                </p>
-              </div>
-            </a>
-            <a class="dropdown-item">
-              <div class="item-thumbnail">
-                <div class="item-icon bg-info">
-                  <i class="mdi mdi-account-box mx-0"></i>
-                </div>
-              </div>
-              <div class="item-content">
-                <h6 class="font-weight-normal">New user registration</h6>
-                <p class="font-weight-light small-text mb-0 text-muted">
-                  2 days ago
-                </p>
-              </div>
-            </a>
-          </div>
-        </li>
+       
 
         <li class="nav-item nav-profile dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
@@ -140,13 +55,13 @@
     <!-- partial:partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <ul class="nav">
-        <li class="nav-item">
+        <li class="nav-item"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <a class="nav-link" [routerLink]="['/managerRh/dashboard']">
             <i class="mdi mdi-home menu-icon"></i>
             <span class="menu-title">Dashboard</span>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >
           <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
             <i class="mdi mdi-account menu-icon"></i>
             <span class="menu-title">Personnels</span>
@@ -154,21 +69,21 @@
           </a>
           <div class="collapse" id="auth">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" [routerLink]="['/managerRh/all-manager-service']" > Manager Service </a></li>
-              <li class="nav-item"> <a class="nav-link"  [routerLink]="['/managerRh/all-collaborateur']"> Collaborateur </a></li>
-              <li class="nav-item"> <a class="nav-link"  [routerLink]="['/managerRh/all-formateurs']"> Formateur </a></li>
+              <li class="nav-item"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> <a class="nav-link" [routerLink]="['/managerRh/all-manager-service']" > Manager Service </a></li>
+              <li class="nav-item"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> <a class="nav-link"  [routerLink]="['/managerRh/all-collaborateur']"> Collaborateur </a></li>
+              <li class="nav-item"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> <a class="nav-link"  [routerLink]="['/managerRh/all-formateurs']"> Formateur </a></li>
 
            </ul>
           </div>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/managerRh/competence']">
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <a class="nav-link" [routerLink]="['/managerRh/competence']" >
             <i class="mdi mdi-book-open-page-variant menu-icon"></i>
             <span class="menu-title">Competences</span>
           </a>
         </li>
      
-        <li class="nav-item">
+        <li class="nav-item"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="auth">
             <i class="mdi mdi mdi-briefcase menu-icon"></i>
             <span class="menu-title">Fiches de poste</span>
@@ -177,68 +92,31 @@
           </a>
           <div class="collapse" id="ui-basic">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" [routerLink]="['/managerRh/demande-poste']" > Nouvelles Demandes</a></li>
-              <li class="nav-item"> <a class="nav-link"  [routerLink]="['/managerRh/poste-candidats']"> Candidatures</a></li>
+              <li class="nav-item"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> <a class="nav-link" [routerLink]="['/managerRh/demande-poste']" > Nouvelles Demandes</a></li>
+              <li class="nav-item"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> <a class="nav-link"  [routerLink]="['/managerRh/poste-candidats']"> Candidatures</a></li>
            </ul>
           </div>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <a class="nav-link" [routerLink]="['/managerRh/mes-entretiens-Rh']">
             <i class="mdi mdi-camcorder menu-icon"></i>
             <span class="menu-title">Mes Entretiens </span>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <a class="nav-link" [routerLink]="['/managerRh/all-formations']">
             <i class="mdi mdi-file-document-box-outline menu-icon"></i>
             <span class="menu-title">Formations</span>
           </a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-            <i class="mdi mdi-circle-outline menu-icon"></i>
-            <span class="menu-title">UI Elements</span>
-            <i class="menu-arrow"></i>
-          </a>
-          <div class="collapse" id="ui-basic">
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-              <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
-            </ul>
-          </div>
-        </li> -->
+     
        
-        <li class="nav-item">
-          <a class="nav-link" href="pages/charts/chartjs.html">
-            <i class="mdi mdi-chart-pie menu-icon"></i>
-            <span class="menu-title">Charts</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pages/tables/basic-table.html">
-            <i class="mdi mdi-grid-large menu-icon"></i>
-            <span class="menu-title">Tables</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pages/icons/mdi.html">
-            <i class="mdi mdi-emoticon menu-icon"></i>
-            <span class="menu-title">Icons</span>
-          </a>
-        </li>
-       
-        <li class="nav-item">
-          <a class="nav-link" href="documentation/documentation.html">
-            <i class="mdi mdi-file-document-box-outline menu-icon"></i>
-            <span class="menu-title">Documentation</span>
-          </a>
-        </li>
       </ul>
     </nav>
     <!-- partial -->
     <div class="main-panel">
       <div class="content-wrapper">
-        
+     
        
         
         <router-outlet></router-outlet>
@@ -247,11 +125,18 @@
       <!-- content-wrapper ends -->
       <!-- partial:partials/_footer.html -->
       <footer class="footer">
-      <div class="d-sm-flex justify-content-center justify-content-sm-between">
-        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a href="https://www.bootstrapdash.com/" target="_blank">bootstrapdash.com </a>2021</span>
-        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Only the best <a href="https://www.bootstrapdash.com/" target="_blank"> Bootstrap dashboard  </a> templates</span>
-      </div>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-6 text-center text-lg-start">
+              <span class="text-muted">© 2024 4YOU Sopra HR. Tous droits réservés.</span>
+            </div>
+            <div class="col-lg-6 text-center text-lg-end">
+              <span class="text-muted">Conçu avec <i class="mdi mdi-heart text-danger"></i> par votre équipe Sopra HR</span>
+            </div>
+          </div>
+        </div>
       </footer>
+      
       <!-- partial -->
     </div>
     <!-- main-panel ends -->

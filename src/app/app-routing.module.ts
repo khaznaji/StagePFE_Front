@@ -77,14 +77,17 @@ import { GetBilanByIdComponent } from './Manager/Annuel/get-bilan-by-id/get-bila
 import { EntretienAnnuelCalendarComponent } from './Manager/Annuel/entretien-annuel-calendar/entretien-annuel-calendar.component';
 import { MesEntretienAnnuelManagerComponent } from './Manager/Annuel/mes-entretien-annuel-manager/mes-entretien-annuel-manager.component';
 import { ChatComponent } from './User/chat/chat.component';
+import { DashboardManagerRhComponent } from './Admin/dashboard-manager-rh/dashboard-manager-rh.component';
 
 const routes: Routes = [
   {
     path: '',
     component: MenuloginComponent,
     children: [
-      { path: 'signup', component: SignupComponent },
+      { path: '', redirectTo: 'signin', pathMatch: 'full' }, // Redirection vers le sign in par défaut
       { path: 'signin', component: SigninComponent },
+      { path: 'signup', component: SignupComponent },
+
       { path: 'request-password', component: RequestPasswordComponent },
       { path: 'reset-password', component: ResetPasswordComponent },
       { path: 'activate-account', component: ActivationCompteComponent },
@@ -94,6 +97,9 @@ const routes: Routes = [
     path: 'managerRh',
     component: AdminMenuComponent,
     children: [
+
+      { path: 'dashboard', component: DashboardManagerRhComponent },
+
       { path: 'all-manager-service', component: AllUsersComponent },
       { path: 'all-formateurs', component: AllFormateurComponent },
       { path: 'edit-profile', component: EditProfileComponent },
@@ -126,6 +132,8 @@ const routes: Routes = [
         component: ListFormationComponent,
       },
       { path: 'formation-byId/:id', component: DemandeFormationsComponent },
+      { path: 'chat/:user', component: ChatComponent },
+
     ],
   },
 
@@ -156,6 +164,8 @@ const routes: Routes = [
       { path: 'bilan/:id', component: GetBilanByIdCollabComponent },
 
       { path: 'updateBilan/:id', component: UpdateBilanComponent },
+      { path: 'chat/:user', component: ChatComponent },
+
     ],
   },
 
@@ -194,9 +204,11 @@ const routes: Routes = [
       { path: 'bilan-by-id/:id/:idCollab', component: GetBilanByIdComponent },
       { path: 'entretien-annuel', component: EntretienAnnuelCalendarComponent },
 
-      { path: 'mes-entretien-annuel', component: MesEntretienAnnuelManagerComponent },
-      {    path: 'chat/:user', component: ChatComponent    }
-
+      {
+        path: 'mes-entretien-annuel',
+        component: MesEntretienAnnuelManagerComponent,
+      },
+      { path: 'chat/:user', component: ChatComponent },
     ],
   },
   {
@@ -211,6 +223,8 @@ const routes: Routes = [
         path: 'interview/:roomId/:candidatureId',
         component: MeetFormationsComponent,
       },
+      { path: 'chat/:user', component: ChatComponent },
+
     ],
   },
 ];
