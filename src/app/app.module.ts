@@ -122,6 +122,7 @@ import { MesEntretienAnnuelManagerComponent } from './Manager/Annuel/mes-entreti
 import { MesEntretiensAnnuelCollabComponent } from './Collaborateur/Annuel/mes-entretiens-annuel-collab/mes-entretiens-annuel-collab.component';
 import { ChatComponent } from './User/chat/chat.component';
 import { DashboardManagerRhComponent } from './Admin/dashboard-manager-rh/dashboard-manager-rh.component';
+import { AudioRecorderComponent } from './Collaborateur/audio-recorder/audio-recorder.component';
 
 @NgModule({
   declarations: [
@@ -149,7 +150,7 @@ import { DashboardManagerRhComponent } from './Admin/dashboard-manager-rh/dashbo
         FormateurMenuComponent, CreateFormationComponent, AllFormationsComponent,
          GetByIdFormationComponent, UpdateFormationComponent, ListeDesFormationsComponent, 
          FormationDetailComponent, DemandeDesCollabsComponent, MesDemandesComponent, 
-         ListFormationComponent, DemandeFormationsComponent, CreateSessionComponent , CreateGroupsComponent, DetailsGroupComponent, BilanComponent , MesBilanComponent, UpdateBilanComponent, DetailsGroupsOfFormateurComponent, SessionsFormationsCollabComponent, MesSessionsFormateurComponent, MeetFormationsComponent, GetBilanByIdCollabComponent, ListBilanDesCollabComponent, GetBilanByIdComponent, PopUpEvaluateBilanComponent, EntretienAnnuelCalendarComponent, MesEntretienAnnuelManagerComponent, MesEntretiensAnnuelCollabComponent, ChatComponent, DashboardManagerRhComponent, 
+         ListFormationComponent, DemandeFormationsComponent, CreateSessionComponent , CreateGroupsComponent, DetailsGroupComponent, BilanComponent , MesBilanComponent, UpdateBilanComponent, DetailsGroupsOfFormateurComponent, SessionsFormationsCollabComponent, MesSessionsFormateurComponent, MeetFormationsComponent, GetBilanByIdCollabComponent, ListBilanDesCollabComponent, GetBilanByIdComponent, PopUpEvaluateBilanComponent, EntretienAnnuelCalendarComponent, MesEntretienAnnuelManagerComponent, MesEntretiensAnnuelCollabComponent, ChatComponent, DashboardManagerRhComponent, AudioRecorderComponent, 
           
 
   ],

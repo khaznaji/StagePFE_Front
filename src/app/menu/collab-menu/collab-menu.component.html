@@ -54,49 +54,23 @@
             <p class="mb-0 font-weight-normal float-left dropdown-header">
               Messages
             </p>
-            <a class="dropdown-item">
+
+            <a
+              class="dropdown-item"
+              (click)="redirectionChat(user.id)"
+              *ngFor="let user of listUsers"
+            >
               <div class="item-thumbnail">
                 <img
-                  src="images/faces/face4.jpg"
+                  [src]="'assets/images/' + user.image"
                   alt="image"
                   class="profile-pic"
                 />
               </div>
               <div class="item-content flex-grow">
-                <h6 class="ellipsis font-weight-normal">David Grey</h6>
-                <p class="font-weight-light small-text text-muted mb-0">
-                  The meeting is cancelled
-                </p>
-              </div>
-            </a>
-            <a class="dropdown-item">
-              <div class="item-thumbnail">
-                <img
-                  src="images/faces/face2.jpg"
-                  alt="image"
-                  class="profile-pic"
-                />
-              </div>
-              <div class="item-content flex-grow">
-                <h6 class="ellipsis font-weight-normal">Tim Cook</h6>
-                <p class="font-weight-light small-text text-muted mb-0">
-                  New product launch
-                </p>
-              </div>
-            </a>
-            <a class="dropdown-item">
-              <div class="item-thumbnail">
-                <img
-                  src="images/faces/face3.jpg"
-                  alt="image"
-                  class="profile-pic"
-                />
-              </div>
-              <div class="item-content flex-grow">
-                <h6 class="ellipsis font-weight-normal">Johnson</h6>
-                <p class="font-weight-light small-text text-muted mb-0">
-                  Upcoming board meeting
-                </p>
+                <h6 class="ellipsis font-weight-normal">
+                  {{ user.nom }} {{ user.prenom }}
+                </h6>
               </div>
             </a>
           </div>
@@ -216,19 +190,38 @@
             <span class="menu-title">Postes</span>
           </a>
         </li>
-      
+
         <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+          <a
+            class="nav-link"
+            data-bs-toggle="collapse"
+            href="#auth"
+            aria-expanded="false"
+            aria-controls="auth"
+          >
             <i class="mdi mdi-file-document-box-outline menu-icon"></i>
             <span class="menu-title">Formations</span>
             <i class="menu-arrow"></i>
           </a>
           <div class="collapse" id="auth">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" [routerLink]="['/collaborateur/all-formations']" > Catalogue </a></li>
-              <li class="nav-item"> <a class="nav-link"  [routerLink]="['/collaborateur/mes-demandes-formation']"> Mes Demandes  </a></li>
-
-           </ul>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  [routerLink]="['/collaborateur/all-formations']"
+                >
+                  Catalogue
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  [routerLink]="['/collaborateur/mes-demandes-formation']"
+                >
+                  Mes Demandes
+                </a>
+              </li>
+            </ul>
           </div>
         </li>
         <li class="nav-item">
@@ -251,23 +244,42 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#hey" aria-expanded="false" aria-controls="hey">
+          <a
+            class="nav-link"
+            data-bs-toggle="collapse"
+            href="#hey"
+            aria-expanded="false"
+            aria-controls="hey"
+          >
             <i class="mdi mdi-camcorder menu-icon"></i>
             <span class="menu-title">Mes Entretiens</span>
             <i class="menu-arrow"></i>
           </a>
           <div class="collapse" id="hey">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" [routerLink]="['/collaborateur/mes-entretiens']" > Technique </a></li>
-              <li class="nav-item"> <a class="nav-link"  [routerLink]="['/collaborateur/mes-entretiens-Rh']"> Rh  </a></li>
-
-           </ul>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  [routerLink]="['/collaborateur/mes-entretiens']"
+                >
+                  Technique
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  [routerLink]="['/collaborateur/mes-entretiens-Rh']"
+                >
+                  Rh
+                </a>
+              </li>
+            </ul>
           </div>
         </li>
-       
+
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/collaborateur/mes-sessions']">
-            <i class="mdi mdi mdi-airplay  menu-icon"></i>
+            <i class="mdi mdi mdi-airplay menu-icon"></i>
             <span class="menu-title">Mes Sessions </span>
           </a>
         </li>
@@ -277,10 +289,6 @@
             <span class="menu-title">Mes Bilans Annuel </span>
           </a>
         </li>
-       
-       
-
-       
       </ul>
     </nav>
     <!-- partial -->
@@ -288,6 +296,7 @@
       <div class="content-wrapper">
         <router-outlet></router-outlet>
       </div>
+      
       <!-- content-wrapper ends -->
       <!-- partial:partials/_footer.html -->
       <footer class="footer">

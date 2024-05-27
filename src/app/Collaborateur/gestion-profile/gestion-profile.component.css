@@ -94,6 +94,11 @@ body{
 .add-competence-btn {
     margin-left: auto; /* Pousse le bouton vers la droite */
 }
+.verified-icon {
+    width: 20px; /* Ajustez la taille selon vos besoins */
+    height: auto; /* Pour conserver le rapport hauteur/largeur */
+}
+
 .popup {
     position: fixed;
     top: 50%;

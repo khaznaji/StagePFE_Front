@@ -18,11 +18,22 @@
               </div>
             </div>
             <div class="col-md-6">
+              <!-- Description input -->
               <div class="form-group">
-                <label for="nombrePostesDisponibles">Nombre Postes Disponibles:</label>
-                <input type="number" class="form-control" id="nombrePostesDisponibles" name="nombrePostesDisponibles" [(ngModel)]="nombrePostesDisponibles" required>
+                <label for="typeContrat">Type de Contrat</label>
+                <select class="form-control" id="typeContrat"  name="typeContrat" [(ngModel)]="typeContrat" required
+                >
+                        <option value="" disabled selected>-- Sélectionnez un type de contrat --</option>
+                          <option value="Professionnalisation">Professionnalisation</option>   
+                          <option value="TempsPartiel">TempsPartiel</option>
+                          <option value="ConsultantIndependant">Consultant Independant</option>  
+                        <option value="CDI">CDI</option>
+                        <option value="CDD">CDD</option> 
+                        <option value="Temporaire">Temporaire</option> 
+  
+                               </select>
+              
               </div>
-           
             </div>
           </div>
           <div class="row">

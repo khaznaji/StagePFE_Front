@@ -288,7 +288,7 @@
           <th>Ref</th>
            <th>Poste</th>
            <th>Competences</th>
-           <th>Nombre de <br> postes ouverts </th>
+           <th>Type de <br> Contrat </th>
            <th>Action</th> 
          </tr>
        </thead>
@@ -308,7 +308,7 @@
                 <a *ngIf="poste.competences.length > 3 && showAllCompetences" (click)="toggleCompetences()" class="view-less-link">Voir moins</a>
              </div>
             </td>
-            <td class="poste-titre">{{ poste.nombrePostesDisponibles }}</td>
+            <td class="poste-titre">{{ poste.typeContrat }}</td>
 <td>        
    <button (click)="ToPostId(poste.id)" type="button" class="btn btn-inverse-info btn-icon">
       <i class="mdi mdi mdi-eye      "></i>

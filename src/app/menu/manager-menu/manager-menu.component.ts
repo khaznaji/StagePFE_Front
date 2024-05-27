@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./manager-menu.component.css']
 })
 export class ManagerMenuComponent {
-  constructor(private userService: UserService  ,private router: Router,private http: HttpClient ,       private Auth: UserAuthService,
+  constructor(private userService: UserService  ,private router: Router  ,      private Auth: UserAuthService,
   ){ }
 data: any = [];
 username!:string;
@@ -21,10 +21,19 @@ matricule!:string;
 numtel!:number;
 genre!:number;
 
+listUsers: any[] = [];
 
 image!:string;
 ngOnInit(): void {
   this.getUserByid(localStorage.getItem('id'));
+  this.userService.getAll().subscribe(
+    (response: any) => {
+      this.listUsers = response; // Assuming response is an array of user objects
+    },
+    (error: any) => {
+      console.error(error);
+    }
+  );
 }
 getUserByid(id: any) {
   const headers = { 'Authorization': 'Bearer ' + this.Auth.getToken() };
@@ -42,6 +51,12 @@ getUserByid(id: any) {
     console.log('User photo:', this.image);
   });
 }
+redirectionChat(id:any){
+  this.router.navigate(['/managerService/chat/'+id]);
+}
+
+
+
 logout() {
   Swal.fire({
     title: 'Êtes-vous sûr(e) ?',

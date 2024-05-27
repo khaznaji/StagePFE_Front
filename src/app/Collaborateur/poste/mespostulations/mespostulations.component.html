@@ -268,17 +268,8 @@
    </div>
  
  
-   
-   <!-- <div class="ml-2">
-     <select [(ngModel)]="filterOption" class="form-control" (change)="applyFilter()">
-       <option value="all">Tous</option>
-       <option value="NonTraite">NonTraite</option>
-       <option value="Archive">Archive</option>
-       <option value="Accepter">Accepter</option>
- 
-     </select>
-   </div> -->
-   <div  class="table-responsive" >
+
+   <div class="table-responsive" *ngIf="postulations && postulations.length > 0">
      
      <table class="table table-striped card-table">
        <thead>
@@ -318,7 +309,9 @@
        </tbody>
      </table>
    </div>
- 
+   <div *ngIf="!(postulations && postulations.length > 0)">
+    <p>Vous n'avez aucune candidature.</p>
+  </div>
    
  
              </div>
@@ -344,7 +337,7 @@
            </h6>
 
            <h6 style="font-weight: normal; color: rgb(56, 53, 53); font-style: italic;">
-             Nombre de poste ouverts : {{ selectedPoste?.nombrePostesDisponibles }}
+             Type de Contrat : {{ selectedPoste?.typeContrat }}
            </h6>
            <br>
            <div class="details-section">

@@ -11,13 +11,19 @@
                               </ul>
                           </div>
                           <div class="col-xl-4 col-md-4 d-flex justify-content-center" *ngIf="collaborateurInfo">
-                              <div class="image-default">
-                                  <img class="rounded-circle" [src]="'assets/images/' + collaborateurInfo.image" alt="Profile Image">
-                              </div>
-                              <div class="infos">
-                                  <h2>{{ collaborateurInfo.nom }} {{ collaborateurInfo.prenom }}</h2>
-                              </div>
-                          </div>
+                            <div class="image-default">
+                                <img class="rounded-circle" [src]="'assets/images/' + collaborateurInfo.image" alt="Profile Image">
+                            </div>
+                            <div class="infos d-flex align-items-center">
+                                <h2 class="mb-0 mr-2">{{ collaborateurInfo.nom }} {{ collaborateurInfo.prenom }}</h2>
+                                <img
+                                    *ngIf="collaborateurInfo.isVerified"
+                                    src="assets/images/verified.PNG"
+                                    alt="Verified Image"
+                                    class="verified-icon"
+                                />
+                            </div>
+                        </div>
                           <div class="col-xl-4 col-md-4 d-flex justify-content-lg-end justify-content-md-end justify-content-center">
                               <div class="follow d-flex align-items-center">
                                   <button type="button" class="btn btn-light bg-white btn-icon d-none d-md-block" (click)="exportToPdf()">

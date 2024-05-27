@@ -1,4 +1,4 @@
-<div *ngIf="tests">
+<div *ngIf="tests && tests.length > 0; else noTests">
   <div class="row">
     <div>
       <!-- Colonne pour les détails du test -->
@@ -41,3 +41,6 @@
     </div>
   </div>
 </div>
+<ng-template #noTests>
+  <p>Vous n'avez aucun test technique pour le moment.</p>
+</ng-template>

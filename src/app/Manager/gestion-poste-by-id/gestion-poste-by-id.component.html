@@ -169,6 +169,8 @@
                 <tr>
                   <th>Nom</th>
                   <th>Prénom</th>
+                  <th>Match Pourcentage</th>
+
                   <th>Email</th>
                 </tr>
               </thead>
@@ -176,6 +178,7 @@
                 <tr *ngFor="let candidat of filteredPostes">
                   <td>{{ candidat.nom }}</td>
                   <td>{{ candidat.prenom }}</td>
+                  <td>{{ candidat.match }} %</td>
                   <td>{{ candidat.email }}</td>
                   <td>
                     <button

@@ -1,0 +1,82 @@
+.dropdown-menu .user-list {
+    max-height: 150px; /* Adjust the height as needed */
+    overflow-y: auto;
+  }
+  /* admin-menu.component.css */
+/* admin-menu.component.css */
+
+.notification-item {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    position: relative;
+  }
+  
+  .notification-unseen {
+    background-color: white;
+  }
+  
+  .notification-seen {
+    background-color: #f3f3f3;
+  }
+  .input-group {
+    position: relative;
+  }
+  
+  .user-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .user-list .dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+  }
+  
+  .user-list .dropdown-item:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .item-thumbnail {
+    margin-right: 10px;
+  }
+  
+  .item-thumbnail img.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .item-content {
+    flex-grow: 1;
+  }
+  
+  .item-content h6 {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  .notification-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background-color: rgb(197, 25, 25);
+    color: white;
+    font-size: 8px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+  }
+  

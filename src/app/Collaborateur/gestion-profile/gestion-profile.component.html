@@ -1,142 +1,196 @@
 <div class="container db-social">
-    <div class="jumbotron jumbotron-fluid"></div>
-    <div class="container-fluid " id="profile-container" >
-        <div class="row justify-content-center">
-            <div class="col-xl-11">
-                <div class="widget head-profile has-shadow">
-                    <div class="widget-body pb-0">
-                        <div class="row d-flex align-items-center">
-                            <div class="col-xl-4 col-md-4 d-flex justify-content-lg-start justify-content-md-start justify-content-center">
-                                <ul>
-                                </ul>
-                            </div>
-                            <div class="col-xl-4 col-md-4 d-flex justify-content-center" *ngIf="collaborateurInfo">
-                                <div class="image-default">
-                                    <img class="rounded-circle" [src]="'assets/images/' + collaborateurInfo.image" alt="Profile Image">
-                                </div>
-                                <div class="infos">
-                                    <h2>{{ collaborateurInfo.nom }} {{ collaborateurInfo.prenom }}</h2>
-                                </div>
-                            </div>
-                            <div class="col-xl-4 col-md-4 d-flex justify-content-lg-end justify-content-md-end justify-content-center">
-                                <div class="follow d-flex align-items-center">
-                                    <button type="button" class="btn btn-light bg-white btn-icon d-none d-md-block" (click)="exportToPdf()">
-                                        <i class="mdi mdi-download text-muted"></i>
-                                        Exporter Pdf
-                                    </button>
-                                
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
+  <div class="jumbotron jumbotron-fluid"></div>
+  <div class="container-fluid" id="profile-container">
+    <div class="row justify-content-center">
+      <div class="col-xl-11">
+        <div class="widget head-profile has-shadow">
+          <div class="widget-body pb-0">
+            <div class="row d-flex align-items-center">
+              <div
+                class="col-xl-4 col-md-4 d-flex justify-content-lg-start justify-content-md-start justify-content-center"
+              >
+                <ul></ul>
+              </div>
+              <div
+                class="col-xl-4 col-md-4 d-flex justify-content-center"
+                *ngIf="collaborateurInfo"
+              >
+                <div class="image-default">
+                  <img
+                    class="rounded-circle"
+                    [src]="'assets/images/' + collaborateurInfo.image"
+                    alt="Profile Image"
+                  />
                 </div>
+                <div class="infos d-flex align-items-center">
+                    <h2 class="mb-0 mr-2">{{ collaborateurInfo.nom }} {{ collaborateurInfo.prenom }}</h2>
+                    <img
+                        *ngIf="collaborateurInfo.isVerified"
+                        src="assets/images/verified.PNG"
+                        alt="Verified Image"
+                        class="verified-icon"
+                    />
+                </div>
+                
+              </div>
+              <div
+                class="col-xl-4 col-md-4 d-flex justify-content-lg-end justify-content-md-end justify-content-center"
+              >
+                <div class="follow d-flex align-items-center">
+                  <button
+                    type="button"
+                    class="btn btn-light bg-white btn-icon d-none d-md-block"
+                    (click)="exportToPdf()"
+                  >
+                    <i class="mdi mdi-download text-muted"></i>
+                    Exporter Pdf
+                  </button>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-        <div class="row justify-content-center">
-            <!-- Biographie -->
-            <div class="col-xl-7">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title">Biographie</h5>           
-                                          <button class="btn btn-primary add-competence-btn" (click)="openModalBio()">Gerer Ma Bio</button>
-                    </div>
-                         
-                    <p class="card-text" id="bioText">{{ collaborateurInfo.bio && collaborateurInfo.bio.length > 0 ? collaborateurInfo.bio : 'Laissez-vous connaître !' }}</p>
-                       
-                    </div>
-                </div>
-            </div>
-            
-            
-            <!-- A propos -->
-            <div class="col-xl-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">A propos</h5>
-                        <p class="card-text">
-                            <ul class="custom-list">
-                                <li><strong>Poste :</strong> {{ collaborateurInfo.poste }}</li>
-                                <li><strong>Département :</strong> {{ collaborateurInfo.departement }}</li>
-                                <li><strong>Manager Service :</strong> {{ collaborateurInfo.managerName }} {{ collaborateurInfo.managerPrenom }}</li>
-                                <li><strong>Date d'entrée :</strong> {{ collaborateurInfo.dateEntree }}</li>
-                            </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
-        
-        
-        
-               
-
-        
-        <div class="row justify-content-center">
-            <!-- Compétences -->
-            <div class="col-xl-7">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title">Compétences</h5>           
-                                          <button class="btn btn-primary add-competence-btn" (click)="openModal()">Gerer mes competences</button>
-                    </div>
-                        <div class="competences-container">
-                            <div class="pill-container">
-                                <div class="pill" *ngFor="let evaluation of evaluationet" [ngStyle]="{'background-color': getEvaluationColor(evaluation.evaluation)}">
-                                    <span class="pill-content">
-                                        {{ evaluation.competenceName }} 
-                                        <span class="evaluation-number">{{ evaluation.evaluation }}</span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          
-            <!-- Radar Chart -->
-            <div class="col-xl-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Graphique En Radar</h5>
-                        <canvas #radarChart></canvas>
-                    </div>
-                </div>
-            </div>
-           
-        </div>
-        <br>
-        <div>
-            <!-- Curriculum Vitae -->
-            <div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title">Curriculum Vitae</h5>
-                            <div class="pdf-actions">
-                                <a  *ngIf="collaborateurInfo.resume"class="mdi mdi-fullscreen" (click)="openPdfFullScreen()"></a>
-                                <a *ngIf="collaborateurInfo.resume" (click)="downloadResume()" class="mdi mdi-download"></a>
-                            </div>
-                        </div>
-                        <div class="pdf-container">
-                            <div class="pdf-wrapper" *ngIf="collaborateurInfo.resume">
-                                <iframe [src]="getSafeUrl(collaborateurInfo.resume)" frameborder="0"></iframe>
-                            </div>
-                            <!-- Conteneur pour le glisser-déposer -->
-                            <div class="dropzone" *ngIf="!collaborateurInfo.resume">
-                                
-                                <input type="file" (change)="onFileSelected($event)">
-                                <button (click)="updateProfile()">Sauvegarder</button>
-                                   
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
+      </div>
     </div>
+    <div class="row justify-content-center">
+      <!-- Biographie -->
+      <div class="col-xl-7">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title">Biographie</h5>
+              <button
+                class="btn btn-primary add-competence-btn"
+                (click)="openModalBio()"
+              >
+                Gerer Ma Bio
+              </button>
+            </div>
+
+            <p class="card-text" id="bioText">
+              {{
+                collaborateurInfo.bio && collaborateurInfo.bio.length > 0
+                  ? collaborateurInfo.bio
+                  : "Laissez-vous connaître !"
+              }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- A propos -->
+      <div class="col-xl-5">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">A propos</h5>
+            <p class="card-text"></p>
+            <ul class="custom-list">
+              <li><strong>Poste :</strong> {{ collaborateurInfo.poste }}</li>
+              <li>
+                <strong>Département :</strong>
+                {{ collaborateurInfo.departement }}
+              </li>
+              <li>
+                <strong>Manager Service :</strong>
+                {{ collaborateurInfo.managerName }}
+                {{ collaborateurInfo.managerPrenom }}
+              </li>
+              <li>
+                <strong>Date d'entrée :</strong>
+                {{ collaborateurInfo.dateEntree }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+
+    <div class="row justify-content-center">
+      <!-- Compétences -->
+      <div class="col-xl-7">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title">Compétences</h5>
+              <button
+                class="btn btn-primary add-competence-btn"
+                (click)="openModal()"
+              >
+                Gerer mes competences
+              </button>
+            </div>
+            <div class="competences-container">
+              <div class="pill-container">
+                <div
+                  class="pill"
+                  *ngFor="let evaluation of evaluationet"
+                  [ngStyle]="{
+                    'background-color': getEvaluationColor(
+                      evaluation.evaluation
+                    )
+                  }"
+                >
+                  <span class="pill-content">
+                    {{ evaluation.competenceName }}
+                    <span class="evaluation-number">{{
+                      evaluation.evaluation
+                    }}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Radar Chart -->
+      <div class="col-xl-5">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Graphique En Radar</h5>
+            <canvas #radarChart></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div>
+      <!-- Curriculum Vitae -->
+      <div>
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title">Curriculum Vitae</h5>
+              <div class="pdf-actions">
+                <a
+                  *ngIf="collaborateurInfo.resume"
+                  class="mdi mdi-fullscreen"
+                  (click)="openPdfFullScreen()"
+                ></a>
+                <a
+                  *ngIf="collaborateurInfo.resume"
+                  (click)="downloadResume()"
+                  class="mdi mdi-download"
+                ></a>
+              </div>
+            </div>
+            <div class="pdf-container">
+              <div class="pdf-wrapper" *ngIf="collaborateurInfo.resume">
+                <iframe
+                  [src]="getSafeUrl(collaborateurInfo.resume)"
+                  frameborder="0"
+                ></iframe>
+              </div>
+              <!-- Conteneur pour le glisser-déposer -->
+              <div class="dropzone" *ngIf="!collaborateurInfo.resume">
+                <input type="file" (change)="onFileSelected($event)" />
+                <button (click)="updateProfile()">Sauvegarder</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

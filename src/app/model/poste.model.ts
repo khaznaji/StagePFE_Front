@@ -2,6 +2,7 @@ import { Competence } from "./competence.model";
 import { Departement } from "./departement.model";
 import { EtatPoste } from "./etatposte.model";
 import { ManagerService } from "./managerservice.model";
+import { TypeContrat } from "./typeContrat.model";
 
 export class Poste{
     id!: number;
@@ -11,7 +12,7 @@ export class Poste{
     competences!: Competence[]; // Assurez-vous d'avoir une classe Competence correspondante
     departement!: Departement; // Assurez-vous d'avoir une classe Departement correspondante
     description!: string;
-    nombrePostesDisponibles!: number;
+    typeContrat!: TypeContrat;
     dateCreation!: Date;
     managerNom!: string;  // Declare managerNom and managerPrenom properties
     managerPrenom!: string;

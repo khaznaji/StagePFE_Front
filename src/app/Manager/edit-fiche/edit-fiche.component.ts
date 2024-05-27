@@ -8,6 +8,7 @@ import { UserAuthService } from 'src/app/service/user-auth.service';
 import { AddCompetenceModalComponent } from './add-competence-modal/add-competence-modal.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import Swal from 'sweetalert2';
+import { TypeContrat } from 'src/app/model/typeContrat.model';
 
 @Component({
   selector: 'app-edit-fiche',
@@ -17,7 +18,7 @@ import Swal from 'sweetalert2';
 export class EditFicheComponent implements OnInit {
   titre!: string;
   description!: string;
-  nombrePostesDisponibles!: number;
+  typeContrat!: TypeContrat;
   competences!: any[];
   poste! : Poste[];
   postId!: number;
@@ -64,7 +65,8 @@ export class EditFicheComponent implements OnInit {
         this.newCategory = response; 
         this.titre = this.newCategory.titre;
         this.description = this.newCategory.description;
-        this.nombrePostesDisponibles = this.newCategory.nombrePostesDisponibles;
+        
+        this.typeContrat = this.newCategory.typeContrat;
      },
       error => {
         console.error(error);
@@ -85,9 +87,7 @@ export class EditFicheComponent implements OnInit {
       const postData = new FormData();
       postData.append('titre', this.titre);
       postData.append('description', this.description);
-      postData.append('nombrePostesDisponibles', this.nombrePostesDisponibles.toString());
-      // Convertir les compétences en une chaîne de caractères séparée par des virgules pour l'envoi
-      // (Assurez-vous que cette partie est correctement implémentée)
+      postData.append('typeContrat', this.typeContrat.toString());
   
       this.posteService.editPoste(this.postId, postData).subscribe(
          (response: any) => {

@@ -285,28 +285,7 @@
                 <div class="d-flex justify-content-end mb-3">
   </div>
                 <div>
-                <!-- Ajoutez le sélecteur de filtre -->
-              
-              <!-- Ajoutez une barre de recherche -->
-
-  <!-- <div class="d-flex justify-content-end mb-3">
-  <select class="form-control" [(ngModel)]="sortOption" (change)="applySort()">
-    <option value="recent">Du plus Recent</option>
-    <option value="old">Du plus Ancien</option>
-  </select>
-  </div> -->
-
-  <!-- <div class="d-flex align-items-center mb-3">
-  <div class="flex-grow-1">
-    <input type="text" [(ngModel)]="searchTerm" class="form-control" placeholder="Search" (input)="applyFilter()" />
-  </div> -->
-  <!-- <div class="ml-2">
-    <select [(ngModel)]="filterOption" class="form-control" (change)="applyFilter()">
-      <option value="all">Tous</option>
-      <option value="activated">Activés</option>
-      <option value="deactivated">Non activés</option>
-    </select>
-  </div> -->
+ 
   </div>
 
 
@@ -319,7 +298,7 @@
       <option value="Accepte">Demandes Acceptées</option>
     </select>
   </div>
-  <div  class="table-responsive" >
+  <div class="table-responsive" *ngIf="filteredEvents.length > 0; else noPostes">
     
     <table class="table table-striped card-table">
       <thead>
@@ -364,7 +343,9 @@
       </tbody>
     </table>
   </div>
-
+  <ng-template #noPostes>
+    <p>Aucune demande de poste</p>
+  </ng-template>
   
   <div *ngIf="selectedPoste" class="details-panel" style="width: 600px;" (click)="closeDetailsPanel()" [@panelAnimation]="selectedPoste ? '*' : 'void'">
     <br>
@@ -387,7 +368,7 @@
        </h6>
      
        <h6 style="font-weight: normal; color: rgb(56, 53, 53); font-style: italic;">
-       Nombre de poste ouverts : {{ selectedPoste.nombrePostesDisponibles }}
+       Type de Contrat: {{ selectedPoste.typeContrat }}
       </h6>
        <br>
        <div class="details-section">

@@ -21,10 +21,19 @@ export class CollabMenuComponent {
   numtel!:number;
   genre!:number;
   
-  
+  listUsers: any[] = [];
+
   image!:string;
   ngOnInit(): void {
     this.getUserByid(localStorage.getItem('id'));
+    this.userService.getAll().subscribe(
+      (response: any) => {
+        this.listUsers = response; // Assuming response is an array of user objects
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    );
   }
   getUserByid(id: any) {
     const headers = { 'Authorization': 'Bearer ' + this.Auth.getToken() };
@@ -42,6 +51,10 @@ export class CollabMenuComponent {
       console.log('User photo:', this.image);
     });
   }
+  redirectionChat(id:any){
+    this.router.navigate(['/collaborateur/chat/'+id]);
+  }
+
   logout() {
     Swal.fire({
       title: 'Êtes-vous sûr(e) ?',
