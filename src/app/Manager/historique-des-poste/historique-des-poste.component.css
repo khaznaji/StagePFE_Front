@@ -1,0 +1,15 @@
+.pill:nth-child(1) {
+  background-color: #ce625a;
+} /* Rouge */
+.pill:nth-child(2) {
+  background-color: #629b64;
+} /* Vert */
+.pill:nth-child(3) {
+  background-color: #3a5972;
+} /* Bleu */
+.pill:nth-child(4) {
+  background-color: #bd79eb;
+} /* Jaune */
+.pill:nth-child(5) {
+  background-color: #6776b6;
+} /* Violet */

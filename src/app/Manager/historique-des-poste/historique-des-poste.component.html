@@ -250,15 +250,11 @@
     <!-- Liste des catégories -->
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Liste des Postes Approuvés</h4>
-        <div class="d-flex justify-content-end mb-3">
-          <!-- Bouton ajouté ici -->
-        </div>
+        <h4 class="card-title">Liste des Postes Archivés</h4>
        
         <div></div>
 
-      
-        <div class="table-responsive" >
+        <div class="table-responsive">
           <table class="table table-striped card-table">
             <thead>
               <tr>
@@ -266,7 +262,7 @@
                 <th>Poste</th>
                 <th>Competences</th>
                 <th>
-                  Type De <br />
+                  Type de <br />
                   Contrat
                 </th>
                 <th>Action</th>
@@ -315,6 +311,14 @@
                     <i class="mdi mdi mdi-eye"></i>
                   </button>
                   &nbsp;
+
+                  <button
+                    (click)="onDelete(poste.id)"
+                    type="button"
+                    class="btn btn-inverse-danger btn-icon"
+                  >
+                    <i class="mdi mdi mdi-trash-can"></i>
+                  </button>
                 </td>
               </tr>
             </tbody>

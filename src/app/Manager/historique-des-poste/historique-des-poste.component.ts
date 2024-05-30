@@ -5,25 +5,32 @@ import { PosteService } from 'src/app/service/poste.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-display-demande-publie',
-  templateUrl: './display-demande-publie.component.html',
-  styleUrls: ['./display-demande-publie.component.css']
+  selector: 'app-historique-des-poste',
+  templateUrl: './historique-des-poste.component.html',
+  styleUrls: ['./historique-des-poste.component.css']
 })
-export class DisplayDemandePublieComponent  implements OnInit{
+export class HistoriqueDesPosteComponent implements OnInit{
   ngOnInit(): void {
     this.getApprovedPostes();
+
   }
 
   approvedPostes!: any[];
   constructor(private posteService: PosteService , private router: Router ){}
+  
   cardStates: boolean[] = []; 
   approuveParManagerRH: boolean = false;
   archive: boolean = false;
-  encours: boolean = false;
-
+  encours: boolean = false;// Tableau pour stocker l'état de chaque carte
   ToList()
-  {this.router.navigate(['managerService/add-fiche-de-poste']);}
+  {
+    this.router.navigate(['managerService/add-fiche-de-poste']);
+
+  }
+
+
   showAllCompetences = false; 
+
   toggleFormVisibility(index: number): void {
     // Inversion de l'état de la carte à l'index spécifié
     this.cardStates[index] = !this.cardStates[index];
@@ -31,8 +38,9 @@ export class DisplayDemandePublieComponent  implements OnInit{
   toggleCompetences() {
     this.showAllCompetences = !this.showAllCompetences;
  }
+ 
   getApprovedPostes(): void {
-    this.posteService.getPostePulie()
+    this.posteService.PosteArchive()
       .subscribe(
         (data) => {
           this.approvedPostes = data;
@@ -44,6 +52,7 @@ export class DisplayDemandePublieComponent  implements OnInit{
       );
   }
   selectedFilter: string = '';
+ 
   onDelete(postId: number): void {
     Swal.fire({
       title: 'Êtes-vous sûr?',
@@ -85,47 +94,9 @@ export class DisplayDemandePublieComponent  implements OnInit{
   this.router.navigate(['managerService/edit-postes', postid]);
  }
  ToPostId(postid :number  ){
-  this.router.navigate(['managerService/poste', postid]);
+  this.router.navigate(['managerService/postearchive', postid]);
  }
  modalRef!: BsModalRef;
- archivePoste(postId: number): void {
-  Swal.fire({
-    title: 'Êtes-vous sûr?',
-    text: 'Voulez-vous vraiment archiver ce poste?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Oui, archiver',
-    cancelButtonText: 'Annuler'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.posteService.ArchiverPoste(postId).subscribe(
-        () => {
-          Swal.fire(
-            'Archivé!',
-            'Le poste a été archivé avec succès.',
-            'success'
-          ).then(() => {
-            // Recharge la page après avoir fermé la boîte de dialogue de succès
-            window.location.reload();
-          });
-          // Recharger les postes après l'archivage
-          // this.getApprovedPostes();
-        },
-        (error) => {
-          console.error('Erreur lors de l\'archivage du poste:', error);
-          Swal.fire(
-            'Erreur!',
-            'Une erreur s\'est produite lors de l\'archivage du poste.',
-            'error'
-          );
-          // Gérez les erreurs ici
-        }
-      );
-    }
-  });
-}
 
 
 }

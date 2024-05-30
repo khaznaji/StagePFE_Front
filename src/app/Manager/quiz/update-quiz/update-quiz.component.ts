@@ -25,8 +25,7 @@ export class UpdateQuizComponent implements OnInit {
     this.quizForm = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      maxMarks: ['', Validators.required],
-      numberOfQuestions: ['', Validators.required],
+
       active: [false]
     });
     
@@ -48,8 +47,15 @@ export class UpdateQuizComponent implements OnInit {
     if (this.quizForm.valid) {
       const updatedQuizData: Quiz = this.quizForm.value;
       this.quizService.updateQuiz(this.quizId, updatedQuizData).subscribe(response => {
-        console.log('Quiz updated successfully.');
+        console.log('Quiz mis à jour avec succès.');
+        Swal.fire({
+          icon: 'success',
+          title: 'Quiz mis à jour',
+          text: 'Le quiz a été mis à jour avec succès.',
+          confirmButtonText: 'OK'
+        });
       });
     }
   }
+  
 }

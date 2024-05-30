@@ -49,19 +49,30 @@
               [(ngModel)]="searchTermm"
               (ngModelChange)="onSearchTermmChange()"
               class="form-control"
-              placeholder="Search now"
+              placeholder="Rechercher un Utilisateur"
               aria-label="search"
               aria-describedby="search"
             />
             <div class="user-list" *ngIf="searchTermm && searchTermm.trim()">
-              <ng-container *ngIf="filteredUsers.length > 0; else noUsersFound">
-                <ng-container *ngFor="let user of filteredUsers">
-                  <a class="dropdown-item" (click)="redirectionChat(user.id)">
+              <ng-container
+                *ngIf="filteredUserss.length > 0; else noUsersFound"
+              >
+                <ng-container *ngFor="let user of filteredUserss">
+                  <a
+                    class="dropdown-item"
+                    (click)="redirectionProfile(user.id)"
+                  >
                     <div class="item-thumbnail">
-                      <img [src]="'assets/images/' + user.image" alt="image" class="profile-pic" />
+                      <img
+                        [src]="'assets/images/' + user.image"
+                        alt="image"
+                        class="profile-pic"
+                      />
                     </div>
                     <div class="item-content flex-grow">
-                      <h6 class="ellipsis font-weight-normal">{{ user.nom }} {{ user.prenom }}</h6>
+                      <h6 class="ellipsis font-weight-normal">
+                        {{ user.nom }} {{ user.prenom }}
+                      </h6>
                     </div>
                   </a>
                 </ng-container>
@@ -75,8 +86,7 @@
           </div>
         </li>
       </ul>
-      
-      
+
       <ul class="navbar-nav navbar-nav-right">
         <li class="nav-item dropdown me-1">
           <a
@@ -89,6 +99,7 @@
             <span class="count"></span>
           </a>
           <div
+            style="width:300px"
             class="dropdown-menu dropdown-menu-right navbar-dropdown"
             aria-labelledby="messageDropdown"
           >
@@ -104,8 +115,7 @@
             />
             <div class="user-list">
               <ng-container *ngFor="let user of filteredUsers; let i = index">
-                <a class="dropdown-item"               (click)="redirectionChat(user.id)"
-                >
+                <a class="dropdown-item" (click)="redirectionChat(user.id)">
                   <div class="item-thumbnail">
                     <img
                       [src]="'assets/images/' + user.image"
@@ -133,21 +143,41 @@
             <i class="mdi mdi-bell mx-0"></i>
             <span class="count" *ngIf="hasUnseenNotifications"></span>
           </a>
-          <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="notificationDropdown">
-            <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-            <a class="dropdown-item notification-item" *ngFor="let notification of notifications" [ngClass]="{'notification-unseen': !notification.seen, 'notification-seen': notification.seen}" (click)="redirectToPage(notification)">
-              <div *ngIf="!notification.seen" class="notification-pill">Nouveau</div>
-          
+          <div
+            class="dropdown-menu dropdown-menu-right navbar-dropdown"
+            aria-labelledby="notificationDropdown"
+          >
+            <p class="mb-0 font-weight-normal float-left dropdown-header">
+              Notifications
+            </p>
+            <a
+              class="dropdown-item notification-item"
+              *ngFor="let notification of notifications"
+              [ngClass]="{
+                'notification-unseen': !notification.seen,
+                'notification-seen': notification.seen
+              }"
+              (click)="redirectToPage(notification)"
+            >
+              <div *ngIf="!notification.seen" class="notification-pill">
+                Nouveau
+              </div>
+
               <div class="item-thumbnail">
-                <img [src]="'assets/images/' + notification.sender.image" alt="image" class="profile-pic" />
+                <img
+                  [src]="'assets/images/' + notification.sender.image"
+                  alt="image"
+                  class="profile-pic"
+                />
               </div>
               <div class="item-content flex-grow">
-                <h6 class="ellipsis font-weight-normal">{{ notification.sender.nom }} {{ notification.sender.prenom }}</h6>
+                <h6 class="ellipsis font-weight-normal">
+                  {{ notification.sender.nom }} {{ notification.sender.prenom }}
+                </h6>
                 <div [innerHTML]="notification.message"></div>
               </div>
             </a>
           </div>
-          
         </li>
 
         <li class="nav-item nav-profile dropdown">
@@ -306,6 +336,7 @@
                   Candidatures</a
                 >
               </li>
+              
             </ul>
           </div>
         </li>

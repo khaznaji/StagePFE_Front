@@ -19,4 +19,13 @@ export class CertificatService {
   update(groupId: number, value: FormData): Observable<Object> {
     return this.http.put(`${this.baseUrl}/ModifierCertificats/${groupId}`, value);
   }
+  getUserCertificates(userId: number): Observable<any[]> {
+    const url = `${this.baseUrl}/UserCertificates/${userId}`;
+    return this.http.get<any[]>(url);
+  }
+  
+  getUserCertificatesFormationNames(userId: number): Observable<string[]> {
+    const url = `${this.baseUrl}/UserCertificatesFormation/${userId}`;
+    return this.http.get<string[]>(url);
+  }
 }

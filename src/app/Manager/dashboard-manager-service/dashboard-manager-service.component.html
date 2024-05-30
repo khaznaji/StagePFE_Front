@@ -1,0 +1,121 @@
+<link
+  href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+  rel="stylesheet"
+  id="bootstrap-css"
+/>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+/>
+<div class="row">
+  <div class="col-md-12 grid-margin">
+    <div class="d-flex justify-content-between flex-wrap">
+      <div class="d-flex align-items-end flex-wrap">
+        <div class="me-md-3 me-xl-5">
+          <h2>Bienvenue {{ username }},</h2>
+          <p class="mb-md-0">
+            Veuillez explorer les fonctionnalités disponibles pour gérer
+            efficacement vos équipes et projets.
+          </p>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="card-counter primary">
+              <i class="fa fa-code-fork"></i>
+              <span class="count-numbers">{{ nombreCollaborateurs }}</span>
+              <span class="count-name"> Collaborateurs </span>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card-counter danger">
+              <i class="fa fa-ticket"></i>
+              <span class="count-numbers">{{ nombrePostesPublies }}</span>
+              <span class="count-name">Postes Publiés</span>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card-counter success">
+              <i class="fa fa-database"></i>
+              <span class="count-numbers">{{ nombrePostesApprouves }}</span>
+              <span class="count-name">Postes Approuvés</span>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card-counter info">
+              <i class="fa fa-users"></i>
+              <span class="count-numbers">{{ nombreDemandesFormation }}</span>
+              <span class="count-name">Demandes Formation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-7 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <p class="card-title">Nombre de candidat par poste</p>
+        <div id="cash-deposits-chart-legend" class="d-flex justify-content-center pt-3"></div>
+        <mat-card class="score-test-technique-card">
+          <mat-card-header>
+            <mat-card-title> </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <canvas #barChart></canvas>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body" *ngIf="topThreeHardSkills">
+        <p class="card-title">Compétences de l'équipe</p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Top 3 Hard Skills</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let skill of topThreeHardSkills; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ skill }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <div *ngIf="topThreeSoftSkills">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Top 3 Soft Skills</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let skill of topThreeSoftSkills; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ skill }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+</div>

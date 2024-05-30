@@ -8,6 +8,10 @@ body{
     gap: 4px; /* Réduction de l'espacement entre les pills */
     padding: 16px 0; /* Espacement intérieur du conteneur */
 }
+.verified-icon {
+    width: 20px; /* Ajustez la taille selon vos besoins */
+    height: auto; /* Pour conserver le rapport hauteur/largeur */
+}
 /* Ajustez la largeur du conteneur principal du modal */
 .container {
     width: 90%; /* Ajustez cette valeur selon vos besoins */

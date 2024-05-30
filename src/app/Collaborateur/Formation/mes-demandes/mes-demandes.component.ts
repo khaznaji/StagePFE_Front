@@ -6,20 +6,24 @@ import { FormationDetailComponent } from '../formation-detail/formation-detail.c
 @Component({
   selector: 'app-mes-demandes',
   templateUrl: './mes-demandes.component.html',
-  styleUrls: ['./mes-demandes.component.css']
+  styleUrls: ['./mes-demandes.component.css'],
 })
 export class MesDemandesComponent implements OnInit {
   mesFormations!: any[];
 
-  constructor(private participationFormationService: ParticapationFormationService ,  private modalService: BsModalService) { }
+  constructor(
+    private participationFormationService: ParticapationFormationService,
+    private modalService: BsModalService
+  ) {}
 
   ngOnInit(): void {
     this.getMesFormations();
   }
 
   getMesFormations(): void {
-    this.participationFormationService.getMesFormations()
-      .subscribe(formations => {
+    this.participationFormationService
+      .getMesFormations()
+      .subscribe((formations) => {
         this.mesFormations = formations;
       });
   }
@@ -32,18 +36,20 @@ export class MesDemandesComponent implements OnInit {
         return 'badge badge-warning';
       case 'REFUSE':
         return 'badge badge-danger';
+      case 'AFFECTE':
+        return 'badge badge-success';
       default:
         return 'badge badge-secondary';
     }
   }
   modalRef!: BsModalRef;
 
-openModalById(formationId: number): void {
-  const initialState = {
-    formationId: formationId,
-  };
-  this.modalRef = this.modalService.show(FormationDetailComponent, {
-    initialState,
-  });
-}
+  openModalById(formationId: number): void {
+    const initialState = {
+      formationId: formationId,
+    };
+    this.modalRef = this.modalService.show(FormationDetailComponent, {
+      initialState,
+    });
+  }
 }

@@ -8,47 +8,40 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-gestion-competence',
   templateUrl: './gestion-competence.component.html',
-  styleUrls: ['./gestion-competence.component.css']
+  styleUrls: ['./gestion-competence.component.css'],
 })
 export class GestionCompetenceComponent implements OnInit {
   ngOnInit() {
     this.reloadDatsa();
-    this.updatePagedCategories();
-
   }
+
   replaceUnderscoreWithSpace(domaine: string): string {
     return domaine.replace(/_/g, ' ');
   }
-  domaines: string[] = [
-    'HardSkills' ,'SoftSkills'
-  ];
+  domaines: string[] = ['HardSkills', 'SoftSkills'];
   newCategoryName = '';
-  id=0;
-  categories:any;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  pageSize = 10;
-  pageIndex = 0;
-  pageSizeOptions: number[] = [5, 10, 25, 100];
-  constructor(private categoryService: CompetenceService, private toastr: ToastrService) {}
-  
-  events:any;
+  id = 0;
+  categories: any;
+
+  constructor(
+    private categoryService: CompetenceService,
+    private toastr: ToastrService
+  ) {}
+
+  events: any;
 
   reloadDatsa() {
-    this.events = this.categoryService.getAll().subscribe((res)=>{
-      this.events=res;
+    this.events = this.categoryService.getAll().subscribe((res) => {
+      this.events = res;
+      this.totalItems = res.length; // Mettez à jour la propriété totalItems avec la longueur de la liste des compétences
+
       console.log(res);
+    });
+  }
+  totalItems: number = 0; // Initialisez à 0 par défaut
+
+ 
   
-     });}
-  onPageChange(event: any): void {
-    this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
-    this.reloadDatsa();
-  }
-  updatePagedCategories(): void {
-    const startIndex = this.pageIndex * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.filteredCategories = this.categories.slice(startIndex, endIndex);
-  }
   filteredCategories: Competence[] = [];
   selectedImage: File | null = null;
   imagePreview: string | undefined;
@@ -64,16 +57,20 @@ export class GestionCompetenceComponent implements OnInit {
         this.imagePreview = e.target?.result as string;
       };
       reader.readAsDataURL(this.file);
-    } 
+    }
   }
   createCategory() {
     if (!this.events) {
       console.error('Categories are undefined or null.');
       return;
     }
-  
-    if (!this.selectedCategory) { 
-      if (!this.newCategory || !this.newCategory.nom || !this.newCategory.domaine) {
+
+    if (!this.selectedCategory) {
+      if (
+        !this.newCategory ||
+        !this.newCategory.nom ||
+        !this.newCategory.domaine
+      ) {
         console.error('Category or image is undefined.');
         this.toastr.error('Nom and Domaine are required', '', {
           positionClass: 'toast-top-center',
@@ -83,8 +80,12 @@ export class GestionCompetenceComponent implements OnInit {
         });
         return;
       }
-  
-      if (this.events.some((category: Competence) => category.nom === this.newCategory.nom)) {
+
+      if (
+        this.events.some(
+          (category: Competence) => category.nom === this.newCategory.nom
+        )
+      ) {
         this.toastr.error('Competence already exists', '', {
           positionClass: 'toast-top-center',
           timeOut: 5000,
@@ -93,19 +94,20 @@ export class GestionCompetenceComponent implements OnInit {
         });
         return;
       }
-    console.log(this.newCategory);
+      console.log(this.newCategory);
       this.categoryService.addCompetence(this.newCategory).subscribe(
         (data) => {
           console.log('Category created successfully!', data);
-          
+
           this.reloadDatsa();
           this.clearForm();
-          window.location.reload();        },
+          window.location.reload();
+        },
         (error) => {
           console.error('Error creating category:', error);
           console.log(this.newCategory.nom);
         }
-       ) 
+      );
     } else {
       this.selectedCategory.nom = this.newCategory.nom;
       // Update the selected category
@@ -117,30 +119,32 @@ export class GestionCompetenceComponent implements OnInit {
           progressBar: true,
           toastClass: 'ngx-toastre',
         });
-          return;
+        return;
       }
       // Mettez à jour le domaine de la catégorie sélectionnée
       this.selectedCategory.domaine = this.newCategory.domaine;
 
-      this.categoryService.updateCompetence(this.selectedCategory.id, this.selectedCategory).subscribe(
-        () => {
-          console.log('Category updated successfully!');
-          this.toastr.success('Category updated successfully', '', {
-            positionClass: 'toast-top-center', // Positionnez-le en haut au centre
-            timeOut: 5000,
-            progressBar: true,
-            toastClass: 'ngx-toastr', // Appliquez les styles personnalisés
-            // Ajoutez d'autres options de personnalisation de style ici
-          });
-          this.reloadDatsa();
-          this.clearForm();
-          window.location.reload();
-        },
-        (error) => {
-          console.error('Error updating category:', error);
-          console.log('Category ID:', this.selectedCategory.id);
-        }
-      ); 
+      this.categoryService
+        .updateCompetence(this.selectedCategory.id, this.selectedCategory)
+        .subscribe(
+          () => {
+            console.log('Category updated successfully!');
+            this.toastr.success('Category updated successfully', '', {
+              positionClass: 'toast-top-center', // Positionnez-le en haut au centre
+              timeOut: 5000,
+              progressBar: true,
+              toastClass: 'ngx-toastr', // Appliquez les styles personnalisés
+              // Ajoutez d'autres options de personnalisation de style ici
+            });
+            this.reloadDatsa();
+            this.clearForm();
+            window.location.reload();
+          },
+          (error) => {
+            console.error('Error updating category:', error);
+            console.log('Category ID:', this.selectedCategory.id);
+          }
+        );
     }
   }
 
@@ -148,11 +152,11 @@ export class GestionCompetenceComponent implements OnInit {
     // Utiliser SweetAlert pour afficher une confirmation
     Swal.fire({
       title: 'Êtes-vous sûr(e) de vouloir supprimer cette compétence ?',
-      text: "Cette action est irréversible !",
+      text: 'Cette action est irréversible !',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Oui, supprimer',
-      cancelButtonText: 'Annuler'
+      cancelButtonText: 'Annuler',
     }).then((result) => {
       if (result.isConfirmed) {
         // Si l'utilisateur clique sur "Oui, supprimer", alors supprimer la compétence
@@ -162,7 +166,7 @@ export class GestionCompetenceComponent implements OnInit {
             title: 'Supprimé !',
             text: 'La compétence a été supprimée avec succès.',
             icon: 'success',
-            confirmButtonText: 'OK'
+            confirmButtonText: 'OK',
           }).then(() => {
             // Recharger la page après la suppression
             window.location.reload();
@@ -170,7 +174,7 @@ export class GestionCompetenceComponent implements OnInit {
         });
       }
     });
-  }
+  };
   selectedCategory!: Competence; // New property to store the selected category for update
   editCategory(category: Competence) {
     // Set the selected category for update
@@ -178,14 +182,14 @@ export class GestionCompetenceComponent implements OnInit {
     this.newCategory.nom = category.nom;
     // Assurez-vous également de copier le domaine
     this.newCategory.domaine = category.domaine;
-}
+  }
 
   cancelUpdate() {
     this.clearForm();
   }
   clearForm() {
     // Clear the selected category and form
-    this.selectedCategory ;
+    this.selectedCategory;
     this.newCategoryName = '';
   }
   isAddCategoryModalVisible: boolean = false;
@@ -279,50 +283,52 @@ export class GestionCompetenceComponent implements OnInit {
       });
       return;
     }
-    const warningMessage = 'Warning: Deleting selected categories will also delete associated subcategories. Are you sure you want to proceed?';
+    const warningMessage =
+      'Warning: Deleting selected categories will also delete associated subcategories. Are you sure you want to proceed?';
     const userConfirmed = confirm(warningMessage);
-  //   this.categoryService.deleteMultipleSubcategories(this.subcategoryIdsToDelete).subscribe(
-  //     () => {
-  //       console.log('Categories deleted successfully.');
-  //       this.toastr.success('Categories deleted successfully', '', {
-  //         positionClass: 'toast-top-center', // Positionnez-le en haut au centre
-  //         timeOut: 5000,
-  //         progressBar: true,
-  //         toastClass: 'ngx-toastr', // Appliquez les styles personnalisés
-  //         // Ajoutez d'autres options de personnalisation de style ici
-  //       });
-  //       window.location.reload();
+    //   this.categoryService.deleteMultipleSubcategories(this.subcategoryIdsToDelete).subscribe(
+    //     () => {
+    //       console.log('Categories deleted successfully.');
+    //       this.toastr.success('Categories deleted successfully', '', {
+    //         positionClass: 'toast-top-center', // Positionnez-le en haut au centre
+    //         timeOut: 5000,
+    //         progressBar: true,
+    //         toastClass: 'ngx-toastr', // Appliquez les styles personnalisés
+    //         // Ajoutez d'autres options de personnalisation de style ici
+    //       });
+    //       window.location.reload();
 
-  //       // Refresh the subcategories list or update the UI as needed
-  //     },
-  //     error => {
-  //       console.error('Error deleting subcategories:', error);
-  //     }
-  //   );
-  // }
- 
-  // deleteAllSubcategories() {
-  //   const warningMessage = 'Warning: Deleting all categories will also delete associated subcategories. Are you sure you want to proceed?';
-  //   const userConfirmed = confirm(warningMessage);
-  //   if (userConfirmed) {
-  //     this.categoryService.deleteAllSubcategories().subscribe(
-  //       () => {
-  //         console.log('All Categories deleted successfully.');
-  //         this.toastr.success('All Categories deleted successfully', '', {
-  //           positionClass: 'toast-top-center', // Positionnez-le en haut au centre
-  //           timeOut: 5000,
-  //           progressBar: true,
-  //           toastClass: 'ngx-toastr', // Appliquez les styles personnalisés
-  //           // Ajoutez d'autres options de personnalisation de style ici
-  //         });      
-  //         window.location.reload();
-  //       },
-  //       error => {
-  //         console.error('Error deleting all Categories:', error);
-  //       }
-  //     );
-  //   } else {
-  //     console.log('Deletion cancelled by the user.');
-  //   }
-  // }
-  }}
+    //       // Refresh the subcategories list or update the UI as needed
+    //     },
+    //     error => {
+    //       console.error('Error deleting subcategories:', error);
+    //     }
+    //   );
+    // }
+
+    // deleteAllSubcategories() {
+    //   const warningMessage = 'Warning: Deleting all categories will also delete associated subcategories. Are you sure you want to proceed?';
+    //   const userConfirmed = confirm(warningMessage);
+    //   if (userConfirmed) {
+    //     this.categoryService.deleteAllSubcategories().subscribe(
+    //       () => {
+    //         console.log('All Categories deleted successfully.');
+    //         this.toastr.success('All Categories deleted successfully', '', {
+    //           positionClass: 'toast-top-center', // Positionnez-le en haut au centre
+    //           timeOut: 5000,
+    //           progressBar: true,
+    //           toastClass: 'ngx-toastr', // Appliquez les styles personnalisés
+    //           // Ajoutez d'autres options de personnalisation de style ici
+    //         });
+    //         window.location.reload();
+    //       },
+    //       error => {
+    //         console.error('Error deleting all Categories:', error);
+    //       }
+    //     );
+    //   } else {
+    //     console.log('Deletion cancelled by the user.');
+    //   }
+    // }
+  }
+}

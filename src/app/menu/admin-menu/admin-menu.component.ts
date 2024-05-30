@@ -23,6 +23,9 @@
     genre!: number;
     notifications: any[] = [];
     listUsers: any[] = [];
+    listUserss: any[] = [];
+    filteredUserss: any[] = []; // Propriété pour stocker les utilisateurs filtrés
+
     filteredUsers: any[] = []; // Propriété pour stocker les utilisateurs filtrés
     searchTerm: string = ''; // Terme de recherche
     image!: string;
@@ -38,11 +41,23 @@
           console.error(error);
         }
       );
+      this.userService.getAllUsersByRole().subscribe(
+        (response: any) => {
+          this.listUserss = response;
+          this.filteredUserss = response; // Initialiser filteredUsers avec tous les utilisateurs
+        },
+        (error: any) => {
+          console.error(error);
+        }
+      );
       this.loadNotifications();
     }
 
     redirectionChat(id: any) {
       this.router.navigate(['/managerRh/chat/' + id]);
+    }
+    redirectionProfile(id: any) {
+      this.router.navigate(['/managerRh/user-profile/' + id]);
     }
 
     redirectToPage(notification: Notifications): void {
@@ -112,11 +127,11 @@
     }
     onSearchTermmChange() {
       if (this.searchTermm) {
-        this.filteredUsers = this.listUsers.filter(user =>
+        this.filteredUserss = this.listUserss.filter(user =>
           `${user.nom} ${user.prenom}`.toLowerCase().includes(this.searchTermm.toLowerCase())
         );
       } else {
-        this.filteredUsers = this.listUsers;
+        this.filteredUserss = this.listUserss;
       }
     }
     onSearchTermChange() {

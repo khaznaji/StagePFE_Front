@@ -81,6 +81,11 @@ import { DashboardManagerRhComponent } from './Admin/dashboard-manager-rh/dashbo
 import { AudioRecorderComponent } from './Collaborateur/audio-recorder/audio-recorder.component';
 import { ViewCandidateByIdComponent } from './Manager/gestion-poste-by-id/view-candidate-by-id/view-candidate-by-id.component';
 import { AuthGuard } from './service/auth.guard';
+import { ProfileUsersComponent } from './User/profile-users/profile-users.component';
+import { HistoriqueDesPosteComponent } from './Manager/historique-des-poste/historique-des-poste.component';
+import { PosteArchiveByIdComponent } from './Manager/poste-archive-by-id/poste-archive-by-id.component';
+import { DashboardManagerServiceComponent } from './Manager/dashboard-manager-service/dashboard-manager-service.component';
+import { GetCertificatsComponent } from './Collaborateur/get-certificats/get-certificats.component';
 
 const routes: Routes = [
   {
@@ -94,6 +99,8 @@ const routes: Routes = [
       { path: 'request-password', component: RequestPasswordComponent },
       { path: 'reset-password', component: ResetPasswordComponent },
       { path: 'activate-account', component: ActivationCompteComponent },
+      { path: 'profile/:id', component: GetCertificatsComponent  ,  canActivate: [AuthGuard] },
+
     ],
   },
   {
@@ -102,6 +109,7 @@ const routes: Routes = [
     children: [
 
       { path: 'dashboard', component: DashboardManagerRhComponent ,  canActivate: [AuthGuard]},
+      { path: 'user-profile/:id', component: ProfileUsersComponent  ,  canActivate: [AuthGuard] },
 
       { path: 'all-manager-service', component: AllUsersComponent  ,  canActivate: [AuthGuard] },
       { path: 'all-formateurs', component: AllFormateurComponent  ,  canActivate: [AuthGuard]},
@@ -177,6 +185,10 @@ const routes: Routes = [
     path: 'managerService',
     component: ManagerMenuComponent,
     children: [
+      { path: 'historiqueposte', component: HistoriqueDesPosteComponent ,  canActivate: [AuthGuard]},
+      { path: 'postearchive/:postId', component: PosteArchiveByIdComponent ,  canActivate: [AuthGuard]},
+      { path: 'dashboard', component: DashboardManagerServiceComponent ,  canActivate: [AuthGuard]},
+
       { path: 'add-fiche-de-poste', component: AddFicheDePosteComponent ,  canActivate: [AuthGuard]},
       { path: 'profile', component: ProfileComponent ,  canActivate: [AuthGuard]},
       { path: 'mes-postes', component: DisplayMesPostesComponent ,  canActivate: [AuthGuard]},

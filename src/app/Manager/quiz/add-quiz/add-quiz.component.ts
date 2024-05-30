@@ -31,8 +31,7 @@ export class AddQuizComponent implements OnInit {
     this.quizForm = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      maxMarks: ['', Validators.required],
-      numberOfQuestions: ['', Validators.required]
+      
     });
   }
 

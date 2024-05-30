@@ -174,9 +174,9 @@
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <ul class="nav">
         <li class="nav-item">
-          <a class="nav-link" href="index.html">
+          <a class="nav-link" [routerLink]="['/managerService/dashboard']">
             <i class="mdi mdi-home menu-icon"></i>
-            <span class="menu-title">Dashboard</span>
+            <span class="menu-title">Acceuil</span>
           </a>
         </li>
         <li class="nav-item">
@@ -204,6 +204,15 @@
           <a class="nav-link" [routerLink]="['/managerService/poste-publie']">
             <i class="mdi mdi-account-card-details menu-icon"></i>
             <span class="menu-title">Les Candidatures</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['/managerService/historiqueposte']"
+          >
+            <i class="mdi mdi mdi-archive menu-icon"></i>
+            <span class="menu-title">Historique Des Postes</span>
           </a>
         </li>
 

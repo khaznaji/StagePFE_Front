@@ -115,7 +115,7 @@
               <h5 class="card-title">Compétences</h5>
               <button
                 class="btn btn-primary add-competence-btn"
-                (click)="openModal()"
+                (click)="openModal()"  [disabled]="collaborateurInfo.isVerified"
               >
                 Gerer mes competences
               </button>

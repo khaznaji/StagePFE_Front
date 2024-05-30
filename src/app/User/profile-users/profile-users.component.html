@@ -1,0 +1,450 @@
+<div class="container db-social">
+  <div class="jumbotron jumbotron-fluid"></div>
+  <div class="container-fluid" id="profile-container">
+    <div class="row justify-content-center">
+      <div class="col-xl-11">
+        <div class="widget head-profile has-shadow">
+          <div class="widget-body pb-0">
+            <div class="row d-flex align-items-center">
+              <div
+                class="col-xl-4 col-md-4 d-flex justify-content-lg-start justify-content-md-start justify-content-center"
+              >
+                <ul></ul>
+              </div>
+              <div
+                class="col-xl-4 col-md-4 d-flex justify-content-center"
+                *ngIf="userInfo"
+              >
+                <div class="image-default">
+                  <img
+                    class="rounded-circle"
+                    [src]="'assets/images/' + userInfo.image"
+                    alt="Profile Image"
+                  />
+                </div>
+                <div class="infos d-flex align-items-center">
+                  <h2 class="mb-0 mr-2">
+                    {{ userInfo.nom }} {{ userInfo.prenom }}
+                  </h2>
+                  <img
+                    *ngIf="
+                      userInfo.role === 'Collaborateur' && userInfo.isVerified
+                    "
+                    src="assets/images/verified.PNG"
+                    alt="Verified Image"
+                    class="verified-icon"
+                  />
+                </div>
+              </div>
+              <div
+                class="col-xl-4 col-md-4 d-flex justify-content-lg-end justify-content-md-end justify-content-center"
+              >
+                <div class="follow d-flex align-items-center">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    (click)="redirectionChat(userInfo.id)"
+                  >
+                    Me Contacter
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="container-fluid" id="profile-container">
+        <!-- Zone de contenu pour les informations du formateur -->
+        <div
+          class="row justify-content-center"
+          *ngIf="userInfo.role === 'Formateur'"
+        >
+        <div class="col-xl-9">
+          <!-- Card pour afficher les formations du formateur -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">
+                Formations Créées ({{ userInfo.nombreformationCrees }})
+              </h5>
+              <!-- Utilisez *ngFor pour itérer sur chaque formation -->
+              <div class="row">
+                <div
+                  *ngFor="let formation of getPaginatedFormations()"
+                  class="col-md-6 mb-3"
+                >
+                  <div class="card d-flex flex-column h-100">
+                    <div class="card-body flex-fill">
+                      <img
+                        class="card-img-top"
+                        [src]="'assets/images/Formations/' + formation.imagePoste"
+                        alt="Image de la formation"
+                      />
+        
+                      <!-- Titre de la formation -->
+                      <h6 class="card-subtitle mb-2 text-muted">
+                        {{ formation.titre }}
+                      </h6>
+                      <!-- Détails de la formation -->
+                      <p class="card-text">
+                        <strong>Chapitre:</strong> {{ formation.chapitre }}
+                      </p>
+                      <p class="card-text">
+                        <strong>Durée:</strong> {{ formation.duree }}
+                      </p>
+                      <!-- Vous pouvez ajouter d'autres détails de la formation ici -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Afficher les boutons de pagination -->
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <button
+                  class="btn btn-primary"
+                  (click)="previousPage()"
+                  [disabled]="currentPage === 1"
+                >
+                  Précédent
+                </button>
+                <p>Page {{ currentPage }} sur {{ totalPages }}</p>
+                <button
+                  class="btn btn-primary"
+                  (click)="nextPage()"
+                  [disabled]="currentPage === totalPages"
+                >
+                  Suivant
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+
+          <div class="col-xl-3">
+            <!-- Card pour afficher les informations sur le formateur -->
+            <div class="card mb-4">
+              <div class="card-body">
+                <h5 class="card-title">A propos</h5>
+                <ul class="custom-list">
+                  <li><strong>Poste :</strong> Formateur</li>
+                  <li>
+                    <strong>Département :</strong> {{ userInfo.departement }}
+                  </li>
+                  <li>
+                    <strong>Date d'entrée :</strong> {{ userInfo.dateEntree }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="row justify-content-center"
+      *ngIf="userInfo.role === 'Collaborateur'"
+    >
+      <!-- Biographie -->
+      <div class="col-xl-7">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title">Biographie</h5>
+            </div>
+
+            <p class="card-text" id="bioText">
+              {{
+                userInfo.bio && userInfo.bio.length > 0
+                  ? userInfo.bio
+                  : "Le collaborateur n a pas ajouté une Biographie !"
+              }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- A propos -->
+      <div class="col-xl-5">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">A propos</h5>
+            <p class="card-text"></p>
+            <ul class="custom-list">
+              <li><strong>Poste :</strong> {{ userInfo.poste }}</li>
+              <li>
+                <strong>Département :</strong>
+                {{ userInfo.departement }}
+              </li>
+              <li>
+                <strong>Manager Service :</strong>
+                {{ userInfo.managerName }}
+                {{ userInfo.managerPrenom }}
+              </li>
+              <li>
+                <strong>Date d'entrée :</strong>
+                {{ userInfo.dateEntree }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="row justify-content-center"
+      *ngIf="userInfo.role === 'ManagerService'"
+    >
+      <!-- Biographie -->
+      <div class="col-xl-7">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title">Equipe</h5>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped" *ngIf="userInfo.equipe">
+                <thead>
+                  <tr>
+                    <th>Collab</th>
+                    <th>Nom & Prenom</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Utilisez une plage pour afficher uniquement les membres de l'équipe sur la page actuelle -->
+                  <ng-container *ngFor="let member of paginatedTeam">
+                    <tr>
+                      <td class="py-1">
+                        <img
+                          [src]="'assets/images/' + member.image"
+                          alt="image"
+                        />
+                      </td>
+                      <td>{{ member.nom }}</td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+            <!-- Afficher les boutons de pagination -->
+            <div
+              class="d-flex justify-content-between align-items-center mt-3"
+              *ngIf="totalPages > 1"
+            >
+              <button
+                class="btn btn-primary"
+                (click)="previousPageTeam()"
+                [disabled]="currentPageTeam === 1"
+              >
+                Précédent
+              </button>
+              <p>Page {{ currentPageTeam }} sur {{ totalPages }}</p>
+              <button
+                class="btn btn-primary"
+                (click)="nextPageTeam()"
+                [disabled]="currentPageTeam === totalPages"
+              >
+                Suivant
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- A propos -->
+      <div class="col-xl-5">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">A propos</h5>
+            <p class="card-text"></p>
+            <ul class="custom-list">
+              <li><strong>Poste :</strong> {{ userInfo.poste }}</li>
+              <li>
+                <strong>Département :</strong>
+                {{ userInfo.departement }}
+              </li>
+
+              <li>
+                <strong>Date d'entrée :</strong>
+                {{ userInfo.dateEntree }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+
+    <div
+      class="row justify-content-center"
+      *ngIf="userInfo.role === 'Collaborateur'"
+    >
+      <!-- Compétences -->
+      <div class="col-xl-7">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title">Compétences</h5>
+            </div>
+            <div class="competences-container">
+              <div class="pill-container">
+                <div
+                  class="pill"
+                  *ngFor="let evaluation of userInfo.evaluations"
+                  [ngStyle]="{
+                    'background-color': getEvaluationColor(
+                      evaluation.evaluation
+                    )
+                  }"
+                >
+                  <span class="pill-content">
+                    {{ evaluation.competenceName }}
+                    <span class="evaluation-number">{{
+                      evaluation.evaluation
+                    }}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Radar Chart -->
+      <div class="col-xl-5" *ngIf="userInfo.role === 'Collaborateur'">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Graphique En Radar</h5>
+            <canvas #radarChart></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div>
+      <!-- Curriculum Vitae -->
+      <div>
+        <div class="card" *ngIf="userInfo.role === 'Collaborateur'">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title">Curriculum Vitae</h5>
+              <div class="pdf-actions">
+                <a
+                  *ngIf="userInfo.resume"
+                  class="mdi mdi-fullscreen"
+                  (click)="openPdfFullScreen()"
+                ></a>
+                <a
+                  *ngIf="userInfo.resume"
+                  (click)="downloadResume()"
+                  class="mdi mdi-download"
+                ></a>
+              </div>
+            </div>
+            <div class="pdf-container">
+              <div class="pdf-wrapper" *ngIf="userInfo.resume">
+                <iframe
+                  [src]="getSafeUrl(userInfo.resume)"
+                  frameborder="0"
+                ></iframe>
+              </div>
+              <!-- Conteneur pour le glisser-déposer -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card" *ngIf="userInfo.role === 'ManagerService'">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title">
+                Postes Créés ({{ userInfo.nombrePostesCrees }})
+              </h5>
+            </div>
+            <div *ngIf="userInfo.postesCrees">
+              <div class="row">
+                <!-- Boucle sur les postes paginés -->
+                <div
+                  *ngFor="let poste of paginatedPostes"
+                  class="col-md-4 d-flex align-items-stretch"
+                  style="display: flex; align-items: stretch"
+                >
+                  <div
+                    class="card mb-3 w-100 h-100"
+                    style="
+                      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                      transition: 0.3s;
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: space-between;
+                    "
+                  >
+                    <div
+                      class="card-body d-flex flex-column"
+                      style="
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                      "
+                    >
+                      <h5
+                        class="card-title"
+                        style="color: #892222; font-weight: bold"
+                      >
+                        {{ poste.titre }}
+                      </h5>
+                      <!-- Affichage du nombre de candidats dans une pill rouge -->
+                      <span class="candidature-pill">
+                        {{ poste.nombreCandidats }} Applicant(s)
+                      </span>
+                      <p class="card-text">
+                        Type de Contrat :
+                        <!-- Utilisation de ngClass pour appliquer une classe CSS basée sur le type de contrat -->
+                        <span
+                          [ngClass]="getContractTypeClass(poste.typeContrat)"
+                        >
+                          {{ poste.typeContrat }}
+                        </span>
+                      </p>
+                      <!-- Affichage des trois premières lignes de la description -->
+                      <p class="card-text">
+                        {{ truncateDescription(poste.description) }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Affichage des boutons Précédent et Suivant -->
+              <div
+                class="d-flex justify-content-between align-items-center mt-3"
+                *ngIf="totalPages > 1"
+              >
+                <!-- Bouton Précédent -->
+                <button
+                  class="btn btn-primary"
+                  (click)="previousPage()"
+                  [disabled]="currentPage === 1"
+                >
+                  Précédent
+                </button>
+                <!-- Affichage du numéro de page actuel et du nombre total de pages -->
+                <p>Page {{ currentPage }} sur {{ totalPages }}</p>
+                <!-- Bouton Suivant -->
+                <button
+                  class="btn btn-primary"
+                  (click)="nextPage()"
+                  [disabled]="currentPage === totalPages"
+                >
+                  Suivant
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,11 @@
-
 <div class="col-lg-12 grid-margin stretch-card">
   <div class="card">
     <div class="card-body">
       <h4 class="card-title">Mon equipe</h4>
-<button class="btn btn-inverse-primary" (click)="envoyerBilan()"> Envoyer Bilan Annuel A Mon Equipe</button>
+      <button class="btn btn-inverse-primary" (click)="envoyerBilan()">
+        Envoyer Bilan Annuel A Mon Equipe
+      </button>
+      <br />
       <div class="table-responsive">
         <table class="table table-bordered">
           <thead>
@@ -18,13 +20,14 @@
                 <img [src]="'assets/images/' + member?.image" alt="image" />
               </td>
               <td>{{ member?.nom }} {{ member?.prenom }}</td>
-              <td><button
-                
-                class="btn btn-inverse-info"
-                (click)="redirigerVersBilan(member.idUser)"
-              >
-                Voir détails
-              </button></td>
+              <td>
+                <button
+                  class="btn btn-inverse-info"
+                  (click)="redirigerVersBilan(member.idUser)"
+                >
+                  Voir détails
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>

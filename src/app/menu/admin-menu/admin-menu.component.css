@@ -34,6 +34,8 @@
     z-index: 1000;
     max-height: 300px;
     overflow-y: auto;
+    width: 300px; /* Ajoutez cette propriété pour ajuster la largeur */
+
   }
   
   .user-list .dropdown-item {
@@ -42,6 +44,8 @@
     padding: 10px;
     border-bottom: 1px solid #eee;
     transition: background-color 0.2s;
+    width: 300px; /* Ajoutez cette propriété pour ajuster la largeur */
+
   }
   
   .user-list .dropdown-item:hover {

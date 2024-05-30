@@ -26,6 +26,9 @@ export class UserService {
   getAll(): Observable<any> {
     return this.http.get(`${this.BASE_URL2}/all`);
   }
+  getAllUsersByRole(): Observable<any> {
+    return this.http.get(`${this.BASE_URL2}/allUsersByRole`);
+  }
   getAllManagerServices(): Observable<any> {
     return this.http.get(`${this.BASE_URL2}/managerServices`);
   }

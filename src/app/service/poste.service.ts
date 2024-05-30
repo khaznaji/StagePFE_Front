@@ -142,6 +142,9 @@ export class PosteService {
   PubliePoste(postId: number): Observable<any> {
     return this.http.put(`${this.BASE_URL2}/publieposte/${postId}`, {});
   }
+  ArchiverPoste(postId: number): Observable<any> {
+    return this.http.put(`${this.BASE_URL2}/archivePoste/${postId}`, {});
+  }
   updateRefus(postId: number): Observable<any> {
     return this.http.put(`${this.BASE_URL2}/updateRefus/${postId}`, {});
   }
@@ -195,6 +198,17 @@ export class PosteService {
       { headers }
     );
   }
+  PosteArchive(): Observable<any> {
+    const authToken = this.authService.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${authToken}`,
+    });
+    headers.delete('Content-Type');
+    return this.http.get<any>(
+      `${this.BASE_URL2}/posteArchive`,
+      { headers }
+    );
+  }
   PosteApprouve(): Observable<any> {
     const authToken = this.authService.getToken();
     const headers = new HttpHeaders({
@@ -243,9 +257,20 @@ export class PosteService {
     );
   }
 
+  
+  getCertifUser(collaborateurId: number): Observable<any> {
+    return this.http.get<any>(
+      `${this.BASE_URL2}/userscertif/info/${collaborateurId}`
+    );
+  }
   getCollaborateurInfoById(collaborateurId: number): Observable<any> {
     return this.http.get<any>(
       `${this.BASE_URL2}/collaborateur/info/${collaborateurId}`
+    );
+  }
+  getUsersInfoById(collaborateurId: number): Observable<any> {
+    return this.http.get<any>(
+      `${this.BASE_URL2}/users/info/${collaborateurId}`
     );
   }
   countCollaborateursAcceptees(postId: number): Observable<number> {

@@ -123,6 +123,11 @@ import { MesEntretiensAnnuelCollabComponent } from './Collaborateur/Annuel/mes-e
 import { ChatComponent } from './User/chat/chat.component';
 import { DashboardManagerRhComponent } from './Admin/dashboard-manager-rh/dashboard-manager-rh.component';
 import { AudioRecorderComponent } from './Collaborateur/audio-recorder/audio-recorder.component';
+import { ProfileUsersComponent } from './User/profile-users/profile-users.component';
+import { HistoriqueDesPosteComponent } from './Manager/historique-des-poste/historique-des-poste.component';
+import { PosteArchiveByIdComponent } from './Manager/poste-archive-by-id/poste-archive-by-id.component';
+import { DashboardManagerServiceComponent } from './Manager/dashboard-manager-service/dashboard-manager-service.component';
+import { GetCertificatsComponent } from './Collaborateur/get-certificats/get-certificats.component';
 
 @NgModule({
   declarations: [
@@ -150,7 +155,7 @@ import { AudioRecorderComponent } from './Collaborateur/audio-recorder/audio-rec
         FormateurMenuComponent, CreateFormationComponent, AllFormationsComponent,
          GetByIdFormationComponent, UpdateFormationComponent, ListeDesFormationsComponent, 
          FormationDetailComponent, DemandeDesCollabsComponent, MesDemandesComponent, 
-         ListFormationComponent, DemandeFormationsComponent, CreateSessionComponent , CreateGroupsComponent, DetailsGroupComponent, BilanComponent , MesBilanComponent, UpdateBilanComponent, DetailsGroupsOfFormateurComponent, SessionsFormationsCollabComponent, MesSessionsFormateurComponent, MeetFormationsComponent, GetBilanByIdCollabComponent, ListBilanDesCollabComponent, GetBilanByIdComponent, PopUpEvaluateBilanComponent, EntretienAnnuelCalendarComponent, MesEntretienAnnuelManagerComponent, MesEntretiensAnnuelCollabComponent, ChatComponent, DashboardManagerRhComponent, AudioRecorderComponent, 
+         ListFormationComponent, DemandeFormationsComponent, CreateSessionComponent , CreateGroupsComponent, DetailsGroupComponent, BilanComponent , MesBilanComponent, UpdateBilanComponent, DetailsGroupsOfFormateurComponent, SessionsFormationsCollabComponent, MesSessionsFormateurComponent, MeetFormationsComponent, GetBilanByIdCollabComponent, ListBilanDesCollabComponent, GetBilanByIdComponent, PopUpEvaluateBilanComponent, EntretienAnnuelCalendarComponent, MesEntretienAnnuelManagerComponent, MesEntretiensAnnuelCollabComponent, ChatComponent, DashboardManagerRhComponent, AudioRecorderComponent, ProfileUsersComponent, HistoriqueDesPosteComponent, PosteArchiveByIdComponent, DashboardManagerServiceComponent, GetCertificatsComponent, 
           
 
   ],
