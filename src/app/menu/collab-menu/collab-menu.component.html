@@ -36,6 +36,56 @@
           </h3>
         </li>
       </ul>
+      <ul class="navbar-nav mr-lg-4 w-100">
+        <li class="nav-item nav-search d-none d-lg-block w-100">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="search">
+                <i class="mdi mdi-magnify"></i>
+              </span>
+            </div>
+            <input
+              type="text"
+              [(ngModel)]="searchTermm"
+              (ngModelChange)="onSearchTermmChange()"
+              class="form-control"
+              placeholder="Rechercher un Utilisateur"
+              aria-label="search"
+              aria-describedby="search"
+            />
+            <div class="user-list" *ngIf="searchTermm && searchTermm.trim()">
+              <ng-container
+                *ngIf="filteredUserss.length > 0; else noUsersFound"
+              >
+                <ng-container *ngFor="let user of filteredUserss">
+                  <a
+                    class="dropdown-item"
+                    (click)="redirectionProfile(user.id)"
+                  >
+                    <div class="item-thumbnail">
+                      <img
+                        [src]="'assets/images/' + user.image"
+                        alt="image"
+                        class="profile-pic"
+                      />
+                    </div>
+                    <div class="item-content flex-grow">
+                      <h6 class="ellipsis font-weight-normal">
+                        {{ user.nom }} {{ user.prenom }}
+                      </h6>
+                    </div>
+                  </a>
+                </ng-container>
+              </ng-container>
+              <ng-template #noUsersFound>
+                <div class="dropdown-item">
+                  Aucun utilisateur trouvé avec ce nom
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </li>
+      </ul>
       <ul class="navbar-nav navbar-nav-right">
         <li class="nav-item dropdown me-1">
           <a
@@ -48,31 +98,38 @@
             <span class="count"></span>
           </a>
           <div
+            style="width:300px"
             class="dropdown-menu dropdown-menu-right navbar-dropdown"
             aria-labelledby="messageDropdown"
           >
             <p class="mb-0 font-weight-normal float-left dropdown-header">
               Messages
             </p>
-
-            <a
-              class="dropdown-item"
-              (click)="redirectionChat(user.id)"
-              *ngFor="let user of listUsers"
-            >
-              <div class="item-thumbnail">
-                <img
-                  [src]="'assets/images/' + user.image"
-                  alt="image"
-                  class="profile-pic"
-                />
-              </div>
-              <div class="item-content flex-grow">
-                <h6 class="ellipsis font-weight-normal">
-                  {{ user.nom }} {{ user.prenom }}
-                </h6>
-              </div>
-            </a>
+            <input
+              type="text"
+              [(ngModel)]="searchTerm"
+              (ngModelChange)="onSearchTermChange()"
+              placeholder="Rechercher un utilisateur"
+              class="form-control"
+            />
+            <div class="user-list">
+              <ng-container *ngFor="let user of filteredUsers; let i = index">
+                <a class="dropdown-item" (click)="redirectionChat(user.id)">
+                  <div class="item-thumbnail">
+                    <img
+                      [src]="'assets/images/' + user.image"
+                      alt="image"
+                      class="profile-pic"
+                    />
+                  </div>
+                  <div class="item-content flex-grow">
+                    <h6 class="ellipsis font-weight-normal">
+                      {{ user.nom }} {{ user.prenom }}
+                    </h6>
+                  </div>
+                </a>
+              </ng-container>
+            </div>
           </div>
         </li>
         <li class="nav-item dropdown me-4">
@@ -83,7 +140,7 @@
             data-bs-toggle="dropdown"
           >
             <i class="mdi mdi-bell mx-0"></i>
-            <span class="count"></span>
+            <span class="count" *ngIf="hasUnseenNotifications"></span>
           </a>
           <div
             class="dropdown-menu dropdown-menu-right navbar-dropdown"
@@ -92,43 +149,31 @@
             <p class="mb-0 font-weight-normal float-left dropdown-header">
               Notifications
             </p>
-            <a class="dropdown-item">
+            <a
+              class="dropdown-item notification-item"
+              *ngFor="let notification of notifications"
+              [ngClass]="{
+                'notification-unseen': !notification.seen,
+                'notification-seen': notification.seen
+              }"
+              (click)="redirectToPage(notification)"
+            >
+              <div *ngIf="!notification.seen" class="notification-pill">
+                Nouveau
+              </div>
+
               <div class="item-thumbnail">
-                <div class="item-icon bg-success">
-                  <i class="mdi mdi-information mx-0"></i>
-                </div>
+                <img
+                  [src]="'assets/images/' + notification.sender.image"
+                  alt="image"
+                  class="profile-pic"
+                />
               </div>
-              <div class="item-content">
-                <h6 class="font-weight-normal">Application Error</h6>
-                <p class="font-weight-light small-text mb-0 text-muted">
-                  Just now
-                </p>
-              </div>
-            </a>
-            <a class="dropdown-item">
-              <div class="item-thumbnail">
-                <div class="item-icon bg-warning">
-                  <i class="mdi mdi-settings mx-0"></i>
-                </div>
-              </div>
-              <div class="item-content">
-                <h6 class="font-weight-normal">Settings</h6>
-                <p class="font-weight-light small-text mb-0 text-muted">
-                  Private message
-                </p>
-              </div>
-            </a>
-            <a class="dropdown-item">
-              <div class="item-thumbnail">
-                <div class="item-icon bg-info">
-                  <i class="mdi mdi-account-box mx-0"></i>
-                </div>
-              </div>
-              <div class="item-content">
-                <h6 class="font-weight-normal">New user registration</h6>
-                <p class="font-weight-light small-text mb-0 text-muted">
-                  2 days ago
-                </p>
+              <div class="item-content flex-grow">
+                <h6 class="ellipsis font-weight-normal">
+                  {{ notification.sender.nom }} {{ notification.sender.prenom }}
+                </h6>
+                <div [innerHTML]="notification.message"></div>
               </div>
             </a>
           </div>
@@ -148,15 +193,10 @@
             class="dropdown-menu dropdown-menu-right navbar-dropdown"
             aria-labelledby="profileDropdown"
           >
-            <a class="dropdown-item" [routerLink]="['/collaborateur/profile']">
-              <i class="mdi mdi-account-box-outline text-primary"></i>
-              Mon Profile
-            </a>
-            <a class="dropdown-item" [routerLink]="['/collaborateur/compte']">
+            <a class="dropdown-item" [routerLink]="['/managerRh/profile']">
               <i class="mdi mdi-settings text-primary"></i>
               Mon Compte
             </a>
-
             <a class="dropdown-item" (click)="logout()">
               <i class="mdi mdi-logout text-primary"></i>
               Se deconnecter
