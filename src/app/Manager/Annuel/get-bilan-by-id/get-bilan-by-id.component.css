@@ -12,7 +12,18 @@ body{
         margin-top: 0.21429rem !important;
     }
 }
-
+h1 {
+    font-family: 'Arial', sans-serif;
+    font-size: 2.5em;
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-bottom: 2px solid #ddd;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
 .g-height-50 {
     height: 50px;
 }
@@ -131,6 +142,10 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.custom-flex-container {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .pill-container {

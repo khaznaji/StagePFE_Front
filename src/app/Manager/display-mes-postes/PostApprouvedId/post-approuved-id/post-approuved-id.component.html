@@ -12,12 +12,15 @@
         </button>
       </div>
       <button
-        class="btn btn-inverse-warning"
-        [disabled]="!quizzes || quizzes.length === 0"
-        (click)="publierPoste(poste.id)"
-      >
-        Publier
-      </button>
+      class="btn btn-inverse-warning"
+      [disabled]="isAnyQuizActive(quizzes)"
+      (click)="publierPoste(poste.id)"
+    >
+      Publier
+    </button>
+    
+    
+    
     </div>
   </div>
 </div>

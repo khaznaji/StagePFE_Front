@@ -60,10 +60,10 @@ export class ManagerMenuComponent implements OnInit {
   }
 
   redirectionChat(id: any) {
-    this.router.navigate(['/managerRh/chat/' + id]);
+    this.router.navigate(['/managerService/chat/' + id]);
   }
   redirectionProfile(id: any) {
-    this.router.navigate(['/managerRh/user-profile/' + id]);
+    this.router.navigate(['/managerService/user-profile/' + id]);
   }
 
   redirectToPage(notification: Notifications): void {

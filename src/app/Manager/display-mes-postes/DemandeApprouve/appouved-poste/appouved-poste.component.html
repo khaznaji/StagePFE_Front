@@ -242,7 +242,6 @@
     font-size: 12px;
   }
 </style>
-
 <br />
 <!-- Formulaire -->
 <div class="card mx-auto text-center" tabindex="-1" role="dialog">
@@ -254,64 +253,48 @@
         <div class="d-flex justify-content-end mb-3">
           <!-- Bouton ajouté ici -->
         </div>
-       
+        
+        <!-- Search input -->
+        <div class="mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Rechercher par titre"
+            [(ngModel)]="searchTerm"
+            (input)="filterPostes()"
+          />
+        </div>
+
         <div></div>
 
-      
-        <div class="table-responsive" >
+        <div class="table-responsive">
           <table class="table table-striped card-table">
             <thead>
               <tr>
                 <th>Ref</th>
                 <th>Poste</th>
                 <th>Competences</th>
-                <th>
-                  Type De <br />
-                  Contrat
-                </th>
+                <th>Type De <br />Contrat</th>
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody>
-              <tr *ngFor="let poste of approvedPostes">
+                         <tbody *ngIf="filteredPostes && filteredPostes.length > 0; else noPosts">
+              
+              <tr *ngFor="let poste of filteredPostes">
                 <td class="poste-titre">#{{ poste.id }}</td>
-
                 <td class="poste-titre">{{ poste.titre }}</td>
                 <td *ngIf="poste.competences && poste.competences.length > 0">
                   <div class="pill-container">
-                    <ng-container
-                      *ngFor="
-                        let competence of poste.competences;
-                        let i = index
-                      "
-                    >
-                      <span *ngIf="i < 3 || showAllCompetences" class="pill">
-                        {{ competence.nom }}
-                      </span>
+                    <ng-container *ngFor="let competence of poste.competences; let i = index">
+                      <span *ngIf="i < 3 || showAllCompetences" class="pill">{{ competence.nom }}</span>
                     </ng-container>
-                    <a
-                      *ngIf="
-                        poste.competences.length > 3 && !showAllCompetences
-                      "
-                      (click)="toggleCompetences()"
-                      class="view-more-link"
-                      >Voir plus</a
-                    >
-                    <a
-                      *ngIf="poste.competences.length > 3 && showAllCompetences"
-                      (click)="toggleCompetences()"
-                      class="view-less-link"
-                      >Voir moins</a
-                    >
+                    <a *ngIf="poste.competences.length > 3 && !showAllCompetences" (click)="toggleCompetences()" class="view-more-link">Voir plus</a>
+                    <a *ngIf="poste.competences.length > 3 && showAllCompetences" (click)="toggleCompetences()" class="view-less-link">Voir moins</a>
                   </div>
                 </td>
                 <td class="poste-titre">{{ poste.typeContrat }}</td>
                 <td>
-                  <button
-                    (click)="ToPostId(poste.id)"
-                    type="button"
-                    class="btn btn-inverse-info btn-icon"
-                  >
+                  <button (click)="ToPostId(poste.id)" type="button" class="btn btn-inverse-info btn-icon">
                     <i class="mdi mdi mdi-eye"></i>
                   </button>
                   &nbsp;
@@ -320,6 +303,9 @@
             </tbody>
           </table>
         </div>
+        <ng-template #noPosts>
+          <p>Aucun poste n'est disponible.</p>
+        </ng-template>
       </div>
     </div>
   </div>

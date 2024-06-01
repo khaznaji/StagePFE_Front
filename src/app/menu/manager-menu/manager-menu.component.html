@@ -98,7 +98,7 @@
             <span class="count"></span>
           </a>
           <div
-            style="width:300px"
+            style="width: 300px"
             class="dropdown-menu dropdown-menu-right navbar-dropdown"
             aria-labelledby="messageDropdown"
           >
@@ -132,52 +132,6 @@
             </div>
           </div>
         </li>
-        <li class="nav-item dropdown me-4">
-          <a
-            class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown"
-            id="notificationDropdown"
-            href="#"
-            data-bs-toggle="dropdown"
-          >
-            <i class="mdi mdi-bell mx-0"></i>
-            <span class="count" *ngIf="hasUnseenNotifications"></span>
-          </a>
-          <div
-            class="dropdown-menu dropdown-menu-right navbar-dropdown"
-            aria-labelledby="notificationDropdown"
-          >
-            <p class="mb-0 font-weight-normal float-left dropdown-header">
-              Notifications
-            </p>
-            <a
-              class="dropdown-item notification-item"
-              *ngFor="let notification of notifications"
-              [ngClass]="{
-                'notification-unseen': !notification.seen,
-                'notification-seen': notification.seen
-              }"
-              (click)="redirectToPage(notification)"
-            >
-              <div *ngIf="!notification.seen" class="notification-pill">
-                Nouveau
-              </div>
-
-              <div class="item-thumbnail">
-                <img
-                  [src]="'assets/images/' + notification.sender.image"
-                  alt="image"
-                  class="profile-pic"
-                />
-              </div>
-              <div class="item-content flex-grow">
-                <h6 class="ellipsis font-weight-normal">
-                  {{ notification.sender.nom }} {{ notification.sender.prenom }}
-                </h6>
-                <div [innerHTML]="notification.message"></div>
-              </div>
-            </a>
-          </div>
-        </li>
 
         <li class="nav-item nav-profile dropdown">
           <a
@@ -193,7 +147,7 @@
             class="dropdown-menu dropdown-menu-right navbar-dropdown"
             aria-labelledby="profileDropdown"
           >
-            <a class="dropdown-item" [routerLink]="['/managerRh/profile']">
+            <a class="dropdown-item" [routerLink]="['/managerService/profile']">
               <i class="mdi mdi-settings text-primary"></i>
               Mon Compte
             </a>
@@ -287,10 +241,37 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/managerService/mes-entretiens']">
+          <a
+            class="nav-link"
+            data-bs-toggle="collapse"
+            href="#d"
+            aria-expanded="false"
+            aria-controls="d"
+          >
             <i class="mdi mdi-camcorder menu-icon"></i>
-            <span class="menu-title">Mes Entretiens </span>
+            <span class="menu-title">Mes Entretiens</span>
+            <i class="menu-arrow"></i>
           </a>
+          <div class="collapse" id="d">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  [routerLink]="['/managerService/mes-entretiens']"
+                >
+                  Technique
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  [routerLink]="['/managerService/mes-entretien-annuel']"
+                >
+                  Annuel
+                </a>
+              </li>
+            </ul>
+          </div>
         </li>
       </ul>
     </nav>
@@ -302,24 +283,20 @@
       <!-- content-wrapper ends -->
       <!-- partial:partials/_footer.html -->
       <footer class="footer">
-        <div
-          class="d-sm-flex justify-content-center justify-content-sm-between"
-        >
-          <span
-            class="text-muted text-center text-sm-left d-block d-sm-inline-block"
-            >Copyright ©
-            <a href="https://www.bootstrapdash.com/" target="_blank"
-              >bootstrapdash.com </a
-            >2021</span
-          >
-          <span
-            class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"
-            >Only the best
-            <a href="https://www.bootstrapdash.com/" target="_blank">
-              Bootstrap dashboard
-            </a>
-            templates</span
-          >
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-6 text-center text-lg-start">
+              <span class="text-muted"
+                >© 2024 4YOU Sopra HR. Tous droits réservés.</span
+              >
+            </div>
+            <div class="col-lg-6 text-center text-lg-end">
+              <span class="text-muted"
+                >Conçu avec <i class="mdi mdi-heart text-danger"></i> par votre
+                équipe Sopra HR</span
+              >
+            </div>
+          </div>
         </div>
       </footer>
       <!-- partial -->

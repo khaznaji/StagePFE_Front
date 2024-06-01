@@ -55,10 +55,10 @@ export class FormateurMenuComponent implements OnInit {
   }
 
   redirectionChat(id: any) {
-    this.router.navigate(['/managerRh/chat/' + id]);
+    this.router.navigate(['/formateur/chat/' + id]);
   }
   redirectionProfile(id: any) {
-    this.router.navigate(['/managerRh/user-profile/' + id]);
+    this.router.navigate(['/formateur/user-profile/' + id]);
   }
 
   redirectToPage(notification: Notifications): void {

@@ -171,7 +171,7 @@
                   <th>Prénom</th>
                   <th>Match Pourcentage</th>
 
-                  <th>Email</th>
+                  <th>Commentaire</th>
                 </tr>
               </thead>
               <tbody>
@@ -179,7 +179,8 @@
                   <td>{{ candidat.nom }}</td>
                   <td>{{ candidat.prenom }}</td>
                   <td>{{ candidat.match }} %</td>
-                  <td>{{ candidat.email }}</td>
+                  <td>{{ candidat.commentaire }}</td>
+
                   <td>
                     <button
                       (click)="openModal(candidat.id)"

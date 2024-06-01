@@ -26,17 +26,30 @@ export class AddQuestionComponent implements OnInit {
   constructor(private questionService: QuestionService, private route: ActivatedRoute ,     private modalRef: BsModalRef
     ) { }
 
-  addQuestionToQuiz(): void {
-    this.questionService.addQuestionToQuiz(this.qid, this.question)
-      .subscribe(
-        (data) => {
-          console.log('Question added to quiz:', data);
-          // Gérer la réponse, par exemple, actualiser la liste des questions du quiz
-        },
-        (error) => {
-          console.error('Error adding question to quiz:', error);
-          // Gérer l'erreur, par exemple, afficher un message d'erreur à l'utilisateur
-        }
-      );
-  }
+
+    addQuestionToQuiz(): void {
+      this.questionService.addQuestionToQuiz(this.qid, this.question)
+        .subscribe(
+          (data) => {
+            console.log('Question added to quiz:', data);
+            Swal.fire({
+              title: 'Succès!',
+              text: 'La question a été ajoutée avec succès au quiz.',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            });
+            // Handle the response, for example, refresh the list of quiz questions
+          },
+          (error) => {
+            console.error('Error adding question to quiz:', error);
+            Swal.fire({
+              title: 'Erreur!',
+              text: 'Une erreur s\'est produite lors de l\'ajout de la question au quiz.',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+            // Handle the error, for example, show an error message to the user
+          }
+        );
+    }
 }

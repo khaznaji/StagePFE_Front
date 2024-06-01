@@ -2,10 +2,22 @@
   <div class="card">
     <div class="card-body">
       <h4 class="card-title">Mon equipe</h4>
-      <button class="btn btn-inverse-primary" (click)="envoyerBilan()">
-        Envoyer Bilan Annuel A Mon Equipe
-      </button>
+      <div class="col-md-12 custom-flex-container">
+        <button class="btn btn-inverse-primary" (click)="envoyerBilan()">
+          Envoyer Bilan Annuel A Mon Equipe
+        </button>
+        &nbsp;
+        <button
+          class="btn btn-inverse-success"
+          (click)="redirigerVersSession()"
+        >
+          Calendrier
+        </button>
+      </div>
       <br />
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Rechercher par nom..." [(ngModel)]="searchTerm" (input)="onSearch()" />
+      </div>
       <div class="table-responsive">
         <table class="table table-bordered">
           <thead>
@@ -14,7 +26,8 @@
               <th>Collaborateur</th>
             </tr>
           </thead>
-          <tbody *ngFor="let group of members">
+            
+          <tbody *ngFor="let group of filteredMembers">
             <tr *ngFor="let member of group">
               <td class="py-1">
                 <img [src]="'assets/images/' + member?.image" alt="image" />
@@ -31,7 +44,8 @@
             </tr>
           </tbody>
         </table>
-      </div>
+      
+      
     </div>
   </div>
 </div>

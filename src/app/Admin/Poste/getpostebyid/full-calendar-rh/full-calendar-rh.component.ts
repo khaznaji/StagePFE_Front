@@ -11,11 +11,11 @@ import { UserService } from 'src/app/service/user.service';
 @Component({
   selector: 'app-full-calendar-rh',
   templateUrl: './full-calendar-rh.component.html',
-  styleUrls: ['./full-calendar-rh.component.css']
+  styleUrls: ['./full-calendar-rh.component.css'],
 })
 export class FullCalendarRhComponent implements OnInit {
   postId!: number;
-  userId!:number; 
+  userId!: number;
   id!: number;
   candidatureId!: number;
   dateEntretien!: string;
@@ -25,8 +25,8 @@ export class FullCalendarRhComponent implements OnInit {
     private route: ActivatedRoute,
     private entretienService: EntretienRhService,
     public dialog: MatDialog,
-    private posteService: PosteService , 
-    private userService : UserService
+    private posteService: PosteService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -34,20 +34,27 @@ export class FullCalendarRhComponent implements OnInit {
       this.postId = +params['postId'];
       this.loadCandidatureDates();
     });
-    this.loadCandidatureDates(); 
+    this.loadCandidatureDates();
     this.getCandidatsByPoste();
     this.getManagerByPoste();
-
   }
 
   showModal: boolean = false;
   showModal2: boolean = false;
 
   eventData: any = {}; // To store event data
-
+  preRemplirFormulaire(): void {
+    if (this.entretienDetails) {
+      this.candidatureId = this.entretienDetails.candidatureId;
+      this.dateEntretien = this.entretienDetails.entretien.dateEntretien;
+      this.heureDebut = this.entretienDetails.entretien.heureDebut;
+      this.heureFin = this.entretienDetails.entretien.heureFin;
+    }
+    this.editMode = true; // Activer le mode d'édition
+  }
   calendarOptions: any = {
     weekends: false, // initial value
-    initialView: 'timeGridWeek', // Commencez par afficher la vue semaine
+    initialView: 'dayGridMonth', // Commencez par afficher la vue semaine
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     dateClick: (arg: any) => this.handleDateClick(arg),
     eventClick: (arg: any) => this.handleEventClick(arg),
@@ -95,31 +102,32 @@ export class FullCalendarRhComponent implements OnInit {
   }
 
   // Déclarer une variable pour suivre si la date est antérieure à aujourd'hui
-isPastDate: boolean = false;
+  isPastDate: boolean = false;
 
-handleDateClick(arg: any) {
-  const clickedDate = new Date(arg.dateStr);
-  const today = new Date(); // Obtenez la date actuelle
+  handleDateClick(arg: any) {
+    const clickedDate = new Date(arg.dateStr);
+    const today = new Date(); // Obtenez la date actuelle
 
-  // Vérifiez si la date cliquée est antérieure à aujourd'hui
-  if (clickedDate < today) {
-    // Si la date est antérieure à aujourd'hui, configurez la variable isPastDate sur true
-    this.isPastDate = true;
-    console.log("Vous ne pouvez pas sélectionner une date antérieure à aujourd'hui.");
-    return; // Quittez la fonction sans effectuer d'autres actions
-  } else {
-    // Si la date n'est pas antérieure à aujourd'hui, configurez isPastDate sur false
-    this.isPastDate = false;
+    // Vérifiez si la date cliquée est antérieure à aujourd'hui
+    if (clickedDate < today) {
+      // Si la date est antérieure à aujourd'hui, configurez la variable isPastDate sur true
+      this.isPastDate = true;
+      console.log(
+        "Vous ne pouvez pas sélectionner une date antérieure à aujourd'hui."
+      );
+      return; // Quittez la fonction sans effectuer d'autres actions
+    } else {
+      // Si la date n'est pas antérieure à aujourd'hui, configurez isPastDate sur false
+      this.isPastDate = false;
+    }
+
+    // Si la date est valide, continuez avec votre logique actuelle
+    this.showModal = true;
+    this.eventData.start = arg.dateStr;
+    this.eventData.end = arg.dateStr;
+    this.eventData.date = arg.dateStr;
   }
 
-  // Si la date est valide, continuez avec votre logique actuelle
-  this.showModal = true;
-  this.eventData.start = arg.dateStr;
-  this.eventData.end = arg.dateStr;
-  this.eventData.date = arg.dateStr;
-}
-
-  
   entretienDetails: any | undefined; // Définissez la propriété entretienDetails de type Entretien | undefined
   closeModal() {
     this.showModal2 = false;
@@ -129,6 +137,8 @@ handleDateClick(arg: any) {
     this.entretienService.getEntretienById(eventId).subscribe(
       (entretien) => {
         this.entretienDetails = entretien;
+        this.preRemplirFormulaire(); // Appeler pour pré-remplir le formulaire
+
         this.showModal2 = true;
         console.log(
           "// Afficher le second modal avec les détails de l'entretien"
@@ -163,9 +173,8 @@ handleDateClick(arg: any) {
         this.candidatureId,
         this.dateEntretien,
         this.heureDebut,
-        this.heureFin, 
+        this.heureFin,
         this.userId
-
       )
       .subscribe(
         (response) => {
@@ -178,13 +187,15 @@ handleDateClick(arg: any) {
         }
       );
   }
-  submitUpdatedEntretien(id : number): void {
+  submitUpdatedEntretien(id: number): void {
     this.entretienService
       .updateEntretien(
-id ,        this.candidatureId,
+        id,
+        this.candidatureId,
         this.dateEntretien,
         this.heureDebut,
-        this.heureFin, this.userId
+        this.heureFin,
+        this.userId
       )
       .subscribe(
         (response) => {
@@ -199,47 +210,59 @@ id ,        this.candidatureId,
       );
   }
   candidats: any[] = [];
-  manager : any [] = [] ;
+  manager: any[] = [];
   getCandidatsByPoste(): void {
-    this.posteService.getCandidatsByPosteIdEnAttenteEntretienRh(this.postId)
+    this.posteService
+      .getCandidatsByPosteIdEnAttenteEntretienRh(this.postId)
       .subscribe(
-        candidats => {
+        (candidats) => {
           this.candidats = candidats;
           console.log('Candidats:', this.candidats);
-
         },
-        error => {
+        (error) => {
           console.error('Erreur lors de la récupération des candidats:', error);
         }
       );
   }
   getManagerByPoste(): void {
-    this.userService.getAllManagerRh()
-      .subscribe(
-        manager => {
-          this.manager = manager;
-          console.log('manager:', this.manager);
-
-        },
-        error => {
-          console.error('Erreur lors de la récupération des candidats:', error);
-        }
-      );
+    this.userService.getAllManagerRh().subscribe(
+      (manager) => {
+        this.manager = manager;
+        console.log('manager:', this.manager);
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des candidats:', error);
+      }
+    );
   }
   addEvent() {
+    if (!this.candidatureId) {
+      console.error('Veuillez sélectionner un candidat.');
+      return;
+    }
+
+    // Trouver le candidat sélectionné dans la liste des candidats
+    const candidatSelectionne = this.candidats.find(
+      (candidat) => candidat.id === this.candidatureId
+    );
+
+    if (!candidatSelectionne) {
+      console.error('Candidat sélectionné introuvable.');
+      return;
+    }
     const newEvent: EventInput = {
-      title: this.eventData.title,
+      title: `${candidatSelectionne.nom} ${candidatSelectionne.prenom}`, // Utiliser le nom et le prénom du candidat sélectionné comme titre de l'événement
       start: this.eventData.start,
       end: this.eventData.end,
     };
     this.createEntretien(
       this.postId,
-      this.userId, 
+      this.userId,
 
       this.candidatureId,
       this.eventData.date, // Utilisez la date de l'événement
       this.heureDebut,
-      this.heureFin , 
+      this.heureFin
     );
     this.calendarOptions.events = [...this.calendarOptions.events, newEvent];
     this.resetEventData();
@@ -258,7 +281,7 @@ id ,        this.candidatureId,
   // Method to handle event creation dynamically based on user interaction
   createEntretien(
     postId: number,
-userId: number ,
+    userId: number,
     candidatureId: number,
     dateEntretien: string,
     heureDebut: string,
@@ -271,7 +294,7 @@ userId: number ,
         candidatureId,
         dateEntretien,
         heureDebut,
-        heureFin, 
+        heureFin,
         userId
       )
       .subscribe(
@@ -280,7 +303,8 @@ userId: number ,
         },
         (error) => {
           console.error('Error creating entretien:', error);
-console.log(userId)        }
+          console.log(userId);
+        }
       );
   }
 
@@ -300,5 +324,35 @@ console.log(userId)        }
     console.log('Clicked on day:', date.toLocaleString());
     // Optionally, open a modal, navigate to another view, etc.
   }
+  getTodayDate(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1; // Les mois commencent à 0
+    const day = today.getDate();
+    const formattedMonth = month < 10 ? '0' + month : month;
+    const formattedDay = day < 10 ? '0' + day : day;
+    return `${year}-${formattedMonth}-${formattedDay}`;
+  }
+  getMinTime(): string {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    // Si c'est aujourd'hui et l'heure actuelle est avant 18h00
+    if (currentHour < 18 || (currentHour === 18 && currentMinute === 0)) {
+      // Définir la valeur minimale sur l'heure actuelle
+      const formattedHour = currentHour < 10 ? '0' + currentHour : currentHour;
+      const formattedMinute =
+        currentMinute < 10 ? '0' + currentMinute : currentMinute;
+      return `${formattedHour}:${formattedMinute}`;
+    } else {
+      // Sinon, définir la valeur minimale sur 08h00
+      return '08:00';
+    }
+  }
+  checkHeureFin(): boolean {
+    return (
+      new Date('1970-01-01T' + this.heureFin) >
+      new Date('1970-01-01T' + this.heureDebut)
+    );
+  }
 }
-

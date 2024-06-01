@@ -1,45 +1,65 @@
 <div class="container">
   <div class="row">
-    <div *ngFor="let entretien of entretiens" class="col-md-4 mb-4">
-      <div class="card">
-        <div class="card-body">
-          <div class="d-flex justify-content-between mb-3">
-            <h5 class="card-title">{{ entretien.entretien.poste.titre }}</h5>
-            <p class="card-title">Ref: #{{ entretien.entretien.poste.id }}</p>
+    <div class="col-12 mb-4">
+      <h2
+        style="
+          font-size: 24px;
+          font-weight: bold;
+          color: #333;
+          margin-bottom: 20px;
+        "
+      >
+        Mes Entretiens Technique
+      </h2>
+    </div>
+    <ng-container *ngIf="entretiens && entretiens.length > 0; else noEntretien">
+      <div *ngFor="let entretien of entretiens" class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-3">
+              <h5 class="card-title">{{ entretien.entretien.poste.titre }}</h5>
+              <p class="card-title">Ref: #{{ entretien.entretien.poste.id }}</p>
+            </div>
+
+            <h6 class="card-subtitle mb-2" style="color: rgb(72, 55, 55)">
+              Avec
+              <b
+                >{{ entretien.nomCollaborateur }}
+                {{ entretien.prenomCollaborateur }}
+              </b>
+            </h6>
+            <p class="card-text">
+              <i class="mdi mdi-calendar-range"></i> Date:
+              {{ entretien.entretien.dateEntretien }}
+            </p>
+            <p class="card-text">
+              <i class="mdi mdi-clock-outline"></i> Heure de début:
+              {{ entretien.entretien.heureDebut | slice : 0 : 5 }}
+            </p>
+            <p class="card-text">
+              <i class="mdi mdi-clock-outline"></i> Heure de fin:
+              {{ entretien.entretien.heureFin | slice : 0 : 5 }}
+            </p>
+
+            <button
+              class="btn btn-inverse-primary"
+              (click)="
+                joinInterview(
+                  entretien.entretien.roomId,
+                  entretien.entretien.id
+                )
+              "
+            >
+              Rejoindre l'interview
+            </button>
           </div>
-
-          <h6 class="card-subtitle mb-2" style="color: rgb(72, 55, 55)">
-            Avec
-            <b
-              >{{ entretien.nomCollaborateur }}
-              {{ entretien.prenomCollaborateur }}
-            </b>
-          </h6>
-          <p class="card-text">
-            <i class="mdi mdi-calendar-range"></i> Date:
-            {{ entretien.entretien.dateEntretien }}
-          </p>
-          <p class="card-text">
-            <i class="mdi mdi-clock-outline"></i> Heure de début:
-            {{ entretien.entretien.heureDebut | slice : 0 : 5 }}
-          </p>
-          <p class="card-text">
-            <i class="mdi mdi-clock-outline"></i> Heure de fin:
-            {{ entretien.entretien.heureFin | slice : 0 : 5 }}
-          </p>
-
-          <button
-          class="btn btn-inverse-primary"
-          (click)="
-            joinInterview(
-              entretien.entretien.roomId,
-              entretien.entretien.id        )
-          "
-        >
-            Rejoindre l'interview
-          </button>
         </div>
       </div>
-    </div>
+    </ng-container>
+    <ng-template #noEntretien>
+      <div class="col-12">
+        <p>Aucun entretien n'est disponible pour le moment.</p>
+      </div>
+    </ng-template>
   </div>
 </div>

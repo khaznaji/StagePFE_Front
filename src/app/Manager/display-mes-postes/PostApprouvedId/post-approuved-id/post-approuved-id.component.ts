@@ -102,16 +102,51 @@ ToEdit(postid :number  ){
     }
   });
 }
+hasEnoughQuestions(quizzes: any[]): boolean {
+  // Vérifiez si au moins un des quizzes a au moins 5 questions
+  return quizzes.some(quiz => quiz.questions.length >= 5);
+}
 publierPoste(postId: number): void {
-  this.posteService.PubliePoste(postId).subscribe(
-    () => {
-      console.log('Poste publié avec succès');
-      // Ajoutez ici votre logique après la publication du poste
-    },
-    (error) => {
-      console.error('Erreur lors de la publication du poste :', error);
-      // Ajoutez ici votre logique pour gérer les erreurs de publication du poste
+  // Afficher une boîte de dialogue de confirmation
+  Swal.fire({
+    title: 'Êtes-vous sûr de vouloir publier ce poste ?',
+    text: "Cette action est irréversible !",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Oui, publier le poste !',
+    cancelButtonText: 'Annuler'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Si l'utilisateur clique sur le bouton "Oui"
+      this.posteService.PubliePoste(postId).subscribe(
+        () => {
+          // Si la publication est réussie, afficher une boîte de dialogue de succès
+          Swal.fire(
+            'Publié !',
+            'Le poste a été publié avec succès.',
+            'success'
+          );
+          console.log('Poste publié avec succès');
+          // Ajoutez ici votre logique après la publication du poste
+        },
+        (error) => {
+          // Si une erreur se produit lors de la publication, afficher une boîte de dialogue d'erreur
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur!',
+            text: error.error
+          });
+          console.error('Erreur lors de la publication du poste :', error);
+          // Ajoutez ici votre logique pour gérer les erreurs de publication du poste
+        }
+      );
     }
-  );
+  });
+}
+
+isAnyQuizActive(quizzes: Quiz[]): boolean {
+  return quizzes && quizzes.length > 0 && quizzes.some(quiz => quiz.active);
 }
 }

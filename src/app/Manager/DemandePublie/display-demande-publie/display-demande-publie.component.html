@@ -247,23 +247,19 @@
 <!-- Formulaire -->
 <div class="card mx-auto text-center" tabindex="-1" role="dialog">
   <div class="card-body">
-    <!-- Liste des catégories -->
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Liste des Postes Publiés</h4>
-        <div class="d-flex justify-content-end mb-3">
-          <!-- Bouton ajouté ici -->
+        <div class="d-flex justify-content-between mb-3">
+          <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Rechercher par titre..." 
+            [(ngModel)]="searchTerm" 
+            (input)="filterPostes()"
+          />
         </div>
-        <div></div>
 
-        <!-- <div class="ml-2">
-          <select [(ngModel)]="filterOption" class="form-control" (change)="applyFilter()">
-            <option value="all">Tous</option>
-            <option value="NonTraite">NonTraite</option>
-            <option value="Archive">Archive</option>
-            <option value="Accepter">Accepter</option>
-          </select>
-        </div> -->
         <div class="table-responsive">
           <table class="table table-striped card-table">
             <thead>
@@ -271,58 +267,32 @@
                 <th>Ref</th>
                 <th>Poste</th>
                 <th>Competences</th>
-                <th>
-                  Type de<br />
-                  Contrat
-                </th>
+                <th>Type de Contrat</th>
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody *ngIf="approvedPostes && approvedPostes.length > 0; else noPosts">
-              <tr *ngFor="let poste of approvedPostes">
+            <tbody *ngIf="filteredPostes && filteredPostes.length > 0; else noPosts">
+              <tr *ngFor="let poste of filteredPostes">
                 <td class="poste-titre">#{{ poste.id }}</td>
-
                 <td class="poste-titre">{{ poste.titre }}</td>
                 <td *ngIf="poste.competences && poste.competences.length > 0">
                   <div class="pill-container">
-                    <ng-container
-                      *ngFor="
-                        let competence of poste.competences;
-                        let i = index
-                      "
-                    >
+                    <ng-container *ngFor="let competence of poste.competences; let i = index">
                       <span *ngIf="i < 3 || showAllCompetences" class="pill">
                         {{ competence.nom }}
                       </span>
                     </ng-container>
-                    <a
-                      *ngIf="
-                        poste.competences.length > 3 && !showAllCompetences
-                      "
-                      (click)="toggleCompetences()"
-                      class="view-more-link"
-                      >Voir plus</a
-                    >
-                    <a
-                      *ngIf="poste.competences.length > 3 && showAllCompetences"
-                      (click)="toggleCompetences()"
-                      class="view-less-link"
-                      >Voir moins</a
-                    >
+                    <a *ngIf="poste.competences.length > 3 && !showAllCompetences" (click)="toggleCompetences()" class="view-more-link">Voir plus</a>
+                    <a *ngIf="poste.competences.length > 3 && showAllCompetences" (click)="toggleCompetences()" class="view-less-link">Voir moins</a>
                   </div>
                 </td>
                 <td class="poste-titre">{{ poste.typeContrat }}</td>
                 <td>
-                  <button
-                    (click)="ToPostId(poste.id)"
-                    type="button"
-                    class="btn btn-inverse-info btn-icon"
-                  >
+                  <button (click)="ToPostId(poste.id)" type="button" class="btn btn-inverse-info btn-icon">
                     <i class="mdi mdi mdi-eye"></i>
                   </button>
-                  <button (click)="archivePoste(poste.id)">Archiver</button>
-
                   &nbsp;
+                  <button type="button" class="btn btn-secondary" (click)="archivePoste(poste.id)">Archiver</button>
                 </td>
               </tr>
             </tbody>
@@ -335,4 +305,5 @@
     </div>
   </div>
 </div>
+
 

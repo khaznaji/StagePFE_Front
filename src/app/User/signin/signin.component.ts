@@ -55,11 +55,11 @@ export class SigninComponent {
         if (role === 'ManagerRh') {
           this.router.navigate(['/managerRh/dashboard']);
         } else if (role === 'ManagerService') {
-          this.router.navigate(['/managerService']);
+          this.router.navigate(['/managerService/dashboard']);
         } else if (role === 'Formateur') {
-          this.router.navigate(['/formateur']);
+          this.router.navigate(['/formateur/all']);
         }  else if (role === 'Collaborateur')  {
-          this.router.navigate(['/collaborateur']);
+          this.router.navigate(['/collaborateur/all-poste']);
         }
       },
       

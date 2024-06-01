@@ -13,8 +13,16 @@ import Swal from 'sweetalert2';
 export class GestionCompetenceComponent implements OnInit {
   ngOnInit() {
     this.reloadDatsa();
-  }
+    this.filteredEvents = this.events;
 
+  }
+  searchTerm: string = '';
+  filteredEvents: any[] = [];
+
+  p: number = 1; // Current page
+  itemsPerPage: number = 5; // Number of items per page
+  pages: number[] = []; // Array to store page numbers
+  totalPages: number = 0;
   replaceUnderscoreWithSpace(domaine: string): string {
     return domaine.replace(/_/g, ' ');
   }
@@ -29,19 +37,25 @@ export class GestionCompetenceComponent implements OnInit {
   ) {}
 
   events: any;
+ 
 
+  filteredPostes: any[] = [];
+  onSearch() {
+    this.filteredPostes = this.events.filter((poste: { nom: string; }) =>
+      poste.nom.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
   reloadDatsa() {
     this.events = this.categoryService.getAll().subscribe((res) => {
       this.events = res;
-      this.totalItems = res.length; // Mettez à jour la propriété totalItems avec la longueur de la liste des compétences
+      this.filteredPostes = res;
 
+      this.totalItems = res.length; // Mettez à jour la propriété totalItems avec la longueur de la liste des compétences
       console.log(res);
     });
   }
   totalItems: number = 0; // Initialisez à 0 par défaut
 
- 
-  
   filteredCategories: Competence[] = [];
   selectedImage: File | null = null;
   imagePreview: string | undefined;

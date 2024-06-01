@@ -1,17 +1,36 @@
 <div class="container">
-    <h2>Évaluation de l'entretien</h2>
-    
-    <!-- Formulaire de notation -->
-    <form (ngSubmit)="noterEntretien()">
-      <div class="form-group">
-        <label for="note">Note:</label>
-        <input type="number" class="form-control" id="note" [(ngModel)]="note" name="note" min="0" max="10" required>
-      </div>
-      <div class="form-group">
-        <label for="commentaire">Commentaire:</label>
-        <textarea class="form-control" id="commentaire" [(ngModel)]="commentaire" name="commentaire" rows="4" required></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">Soumettre</button>
-    </form>
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">Évaluation de l'entretien</h2>
+
+      <!-- Formulaire de notation -->
+      <form (ngSubmit)="noterEntretien()">
+        <div class="form-group">
+          <label for="note">Note:</label>
+          <input
+            type="number"
+            class="form-control"
+            id="note"
+            [(ngModel)]="note"
+            name="note"
+            min="0"
+            max="10"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="commentaire">Commentaire:</label>
+          <textarea
+            class="form-control"
+            id="commentaire"
+            [(ngModel)]="commentaire"
+            name="commentaire"
+            rows="4"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Soumettre</button>
+      </form>
+    </div>
   </div>
-  
+</div>

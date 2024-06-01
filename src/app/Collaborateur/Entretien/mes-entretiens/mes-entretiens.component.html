@@ -1,4 +1,7 @@
 <div class="container">
+  <div class="col-12 mb-4">
+    <h2 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Mes Entretiens Technique</h2>
+  </div>
   <div class="row" *ngIf="entretiens.length > 0; else noEntretiens">
     <div *ngFor="let entretien of entretiens" class="col-md-4 mb-4">
       <div class="card">

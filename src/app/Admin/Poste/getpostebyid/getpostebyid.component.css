@@ -259,3 +259,14 @@ body {
 .btn-danger:hover {
   background-color: #da190b;
 }
+.progress {
+  height: 20px;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  background-color: #710c18;
+  color: #fff;
+  text-align: center;
+  line-height: 20px;
+}

@@ -1,157 +1,263 @@
-<!-- full-calendar.component.html -->
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <i class="fas fa-calendar-alt"></i> Calendrier Des Entretiens Annuels
+        </div>
+        <div class="card-body">
+          <div class="calendar-column">
+            <full-calendar
+              [options]="calendarOptions"
+              [ngClass]="{ 'cursor-not-allowed': isPastDate }"
+            ></full-calendar>
+            <div *ngIf="showModal2" class="modal custom-modal">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Détails de l'entretien</h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                      (click)="closeModal()"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div *ngIf="entretienDetails && !editMode">
+                      <dl class="row">
+                        <dt class="col-sm-3">ID:</dt>
+                        <dd class="col-sm-9">
+                          {{ entretienDetails.entretien.id }}
+                        </dd>
+                        <dt class="col-sm-3">Collaborateur :</dt>
+                        <dd class="col-sm-9">
+                          {{ entretienDetails.nomCollaborateur }}
+                          {{ entretienDetails.prenomCollaborateur }}
+                        </dd>
+                        <dt class="col-sm-3">Date de l'entretien:</dt>
+                        <dd class="col-sm-9">
+                          {{ entretienDetails.entretien.dateEntretien }}
+                        </dd>
+                        <dt class="col-sm-3">Heure de début:</dt>
+                        <dd class="col-sm-9">
+                          {{
+                            entretienDetails.entretien.heureDebut
+                              | slice : 0 : 5
+                          }}
+                        </dd>
+                        <dt class="col-sm-3">Heure de fin:</dt>
+                        <dd class="col-sm-9">
+                          {{
+                            entretienDetails.entretien.heureFin | slice : 0 : 5
+                          }}
+                        </dd>
+                        <dt class="col-sm-3">Room Id:</dt>
+                        <dd class="col-sm-9">
+                          {{
+                            entretienDetails.entretien.roomId | slice : 0 : 5
+                          }}
+                        </dd>
+                      </dl>
+                      <button class="btn btn-primary" (click)="preRemplirFormulaire(); editMode = true">
+                        Modifier
+                      </button>
+                      
+                    </div>
+                    <div *ngIf="editMode">
+                      <form (submit)="submitUpdatedEntretien(entretienDetails.entretien.id)">
+                        <div>
+                          <label for="collaborateurId">Collaborateur :</label>
+                          <select
+                            class="form-control"
+                            id="collaborateurId"
+                            name="collaborateurId"
+                            [(ngModel)]="collaborateurId"
+                          
 
-<div class="container">
-    <div class="calendar-column">
-      <div class="card">
-        <div *ngIf="showModal2" class="modal">
-          <div class="modal-content">
-            <span class="close" (click)="closeModal()">&times;</span>
-            <h2>Détails de l'entretien</h2>
-            <div *ngIf="entretienDetails && !editMode">
-              <p><strong>ID:</strong> {{ entretienDetails.entretien.id }}</p>
-              <p>
-                <strong>Candidat:</strong>
-                {{ entretienDetails.nomCollaborateur }}
-                {{ entretienDetails.prenomCollaborateur }}
-              </p>
-              <p>
-                <strong>Date de l'entretien:</strong>
-                {{ entretienDetails.entretien.dateEntretien }}
-              </p>
-              <p>
-                <strong>Heure de début:</strong>
-                {{ entretienDetails.entretien.heureDebut | slice : 0 : 5 }}
-              </p>
-              <p>
-                <strong>Heure de fin:</strong>
-                {{ entretienDetails.entretien.heureFin | slice : 0 : 5 }}
-              </p>
-              <p>
-                <strong>Room Id:</strong>
-                {{ entretienDetails.entretien.roomId | slice : 0 : 5 }}
-              </p>
-              <!-- Ajoutez d'autres détails de l'entretien au besoin -->
-            </div>
-            <button (click)="updateEntretienAnnuel(entretienDetails.entretien.id)">
-              Modifier
-            </button>
-            <!-- <button (click)="deleteEntretien(entretienDetails.entretien.id)">
-              Supprimer
-            </button> -->
-            <div *ngIf="editMode">
-              <form
-                (submit)="submitUpdatedEntretien(entretienDetails.entretien.id)"
-              >
-                <div>
-                  <label for="candidatureId">Candidature:</label>
-                  <select
-                  id="collaborateurId"
-                  name="collaborateurId"
-                  [(ngModel)]="collaborateurId"
-                  required
-              >
-                  <ng-container *ngFor="let group of members">
-                      <ng-container *ngFor="let member of group">
-                          <option [value]="member.idUser">
-                              {{ member?.nom }} {{ member?.prenom }}
-                          </option>
-                      </ng-container>
-                  </ng-container>
-              </select>
-              
+                            required
+                          >
+                            <ng-container *ngFor="let group of members">
+                              <ng-container *ngFor="let member of group">
+                                <option [value]="member.idUser" [selected]="member.idUser === collaborateurId">
+                                  {{ member?.nom }} {{ member?.prenom }}
+                                </option>
+                              </ng-container>
+                            </ng-container>
+                          </select>
+                        </div>
+                    
+                        <div>
+                          <label for="dateEntretien">Date de l'entretien:</label>
+                          <input
+                            class="form-control"
+                            type="date"
+                            id="dateEntretien"
+                            name="dateEntretien"
+                            [(ngModel)]="dateEntretien"
+                            required
+                            [min]="getTodayDate()"
+                          />
+                        </div>
+                        <div>
+                          <label for="heureDebut">Heure de début :</label>
+                          <input
+                            class="form-control"
+                            type="time"
+                            id="heureDebut"
+                            name="heureDebut"
+                            [(ngModel)]="heureDebut"
+                            required
+                            [min]="getMinTime()"
+                            max="18:00"
+                            (change)="checkHeureFin()"
+                          />
+                        </div>
+                        
+                        <div>
+                          <label for="heureFin">Heure de fin :</label>
+                          <input
+                            class="form-control"
+                            type="time"
+                            id="heureFin"
+                            name="heureFin"
+                            [(ngModel)]="heureFin"
+                            required
+                            [disabled]="!checkHeureFin()"
+                          />
+                          <div *ngIf="!checkHeureFin()" style="color: red
+                          ;"> <p>L'heure de fin doit être supérieure à l'heure de début.</p></div>                        </div>
+                        
+                    
+                        <!-- Boutons pour enregistrer ou annuler la modification -->
+                        <div class="mt-3">
+                          <button type="button" class="btn btn-secondary" (click)="editMode = false">Annuler</button>
+                        </div>
+                      </form>
+                    </div>
+                    
+                  </div>
+                  <div class="modal-footer">
+
+                    <button  [disabled]="!checkHeureFin()"
+                      class="btn btn-success"
+                      (click)="
+                        updateEntretienAnnuel(entretienDetails.entretien.id)
+                      "
+                    >
+                      Enregistrer
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                      (click)="closeModal()"
+                    >
+                      Fermer
+                    </button>
+                  </div>
                 </div>
+              </div>
+            </div>
+
+            <!-- Modal pour ajouter un nouvel événement -->
+            <div *ngIf="showModal" class="modal custom-modal">
+              <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                  <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">Nouvel Entretien Annuel</h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                      (click)="cancelAddEvent()"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <form (submit)="addEvent()" #f="ngForm" novalidate>
+                      <div class="mb-3">
+                        <label for="collaborateurId" class="form-label"
+                          >Collaborateur ID:</label
+                        >
+                        <select
+                          class="form-control"
+                          id="collaborateurId"
+                          name="collaborateurId"
+                          [(ngModel)]="collaborateurId"
+                          required
+
+                        >
+                          <ng-container *ngFor="let group of members">
+                            <ng-container *ngFor="let member of group">
+                              <option [value]="member.idUser">
+                                {{ member?.nom }} {{ member?.prenom }}
+                              </option>
+                            </ng-container>
+                          </ng-container>
+                        </select>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col">
+                          <label for="heureDebut" class="form-label"
+                            >Heure Début:</label
+                          >
+                          <input
+                            type="time"
+                            id="heureDebut"
+                            name="heureDebut"
+                            [(ngModel)]="heureDebut"
+                            required
+                            [min]="getMinTime()"
+                            max="18:00"
+                            (change)="checkHeureFin()"
+                            
+                          />
+
+                        </div>
+                        <div class="col">
+                          <label for="heureFin" class="form-label"
+                            >Heure Fin:</label
+                          >
+                          <input
+                            type="time"
+                            id="heureFin"
+                            name="heureFin"
+                            [(ngModel)]="heureFin"
+                            required
+                            [min]="getMinTime()"
+                            max="18:00"
+                            (change)="checkHeureFin()"
+
+                          />
+                          <div *ngIf="!checkHeureFin()" style="color: red
+                          ;"> <p>L'heure de fin doit être supérieure à l'heure de début.</p></div>
   
-                <div>
-                  <label for="dateEntretien">Date de l'entretien:</label>
-                  <input
-                    type="date"
-                    id="dateEntretien"
-                    name="dateEntretien"
-                    [(ngModel)]="dateEntretien"
-                    required
-                  />
+                        </div>
+                     
+                      </div>
+                      <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success"  [disabled]="!checkHeureFin()">
+                          Ajouter Entretien
+                        </button>
+                        &nbsp;
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          (click)="cancelAddEvent()"
+                        >
+                          Annuler
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
-                <div>
-                  <label for="heureDebut">Heure de début:</label>
-                  <input
-                    type="time"
-                    id="heureDebut"
-                    name="heureDebut"
-                    [(ngModel)]="heureDebut"
-                    required
-                  />
-                </div>
-                <div>
-                  <label for="heureFin">Heure de fin:</label>
-                  <input
-                    type="time"
-                    id="heureFin"
-                    name="heureFin"
-                    [(ngModel)]="heureFin"
-                    required
-                  />
-                </div>
-                <button type="submit">Enregistrer</button>
-                <button type="button" (click)="editMode = false">Annuler</button>
-              </form>
+              </div>
             </div>
-            <button (click)="closeModal()">Fermer</button>
           </div>
         </div>
-  
-        <div *ngIf="showModal" class="modal">
-          <div class="modal-content">
-            <span (click)="cancelAddEvent()" class="close">&times;</span>
-            <h2>New Event</h2>
-            <div>
-              <label for="collaborateurId">collaborateurId:</label>
-  
-              <select
-              id="collaborateurId"
-              name="collaborateurId"
-              [(ngModel)]="collaborateurId"
-              required
-          >
-              <ng-container *ngFor="let group of members">
-                  <ng-container *ngFor="let member of group">
-                      <option [value]="member.idUser">
-                          {{ member?.nom }} {{ member?.prenom }}
-                      </option>
-                  </ng-container>
-              </ng-container>
-          </select>
-          
-            </div>
-            <div>
-              <label for="heureDebut">Heure Début:</label>
-              <input
-                type="time"
-                id="heureDebut"
-                name="heureDebut"
-                [(ngModel)]="heureDebut"
-                required
-              />
-            </div>
-            <div>
-              <label for="heureFin">Heure Fin:</label>
-              <input
-                type="time"
-                id="heureFin"
-                name="heureFin"
-                [(ngModel)]="heureFin"
-                required
-              />
-            </div>
-            <button (click)="addEvent()">Add Event</button>
-            <button (click)="cancelAddEvent()">Cancel</button>
-          </div>
-        </div>
-  
-        <full-calendar
-          [options]="calendarOptions"
-          [ngClass]="{ 'cursor-not-allowed': isPastDate }"
-        ></full-calendar>
       </div>
     </div>
   </div>
-  
+</div>

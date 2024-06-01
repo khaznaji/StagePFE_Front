@@ -1,0 +1,177 @@
+<!-- full-calendar.component.html -->
+
+<div class="container">
+  <div class="calendar-column">
+    <div class="card">
+      <div *ngIf="showModal2" class="modal">
+        <div class="modal-content">
+          <span class="close" (click)="closeModal()">&times;</span>
+          <h2>Détails de l'entretien</h2>
+          <div *ngIf="entretienDetails && !editMode">
+            <p><strong>ID:</strong> {{ entretienDetails.entretien.id }}</p>
+            <p>
+              <strong>Candidat:</strong>
+              {{ entretienDetails.nomCollaborateur }}
+              {{ entretienDetails.prenomCollaborateur }}
+            </p>
+            <p>
+              <strong>Date de l'entretien:</strong>
+              {{ entretienDetails.entretien.dateEntretien }}
+            </p>
+            <p>
+              <strong>Heure de début:</strong>
+              {{ entretienDetails.entretien.heureDebut | slice : 0 : 5 }}
+            </p>
+            <p>
+              <strong>Heure de fin:</strong>
+              {{ entretienDetails.entretien.heureFin | slice : 0 : 5 }}
+            </p>
+            <p>
+              <strong>Room Id:</strong>
+              {{ entretienDetails.entretien.roomId | slice : 0 : 5 }}
+            </p>
+            <!-- Ajoutez d'autres détails de l'entretien au besoin -->
+          </div>
+          <button (click)="updateEntretien(entretienDetails.entretien.id)">
+            Modifier
+          </button>
+          <button (click)="deleteEntretien(entretienDetails.entretien.id)">
+            Supprimer
+          </button>
+          <div *ngIf="editMode">
+            <form
+              (submit)="submitUpdatedEntretien(entretienDetails.entretien.id)"
+            >
+              <div>
+                <label for="candidatureId">Candidature:</label>
+                <select
+                  id="candidatureId"
+                  name="candidatureId"
+                  [(ngModel)]="candidatureId"
+                  required
+                >
+                  <option
+                    *ngFor="let candidat of candidats"
+                    [value]="candidat.id"
+                  >
+                    {{ candidat.nom }} {{ candidat.prenom }}
+                  </option>
+                </select>
+                <div>
+                  <label for="userId">Manager Rh:</label>
+      
+                  <select
+                    id="userId"
+                    name="userId"
+                    [(ngModel)]="userId"
+                    required
+                  >
+                    <option *ngFor="let candidat of manager" [value]="candidat.id">
+                      {{ candidat.nom }} {{ candidat.prenom }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label for="dateEntretien">Date de l'entretien:</label>
+                <input
+                  type="date"
+                  id="dateEntretien"
+                  name="dateEntretien"
+                  [(ngModel)]="dateEntretien"
+                  required
+                />
+              </div>
+              <div>
+                <label for="heureDebut">Heure de début:</label>
+                <input
+                  type="time"
+                  id="heureDebut"
+                  name="heureDebut"
+                  [(ngModel)]="heureDebut"
+                  required
+                />
+              </div>
+              <div>
+                <label for="heureFin">Heure de fin:</label>
+                <input
+                  type="time"
+                  id="heureFin"
+                  name="heureFin"
+                  [(ngModel)]="heureFin"
+                  required
+                />z
+              </div>
+              <button type="submit">Enregistrer</button>
+              <button type="button" (click)="editMode = false">Annuler</button>
+            </form>
+          </div>
+          <button (click)="closeModal()">Fermer</button>
+        </div>
+      </div>
+
+      <div *ngIf="showModal" class="modal">
+        <div class="modal-content">
+          <span (click)="cancelAddEvent()" class="close">&times;</span>
+          <h2>New Event</h2>
+          <div>
+            <label for="candidatureId">Candidat:</label>
+
+            <select
+              id="candidatureId"
+              name="candidatureId"
+              [(ngModel)]="candidatureId"
+              required
+            >
+              <option *ngFor="let candidat of candidats" [value]="candidat.id">
+                {{ candidat.nom }} {{ candidat.prenom }}
+              </option>
+            </select>
+          </div>
+          <div>
+              <label for="userId">Manager Rh:</label>
+  
+              <select
+                id="userId"
+                name="userId"
+                [(ngModel)]="userId"
+                required
+              >
+                <option *ngFor="let candidat of manager" [value]="candidat.id">
+                  {{ candidat.nom }} {{ candidat.prenom }}
+                </option>
+              </select>
+            </div>
+          <div>
+            <label for="heureDebut">Heure Début:</label>
+            <input
+              type="time"
+              id="heureDebut"
+              name="heureDebut"
+              [(ngModel)]="heureDebut"
+              required
+            />
+          </div>
+          <div>
+            <label for="heureFin">Heure Fin:</label>
+            <input
+              type="time"
+              id="heureFin"
+              name="heureFin"
+              [(ngModel)]="heureFin"
+              required
+            />
+          </div>
+          <button (click)="addEvent()">Add Event</button>
+          <button (click)="cancelAddEvent()">Cancel</button>
+        </div>
+      </div>
+
+      <full-calendar
+        [options]="calendarOptions"
+        [ngClass]="{ 'cursor-not-allowed': isPastDate }"
+      ></full-calendar>
+    </div>
+  </div>
+</div>

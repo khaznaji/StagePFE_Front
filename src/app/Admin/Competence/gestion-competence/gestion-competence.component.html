@@ -134,6 +134,9 @@
                   <div class="d-flex justify-content-end mb-3">
                     <button type="button"  class="btn btn-inverse-primary" (click)="showAddCategoryModal()">+ Competence</button>
                   </div>          
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Rechercher par nom..." [(ngModel)]="searchTerm" (input)="onSearch()" />
+                  </div>
                 <div class="table-responsive">
                   <table class="table table-striped">
                     <thead>
@@ -144,7 +147,7 @@
                       </tr>
                     </thead>
                     <tbody >
-                      <tr *ngFor="let events of events ">
+                      <tr *ngFor="let events of filteredPostes | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: events.length }">
 
                         <td>{{ events.nom }}</td>
                         <td>{{ replaceUnderscoreWithSpace(events.domaine) }}</td>
@@ -160,8 +163,11 @@
                     </tbody>
 
                   </table>
-                  
+                  <div class="d-flex justify-content-center">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                  </div>
                 </div>
+               
                 <div class="d-flex justify-content-center">
               
                 </div>

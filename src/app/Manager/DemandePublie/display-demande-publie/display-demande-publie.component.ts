@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BsModalRef } from 'ngx-bootstrap/modal';
 import { PosteService } from 'src/app/service/poste.service';
 import Swal from 'sweetalert2';
 
@@ -9,123 +8,82 @@ import Swal from 'sweetalert2';
   templateUrl: './display-demande-publie.component.html',
   styleUrls: ['./display-demande-publie.component.css']
 })
-export class DisplayDemandePublieComponent  implements OnInit{
+export class DisplayDemandePublieComponent implements OnInit {
+  approvedPostes: any[] = [];
+  filteredPostes: any[] = [];
+  searchTerm: string = '';
+  showAllCompetences: boolean = false;
+  cardStates: boolean[] = []; 
+
+  constructor(private posteService: PosteService, private router: Router) {}
+
   ngOnInit(): void {
     this.getApprovedPostes();
   }
 
-  approvedPostes!: any[];
-  constructor(private posteService: PosteService , private router: Router ){}
-  cardStates: boolean[] = []; 
-  approuveParManagerRH: boolean = false;
-  archive: boolean = false;
-  encours: boolean = false;
-
-  ToList()
-  {this.router.navigate(['managerService/add-fiche-de-poste']);}
-  showAllCompetences = false; 
-  toggleFormVisibility(index: number): void {
-    // Inversion de l'état de la carte à l'index spécifié
-    this.cardStates[index] = !this.cardStates[index];
-  }
-  toggleCompetences() {
-    this.showAllCompetences = !this.showAllCompetences;
- }
   getApprovedPostes(): void {
-    this.posteService.getPostePulie()
-      .subscribe(
-        (data) => {
-          this.approvedPostes = data;
-                    console.log('Approved Postes:', this.approvedPostes);
-        },
-        (error) => {
-          console.error('Error fetching approved postes:', error);
-        }
-      );
+    this.posteService.getPostePulie().subscribe(
+      (data) => {
+        this.approvedPostes = data;
+        this.filteredPostes = data;
+        console.log('Approved Postes:', this.approvedPostes);
+      },
+      (error) => {
+        console.error('Error fetching approved postes:', error);
+      }
+    );
   }
-  selectedFilter: string = '';
-  onDelete(postId: number): void {
+
+  filterPostes(): void {
+    if (this.searchTerm) {
+      this.filteredPostes = this.approvedPostes.filter(poste =>
+        poste.titre.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    } else {
+      this.filteredPostes = this.approvedPostes;
+    }
+  }
+
+  toggleCompetences(): void {
+    this.showAllCompetences = !this.showAllCompetences;
+  }
+
+  ToPostId(postid: number): void {
+    this.router.navigate(['managerService/poste', postid]);
+  }
+
+  archivePoste(postId: number): void {
     Swal.fire({
       title: 'Êtes-vous sûr?',
-      text: 'La suppression du poste est irréversible!',
+      text: 'Voulez-vous vraiment archiver ce poste?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Supprimer',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, archiver',
       cancelButtonText: 'Annuler'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.posteService.deletePoste(postId).subscribe(
-          response => {
-            console.log('Poste supprimé avec succès:', response);
+        this.posteService.ArchiverPoste(postId).subscribe(
+          () => {
             Swal.fire(
-              'Supprimé!',
-              'Le poste a été supprimé avec succès.',
+              'Archivé!',
+              'Le poste a été archivé avec succès.',
               'success'
-            );
-            // Ajoutez ici la logique supplémentaire si nécessaire
-            window.location.reload();  // Recharge la fenêtre après la suppression
-            // Ferme le panneau après la suppression
+            ).then(() => {
+              window.location.reload();
+            });
           },
-          error => {
-            console.error('Erreur lors de la suppression du poste:', error);
+          (error) => {
+            console.error('Erreur lors de l\'archivage du poste:', error);
             Swal.fire(
               'Erreur!',
-              'Une erreur s\'est produite lors de la suppression du poste.',
+              'Une erreur s\'est produite lors de l\'archivage du poste.',
               'error'
             );
-            // Gérez les erreurs ici
           }
         );
       }
     });
   }
- ToEdit(postid :number  ){
-  this.router.navigate(['managerService/edit-postes', postid]);
- }
- ToPostId(postid :number  ){
-  this.router.navigate(['managerService/poste', postid]);
- }
- modalRef!: BsModalRef;
- archivePoste(postId: number): void {
-  Swal.fire({
-    title: 'Êtes-vous sûr?',
-    text: 'Voulez-vous vraiment archiver ce poste?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Oui, archiver',
-    cancelButtonText: 'Annuler'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.posteService.ArchiverPoste(postId).subscribe(
-        () => {
-          Swal.fire(
-            'Archivé!',
-            'Le poste a été archivé avec succès.',
-            'success'
-          ).then(() => {
-            // Recharge la page après avoir fermé la boîte de dialogue de succès
-            window.location.reload();
-          });
-          // Recharger les postes après l'archivage
-          // this.getApprovedPostes();
-        },
-        (error) => {
-          console.error('Erreur lors de l\'archivage du poste:', error);
-          Swal.fire(
-            'Erreur!',
-            'Une erreur s\'est produite lors de l\'archivage du poste.',
-            'error'
-          );
-          // Gérez les erreurs ici
-        }
-      );
-    }
-  });
-}
-
-
 }

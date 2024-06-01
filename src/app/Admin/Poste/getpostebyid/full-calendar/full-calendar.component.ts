@@ -10,6 +10,7 @@ import timeGridPlugin from '@fullcalendar/timeGrid';
 import { EntretienService } from 'src/app/service/entretien.service';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import { Entretien } from 'src/app/model/entretien.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-full-calendar',
@@ -35,7 +36,7 @@ export class FullCalendarComponent implements OnInit {
       this.postId = +params['postId'];
       this.loadCandidatureDates();
     });
-    this.loadCandidatureDates(); 
+    this.loadCandidatureDates();
     this.getCandidatsByPoste();
   }
 
@@ -46,7 +47,7 @@ export class FullCalendarComponent implements OnInit {
 
   calendarOptions: any = {
     weekends: false, // initial value
-    initialView: 'timeGridWeek', // Commencez par afficher la vue semaine
+    initialView: 'dayGridMonth', // Commencez par afficher la vue semaine
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     dateClick: (arg: any) => this.handleDateClick(arg),
     eventClick: (arg: any) => this.handleEventClick(arg),
@@ -91,34 +92,37 @@ export class FullCalendarComponent implements OnInit {
         }));
         this.calendarOptions.events = events;
       });
+      console.log('r', this.entretienDetails)
+
   }
 
   // Déclarer une variable pour suivre si la date est antérieure à aujourd'hui
-isPastDate: boolean = false;
+  isPastDate: boolean = false;
 
-handleDateClick(arg: any) {
-  const clickedDate = new Date(arg.dateStr);
-  const today = new Date(); // Obtenez la date actuelle
+  handleDateClick(arg: any) {
+    const clickedDate = new Date(arg.dateStr);
+    const today = new Date(); // Obtenez la date actuelle
 
-  // Vérifiez si la date cliquée est antérieure à aujourd'hui
-  if (clickedDate < today) {
-    // Si la date est antérieure à aujourd'hui, configurez la variable isPastDate sur true
-    this.isPastDate = true;
-    console.log("Vous ne pouvez pas sélectionner une date antérieure à aujourd'hui.");
-    return; // Quittez la fonction sans effectuer d'autres actions
-  } else {
-    // Si la date n'est pas antérieure à aujourd'hui, configurez isPastDate sur false
-    this.isPastDate = false;
+    // Vérifiez si la date cliquée est antérieure à aujourd'hui
+    if (clickedDate < today) {
+      // Si la date est antérieure à aujourd'hui, configurez la variable isPastDate sur true
+      this.isPastDate = true;
+      console.log(
+        "Vous ne pouvez pas sélectionner une date antérieure à aujourd'hui."
+      );
+      return; // Quittez la fonction sans effectuer d'autres actions
+    } else {
+      // Si la date n'est pas antérieure à aujourd'hui, configurez isPastDate sur false
+      this.isPastDate = false;
+    }
+
+    // Si la date est valide, continuez avec votre logique actuelle
+    this.showModal = true;
+    this.eventData.start = arg.dateStr;
+    this.eventData.end = arg.dateStr;
+    this.eventData.date = arg.dateStr;
   }
 
-  // Si la date est valide, continuez avec votre logique actuelle
-  this.showModal = true;
-  this.eventData.start = arg.dateStr;
-  this.eventData.end = arg.dateStr;
-  this.eventData.date = arg.dateStr;
-}
-
-  
   entretienDetails: any | undefined; // Définissez la propriété entretienDetails de type Entretien | undefined
   closeModal() {
     this.showModal2 = false;
@@ -128,9 +132,11 @@ handleDateClick(arg: any) {
     this.entretienService.getEntretienById(eventId).subscribe(
       (entretien) => {
         this.entretienDetails = entretien;
+        this.preRemplirFormulaire(); // Appeler pour pré-remplir le formulaire
+
         this.showModal2 = true;
         console.log(
-          "// Afficher le second modal avec les détails de l'entretien"
+          "// Afficher le second modal avec les détails de l'entretien" , this.entretienDetails
         );
       },
       (error) => {
@@ -150,6 +156,16 @@ handleDateClick(arg: any) {
         // Gérer l'erreur ici
       }
     );
+  }
+  preRemplirFormulaire(): void {
+    if (this.entretienDetails) {
+      this.candidatureId = this.entretienDetails.candidatureId;
+      this.dateEntretien = this.entretienDetails.entretien.dateEntretien;
+      this.heureDebut = this.entretienDetails.entretien.heureDebut;
+      this.heureFin = this.entretienDetails.entretien.heureFin;
+    }
+    console.log('r', this.entretienDetails)
+    this.editMode = true; // Activer le mode d'édition
   }
   editMode: boolean = false; // Variable pour suivre l'état de l'affichage du formulaire de modification
 
@@ -175,10 +191,19 @@ handleDateClick(arg: any) {
         }
       );
   }
-  submitUpdatedEntretien(id : number): void {
+  checkHeureFin(): boolean {
+    return (
+      new Date('1970-01-01T' + this.heureFin) >
+      new Date('1970-01-01T' + this.heureDebut)
+    );
+  }
+  submitUpdatedEntretien(id: number): void {
+    this.editMode = true; // Activer le mode d'édition
+  
     this.entretienService
       .updateEntretien(
-id ,        this.candidatureId,
+        id,
+        this.candidatureId,
         this.dateEntretien,
         this.heureDebut,
         this.heureFin
@@ -188,34 +213,60 @@ id ,        this.candidatureId,
           console.log(response); // Afficher la réponse du serveur après la mise à jour de l'entretien
           // Réinitialiser le mode d'édition et recharger les données si nécessaire
           this.editMode = false;
+          Swal.fire({
+            title: 'Succès',
+            text: 'Entretien mis à jour avec succès!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
         },
         (error) => {
           console.error("Erreur lors de la mise à jour de l'entretien:", error);
+          Swal.fire({
+            title: 'Erreur',
+            text: "Erreur lors de la mise à jour de l'entretien.",
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
           // Gérer l'erreur, afficher un message à l'utilisateur, etc.
         }
       );
   }
+  
   candidats: any[] = [];
 
   getCandidatsByPoste(): void {
-    this.posteService.getCandidatsByPosteIdEnAttenteEntretien(this.postId)
+    this.posteService
+      .getCandidatsByPosteIdEnAttenteEntretien(this.postId)
       .subscribe(
-        candidats => {
+        (candidats) => {
           this.candidats = candidats;
           console.log('Candidats:', this.candidats);
-
         },
-        error => {
+        (error) => {
           console.error('Erreur lors de la récupération des candidats:', error);
         }
       );
   }
   addEvent() {
-    const newEvent: EventInput = {
-      title: this.eventData.title,
-      start: this.eventData.start,
-      end: this.eventData.end,
-    };
+     if (!this.candidatureId) {
+    console.error("Veuillez sélectionner un candidat.");
+    return;
+  }
+
+  // Trouver le candidat sélectionné dans la liste des candidats
+  const candidatSelectionne = this.candidats.find(candidat => candidat.id === this.candidatureId);
+
+  if (!candidatSelectionne) {
+    console.error("Candidat sélectionné introuvable.");
+    return;
+  }
+
+  const newEvent: EventInput = {
+    title: `${candidatSelectionne.nom} ${candidatSelectionne.prenom}`, // Utiliser le nom et le prénom du candidat sélectionné comme titre de l'événement
+    start: this.eventData.start,
+    end: this.eventData.end,
+  };
     this.createEntretien(
       this.postId,
       this.candidatureId,
@@ -240,32 +291,35 @@ id ,        this.candidatureId,
   // Method to handle event creation dynamically based on user interaction
   createEntretien(
     postId: number,
-
     candidatureId: number,
     dateEntretien: string,
     heureDebut: string,
     heureFin: string
   ): void {
-    // Call the createEntretien method from the PosteService to create the Entretien
     this.entretienService
-      .createEntretien(
-        postId,
-        candidatureId,
-        dateEntretien,
-        heureDebut,
-        heureFin
-      )
+      .createEntretien(postId, candidatureId, dateEntretien, heureDebut, heureFin)
       .subscribe(
         (response) => {
-          console.log('Entretien created successfully:', response);
-          // Handle success response
+          console.log('Entretien créé avec succès:', response);
+          Swal.fire({
+            title: 'Succès',
+            text: 'Entretien créé avec succès!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
         },
         (error) => {
-          console.error('Error creating entretien:', error);
-          // Handle error response
+          console.error('Erreur lors de la création de l\'entretien:', error);
+          Swal.fire({
+            title: 'Erreur',
+            text: 'Erreur lors de la création de l\'entretien.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
         }
       );
   }
+  
 
   onSubmit(): void {
     this.createEntretien(
@@ -281,5 +335,30 @@ id ,        this.candidatureId,
     // Your event handling logic here
     console.log('Clicked on day:', date.toLocaleString());
     // Optionally, open a modal, navigate to another view, etc.
+  }
+  getTodayDate(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1; // Les mois commencent à 0
+    const day = today.getDate();
+    const formattedMonth = month < 10 ? '0' + month : month;
+    const formattedDay = day < 10 ? '0' + day : day;
+    return `${year}-${formattedMonth}-${formattedDay}`;
+  }
+  getMinTime(): string {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    // Si c'est aujourd'hui et l'heure actuelle est avant 18h00
+    if (currentHour < 18 || (currentHour === 18 && currentMinute === 0)) {
+      // Définir la valeur minimale sur l'heure actuelle
+      const formattedHour = currentHour < 10 ? '0' + currentHour : currentHour;
+      const formattedMinute =
+        currentMinute < 10 ? '0' + currentMinute : currentMinute;
+      return `${formattedHour}:${formattedMinute}`;
+    } else {
+      // Sinon, définir la valeur minimale sur 08h00
+      return '08:00';
+    }
   }
 }

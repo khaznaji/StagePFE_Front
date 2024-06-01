@@ -1,19 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EntretienService } from 'src/app/service/entretien.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-evaluate-interview',
   templateUrl: './evaluate-interview.component.html',
-  styleUrls: ['./evaluate-interview.component.css']
+  styleUrls: ['./evaluate-interview.component.css'],
 })
 export class EvaluateInterviewComponent implements OnInit {
   candidatureId!: string;
   note: number = 0;
-  commentaire: string = "";
+  commentaire: string = '';
 
-  constructor(private route: ActivatedRoute ,     private entretienService: EntretienService // Injectez le service EntretienService
-  ) { }
+  constructor(
+    private route: ActivatedRoute,
+    private entretienService: EntretienService // Injectez le service EntretienService
+  ) {}
 
   ngOnInit(): void {
     this.candidatureId = this.route.snapshot.params['candidatureId'];
@@ -22,12 +25,37 @@ export class EvaluateInterviewComponent implements OnInit {
   }
   noterEntretien(): void {
     // Appelez la méthode noter du service EntretienService
-    this.entretienService.noter(+this.candidatureId, this.note, this.commentaire)
-      .subscribe(response => {
-        console.log(response); // Affichez la réponse de l'API
-        // Faites quelque chose après avoir noté l'entretien, par exemple, redirigez l'utilisateur vers une autre page ou affichez un message de confirmation.
-      }, error => {
-        console.error(error); // Gérez les erreurs
-        // Faites quelque chose en cas d'erreur, par exemple, affichez un message d'erreur à l'utilisateur.
-      });
-  }}
+    this.entretienService
+      .noter(+this.candidatureId, this.note, this.commentaire)
+      .subscribe(
+        (response) => {
+          console.log(response); // Affichez la réponse de l'API
+
+          // Affichez un message de succès à l'utilisateur
+          Swal.fire({
+            icon: 'success',
+            title: 'Entretien noté avec succès',
+            text: 'Votre entretien a été noté avec succès.',
+            confirmButtonText: 'OK',
+          }).then((result) => {
+            // Faites quelque chose après avoir noté l'entretien, par exemple, redirigez l'utilisateur vers une autre page
+            if (result.isConfirmed) {
+              // Redirection vers une autre page
+              // this.router.navigate(['/autre-page']);
+            }
+          });
+        },
+        (error) => {
+          console.error(error); // Gérez les erreurs
+
+          // Affichez un message d'erreur à l'utilisateur
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur',
+            text: "Une erreur s'est produite lors de la notation de l'entretien. Veuillez réessayer.",
+            confirmButtonText: 'OK',
+          });
+        }
+      );
+  }
+}

@@ -32,6 +32,10 @@ export class DetailsGroupsOfFormateurComponent  implements OnInit {
   collaborateursConfirme: any[] = [];
   showAddParticipantFormFlag: boolean = false;
   certificateForm!: FormGroup;
+  p: number = 1; // Current page
+  itemsPerPage: number = 10; // Number of items per page
+  pages: number[] = []; // Array to store page numbers
+  totalPages: number = 0;
 
   ngOnInit(): void {
     

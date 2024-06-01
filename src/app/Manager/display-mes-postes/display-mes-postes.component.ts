@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Poste } from 'src/app/model/poste.model';
 import { PosteService } from 'src/app/service/poste.service';
 import Swal from 'sweetalert2';
-import { AddQuizComponent } from '../quiz/add-quiz/add-quiz.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -11,50 +10,51 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
   templateUrl: './display-mes-postes.component.html',
   styleUrls: ['./display-mes-postes.component.css']
 })
-export class DisplayMesPostesComponent implements OnInit{
+export class DisplayMesPostesComponent implements OnInit {
+  searchTerm: string = ''; // Property to hold the search term
+  approvedPostes!: Poste[]; // Ensure to import the Poste model
+  filteredPostes!: Poste[];
+
+  constructor(private posteService: PosteService, private router: Router) {}
+
   ngOnInit(): void {
     this.getApprovedPostes();
-
   }
 
-  approvedPostes!: any[];
-  constructor(private posteService: PosteService , private router: Router ){}
-  
-  cardStates: boolean[] = []; 
-  approuveParManagerRH: boolean = false;
-  archive: boolean = false;
-  encours: boolean = false;// Tableau pour stocker l'état de chaque carte
-  ToList()
-  {
-    this.router.navigate(['managerService/add-fiche-de-poste']);
-
-  }
-
-
-  showAllCompetences = false; 
-
-  toggleFormVisibility(index: number): void {
-    // Inversion de l'état de la carte à l'index spécifié
-    this.cardStates[index] = !this.cardStates[index];
-  }
-  toggleCompetences() {
-    this.showAllCompetences = !this.showAllCompetences;
- }
- 
   getApprovedPostes(): void {
     this.posteService.PosteEncoursRefuse()
       .subscribe(
-        (data) => {
+        (data: Poste[]) => {
           this.approvedPostes = data;
-                    console.log('Approved Postes:', this.approvedPostes);
+          this.filteredPostes = data; // Initialize the filtered posts
+          console.log('Approved Postes:', this.approvedPostes);
         },
         (error) => {
           console.error('Error fetching approved postes:', error);
         }
       );
   }
-  selectedFilter: string = '';
- 
+  showAllCompetences: boolean = false; // Property to toggle the display of all competences
+  cardStates: boolean[] = []; // Property to hold the state of each card
+
+  filterPostes(): void {
+    this.filteredPostes = this.approvedPostes.filter(poste =>
+      poste.titre.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
+  ToList(): void {
+    this.router.navigate(['managerService/add-fiche-de-poste']);
+  }
+
+  toggleFormVisibility(index: number): void {
+    this.cardStates[index] = !this.cardStates[index];
+  }
+
+  toggleCompetences(): void {
+    this.showAllCompetences = !this.showAllCompetences;
+  }
+
   onDelete(postId: number): void {
     Swal.fire({
       title: 'Êtes-vous sûr?',
@@ -75,9 +75,7 @@ export class DisplayMesPostesComponent implements OnInit{
               'Le poste a été supprimé avec succès.',
               'success'
             );
-            // Ajoutez ici la logique supplémentaire si nécessaire
-            window.location.reload();  // Recharge la fenêtre après la suppression
-            // Ferme le panneau après la suppression
+            window.location.reload();  // Reload the window after deletion
           },
           error => {
             console.error('Erreur lors de la suppression du poste:', error);
@@ -86,19 +84,19 @@ export class DisplayMesPostesComponent implements OnInit{
               'Une erreur s\'est produite lors de la suppression du poste.',
               'error'
             );
-            // Gérez les erreurs ici
           }
         );
       }
     });
   }
- ToEdit(postid :number  ){
-  this.router.navigate(['managerService/edit-postes', postid]);
- }
- ToPostId(postid :number  ){
-  this.router.navigate(['managerService/poste-encours', postid]);
- }
- modalRef!: BsModalRef;
 
+  ToEdit(postid: number): void {
+    this.router.navigate(['managerService/edit-postes', postid]);
+  }
 
+  ToPostId(postid: number): void {
+    this.router.navigate(['managerService/poste-encours', postid]);
+  }
+
+  modalRef!: BsModalRef;
 }

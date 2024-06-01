@@ -28,7 +28,7 @@
               >Detail de la Formation</a
             >
           </li>
-        
+
           <li class="nav-item">
             <a
               class="nav-link"
@@ -51,49 +51,45 @@
           >
             <div>
               <br />
-              <div class="row">
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-body">
-                      <h4>A propos de la Formations</h4>
-                      <p>{{ formationInfo.description }}</p>
-                      <p>
-                        <b>Nombre de Chapitres :</b>
-                        {{ formationInfo.chapitre }}
-                      </p>
-                      <p>
-                        <b>Duree de la Formation :</b> {{ formationInfo.duree }}
-                      </p>
-                      <p><b>Departement :</b> {{ formationInfo.department }}</p>
-                    </div>
+              <div class="d-flex flex-wrap">
+                <!-- Première carte pour les informations de la formation -->
+                <div class="card m-2">
+                  <div class="card-body">
+                    <h4>A propos Du Formateur</h4>
+                    <ul class="custom-list">
+                      <div class="image-container">
+                        <img
+                          [src]="
+                            'assets/images/' + formationInfo.formateurImage
+                          "
+                          alt="Formateur"
+                          width="150"
+                        />
+                      </div>
+                      <div class="infos">
+                        <br />
+                        <h6 style="color: grey">
+                          {{ formationInfo.formateurName }}
+                        </h6>
+                      </div>
+                    </ul>
                   </div>
                 </div>
-              </div>
-              <!-- Deuxième carte pour les compétences -->
-              <div class="row">
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-body">
-                      <h4>A propos Du Formateur</h4>
-                      <ul class="custom-list">
-                        <div class="image-container">
-                          <img
-                            [src]="
-                              'assets/images/' + formationInfo.formateurImage
-                            "
-                            alt="Formateur"
-                            width="150"
-                          />
-                        </div>
-                        <div class="infos">
-                          <h6 style="color: grey">
-                            {{ formationInfo.formateurName }}
-                          </h6>
-                        </div>
-                      </ul>
-                    </div>
+                <div class="card m-3">
+                  <div class="card-body">
+                    <h4>A propos de la Formation</h4>
+                    <p>{{ formationInfo.description }}</p>
+                    <p>
+                      <b>Nombre de Chapitres :</b> {{ formationInfo.chapitre }}
+                    </p>
+                    <p>
+                      <b>Durée de la Formation :</b> {{ formationInfo.duree }}
+                    </p>
+                    <p><b>Département :</b> {{ formationInfo.department }}</p>
                   </div>
                 </div>
+
+                <!-- Deuxième carte pour les informations du formateur -->
               </div>
             </div>
           </div>
@@ -105,7 +101,6 @@
             aria-labelledby="sales-tab"
           >
             <br />
-           
           </div>
           <div
             class="tab-pane fade"
@@ -114,7 +109,7 @@
             aria-labelledby="purchases-tab"
           >
             <br />
-           
+
             <div class="container">
               <div class="row">
                 <div class="col-lg-4 col-md-6" *ngFor="let groupe of groupes">
@@ -150,15 +145,7 @@
                                 </button>
                               </li>
 
-                              <li>
-                                <button class="dropdown-item mb-2">
-                                  <span
-                                    ><i
-                                      class="fa-regular fa-calendar me-4"
-                                    ></i> </span
-                                  >Calendar
-                                </button>
-                              </li>
+                             
                               <li>
                                 <button
                                   class="dropdown-item mb-2 text-danger"

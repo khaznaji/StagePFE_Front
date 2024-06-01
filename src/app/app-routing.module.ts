@@ -86,6 +86,7 @@ import { HistoriqueDesPosteComponent } from './Manager/historique-des-poste/hist
 import { PosteArchiveByIdComponent } from './Manager/poste-archive-by-id/poste-archive-by-id.component';
 import { DashboardManagerServiceComponent } from './Manager/dashboard-manager-service/dashboard-manager-service.component';
 import { GetCertificatsComponent } from './Collaborateur/get-certificats/get-certificats.component';
+import { MesEntretiensAnnuelCollabComponent } from './Collaborateur/Annuel/mes-entretiens-annuel-collab/mes-entretiens-annuel-collab.component';
 
 const routes: Routes = [
   {
@@ -155,6 +156,7 @@ const routes: Routes = [
       { path: 'all-poste', component: GetAllPosteCollabComponent ,  canActivate: [AuthGuard]},
       { path: 'all-formations', component: ListeDesFormationsComponent ,  canActivate: [AuthGuard]},
       { path: 'audio', component: AudioRecorderComponent ,  canActivate: [AuthGuard] },
+      { path: 'mes-entretiens-annuels', component: MesEntretiensAnnuelCollabComponent ,  canActivate: [AuthGuard]},
 
       { path: 'compte', component: ProfileComponent },
       { path: 'mes-postulations', component: MespostulationsComponent ,  canActivate: [AuthGuard]},
@@ -177,6 +179,7 @@ const routes: Routes = [
 
       { path: 'updateBilan/:id', component: UpdateBilanComponent ,  canActivate: [AuthGuard]},
       { path: 'chat/:user', component: ChatComponent ,  canActivate: [AuthGuard]},
+      { path: 'user-profile/:id', component: ProfileUsersComponent  ,  canActivate: [AuthGuard] },
 
     ],
   },
@@ -185,6 +188,8 @@ const routes: Routes = [
     path: 'managerService',
     component: ManagerMenuComponent,
     children: [
+      { path: 'user-profile/:id', component: ProfileUsersComponent  ,  canActivate: [AuthGuard] },
+
       { path: 'historiqueposte', component: HistoriqueDesPosteComponent ,  canActivate: [AuthGuard]},
       { path: 'postearchive/:postId', component: PosteArchiveByIdComponent ,  canActivate: [AuthGuard]},
       { path: 'dashboard', component: DashboardManagerServiceComponent ,  canActivate: [AuthGuard]},
@@ -231,6 +236,8 @@ const routes: Routes = [
     path: 'formateur',
     component: FormateurMenuComponent,
     children: [
+      { path: 'user-profile/:id', component: ProfileUsersComponent  ,  canActivate: [AuthGuard] },
+
       { path: 'profile', component: ProfileComponent ,  canActivate: [AuthGuard] },
       { path: 'all', component: AllFormationsComponent ,  canActivate: [AuthGuard]},
       { path: 'formation-byId/:id', component: GetByIdFormationComponent ,  canActivate: [AuthGuard] },

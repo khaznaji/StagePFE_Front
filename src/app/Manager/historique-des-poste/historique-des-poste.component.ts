@@ -9,50 +9,41 @@ import Swal from 'sweetalert2';
   templateUrl: './historique-des-poste.component.html',
   styleUrls: ['./historique-des-poste.component.css']
 })
-export class HistoriqueDesPosteComponent implements OnInit{
+export class HistoriqueDesPosteComponent implements OnInit {
+  approvedPostes: any[] = [];
+  filteredPostes: any[] = [];
+  searchTerm: string = '';
+  showAllCompetences = false;
+
+  constructor(private posteService: PosteService, private router: Router) {}
+
   ngOnInit(): void {
     this.getApprovedPostes();
-
   }
 
-  approvedPostes!: any[];
-  constructor(private posteService: PosteService , private router: Router ){}
-  
-  cardStates: boolean[] = []; 
-  approuveParManagerRH: boolean = false;
-  archive: boolean = false;
-  encours: boolean = false;// Tableau pour stocker l'état de chaque carte
-  ToList()
-  {
-    this.router.navigate(['managerService/add-fiche-de-poste']);
-
+  getApprovedPostes(): void {
+    this.posteService.PosteArchive().subscribe(
+      (data) => {
+        this.approvedPostes = data;
+        this.filteredPostes = data;
+        console.log('Approved Postes:', this.approvedPostes);
+      },
+      (error) => {
+        console.error('Error fetching approved postes:', error);
+      }
+    );
   }
 
-
-  showAllCompetences = false; 
-
-  toggleFormVisibility(index: number): void {
-    // Inversion de l'état de la carte à l'index spécifié
-    this.cardStates[index] = !this.cardStates[index];
-  }
   toggleCompetences() {
     this.showAllCompetences = !this.showAllCompetences;
- }
- 
-  getApprovedPostes(): void {
-    this.posteService.PosteArchive()
-      .subscribe(
-        (data) => {
-          this.approvedPostes = data;
-                    console.log('Approved Postes:', this.approvedPostes);
-        },
-        (error) => {
-          console.error('Error fetching approved postes:', error);
-        }
-      );
   }
-  selectedFilter: string = '';
- 
+
+  onSearch() {
+    this.filteredPostes = this.approvedPostes.filter(poste =>
+      poste.titre.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
   onDelete(postId: number): void {
     Swal.fire({
       title: 'Êtes-vous sûr?',
@@ -68,35 +59,23 @@ export class HistoriqueDesPosteComponent implements OnInit{
         this.posteService.deletePoste(postId).subscribe(
           response => {
             console.log('Poste supprimé avec succès:', response);
-            Swal.fire(
-              'Supprimé!',
-              'Le poste a été supprimé avec succès.',
-              'success'
-            );
-            // Ajoutez ici la logique supplémentaire si nécessaire
-            window.location.reload();  // Recharge la fenêtre après la suppression
-            // Ferme le panneau après la suppression
+            Swal.fire('Supprimé!', 'Le poste a été supprimé avec succès.', 'success');
+            window.location.reload();
           },
           error => {
             console.error('Erreur lors de la suppression du poste:', error);
-            Swal.fire(
-              'Erreur!',
-              'Une erreur s\'est produite lors de la suppression du poste.',
-              'error'
-            );
-            // Gérez les erreurs ici
+            Swal.fire('Erreur!', 'Une erreur s\'est produite lors de la suppression du poste.', 'error');
           }
         );
       }
     });
   }
- ToEdit(postid :number  ){
-  this.router.navigate(['managerService/edit-postes', postid]);
- }
- ToPostId(postid :number  ){
-  this.router.navigate(['managerService/postearchive', postid]);
- }
- modalRef!: BsModalRef;
 
+  ToEdit(postid: number) {
+    this.router.navigate(['managerService/edit-postes', postid]);
+  }
 
+  ToPostId(postid: number) {
+    this.router.navigate(['managerService/postearchive', postid]);
+  }
 }

@@ -1,8 +1,6 @@
 <div *ngIf="groupes">
- 
-  
-    <h2>Détails du Groupe</h2>
-    <button
+  <h2>Détails du Groupe</h2>
+  <button
     type="button"
     class="btn btn-light"
     (click)="openAddCertifDialog(groupes.group.id)"
@@ -10,126 +8,171 @@
     Certificates
   </button>
 
-    
-    <div *ngIf="contextModal">
-      <p><strong>Nom du Formateur :</strong> {{ groupes.formateurNom }}</p>
-      <p><strong>Prénom du Formateur :</strong> {{ groupes.formateurPrenom }}</p>
-      <h2>Collaborateurs </h2>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Image</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let collaborateur of groupes.collaborateurs">
-            <td>{{ collaborateur.nom }}</td>
-            <td>{{ collaborateur.prenom }}</td>
-            <td><img [src]="'assets/images/' + collaborateur.image" alt="Image Collaborateur"></td>
-        <td>    <button class="btn btn-danger" (click)="removeUserFromGroup(collaborateur.id)">Supprimer</button>
-        </td> 
+  <div *ngIf="contextModal">
+    <p><strong>Nom du Formateur :</strong> {{ groupes.formateurNom }}</p>
+    <p><strong>Prénom du Formateur :</strong> {{ groupes.formateurPrenom }}</p>
+    <h2>Collaborateurs</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Image</th>
         </tr>
-        </tbody>
-      </table>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let collaborateur of groupes.collaborateurs
+              | paginate
+                : {
+                    itemsPerPage: itemsPerPage,
+                    currentPage: p,
+                    totalItems: groupes.collaborateurs.length
+                  }
+          "
+        >
+          <td>{{ collaborateur.nom }}</td>
+          <td>{{ collaborateur.prenom }}</td>
+          <td>
+            <img
+              [src]="'assets/images/' + collaborateur.image"
+              alt="Image Collaborateur"
+            />
+          </td>
+          <td>
+            <button
+              class="btn btn-danger"
+              (click)="removeUserFromGroup(collaborateur.id)"
+            >
+              Supprimer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-center">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
-    <div>
-      <div *ngIf="modifyCertificatesModal">
-        <div class="certificate-dialog">
-          <h2 mat-dialog-title class="dialog-title">
-            Modify Certificates
-          </h2>
-     
-          <div class="form-container">
-            <form [formGroup]="certificateForm" (ngSubmit)="modifyCertificates()" class="form-container">
-              <mat-form-field class="form-field">
-                <mat-label>Month</mat-label>
-                <input matInput formControlName="month" placeholder="Month">
-              </mat-form-field>
-             
-              <button class="btn modify-button" type="submit">
-                Modify Certificates
-              </button>
-            </form>
-            
-            
-          </div>
-          
+  </div>
+  <div>
+    <div *ngIf="modifyCertificatesModal">
+      <div class="certificate-dialog">
+        <h2 mat-dialog-title class="dialog-title">Modify Certificates</h2>
+
+        <div class="form-container">
+          <form
+            [formGroup]="certificateForm"
+            (ngSubmit)="modifyCertificates()"
+            class="form-container"
+          >
+            <mat-form-field class="form-field">
+              <mat-label>Month</mat-label>
+              <input matInput formControlName="month" placeholder="Month" />
+            </mat-form-field>
+
+            <button class="btn modify-button" type="submit">
+              Modify Certificates
+            </button>
+          </form>
         </div>
       </div>
-      <div *ngIf="nouser">
-        <h2 mat-dialog-title>No Users</h2>
+    </div>
+    <div *ngIf="nouser">
+      <h2 mat-dialog-title>No Users</h2>
       <mat-dialog-content>
         <p>No users are assigned to this group.</p>
       </mat-dialog-content>
       <mat-dialog-actions>
         <button mat-button mat-dialog-close>OK</button>
       </mat-dialog-actions>
-      </div>
-      <div *ngIf="certificatesGenerated">
+    </div>
+    <div *ngIf="certificatesGenerated">
       <h2 mat-dialog-title>Certificates Already Generated</h2>
-     
+
       <div class="confirmation-dialog">
         <mat-dialog-content>
           <p>The certificates have already been generated for this group.</p>
         </mat-dialog-content>
         <div class="button-container">
-          <button mat-button  class="btn-yes"(click)="openModifyCertifDialog()">Update Certificates</button>
-          <button mat-button class="btn-yes" (click)="deleteCertificates(groupes.group.id)">Delete Certificates</button>
+          <button mat-button class="btn-yes" (click)="openModifyCertifDialog()">
+            Update Certificates
+          </button>
+          <button
+            mat-button
+            class="btn-yes"
+            (click)="deleteCertificates(groupes.group.id)"
+          >
+            Delete Certificates
+          </button>
         </div>
       </div>
     </div>
-      <div *ngIf="showFormGenererCertif">
-        <div class="certificate-dialog">
-          <h2 mat-dialog-title class="dialog-title">
-           
-            Generate Certificates
-          </h2>
-        
-          <div class="row">
-            <form (ngSubmit)="saveCertif()">
-              <input type="text" [(ngModel)]="certif.month" name="month" placeholder="Month" class="form-control">
-             <br>
-              <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-    <br>
-              <button class="btn generate-button" type="submit" [disabled]="!isValidCertif()">
-                Generate Certificates
-              </button>
-    
-    
-            </form>
-          </div>
-         
-        </div>
-      </div>
-      <div class="container" *ngIf="editing">
-        <h2>Modifier le Nom du Groupe</h2>
-        <form>
-          <div class="form-group">
-            <label for="newGroupName">Nouveau Nom du Groupe:</label>
-            <input type="text" class="form-control" id="newGroupName" [(ngModel)]="nom" name="nom">
-          </div>
-          <button type="button" class="btn btn-primary" (click)="editGroup()">Modifier</button>
-        </form>
-      </div>
-    
-    </div>
-  </div>
-  <div class="container" *ngIf="showAddParticipantFormFlag">
-    <h2>Ajouter des nouveau participants</h2>
-    <form [formGroup]="groupForm" (ngSubmit)="ajouterGroupe()">
-        
-        <div class="form-group" formGroupName="collaborateursId">
-          <label>Collaborateurs confirmés:</label><br>
-          <div *ngFor="let collaborateur of collaborateursConfirme; let i = index">
-             <input type="checkbox" [formControlName]="i" [value]="collaborateur.idC"> {{ collaborateur.nom }} {{ collaborateur.prenom }}
-          </div>
-         </div>
-         
-      <button type="submit" class="btn btn-primary">Créer</button>
-    </form>
-  </div>
-  
+    <div *ngIf="showFormGenererCertif">
+      <div class="certificate-dialog">
+        <h2 mat-dialog-title class="dialog-title">Generate Certificates</h2>
 
-  
+        <div class="row">
+          <form (ngSubmit)="saveCertif()">
+            <input
+              type="text"
+              [(ngModel)]="certif.month"
+              name="month"
+              placeholder="Month"
+              class="form-control"
+            />
+            <br />
+            <mat-progress-bar
+              *ngIf="isLoading"
+              mode="indeterminate"
+            ></mat-progress-bar>
+            <br />
+            <button
+              class="btn generate-button"
+              type="submit"
+              [disabled]="!isValidCertif()"
+            >
+              Generate Certificates
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="container" *ngIf="editing">
+      <h2>Modifier le Nom du Groupe</h2>
+      <form>
+        <div class="form-group">
+          <label for="newGroupName">Nouveau Nom du Groupe:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="newGroupName"
+            [(ngModel)]="nom"
+            name="nom"
+          />
+        </div>
+        <button type="button" class="btn btn-primary" (click)="editGroup()">
+          Modifier
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="container" *ngIf="showAddParticipantFormFlag">
+  <h2>Ajouter des nouveau participants</h2>
+  <form [formGroup]="groupForm" (ngSubmit)="ajouterGroupe()">
+    <div class="form-group" formGroupName="collaborateursId">
+      <label>Collaborateurs confirmés:</label><br />
+      <div *ngFor="let collaborateur of collaborateursConfirme; let i = index">
+        <input
+          type="checkbox"
+          [formControlName]="i"
+          [value]="collaborateur.idC"
+        />
+        {{ collaborateur.nom }} {{ collaborateur.prenom }}
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Créer</button>
+  </form>
+</div>

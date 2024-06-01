@@ -9,10 +9,11 @@ import timeGridPlugin from '@fullcalendar/timeGrid';
 
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import { ManagerserviceService } from 'src/app/service/managerservice.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-entretien-annuel-calendar',
   templateUrl: './entretien-annuel-calendar.component.html',
-  styleUrls: ['./entretien-annuel-calendar.component.css']
+  styleUrls: ['./entretien-annuel-calendar.component.css'],
 })
 export class EntretienAnnuelCalendarComponent implements OnInit {
   postId!: number;
@@ -20,26 +21,56 @@ export class EntretienAnnuelCalendarComponent implements OnInit {
   collaborateurId!: number;
   dateEntretien!: string;
   heureDebut!: string;
-  
+
   heureFin!: string;
   constructor(
     private route: ActivatedRoute,
     private entretienService: EntretienService,
     public dialog: MatDialog,
-    private posteService: PosteService
-    ,private managerServiceService: ManagerserviceService
+    private posteService: PosteService,
+    private managerServiceService: ManagerserviceService
   ) {}
 
   ngOnInit(): void {
     // this.route.params.subscribe((params) => {
     //   this.postId = +params['postId'];
-      this.loadCandidatureDates();
+    this.loadCandidatureDates();
     // });
-    // this.loadCandidatureDates(); 
+    // this.loadCandidatureDates();
     // this.getCandidatsByPoste();
-    this.reloadData(); 
+    this.reloadData();
   }
-
+  checkHeureFin(): boolean {
+    return (
+      new Date('1970-01-01T' + this.heureFin) >
+      new Date('1970-01-01T' + this.heureDebut)
+    );
+  }
+  getTodayDate(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1; // Les mois commencent à 0
+    const day = today.getDate();
+    const formattedMonth = month < 10 ? '0' + month : month;
+    const formattedDay = day < 10 ? '0' + day : day;
+    return `${year}-${formattedMonth}-${formattedDay}`;
+  }
+  getMinTime(): string {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    // Si c'est aujourd'hui et l'heure actuelle est avant 18h00
+    if (currentHour < 18 || (currentHour === 18 && currentMinute === 0)) {
+      // Définir la valeur minimale sur l'heure actuelle
+      const formattedHour = currentHour < 10 ? '0' + currentHour : currentHour;
+      const formattedMinute =
+        currentMinute < 10 ? '0' + currentMinute : currentMinute;
+      return `${formattedHour}:${formattedMinute}`;
+    } else {
+      // Sinon, définir la valeur minimale sur 08h00
+      return '08:00';
+    }
+  }
   showModal: boolean = false;
   showModal2: boolean = false;
 
@@ -47,7 +78,7 @@ export class EntretienAnnuelCalendarComponent implements OnInit {
 
   calendarOptions: any = {
     weekends: false, // initial value
-    initialView: 'timeGridWeek', // Commencez par afficher la vue semaine
+    initialView: 'dayGridMonth', // Commencez par afficher la vue semaine
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     dateClick: (arg: any) => this.handleDateClick(arg),
     eventClick: (arg: any) => this.handleEventClick(arg),
@@ -78,8 +109,9 @@ export class EntretienAnnuelCalendarComponent implements OnInit {
     this.managerServiceService.getMembers().subscribe((data: any[]) => {
       this.members = data;
       console.log(data);
-      console.log(this.members);
-
+      console.log('members' ,this.members);
+      console.log('idUser of each member:');
+      this.members.forEach(member => console.log(member.idUser));
     });
   }
   loadCandidatureDates() {
@@ -88,60 +120,75 @@ export class EntretienAnnuelCalendarComponent implements OnInit {
       .subscribe((entretiens) => {
         console.log('Candidature dates loaded successfully:', entretiens);
 
-        let events = entretiens.map((entretien: { prenomCollaborateur: any; nomCollaborateur: any; entretien: { dateEntretien: any; heureDebut: any; heureFin: any; id: any; }; }, index: number) => ({
-          title: `${entretien.prenomCollaborateur} ${entretien.nomCollaborateur}`,
-          start: new Date(
-            `${entretien.entretien.dateEntretien}T${entretien.entretien.heureDebut}`
-          ),
-          end: new Date(
-            `${entretien.entretien.dateEntretien}T${entretien.entretien.heureFin}`
-          ),
-          className: index === 0 ? 'highlighted-event' : '',
-          id: entretien.entretien.id, // Ajoutez l'ID de l'entretien comme identifiant d'événement
-        }));
+        let events = entretiens.map(
+          (
+            entretien: {
+              prenomCollaborateur: any;
+              nomCollaborateur: any;
+              entretien: {
+                dateEntretien: any;
+                heureDebut: any;
+                heureFin: any;
+                id: any;
+              };
+            },
+            index: number
+          ) => ({
+            title: `${entretien.prenomCollaborateur} ${entretien.nomCollaborateur}`,
+            start: new Date(
+              `${entretien.entretien.dateEntretien}T${entretien.entretien.heureDebut}`
+            ),
+            end: new Date(
+              `${entretien.entretien.dateEntretien}T${entretien.entretien.heureFin}`
+            ),
+            className: index === 0 ? 'highlighted-event' : '',
+            id: entretien.entretien.id, // Ajoutez l'ID de l'entretien comme identifiant d'événement
+          })
+        );
         this.calendarOptions.events = events;
       });
   }
 
   // Déclarer une variable pour suivre si la date est antérieure à aujourd'hui
-isPastDate: boolean = false;
+  isPastDate: boolean = false;
 
-handleDateClick(arg: any) {
-  const clickedDate = new Date(arg.dateStr);
-  const today = new Date(); // Obtenez la date actuelle
+  handleDateClick(arg: any) {
+    const clickedDate = new Date(arg.dateStr);
+    const today = new Date(); // Obtenez la date actuelle
 
-  // Vérifiez si la date cliquée est antérieure à aujourd'hui
-  if (clickedDate < today) {
-    // Si la date est antérieure à aujourd'hui, configurez la variable isPastDate sur true
-    this.isPastDate = true;
-    console.log("Vous ne pouvez pas sélectionner une date antérieure à aujourd'hui.");
-    return; // Quittez la fonction sans effectuer d'autres actions
-  } else {
-    // Si la date n'est pas antérieure à aujourd'hui, configurez isPastDate sur false
-    this.isPastDate = false;
+    // Vérifiez si la date cliquée est antérieure à aujourd'hui
+    if (clickedDate < today) {
+      // Si la date est antérieure à aujourd'hui, configurez la variable isPastDate sur true
+      this.isPastDate = true;
+      console.log(
+        "Vous ne pouvez pas sélectionner une date antérieure à aujourd'hui."
+      );
+      return; // Quittez la fonction sans effectuer d'autres actions
+    } else {
+      // Si la date n'est pas antérieure à aujourd'hui, configurez isPastDate sur false
+      this.isPastDate = false;
+    }
+
+    // Si la date est valide, continuez avec votre logique actuelle
+    this.showModal = true;
+    this.eventData.start = arg.dateStr;
+    this.eventData.end = arg.dateStr;
+    this.eventData.date = arg.dateStr;
   }
 
-  // Si la date est valide, continuez avec votre logique actuelle
-  this.showModal = true;
-  this.eventData.start = arg.dateStr;
-  this.eventData.end = arg.dateStr;
-  this.eventData.date = arg.dateStr;
-}
-
-  
   entretienDetails: any | undefined; // Définissez la propriété entretienDetails de type Entretien | undefined
   closeModal() {
     this.showModal2 = false;
   }
+ 
+  
   handleEventClick(eventClickInfo: any) {
-    const eventId = eventClickInfo.event.id; // Récupérez l'identifiant de l'événement FullCalendar
+    const eventId = eventClickInfo.event.id;
     this.entretienService.getEntretienannuelbyId(eventId).subscribe(
-      (entretien) => {
+      (entretien: any) => {
         this.entretienDetails = entretien;
+        this.preRemplirFormulaire(); // Appeler pour pré-remplir le formulaire
         this.showModal2 = true;
-        console.log(
-          "// Afficher le second modal avec les détails de l'entretien"
-        );
       },
       (error) => {
         console.error('Error loading entretien details:', error);
@@ -149,6 +196,8 @@ handleDateClick(arg: any) {
       }
     );
   }
+  
+
   deleteEntretien(id: number): void {
     this.entretienService.deleteEntretien(id).subscribe(
       () => {
@@ -162,6 +211,16 @@ handleDateClick(arg: any) {
     );
   }
   editMode: boolean = false; // Variable pour suivre l'état de l'affichage du formulaire de modification
+  preRemplirFormulaire(): void {
+    if (this.entretienDetails) {
+      this.collaborateurId = this.entretienDetails.collaborateurId;
+      this.dateEntretien = this.entretienDetails.entretien.dateEntretien;
+      this.heureDebut = this.entretienDetails.entretien.heureDebut;
+      this.heureFin = this.entretienDetails.entretien.heureFin;
+    }
+    this.editMode = true; // Activer le mode d'édition
+  }
+  
 
   updateEntretienAnnuel(entretienId: number): void {
     this.editMode = true; // Activer le mode d'édition
@@ -184,57 +243,71 @@ handleDateClick(arg: any) {
         }
       );
   }
-  submitUpdatedEntretien(entretienId : number): void {
-    this.entretienService
-      .updateEntretienAnnuel(
-        entretienId ,       
-        this.dateEntretien,
-        this.heureDebut,
-        this.heureFin
-      )
-      .subscribe(
-        (response) => {
-          console.log(response); // Afficher la réponse du serveur après la mise à jour de l'entretien
-          // Réinitialiser le mode d'édition et recharger les données si nécessaire
-          this.editMode = false;
-        },
-        (error) => {
-          console.error("Erreur lors de la mise à jour de l'entretien:", error);
-          // Gérer l'erreur, afficher un message à l'utilisateur, etc.
-        }
-      );
+  submitUpdatedEntretien(entretienId: number): void {
+    Swal.fire({
+      title: 'Êtes-vous sûr?',
+      text: 'Voulez-vous vraiment mettre à jour cet entretien?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, mettre à jour!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.entretienService
+          .updateEntretienAnnuel(
+            entretienId,
+            this.dateEntretien,
+            this.heureDebut,
+            this.heureFin
+          )
+          .subscribe(
+            (response) => {
+              console.log('Entretien mis à jour avec succès :', response);
+              Swal.fire(
+                'Succès!',
+                "L'entretien a été mis à jour avec succès.",
+                'success'
+              ).then(() => {
+                setTimeout(() => {
+                  window.location.reload(); // Recharge la page après 2 secondes
+                }, 2000);
+              });
+            },
+            (error) => {
+              console.error(
+                "Erreur lors de la mise à jour de l'entretien:",
+                error
+              );
+              Swal.fire(
+                'Erreur!',
+                "Une erreur s'est produite lors de la mise à jour de l'entretien.",
+                'error'
+              );
+              // Gérer l'erreur, afficher un message à l'utilisateur, etc.
+            }
+          );
+      }
+    });
   }
+
   candidats: any[] = [];
+  candidatSelectionne: any; // Ajoutez une variable pour stocker les informations du candidat sélectionné
 
-  // getCandidatsByPoste(): void {
-  //   this.posteService.getCandidatsByPosteIdEnAttenteEntretien(this.postId)
-  //     .subscribe(
-  //       candidats => {
-  //         this.candidats = candidats;
-  //         console.log('Candidats:', this.candidats);
-
-  //       },
-  //       error => {
-  //         console.error('Erreur lors de la récupération des candidats:', error);
-  //       }
-  //     );
-  // }
   addEvent() {
-    const newEvent: EventInput = {
-      title: this.eventData.title,
-      start: this.eventData.start,
-      end: this.eventData.end,
-    };
+   
+  
     this.createEntretien(
       this.collaborateurId,
       this.eventData.date, // Utilisez la date de l'événement
       this.heureDebut,
       this.heureFin
     );
-    this.calendarOptions.events = [...this.calendarOptions.events, newEvent];
+    this.calendarOptions.events = [...this.calendarOptions.events];
     this.resetEventData();
     this.showModal = false;
   }
+  
 
   cancelAddEvent() {
     this.resetEventData();
@@ -247,30 +320,58 @@ handleDateClick(arg: any) {
 
   // Method to handle event creation dynamically based on user interaction
   createEntretien(
-
     collaborateurId: number,
     dateEntretien: string,
     heureDebut: string,
     heureFin: string
   ): void {
-    // Call the createEntretien method from the PosteService to create the Entretien
-    this.entretienService
-      .createEntretienAnnuel(
-        collaborateurId,
-        dateEntretien,
-        heureDebut,
-        heureFin
-      )
-      .subscribe(
-        (response) => {
-          console.log('Entretien created successfully:', response);
-          // Handle success response
-        },
-        (error) => {
-          console.error('Error creating entretien:', error);
-          // Handle error response
-        }
-      );
+    Swal.fire({
+      title: 'Êtes-vous sûr?',
+      text: 'Voulez-vous vraiment créer cet entretien?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, créer!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.entretienService
+          .createEntretienAnnuel(
+            collaborateurId,
+            dateEntretien,
+            heureDebut,
+            heureFin
+          )
+          .subscribe(
+            (response) => {
+              console.log('Entretien créé avec succès :', response);
+              Swal.fire(
+                'Succès!',
+                "L'entretien a été créé avec succès.",
+                'success'
+              ).then(() => {
+                window.location.reload(); // Recharge la page après la création de l'entretien
+              });
+            },
+            (error) => {
+              console.error(
+                "Erreur lors de la création de l'entretien :",
+                error
+              );
+
+              Swal.fire(
+                'Succès!',
+                "L'entretien a été créé avec succès.",
+                'success'
+              ).then(() => {
+                setTimeout(() => {
+                  window.location.reload(); // Recharge la page après 2 secondes
+                }, 2000);
+              });
+            }
+          );
+      }
+    });
   }
 
   onSubmit(): void {

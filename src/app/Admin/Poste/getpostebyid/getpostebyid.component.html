@@ -1,44 +1,60 @@
 <div class="container">
-    <div class="card">
-        <div class="card-body">
-          <div class="poste-details">
-            <h2 *ngIf="poste">{{poste.titre}}</h2>
-&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button class="btn btn-inverse-info" (click)="redirectToFullCalendar(postId)">Gestion Entretien Technique </button>
-            <button class="btn btn-inverse-success" (click)="redirectToFullCalendarRh(postId)">Gestion Entretien Rh</button>
+  <div class="card">
+    <div class="card-body">
+      <div class="poste-details">
+        <h2 *ngIf="poste">{{ poste.titre }}</h2>
+        &nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button
+          class="btn btn-inverse-info"
+          (click)="redirectToFullCalendar(postId)"
+        >
+          Gestion Entretien Technique
+        </button>
+        <button
+          class="btn btn-inverse-success"
+          (click)="redirectToFullCalendarRh(postId)"
+        >
+          Gestion Entretien Rh
+        </button>
+      </div>
+      <h6>Reference du poste : #{{ poste.id }}</h6>
 
-          </div> 
-          <h6>Reference du poste : #{{poste.id}}</h6>
-
-    <h6>Nombre de poste ouverts : {{poste.nombrePostesDisponibles}} </h6>
-    <div class="row">
-       <div class="col-md-4">
-        <div class="card pending">
-          <div class="card-body">
-            <h5 class="card-title" style="color: white;">Dans le pipeline</h5>
-            <p class="card-text" style="color: white;">{{ collaborateursEnAttente }}</p>
+      <h6>Type de contrar : {{ poste.typeContrat }}</h6>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card pending">
+            <div class="card-body">
+              <h5 class="card-title" style="color: white">Dans le pipeline</h5>
+              <p class="card-text" style="color: white">
+                {{ collaborateursEnAttente }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card accepted">
+            <div class="card-body">
+              <h5 class="card-title" style="color: white">Accepté</h5>
+              <p class="card-text" style="color: white">
+                {{ collaborateursAcceptees }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card rejected">
+            <div class="card-body">
+              <h5 class="card-title" style="color: white">Refusé</h5>
+              <p class="card-text" style="color: white">
+                {{ collaborateursRefusees }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
-       <div class="col-md-4">
-         <div class="card accepted">
-           <div class="card-body">
-             <h5 class="card-title" style="color: white;">Accepté</h5>
-             <p class="card-text" style="color: white;">{{ collaborateursAcceptees }}</p>
-           </div>
-         </div>
-       </div>
-       <div class="col-md-4">
-         <div class="card rejected">
-           <div class="card-body">
-             <h5 class="card-title" style="color: white;">Refusé</h5>
-             <p class="card-text" style="color: white;"> {{ collaborateursRefusees }}</p>
-           </div>
-         </div>
-       </div>
     </div>
-</div>
-</div>
+  </div>
 </div>
 
 <div class="row">
@@ -146,7 +162,7 @@
             aria-labelledby="sales-tab"
           >
             <br />
-            <h4 class="justify-content-center">Liste des candidats</h4>
+
             <input
               type="text"
               class="form-control"
@@ -160,14 +176,44 @@
                 <tr>
                   <th>Nom</th>
                   <th>Prénom</th>
-                  <th>Email</th>
+                  <th>Match</th>
+
+                  <th> Commentaire du Manager Service</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let candidat of filteredPostes">
                   <td>{{ candidat.nom }}</td>
+
                   <td>{{ candidat.prenom }}</td>
-                  <td>{{ candidat.email }}</td>
+                  <td>
+                    <div class="progress">
+                      <div class="progress">
+                        <div
+                          class="progress-bar"
+                          [ngClass]="{
+                            'bg-danger': candidat.match < 50,
+                            'bg-success': candidat.match >= 50 , 
+
+                          }"
+                          role="progressbar"
+                          [style.width]="candidat.match + '%'"
+                        >
+                          {{ candidat.match }}%
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td>
+                    <ng-container *ngIf="candidat.commentaire && candidat.commentaire.length > 0; else noComment">
+                      {{ candidat.commentaire }}
+                    </ng-container>
+                    <ng-template #noComment>
+                      Aucun Commentaire .
+                    </ng-template>
+                  </td>
+                  
                   <td>
                     <button
                       (click)="openModal(candidat.id)"
@@ -318,7 +364,11 @@
                 [cdkDropListData]="candidatures"
                 id="Entretien"
                 (cdkDropListDropped)="onDrop($event, 'Entretien')"
-                [cdkDropListConnectedTo]="['ACCEPTEE', 'REFUSEE' , 'EN_ATTENTE_ENTRETIEN_RH']"
+                [cdkDropListConnectedTo]="[
+                  'ACCEPTEE',
+                  'REFUSEE',
+                  'EN_ATTENTE_ENTRETIEN_RH'
+                ]"
               >
                 <h3>Entretien Technique</h3>
                 <div
@@ -348,77 +398,82 @@
                 </div>
               </div>
               <div
-              class="kanban-column"
-              style="border-top: 5px solid #5e475b"
-              cdkDropList
-              [cdkDropListData]="candidatures"
-              id="Entretien"
-              (cdkDropListDropped)="onDrop($event, 'EN_ATTENTE_ENTRETIEN_RH')"
-              [cdkDropListConnectedTo]="['ACCEPTEE', 'REFUSEE' , 'Entretien_Rh']"
-            >
-              <h3>En Attente Entretien RH</h3>
-              <div
-                class="kanban-cards"
-                *ngFor="
-                  let candidature of candidatures | filter : 'EN_ATTENTE_ENTRETIEN_RH'
-                "
-                cdkDrag
-                [id]="candidature.candidature_id"
+                class="kanban-column"
+                style="border-top: 5px solid #5e475b"
+                cdkDropList
+                [cdkDropListData]="candidatures"
+                id="Entretien"
+                (cdkDropListDropped)="onDrop($event, 'EN_ATTENTE_ENTRETIEN_RH')"
+                [cdkDropListConnectedTo]="[
+                  'ACCEPTEE',
+                  'REFUSEE',
+                  'Entretien_Rh'
+                ]"
               >
-                <div class="kanban-card">
-                  <img
-                    class="profile-image rounded-circle"
-                    [src]="'assets/images/' + candidature.image"
-                    alt="Profile Image"
-                  />
-                  <div class="profile-info">
-                    {{ candidature.nom }} {{ candidature.prenom }}
-                  </div>
-                  <button
-                    (click)="openModal(candidature.collaborateur_id)"
-                    class="btn btn-inverse-secondary btn-icon"
-                  >
-                    <i class="mdi mdi mdi-eye"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div
-            class="kanban-column"
-            style="border-top: 5px solid #487eb0"
-            cdkDropList
-            [cdkDropListData]="candidatures"
-            id="Entretien"
-            (cdkDropListDropped)="onDrop($event, 'Entretien_Rh')"
-            [cdkDropListConnectedTo]="['ACCEPTEE', 'REFUSEE' ]"
-          >
-            <h3>Entretien RH</h3>
-            <div
-              class="kanban-cards"
-              *ngFor="
-                let candidature of candidatures | filter : 'Entretien_Rh'
-              "
-              cdkDrag
-              [id]="candidature.candidature_id"
-            >
-              <div class="kanban-card">
-                <img
-                  class="profile-image rounded-circle"
-                  [src]="'assets/images/' + candidature.image"
-                  alt="Profile Image"
-                />
-                <div class="profile-info">
-                  {{ candidature.nom }} {{ candidature.prenom }}
-                </div>
-                <button
-                  (click)="openModal(candidature.collaborateur_id)"
-                  class="btn btn-inverse-secondary btn-icon"
+                <h3>En Attente Entretien RH</h3>
+                <div
+                  class="kanban-cards"
+                  *ngFor="
+                    let candidature of candidatures
+                      | filter : 'EN_ATTENTE_ENTRETIEN_RH'
+                  "
+                  cdkDrag
+                  [id]="candidature.candidature_id"
                 >
-                  <i class="mdi mdi mdi-eye"></i>
-                </button>
+                  <div class="kanban-card">
+                    <img
+                      class="profile-image rounded-circle"
+                      [src]="'assets/images/' + candidature.image"
+                      alt="Profile Image"
+                    />
+                    <div class="profile-info">
+                      {{ candidature.nom }} {{ candidature.prenom }}
+                    </div>
+                    <button
+                      (click)="openModal(candidature.collaborateur_id)"
+                      class="btn btn-inverse-secondary btn-icon"
+                    >
+                      <i class="mdi mdi mdi-eye"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+              <div
+                class="kanban-column"
+                style="border-top: 5px solid #487eb0"
+                cdkDropList
+                [cdkDropListData]="candidatures"
+                id="Entretien"
+                (cdkDropListDropped)="onDrop($event, 'Entretien_Rh')"
+                [cdkDropListConnectedTo]="['ACCEPTEE', 'REFUSEE']"
+              >
+                <h3>Entretien RH</h3>
+                <div
+                  class="kanban-cards"
+                  *ngFor="
+                    let candidature of candidatures | filter : 'Entretien_Rh'
+                  "
+                  cdkDrag
+                  [id]="candidature.candidature_id"
+                >
+                  <div class="kanban-card">
+                    <img
+                      class="profile-image rounded-circle"
+                      [src]="'assets/images/' + candidature.image"
+                      alt="Profile Image"
+                    />
+                    <div class="profile-info">
+                      {{ candidature.nom }} {{ candidature.prenom }}
+                    </div>
+                    <button
+                      (click)="openModal(candidature.collaborateur_id)"
+                      class="btn btn-inverse-secondary btn-icon"
+                    >
+                      <i class="mdi mdi mdi-eye"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
               <!-- Colonne Acceptées -->
               <div
                 class="kanban-column"
@@ -459,7 +514,7 @@
                 class="kanban-column"
                 style="border-top: 5px solid #b72d2d"
                 cdkDropList
-                [cdkDropListData]="candidatures"  
+                [cdkDropListData]="candidatures"
                 id="REFUSEE"
                 (cdkDropListDropped)="onDrop($event, 'REFUSEE')"
                 [cdkDropListConnectedTo]="['EN_ATTENTE', 'ACCEPTEE']"
@@ -500,46 +555,42 @@
             <br />
             <div class="text-center">
               <button
-              (click)="openModalEntretien()"
+                (click)="openModalEntretien()"
                 type="button"
                 class="btn btn-inverse-success btn-block"
               >
-              Appuyer Ici Pour Choisir Le Candidat Approuvé.
+                Appuyer Ici Pour Choisir Le Candidat Approuvé.
               </button>
             </div>
-            
-          
+
             <!-- src/app/score-test-technique/score-test-technique.component.html -->
             <div class="card-container">
               <mat-card class="score-test-technique-card">
-                 <mat-card-header>
-                     <mat-card-title>Score du Test Technique</mat-card-title>
-                 </mat-card-header>
-                 <mat-card-content>
-                   <canvas #barChart></canvas>
-                 </mat-card-content>
+                <mat-card-header>
+                  <mat-card-title>Score du Test Technique</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <canvas #barChart></canvas>
+                </mat-card-content>
               </mat-card>
-             
+
               <mat-card class="score-test-technique-card">
-                 <mat-card-header>
-                     <mat-card-title>Note de l'entretien</mat-card-title>
-                 </mat-card-header>
-                 <mat-card-content>
-                   <canvas #barChart2></canvas>
-                 </mat-card-content>
+                <mat-card-header>
+                  <mat-card-title>Note de l'entretien</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <canvas #barChart2></canvas>
+                </mat-card-content>
               </mat-card>
-              
-             </div>
-             <mat-card class="custom-card">
+            </div>
+            <mat-card class="custom-card">
               <mat-card-header>
-                  <mat-card-title>Salaire Demandé</mat-card-title>
+                <mat-card-title>Salaire Demandé</mat-card-title>
               </mat-card-header>
               <mat-card-content>
-                  <canvas #barChart3></canvas>
+                <canvas #barChart3></canvas>
               </mat-card-content>
-          </mat-card>
-          
-             
+            </mat-card>
           </div>
         </div>
       </div>
