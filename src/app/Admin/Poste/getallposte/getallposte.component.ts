@@ -23,38 +23,69 @@ import Swal from 'sweetalert2';
  ]
 })
 export class GetallposteComponent implements OnInit {
-
   postes: Poste[] = [];
   postId!: number;
   poste: any; 
 
-  constructor(private route: ActivatedRoute , private posteService: PosteService , private elRef: ElementRef) {}
+  searchTerm: string = '';
+  filteredEvents: Poste[] = [];
+  filterOption: string = 'all'; 
+
+  constructor(private route: ActivatedRoute, private posteService: PosteService, private elRef: ElementRef) {}
 
   showAllCompetences = false; 
   archive: boolean = false;
   encours: boolean = false;
   approuveParManagerRH: boolean = false;
   events:any;
-  filteredEvents: any[] = [];
+
+  ngOnInit(): void {
+    this.posteService.getDemandesEnCours().subscribe(
+      (data) => {
+        this.postes = data;
+        this.applyFilter();
+        console.log('Received Postes:', this.postes);
+      },
+      (error) => {
+        console.error('Error fetching Postes:', error);
+      }
+    );
+    this.route.params.subscribe(params => {
+      this.postId = +params['id'];
+      this.loadPosteDetails();
+    });
+  }
 
   applyFilter() {
-    this.filteredEvents = [...this.postes];
+    let filteredPostes = [...this.postes];
     switch (this.filterOption) {
-        case 'Nouvelle Demandes':
-            // Filtrer les postes qui ne sont pas traités (par exemple, ceux qui ne sont pas 'Accepte' ou 'Archive')
-            this.filteredEvents = this.filteredEvents.filter(poste => poste.poste !== EtatPoste.Accepte && poste.etatPoste !== EtatPoste.Archive);
-            break;
-        case 'Demandes Rejetées':
-            this.filteredEvents = this.filteredEvents.filter(poste => poste.poste === EtatPoste.Rejete);
-            break;
-        case 'Demandes Acceptées':
-            this.filteredEvents = this.filteredEvents.filter(poste => poste.poste === EtatPoste.Accepte);
-            break;
-          
-        default:
-            break;
+      case 'Nouvelle Demandes':
+        filteredPostes = filteredPostes.filter(poste => poste.etatPoste !== EtatPoste.Accepte && poste.etatPoste !== EtatPoste.Archive);
+        break;
+      case 'Demandes Rejetées':
+        filteredPostes = filteredPostes.filter(poste => poste.etatPoste === EtatPoste.Rejete);
+        break;
+      case 'Demandes Acceptées':
+        filteredPostes = filteredPostes.filter(poste => poste.etatPoste === EtatPoste.Accepte);
+        break;
+      default:
+        break;
     }
-}
+
+    if (this.searchTerm) {
+      filteredPostes = filteredPostes.filter(poste =>
+        (poste.managerNom && poste.managerNom.toLowerCase().includes(this.searchTerm.toLowerCase())) ||
+        (poste.managerPrenom && poste.managerPrenom.toLowerCase().includes(this.searchTerm.toLowerCase()))
+      );
+    }
+
+    this.filteredEvents = filteredPostes;
+  }
+
+  onSearchChange() {
+    this.applyFilter();
+  }
+
   
   toggleCompetences() {
      this.showAllCompetences = !this.showAllCompetences;
@@ -86,7 +117,6 @@ export class GetallposteComponent implements OnInit {
     ); 
     }
 
-    filterOption: string = 'all'; 
 
     onRefuse(id: any) : void {
       this.posteService.updateRefus(id).subscribe(
@@ -110,26 +140,7 @@ export class GetallposteComponent implements OnInit {
           });      }
       );   }
 
-  ngOnInit(): void {
-    this.filteredEvents = [...this.postes];
-    this.applyFilter();
-    this.posteService.getDemandesEnCours().subscribe(
-      (data) => {
-        this.postes = data;
-        this.applyFilter();
-        this.filterOption = 'all';  // Set the default filter option
-        // Appliquez le filtre après avoir chargé les postes
-        console.log('Received Postes:', this.postes);
-      },
-      (error) => {
-        console.error('Error fetching Postes:', error);
-      }
-    );
-    this.route.params.subscribe(params => {
-      this.postId = +params['id'];
-      this.loadPosteDetails();
-    });
-  }  
+ 
   selectedPoste: Poste | null = null; // Track the selected poste for details
 
   isDetailsPanelOpen = false; // Variable to track the details panel state

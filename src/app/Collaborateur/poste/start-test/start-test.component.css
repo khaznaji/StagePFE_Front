@@ -62,17 +62,68 @@ body {
   padding: 5px 0;
 }
 .card {
-    border-radius: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    transition: 0.3s;
-    border: none;
-    width: 100%;
-    margin-bottom: 20px;
-   }
-   
-   .card-body {
-    padding: 20px;
-   }
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border: none;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.button-container-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button-container-start {
+  flex: 1;
+}
+
+.button-container-end {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card-body {
+  padding: 20px;
+}
+.card-style {
+  max-width: 400px;
+  margin: auto;
+}
+
+.card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time-display {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px; /* Ajustez selon vos besoins */
+}
+
+.centered-spinner {
+  width: 40px; /* Ajustez selon vos besoins */
+  height: 40px; /* Ajustez selon vos besoins */
+}
 
 @media (max-width: 768px) {
   .col-lg-2,

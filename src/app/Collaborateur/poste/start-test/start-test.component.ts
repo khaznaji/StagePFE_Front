@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-start-test',
   templateUrl: './start-test.component.html',
-  styleUrls: ['./start-test.component.css']
+  styleUrls: ['./start-test.component.css'],
 })
 export class StartTestComponent implements OnInit {
   qid: any;
@@ -29,7 +29,7 @@ export class StartTestComponent implements OnInit {
     private locationStrategy: LocationStrategy,
     private route: ActivatedRoute,
     private questionService: QuestionService,
-    private router: Router , 
+    private router: Router,
     private posteService: PosteService
   ) {}
   candidatureId: any; // Variable pour stocker l'ID de la candidature
@@ -37,48 +37,51 @@ export class StartTestComponent implements OnInit {
   ngOnInit(): void {
     this.qid = this.route.snapshot.params['qid'];
     this.candidatureId = this.route.snapshot.params['candidatureId']; // Récupérez l'ID de la candidature à partir de l'URL
-console.log(this.qid)
+    console.log(this.qid);
     this.preventBackButton();
+    this.preventPageReload();
     this.loadQuestions();
   }
-  // @HostListener('window:beforeunload', ['$event'])
-  // onWindowClose(event: any): void {
-  //   this.submitQuiz();
-  // }
 
-  // ngOnDestroy(): void {
-  //   this.submitQuiz();
-  // }
-  
+  // Méthode pour empêcher le rafraîchissement de la page
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: any) {
+    if (!this.isSubmit) {
+      event.returnValue = 'Are you sure you want to leave? Your progress will be lost.';
+    }
+  }
+
   nextQuestion() {
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.currentQuestionIndex++;
     }
- }
+  }
 
- previousQuestion() {
+  previousQuestion() {
     if (this.currentQuestionIndex > 0) {
       this.currentQuestionIndex--;
     }
- }
+  }
 
- selectAnswer(question: any, answer: any) {
-  question.givenAnswer = answer;
-}
+  selectAnswer(question: any, answer: any) {
+    question.givenAnswer = answer;
+  }
 
   loadQuestions() {
-    this.questionService.getQuestionsOfQuizForUser(this.qid , this.candidatureId).subscribe(
-      (data) => {
-        this.questions = data;
-        console.log(this.questions);
+    this.questionService
+      .getQuestionsOfQuizForUser(this.qid, this.candidatureId)
+      .subscribe(
+        (data) => {
+          this.questions = data;
+          console.log(this.questions);
 
-        this.questions.forEach((ques: any) => {
-          ques['givenAnswer'] = '';
-        });
-        this.startTimer();
-      },
-      (error) => {}
-    );
+          this.questions.forEach((ques: any) => {
+            ques['givenAnswer'] = '';
+          });
+          this.startTimer();
+        },
+        (error) => {}
+      );
   }
 
   preventBackButton() {
@@ -88,20 +91,24 @@ console.log(this.qid)
     });
   }
 
+  preventPageReload() {
+    window.onbeforeunload = function() {
+      return 'Are you sure you want to leave? Your progress will be lost.';
+    };
+  }
+
   submitQuiz() {
     Swal.fire({
-      title: 'Do you want to submit the Quiz?',
+      title: 'Etes vous sure d envoyer le test technique ?',
       showCancelButton: true,
-      confirmButtonText: 'Submit',
-
+      confirmButtonText: 'Envoyer',
       icon: 'info',
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.evaluateQuiz();
       } else if (result.isDenied) {
         Swal.fire('Changes are not saved', '', 'info');
-      }
+      } 
     });
   }
 
@@ -120,9 +127,8 @@ console.log(this.qid)
       }
     });
     this.updateScore();
-
   }
-  
+
   updateScore() {
     const newScore = this.marksGot;
     this.posteService.updateScore(this.candidatureId, newScore).subscribe(
@@ -154,7 +160,6 @@ console.log(this.qid)
       if (this.value <= 0) {
         localStorage.setItem('counter', this.timer);
         clearInterval(this.interval);
-
         this.evaluateQuiz();
       } else {
         this.value = parseInt(this.value) - 1;
@@ -172,7 +177,13 @@ console.log(this.qid)
     let ss = this.value - mm * 60;
     return `${mm} min : ${ss} sec`;
   }
+
   print() {
     window.print();
+  }
+
+  capitalizeFirstLetter(title: string): string {
+    if (!title) return title;
+    return title.charAt(0).toUpperCase() + title.slice(1);
   }
 }

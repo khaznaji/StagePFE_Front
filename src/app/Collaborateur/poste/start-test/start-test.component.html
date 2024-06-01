@@ -1,17 +1,29 @@
-<div class="progress-card">
-  <mat-card>
-    <mat-card-title>{{ questions[0].quiz.title }}</mat-card-title>
-    <mat-card-subtitle
-      >Le quiz sera soumis automatiquement lorsque le temps sera
-      écoulé.</mat-card-subtitle
+<div *ngIf="!isSubmit">
+  <div class="col-12 mb-4">
+    <h2
+      style="
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+      "
     >
-    <mat-card-content>
-      <h1>{{ getFormattedTime() }}</h1>
-      <mat-spinner
-        class="mx-auto"
-        mode="determinate"
-        [value]="(value / 300) * 100"
-      ></mat-spinner>
+      {{ capitalizeFirstLetter(questions[0].quiz.title) }}
+    </h2>
+    <p style="color: red">
+      Le quiz sera soumis automatiquement lorsque le temps sera écoulé.
+    </p>
+  </div>
+  <mat-card class="card-style">
+    <mat-card-content class="card-content">
+      <h1 class="time-display">{{ getFormattedTime() }}</h1>
+      <div class="spinner-container">
+        <mat-spinner
+          class="centered-spinner"
+          mode="determinate"
+          [value]="(value / 300) * 100"
+        ></mat-spinner>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
@@ -79,27 +91,36 @@
                   </mat-radio-group>
                 </p>
               </div>
-              <button
-                *ngIf="currentQuestionIndex > 0"
-                (click)="previousQuestion()"
-              >
-                Précédente
-              </button>
-              <button
-                *ngIf="currentQuestionIndex < questions.length - 1"
-                (click)="nextQuestion()"
-              >
-                Suivante
-              </button>
-              <button
-                *ngIf="currentQuestionIndex === questions.length - 1"
-                mat-raised-button
-                color="primary"
-                class="full-width"
-                (click)="submitQuiz()"
-              >
-                Submit
-              </button>
+              <div class="button-container-wrapper">
+                <div class="button-container-start">
+                  <button
+                    class="btn btn-primary"
+                    *ngIf="currentQuestionIndex > 0"
+                    (click)="previousQuestion()"
+                  >
+                    Précédente
+                  </button>
+                </div>
+                <div class="button-container-end">
+                  <button
+                    class="btn btn-primary"
+                    *ngIf="currentQuestionIndex < questions.length - 1"
+                    (click)="nextQuestion()"
+                  >
+                    Suivante
+                  </button>
+              
+                  <button
+                    class="btn btn-primary"
+                    *ngIf="currentQuestionIndex === questions.length - 1"
+                    (click)="submitQuiz()"
+                  >
+                    Envoyer
+                  </button>
+                </div>
+              </div>
+              
+
             </div>
           </div>
         </mat-card-content>
@@ -111,27 +132,17 @@
   </div>
 </div>
 
-<div class="container text-center mt-4" *ngIf="isSubmit">
+<div class="container text-center mt-4 result-container" *ngIf="isSubmit">
   <div class="row">
     <div class="col-md-6 offset-md-3">
-      <mat-card>
-        <div class="mat-headline">Quiz Result</div>
-
-        <mat-card-content class="mt-4">
-          <h2>You got {{ marksGot }} marks</h2>
-          <h2>Correct answers :{{ correctAnswer }}</h2>
-          <h2>Total marks {{ maximumMarks }}</h2>
-          <h2>You attempted {{ attempted }} questions</h2>
+      <mat-card class="result-card">
+        <div class="mat-headline result-title">Résultat du Test Technique</div>
+        <mat-card-content class="mt-4 result-content">
+          <h2 class="result-text">Vous avez obtenu {{ marksGot }} marks</h2>
+          <h2 class="result-text">Nombre de réponses correctes: {{ correctAnswer }}</h2>
         </mat-card-content>
-        <div class="container mt-3">
-          <button mat-raised-button color="primary" (click)="print()">
-            Print
-          </button>
-          <button mat-raised-button color="warn" [routerLink]="'/user/all'">
-            Home
-          </button>
-        </div>
       </mat-card>
     </div>
   </div>
 </div>
+

@@ -289,7 +289,9 @@
   </div>
 
 
-  
+  <div class="d-flex justify-content-end mb-3">
+    <input [(ngModel)]="searchTerm" class="form-control" placeholder="Rechercher par Manager Service" (input)="onSearchChange()">
+  </div>
   <div class="ml-2">
     <select [(ngModel)]="filterOption" class="form-control" (change)="applyFilter()">
       <option value="all">Tous</option>
@@ -298,6 +300,7 @@
       <option value="Accepte">Demandes Acceptées</option>
     </select>
   </div>
+
   <div class="table-responsive" *ngIf="filteredEvents.length > 0; else noPostes">
     
     <table class="table table-striped card-table">

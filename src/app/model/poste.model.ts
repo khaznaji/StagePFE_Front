@@ -19,5 +19,6 @@ export class Poste{
     archive!:boolean ; 
     encours!:boolean ; 
     poste!:EtatPoste; 
+  etatPoste: EtatPoste;
 
   }
