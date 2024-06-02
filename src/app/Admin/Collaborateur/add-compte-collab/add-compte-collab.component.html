@@ -40,7 +40,9 @@
     <h4 class="card-title"> Collaborateur</h4>
     <hr>
     <form [formGroup]="managerServiceForm" (ngSubmit)="onSubmit()">
-    
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
       
       
       <div *ngIf="currentStep === 1">

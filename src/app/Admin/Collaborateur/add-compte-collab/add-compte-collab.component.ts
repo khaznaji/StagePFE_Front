@@ -65,10 +65,34 @@ export class AddCompteCollabComponent implements OnInit{
  
   
   data: any = [];
-  currentStep = 1; // Use a generic type or 'any' if the type is dynamic
-  nextStep() {
-    this.currentStep++;
-  }
+  currentStep = 1; 
+  errorMessage: string = '';
+// Use a generic type or 'any' if the type is dynamic
+  nextStep(): void {
+    // Réinitialisez errorMessage
+    this.errorMessage = '';
+  
+    // Vérifiez la validité des champs spécifiques
+    const nomControl = this.managerServiceForm.get('nom');
+    const prenomControl = this.managerServiceForm.get('prenom');
+    const matriculeControl = this.managerServiceForm.get('matricule');
+    const numtelControl = this.managerServiceForm.get('numtel');
+    const genderControl = this.managerServiceForm.get('gender');
+    const emailControl = this.managerServiceForm.get('email');
+
+    
+    if (
+      nomControl && prenomControl && matriculeControl && numtelControl && genderControl &&
+      nomControl.valid && prenomControl.valid && matriculeControl.valid && numtelControl.valid && genderControl.valid
+    ) {
+      // Passez au step suivant
+      this.currentStep++;
+      this.errorMessage = '';
+  
+    } else {
+      // Affichez un message d'erreur si l'une des validations échoue
+      this.errorMessage = 'Veuillez remplir correctement les champs obligatoires avant de passer à l\'étape suivante.';
+    } }
   Step() {
     this.currentStep--;
   }

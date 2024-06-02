@@ -11,7 +11,11 @@ export class MesEntretienManagerComponent {
   entretiens: any[] = [];
 
   constructor(private service: EntretienService, private router: Router) {}
-
+  canJoinInterview(dateEntretien: string, heureDebut: string): boolean {
+    const entretienDateTime = new Date(`${dateEntretien}T${heureDebut}`);
+    const now = new Date();
+    return now >= entretienDateTime;
+  }
   ngOnInit(): void {
     this.getEntretiens();
   }

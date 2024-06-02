@@ -28,48 +28,25 @@
                     <div *ngIf="entretienDetails && !editMode">
                       <dl class="row">
                         <dt class="col-sm-3">ID:</dt>
-                        <dd class="col-sm-9">
-                          {{ entretienDetails.entretien.id }}
-                        </dd>
+                        <dd class="col-sm-9">{{ entretienDetails.entretien.id }}</dd>
                         <dt class="col-sm-3">Candidat:</dt>
                         <dd class="col-sm-9">
                           {{ entretienDetails.nomCollaborateur }}
                           {{ entretienDetails.prenomCollaborateur }}
                         </dd>
                         <dt class="col-sm-3">Date de l'entretien:</dt>
-                        <dd class="col-sm-9">
-                          {{ entretienDetails.entretien.dateEntretien }}
-                        </dd>
+                        <dd class="col-sm-9">{{ entretienDetails.entretien.dateEntretien }}</dd>
                         <dt class="col-sm-3">Heure de début:</dt>
-                        <dd class="col-sm-9">
-                          {{
-                            entretienDetails.entretien.heureDebut
-                              | slice : 0 : 5
-                          }}
-                        </dd>
+                        <dd class="col-sm-9">{{ entretienDetails.entretien.heureDebut | slice : 0 : 5 }}</dd>
                         <dt class="col-sm-3">Heure de fin:</dt>
-                        <dd class="col-sm-9">
-                          {{
-                            entretienDetails.entretien.heureFin | slice : 0 : 5
-                          }}
-                        </dd>
+                        <dd class="col-sm-9">{{ entretienDetails.entretien.heureFin | slice : 0 : 5 }}</dd>
                         <dt class="col-sm-3">Room Id:</dt>
-                        <dd class="col-sm-9">
-                          {{
-                            entretienDetails.entretien.roomId | slice : 0 : 5
-                          }}
-                        </dd>
+                        <dd class="col-sm-9">{{ entretienDetails.entretien.roomId | slice : 0 : 5 }}</dd>
                       </dl>
-                      <button class="btn btn-primary"  (click)="editMode = true" (click)="preRemplirFormulaire(); ">
-                        Modifier
-                      </button>
+                      <button class="btn btn-primary" (click)="editMode = true; preRemplirFormulaire();">Modifier</button>
                     </div>
                     <div *ngIf="editMode">
-                      <form
-                        (submit)="
-                          submitUpdatedEntretien(entretienDetails.entretien.id)
-                        "
-                      >
+                      <form (submit)="submitUpdatedEntretien(entretienDetails.entretien.id)">
                         <div>
                           <label for="candidatureId">Candidature:</label>
                           <select
@@ -79,35 +56,27 @@
                             [(ngModel)]="candidatureId"
                             required
                           >
-                            <option
-                              *ngFor="let candidat of candidats"
-                              [value]="candidat.id"
-                            >
+                            <option *ngFor="let candidat of candidats" [value]="candidat.id">
                               {{ candidat.nom }} {{ candidat.prenom }}
                             </option>
                           </select>
                         </div>
                         <div>
                           <label for="userId">Manager Rh:</label>
-
                           <select
                             id="userId"
                             name="userId"
                             [(ngModel)]="userId"
                             required
+                            class="form-control"
                           >
-                            <option
-                              *ngFor="let candidat of manager"
-                              [value]="candidat.id"
-                            >
+                            <option *ngFor="let candidat of manager" [value]="candidat.id">
                               {{ candidat.nom }} {{ candidat.prenom }}
                             </option>
                           </select>
                         </div>
                         <div>
-                          <label for="dateEntretien"
-                            >Date de l'entretien:</label
-                          >
+                          <label for="dateEntretien">Date de l'entretien:</label>
                           <input
                             class="form-control"
                             type="date"
@@ -132,7 +101,6 @@
                             (change)="checkHeureFin()"
                           />
                         </div>
-
                         <div>
                           <label for="heureFin">Heure de fin :</label>
                           <input
@@ -145,10 +113,7 @@
                             (change)="checkHeureFin()"
                           />
                           <div *ngIf="!checkHeureFin()" style="color: red">
-                            <p>
-                              L'heure de fin doit être supérieure à l'heure de
-                              début.
-                            </p>
+                            <p>L'heure de fin doit être supérieure à l'heure de début.</p>
                           </div>
                         </div>
                       </form>
@@ -158,9 +123,7 @@
                     <button
                       class="btn btn-success"
                       [disabled]="!checkHeureFin()"
-                      (click)="
-                        submitUpdatedEntretien(entretienDetails.entretien.id)
-                      "
+                      (click)="submitUpdatedEntretien(entretienDetails.entretien.id)"
                     >
                       Enregistrer
                     </button>
@@ -176,6 +139,7 @@
                 </div>
               </div>
             </div>
+            
 
             <!-- Modal pour ajouter un nouvel événement -->
             <div *ngIf="showModal" class="modal custom-modal">
@@ -220,6 +184,8 @@
                           name="userId"
                           [(ngModel)]="userId"
                           required
+                          class="form-control"
+
                         >
                           <option
                             *ngFor="let candidat of manager"

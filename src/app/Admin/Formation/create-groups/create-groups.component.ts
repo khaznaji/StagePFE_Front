@@ -53,27 +53,31 @@ export class CreateGroupsComponent implements OnInit {
 
   selectedCollaborateurs: number[] = []; // Déclarez la propriété selectedCollaborateurs
 
-  ajouterGroupe(): void {
-    const nom = this.groupForm?.get('nom')?.value;
-    const collaborateursId = (this.groupForm?.get('collaborateursId') as FormArray).controls
-       .map((control, index) => control.value ? this.collaborateursConfirme[index].idC : null)
-       .filter(id => id !== null); // Filtrer les valeurs null
-   
-    if (nom && collaborateursId.length > 0) {
-       this.groupsService.addGroupWithFormationAndCollaborateurs(this.formationId, nom, collaborateursId)
-         .subscribe(
-           response => {
-             console.log('Groupe ajouté avec succès' ,collaborateursId);
-             this.groupForm.reset();
-           },
-           error => {
-             console.error('Erreur lors de l\'ajout du groupe :', error);
-           }
-         );
-    } else {
-       console.error("Le formulaire n'est pas initialisé correctement.");
-    }
-   }
+  
+ajouterGroupe(): void {
+  const nom = this.groupForm?.get('nom')?.value;
+  const collaborateursId = (this.groupForm?.get('collaborateursId') as FormArray).controls
+     .map((control, index) => control.value ? this.collaborateursConfirme[index].idC : null)
+     .filter(id => id !== null); // Filtrer les valeurs null
+ 
+  if (nom && collaborateursId.length > 0) {
+     this.groupsService.addGroupWithFormationAndCollaborateurs(this.formationId, nom, collaborateursId)
+       .subscribe(
+         response => {
+           console.log('Groupe ajouté avec succès' ,collaborateursId);
+           Swal.fire('Succès', 'Groupe ajouté avec succès', 'success');
+           this.groupForm.reset();
+         },
+         error => {
+           console.error('Erreur lors de l\'ajout du groupe :', error);
+           Swal.fire('Erreur', 'Une erreur est survenue lors de l\'ajout du groupe', 'error');
+         }
+       );
+  } else {
+     console.error("Le formulaire n'est pas initialisé correctement.");
+     Swal.fire('Erreur', 'Le formulaire n\'est pas initialisé correctement', 'error');
+  }
+}
    
   
 }

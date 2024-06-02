@@ -45,13 +45,16 @@ export class FullCalendarRhComponent implements OnInit {
   eventData: any = {}; // To store event data
   preRemplirFormulaire(): void {
     if (this.entretienDetails) {
-      this.candidatureId = this.entretienDetails.candidatureId;
+      this.candidatureId = this.entretienDetails.entretien.candidature.id;
       this.dateEntretien = this.entretienDetails.entretien.dateEntretien;
       this.heureDebut = this.entretienDetails.entretien.heureDebut;
       this.heureFin = this.entretienDetails.entretien.heureFin;
+      this.userId = this.entretienDetails.entretien.userId; // Assuming entretien has userId
     }
-    this.editMode = true; // Activer le mode d'édition
+    console.log('r', this.candidatureId);
+    console.log('ra', this.entretienDetails);
   }
+
   calendarOptions: any = {
     weekends: false, // initial value
     initialView: 'dayGridMonth', // Commencez par afficher la vue semaine
@@ -137,6 +140,10 @@ export class FullCalendarRhComponent implements OnInit {
     this.entretienService.getEntretienById(eventId).subscribe(
       (entretien) => {
         this.entretienDetails = entretien;
+
+        this.getCandidatsByPoste(); // Load candidates
+        this.getManagerByPoste(); // Load managers
+
         this.preRemplirFormulaire(); // Appeler pour pré-remplir le formulaire
 
         this.showModal2 = true;
@@ -150,6 +157,7 @@ export class FullCalendarRhComponent implements OnInit {
       }
     );
   }
+
   deleteEntretien(id: number): void {
     this.entretienService.deleteEntretien(id).subscribe(
       () => {

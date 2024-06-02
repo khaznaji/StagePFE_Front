@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,17 +17,30 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-add-compte-formateur',
   templateUrl: './add-compte-formateur.component.html',
-  styleUrls: ['./add-compte-formateur.component.css']
+  styleUrls: ['./add-compte-formateur.component.css'],
 })
-export class AddCompteFormateurComponent  implements OnInit{
-  constructor(private userService: UserService ,private router: Router, private collabService: FormateurService , private fb: FormBuilder , private Auth: UserAuthService,public dialog: MatDialog , private elementRef: ElementRef,private modalService: BsModalService){}
+export class AddCompteFormateurComponent implements OnInit {
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private collabService: FormateurService,
+    private fb: FormBuilder,
+    private Auth: UserAuthService,
+    public dialog: MatDialog,
+    private elementRef: ElementRef,
+    private modalService: BsModalService
+  ) {}
   managerServiceForm!: FormGroup;
   allCompetences: Competence[] = [];
   selectedCompetences: Competence[] = [];
   allManagerService: User[] = [];
 
   competences: number[] = [];
-  domains: string[] = ["Finance_et_comptabilité", "Informatique_et_Technologie", "Ressources_humaines"];
+  domains: string[] = [
+    'Finance_et_comptabilité',
+    'Informatique_et_Technologie',
+    'Ressources_humaines',
+  ];
 
   ngOnInit() {
     this.selectedCompetences = [];
@@ -39,32 +53,59 @@ export class AddCompteFormateurComponent  implements OnInit{
       gender: ['', Validators.required],
       specialite: ['', Validators.required],
       dateEntree: ['', Validators.required],
-
-
     });
-
- 
-
-
   }
- 
-  
+
   data: any = [];
-  currentStep = 1; // Use a generic type or 'any' if the type is dynamic
-  nextStep() {
-    this.currentStep++;
+  currentStep = 1;
+  errorMessage: string = '';
+  // Use a generic type or 'any' if the type is dynamic
+  nextStep(): void {
+    // Réinitialisez errorMessage
+    this.errorMessage = '';
+
+    // Vérifiez la validité des champs spécifiques
+    const nomControl = this.managerServiceForm.get('nom');
+    const prenomControl = this.managerServiceForm.get('prenom');
+    const numtelControl = this.managerServiceForm.get('numtel');
+    const genderControl = this.managerServiceForm.get('gender');
+    const emailControl = this.managerServiceForm.get('email');
+
+    if (
+      nomControl &&
+      prenomControl &&
+      emailControl &&
+      numtelControl &&
+      genderControl &&
+      nomControl.valid &&
+      prenomControl.valid &&
+      emailControl.valid &&
+      numtelControl.valid &&
+      genderControl.valid
+    ) {
+      // Passez au step suivant
+      this.currentStep++;
+      this.errorMessage = '';
+    } else {
+      // Affichez un message d'erreur si l'une des validations échoue
+      this.errorMessage =
+        "Veuillez remplir correctement les champs obligatoires avant de passer à l'étape suivante.";
+    }
   }
   Step() {
     this.currentStep--;
   }
   filteredCompetences: Competence[] = [];
 
- 
+  todayDate(): string {
+    const currentDate = new Date();
+    return formatDate(currentDate, 'yyyy-MM-dd', 'en-US');
+  }
   getUserByid(id: any) {
-    const headers = { 'Authorization': 'Bearer ' + this.Auth.getToken() };
-    this.userService.getUserById2(id,headers).subscribe((res) => {      this.data = res;
+    const headers = { Authorization: 'Bearer ' + this.Auth.getToken() };
+    this.userService.getUserById2(id, headers).subscribe((res) => {
+      this.data = res;
       console.log(this.data);
-     
 
       console.log('User info:', this.data);
     });
@@ -82,21 +123,21 @@ export class AddCompteFormateurComponent  implements OnInit{
     this.modalRef = this.modalService.show(SuccessDialogComponent);
   }
   emailExists: boolean = false;
-matriculeExists: boolean = false;
+  matriculeExists: boolean = false;
 
-onEmailChange() {
-  this.emailExists = false;
-}
-onMatriculeChange() {
-  this.matriculeExists = false;
-}
+  onEmailChange() {
+    this.emailExists = false;
+  }
+  onMatriculeChange() {
+    this.matriculeExists = false;
+  }
 
-cancel() {
-  // Réinitialiser le formulaire et effacer les messages d'erreur
-  this.users = new User();
-  this.form.resetForm();
-  this.clearErrorMessages();
-}
+  cancel() {
+    // Réinitialiser le formulaire et effacer les messages d'erreur
+    this.users = new User();
+    this.form.resetForm();
+    this.clearErrorMessages();
+  }
   handleServerError(errorMessage: string) {
     // Traitez l'erreur côté serveur et affichez le message approprié
     if (errorMessage.includes('Cet e-mail est déjà utilisé')) {
@@ -107,89 +148,97 @@ cancel() {
       console.error('Erreur inattendue:', errorMessage);
     }
   }
- 
-  
+
   clearErrorMessages() {
     // Effacer les messages d'erreur en réinitialisant les modèles associés
     this.form.resetForm();
-
   }
 
   onNumTelInput(event: any) {
     const inputValue: string = event.target.value;
     if (inputValue.length > 8) {
-        this.users.numtel = parseInt(inputValue.substring(0, 8));
+      this.users.numtel = parseInt(inputValue.substring(0, 8));
     }
-
-}
-isSopraHrEmail(email: string): boolean {
-  return email.endsWith('@soprahr.com') || email.endsWith('@gmail.com');
-}
-
-
-project: Collaborateur = new Collaborateur();
-projects: User = new User();
-image: File | null = null;
-
-onSubmit() {
-  if (this.managerServiceForm.valid) {
-    const formData = new FormData();
-
-    formData.append('nom', this.managerServiceForm.get('nom')?.value || '');
-    formData.append('prenom', this.managerServiceForm.get('prenom')?.value || '');
-    formData.append('numtel', (this.managerServiceForm.get('numtel')?.value || '').toString());
-    formData.append('matricule', this.managerServiceForm.get('matricule')?.value || '');
-    formData.append('email', this.managerServiceForm.get('email')?.value || '');
-    formData.append('gender', this.managerServiceForm.get('gender')?.value || '');
-    formData.append('specialite', this.managerServiceForm.get('specialite')?.value || '');
-const dateEntree: Date | null = this.managerServiceForm.get('dateEntree')?.value;
-
-// Vérifiez si dateEntree est définie et non nulle
-if (dateEntree instanceof Date && !isNaN(dateEntree.getTime())) {
-    // Formatez la date au format ISO
-    const formattedDate: string = dateEntree.toISOString();
-
-    // Ajoutez la date formatée à FormData
-    formData.append('dateEntree', formattedDate);
-} else {
-    console.error('La valeur de dateEntree est invalide ou nulle.');
-}
-
-
-    // Ajoutez les compétences en tant qu'ID séparés par des virgules
-
-    this.collabService.createFormateur(formData).subscribe(
-      (response) => {
-        Swal.fire({
-          title: 'Succès !',
-          text: 'Collaborateur créé avec succès',
-          icon: 'success',
-          confirmButtonText: 'OK'
-        }).then(() => {
-          // Attendre 3 secondes avant de recharger la page
-          setTimeout(() => {
-            // Rediriger vers la page désirée après 3 secondes
-            this.router.navigate(['/managerRh/all-collaborateur']);
-          }, 3000);
-        });
-      },
-      (error) => {
-        console.log("error" ,error)
-        Swal.fire({
-          title: 'Erreur !',
-          text: 'Erreur lors de la création du Collaborateur : ' + error.message, // Display the server error message
-          icon: 'error',
-          confirmButtonText: 'OK'
-        });        // Ajoutez ici le code pour gérer l'erreur, par exemple, afficher un message d'erreur à l'utilisateur.
-      }
-    );
   }
-}
+  isSopraHrEmail(email: string): boolean {
+    return email.endsWith('@soprahr.com') || email.endsWith('@gmail.com');
+  }
 
+  project: Collaborateur = new Collaborateur();
+  projects: User = new User();
+  image: File | null = null;
 
+  onSubmit() {
+    if (this.managerServiceForm.valid) {
+      const formData = new FormData();
 
+      formData.append('nom', this.managerServiceForm.get('nom')?.value || '');
+      formData.append(
+        'prenom',
+        this.managerServiceForm.get('prenom')?.value || ''
+      );
+      formData.append(
+        'numtel',
+        (this.managerServiceForm.get('numtel')?.value || '').toString()
+      );
+      formData.append(
+        'matricule',
+        this.managerServiceForm.get('matricule')?.value || ''
+      );
+      formData.append(
+        'email',
+        this.managerServiceForm.get('email')?.value || ''
+      );
+      formData.append(
+        'gender',
+        this.managerServiceForm.get('gender')?.value || ''
+      );
+      formData.append(
+        'specialite',
+        this.managerServiceForm.get('specialite')?.value || ''
+      );
+      const dateEntree: Date | null =
+        this.managerServiceForm.get('dateEntree')?.value;
 
+      // Vérifiez si dateEntree est définie et non nulle
+      if (dateEntree instanceof Date && !isNaN(dateEntree.getTime())) {
+        // Formatez la date au format ISO
+        const formattedDate: string = dateEntree.toISOString();
 
+        // Ajoutez la date formatée à FormData
+        formData.append('dateEntree', formattedDate);
+      } else {
+        console.error('La valeur de dateEntree est invalide ou nulle.');
+      }
 
+      // Ajoutez les compétences en tant qu'ID séparés par des virgules
 
+      this.collabService.createFormateur(formData).subscribe(
+        (response) => {
+          Swal.fire({
+            title: 'Succès !',
+            text: 'Formateur créé avec succès',
+            icon: 'success',
+            confirmButtonText: 'OK',
+          }).then(() => {
+            // Attendre 3 secondes avant de recharger la page
+            setTimeout(() => {
+              // Rediriger vers la page désirée après 3 secondes
+              this.router.navigate(['/managerRh/all-formateurs']);
+            }, 3000);
+          });
+        },
+        (error) => {
+          console.log('error', error);
+          Swal.fire({
+            title: 'Erreur !',
+            text:
+              'Erreur lors de la création du Collaborateur : ' + error.message, // Display the server error message
+            icon: 'error',
+            confirmButtonText: 'OK',
+          }); // Ajoutez ici le code pour gérer l'erreur, par exemple, afficher un message d'erreur à l'utilisateur.
+        }
+      );
+    }
+  }
 }

@@ -261,12 +261,10 @@ body {
 }
 .progress {
   height: 20px;
-  margin-bottom: 10px;
 }
 
 .progress-bar {
-  background-color: #710c18;
-  color: #fff;
-  text-align: center;
-  line-height: 20px;
+  background-color: #5082b7; /* couleur de la barre de progression */
+  color: #00080e; /* couleur du texte à l'intérieur de la barre */
+  font-weight: bold;
 }

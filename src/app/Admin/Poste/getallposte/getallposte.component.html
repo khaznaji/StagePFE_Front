@@ -1,4 +1,4 @@
-  <style>
+<style>
   /* Add these styles to your component's CSS file or global styles */
 
   .table {
@@ -6,11 +6,11 @@
     margin: auto; /* Center the table */
   }
   .poste-titre {
- max-width: 10ch; /* 'ch' is a unit that represents the width of the "0" (zero) character. */
- white-space: pre-wrap; /* Allows the text to wrap to a new line */
- overflow: hidden; /* Hides the overflow text */
- text-overflow: ellipsis; /* Adds an ellipsis (...) to the end of the truncated text */
-}
+    max-width: 10ch; /* 'ch' is a unit that represents the width of the "0" (zero) character. */
+    white-space: pre-wrap; /* Allows the text to wrap to a new line */
+    overflow: hidden; /* Hides the overflow text */
+    text-overflow: ellipsis; 
+  }
   .table th,
   .table td {
     max-width: 200px; /* Set a maximum width for table cells */
@@ -33,91 +33,86 @@
     border-radius: 5px;
     margin-bottom: 20px;
   }
-/* Ajoutez ces styles à votre fichier CSS */
-.approval-message {
-  background-color: #d4edda; /* Couleur de fond pour indiquer une approbation */
-  color: #155724; /* Couleur du texte */
-  padding: 10px;
-  border: 1px solid #c3e6cb; /* Bordure légère */
-  border-radius: 5px;
-  margin-top: 10px; /* Espacement du haut */
-  text-align: center; /* Centrage du texte */
-  font-weight: bold;
-}
+  /* Ajoutez ces styles à votre fichier CSS */
+  .approval-message {
+    background-color: #d4edda; /* Couleur de fond pour indiquer une approbation */
+    color: #155724; /* Couleur du texte */
+    padding: 10px;
+    border: 1px solid #c3e6cb; /* Bordure légère */
+    border-radius: 5px;
+    margin-top: 10px; /* Espacement du haut */
+    text-align: center; /* Centrage du texte */
+    font-weight: bold;
+  }
 
-  
-.details-panel .button-container {
- display: flex;
- justify-content: space-between;
- width: 100%;
- margin-top: 20px;
-}
+  .details-panel .button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+  }
 
-.details-panel .button-container button {
- padding: 10px 20px;
- font-size: 16px;
- border: none;
- border-radius: 5px;
- cursor: pointer;
- transition: background-color 0.3s ease;
-}
+  .details-panel .button-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
 
-.details-panel .button-container .accept-button {
- background-color: #4CAF50; /* Green */
- color: white;
-}
+  .details-panel .button-container .accept-button {
+    background-color: #4caf50; /* Green */
+    color: white;
+  }
 
-.details-panel .button-container .accept-button:hover {
- background-color: #45a049;
-}
+  .details-panel .button-container .accept-button:hover {
+    background-color: #45a049;
+  }
 
-.details-panel .button-container .refuse-button {
- background-color: #f44336; /* Red */
- color: white;
-}
+  .details-panel .button-container .refuse-button {
+    background-color: #f44336; /* Red */
+    color: white;
+  }
 
-.details-panel .button-container .refuse-button:hover {
- background-color: #da190b;
-}.details-panel {
- /* Existing styles */
- padding: 20px;
- background-color: #ffffff;
- box-shadow: 0 0 10px  #ffffff;
- border-radius: 10px;
- display: flex;
- flex-direction: column;
- align-items: center;
+  .details-panel .button-container .refuse-button:hover {
+    background-color: #da190b;
+  }
+  .details-panel {
+    /* Existing styles */
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px #ffffff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .button-container {
+    display: flex;
+    justify-content: space-between; /* Espace les boutons uniformément */
+    align-items: center; /* Aligne les boutons verticalement au centre */
+    width: 100%; /* Assure que le conteneur prend toute la largeur disponible */
+    gap: 10px; /* Ajoute un espace entre les boutons */
+  }
 
-}
-.button-container {
- display: flex;
- justify-content: space-between; /* Espace les boutons uniformément */
- align-items: center; /* Aligne les boutons verticalement au centre */
- width: 100%; /* Assure que le conteneur prend toute la largeur disponible */
- gap: 10px; /* Ajoute un espace entre les boutons */
-}
-
-.button-container button {
- flex: 1; /* Permet aux boutons de s'étirer pour occuper l'espace disponible */
- padding: 10px 20px;
- font-size: 16px;
- border: none;
- border-radius: 5px;
- cursor: pointer;
- transition: background-color 0.3s ease;
-}
-
-
+  .button-container button {
+    flex: 1; /* Permet aux boutons de s'étirer pour occuper l'espace disponible */
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
 
   .details-section {
-    margin-bottom: 20px;;
-    
+    margin-bottom: 20px;
   }
 
   .details-section h4 {
     margin-bottom: 10px;
-    font-family: 'Roboto', sans-serif; /* A modern sans-serif font */
-
+    font-family: "Roboto", sans-serif; /* A modern sans-serif font */
   }
   .pill {
     background-color: #3498db; /* Change this color to your desired background color */
@@ -138,34 +133,32 @@
     max-width: 150px; /* Adjust the width for all columns */
   }
   .view-more-link {
- color: #007bff; /* Bootstrap primary color */
- text-decoration: none;
- cursor: pointer;
-}
-.view-less-link {
- color: #007bff; /* Bootstrap primary color */
- text-decoration: none;
- cursor: pointer;
-}
+    color: #007bff; /* Bootstrap primary color */
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .view-less-link {
+    color: #007bff; /* Bootstrap primary color */
+    text-decoration: none;
+    cursor: pointer;
+  }
 
-.view-less-link:hover {
- text-decoration: underline;
-}
-.view-more-link:hover {
- text-decoration: underline;
-}
+  .view-less-link:hover {
+    text-decoration: underline;
+  }
+  .view-more-link:hover {
+    text-decoration: underline;
+  }
   /* Add more styles as needed for other columns */
-
-
 
   .file-input-wrapper {
     display: flex;
-  flex-direction: column;
-  align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
   .activated-row {
     background-color: #c8e6c9;
-  /* Vous pouvez personnaliser la couleur comme vous le souhaitez */
+    /* Vous pouvez personnaliser la couleur comme vous le souhaitez */
   }
   .details-panel {
     position: fixed;
@@ -183,239 +176,289 @@
   /* Style pour les lignes désactivées */
   .deactivated-row {
     background-color: #ffcdd2;
-  /* Vous pouvez personnaliser la couleur comme vous le souhaitez */
+    /* Vous pouvez personnaliser la couleur comme vous le souhaitez */
   }
   .check-icon {
-  color: green; /* Couleur verte pour la coche */
-  font-size: 20px; /* Taille de la police */
+    color: green; /* Couleur verte pour la coche */
+    font-size: 20px; /* Taille de la police */
   }
 
   .cross-icon {
-  color: red; /* Couleur rouge pour la croix */
-  font-size: 20px; /* Taille de la police */
+    color: red; /* Couleur rouge pour la croix */
+    font-size: 20px; /* Taille de la police */
   }
 
   .drag-drop-area {
-  border: 2px dashed #ccc;
-  width: 200px;
-  height: 200px;
-  text-align: center;
-  cursor: pointer;
-  color: #777;
-  transition: border-color 0.3s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    border: 2px dashed #ccc;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    cursor: pointer;
+    color: #777;
+    transition: border-color 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .drag-drop-area.drag-over {
-  border-color: #4caf50; /* Change border color when dragging over */
+    border-color: #4caf50; /* Change border color when dragging over */
   }
 
   /* Optional: Add styles for better visual feedback */
   .custom-file {
-  margin-top: 10px;
+    margin-top: 10px;
   }
 
   /* Optional: Style the file input button */
   .custom-file-label::after {
-  content: 'Browse';
+    content: "Browse";
   }
 
   /* Optional: Add styles for selected file display */
   .file-preview {
-  position: relative;
-  width: 100%; /* Adjust the width as needed */
-  height: 100%; /* Adjust the height as needed */
-  overflow: hidden;
+    position: relative;
+    width: 100%; /* Adjust the width as needed */
+    height: 100%; /* Adjust the height as needed */
+    overflow: hidden;
   }
   /* Add these styles to your component's CSS file or global styles */
 
   .preview-image {
-  max-width: 100%; /* Adjust the maximum width as needed */
-  max-height: 100%; /* Adjust the maximum height as needed */
-  display: block;
-  margin: auto;
+    max-width: 100%; /* Adjust the maximum width as needed */
+    max-height: 100%; /* Adjust the maximum height as needed */
+    display: block;
+    margin: auto;
   }
 
   /* Add styles to make the image take the same frame as the drag and drop area */
   .file-preview {
-  position: relative;
-  width: 100%; /* Adjust the width as needed */
-  height: 200px; /* Adjust the height as needed */
-  overflow: hidden;
+    position: relative;
+    width: 100%; /* Adjust the width as needed */
+    height: 200px; /* Adjust the height as needed */
+    overflow: hidden;
   }
 
   .file-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .remove-icon {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  cursor: pointer;
-  color: white;
-  font-weight: bold;
-  background-color: grey;
-  border-radius: 50%;
-  padding: 5px;
-  font-size: 12px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    background-color: grey;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 12px;
   }
+</style>
 
+<br />
+<!-- Formulaire -->
+<div class="card" style="width: 870px">
+  <div class="card-body">
+    <!-- Liste des catégories -->
+    <div class="col-md-" style="width: 800px">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Liste des Demandes de Poste</h4>
+          <div class="d-flex justify-content-end mb-3"></div>
+          <div></div>
 
-  </style>
+          <div class="ml-2">
+            <select
+              [(ngModel)]="filterOption"
+              class="form-control"
+              (change)="applyFilter()"
+            >
+              <option value="all">Tous</option>
+              <option value="En_cours">Nouvelle Demandes</option>
+              <option value="Rejecte">Demandes Rejetées</option>
+              <option value="Accepte">Demandes Acceptées</option>
+            </select>
+          </div>
 
+          <div
+            class="table-responsive"
+            *ngIf="filteredEvents.length > 0; else noPostes"
+          >
+            <table class="table table-striped card-table">
+              <thead>
+                <tr>
+                  <th>Ref</th>
+                  <th>Poste</th>
+                  <th>Departement</th>
+                  <th>Manager Service</th>
 
-        <br>
-        <!-- Formulaire -->
-          <div class="card" style="width: 870px;" >
-            <div class="card-body">
-            
-            
+                  <th>Competences</th>
+                  <th>Action</th>
+                  <!-- Add Action column -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let poste of filteredEvents">
+                  <td>#{{ poste.id }}</td>
+                  <td class="poste-titre">{{ poste.titre }}</td>
+                  <td *ngIf="poste.managerService">
+                    <p>{{ poste.managerService.department }}</p>
+                  </td>
+                  <td *ngIf="poste.managerService">
+                    <p>
+                      {{ poste.managerNom ? poste.managerNom : "N/A" }}
+                      {{ poste.managerPrenom ? poste.managerPrenom : "N/A" }}
+                    </p>
+                  </td>
+                  <td *ngIf="poste.competences && poste.competences.length > 0">
+                    <div class="pill-container">
+                      <ng-container
+                        *ngFor="
+                          let competence of poste.competences;
+                          let i = index
+                        "
+                      >
+                        <span *ngIf="i < 3 || showAllCompetences" class="pill">
+                          {{ competence.nom }}
+                        </span>
+                      </ng-container>
+                      <a
+                        *ngIf="
+                          poste.competences.length > 3 && !showAllCompetences
+                        "
+                        (click)="toggleCompetences()"
+                        class="view-more-link"
+                        >Voir plus</a
+                      >
+                      <a
+                        *ngIf="
+                          poste.competences.length > 3 && showAllCompetences
+                        "
+                        (click)="toggleCompetences()"
+                        class="view-less-link"
+                        >Voir moins</a
+                      >
+                    </div>
+                  </td>
+                  <td>
+                    <button
+                      (click)="toggleDetailsPanel(poste)"
+                      type="button"
+                      class="btn btn-inverse-info btn-icon"
+                    >
+                      <i class="mdi mdi mdi-eye"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ng-template #noPostes>
+            <p>Aucune demande de poste</p>
+          </ng-template>
 
-        <!-- Liste des catégories -->
-        <div class="col-md-" style="width: 800px;">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">Liste des Demandes de Poste</h4>
-                <div class="d-flex justify-content-end mb-3">
-  </div>
-                <div>
- 
-  </div>
+          <div
+            *ngIf="selectedPoste"
+            class="details-panel"
+            style="width: 600px"
+            (click)="closeDetailsPanel()"
+            [@panelAnimation]="selectedPoste ? '*' : 'void'"
+          >
+            <br />
+            <br />
+            <br />
+            <div class="details-container">
+              <!-- Static Cover Photo -->
 
+              <div class="details-section">
+                <h4>{{ selectedPoste.titre }}</h4>
+                <h6>Reference du poste : #{{ selectedPoste.id }}</h6>
 
-  <div class="d-flex justify-content-end mb-3">
-    <input [(ngModel)]="searchTerm" class="form-control" placeholder="Rechercher par Manager Service" (input)="onSearchChange()">
-  </div>
-  <div class="ml-2">
-    <select [(ngModel)]="filterOption" class="form-control" (change)="applyFilter()">
-      <option value="all">Tous</option>
-      <option value="En_cours">Nouvelle Demandes</option>
-      <option value="Rejecte">Demandes Rejetées</option>
-      <option value="Accepte">Demandes Acceptées</option>
-    </select>
-  </div>
+                <h6
+                  *ngIf="selectedPoste.managerService"
+                  style="
+                    font-weight: normal;
+                    color: gray;
+                    font-style: italic;
+                    text-decoration: underline;
+                  "
+                >
+                  Demande de :
+                  {{
+                    selectedPoste.managerNom ? selectedPoste.managerNom : "N/A"
+                  }}
+                  {{
+                    selectedPoste.managerPrenom
+                      ? selectedPoste.managerPrenom
+                      : "N/A"
+                  }}
+                </h6>
 
-  <div class="table-responsive" *ngIf="filteredEvents.length > 0; else noPostes">
-    
-    <table class="table table-striped card-table">
-      <thead>
-        <tr>
-          <th>Ref</th>
-          <th>Poste</th>
-          <th>Departement</th>
-          <th>Manager Service</th>
+                <h6
+                  style="
+                    font-weight: normal;
+                    color: rgb(56, 53, 53);
+                    font-style: italic;
+                  "
+                >
+                  Type de Contrat: {{ selectedPoste.typeContrat }}
+                </h6>
+                <br />
+                <div class="details-section">
+                  <h4>Compétences Requises</h4>
+                  <div class="pill-container">
+                    <span
+                      *ngFor="
+                        let competence of selectedPoste.competences;
+                        let i = index
+                      "
+                      class="pill"
+                    >
+                      {{ competence.nom }}
+                    </span>
+                  </div>
+                </div>
+                <hr />
+                <h4>Description</h4>
 
-          <th>Competences</th>
-          <th>Action</th> <!-- Add Action column -->
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let poste of filteredEvents">
-          <td>#{{poste.id}}</td>
-          <td class="poste-titre">{{ poste.titre }}</td>
-          <td *ngIf="poste.managerService">
-            <p>{{ poste.managerService.department }}</p>
-          </td>
-          <td *ngIf="poste.managerService">
-            <p>{{ poste.managerNom ? poste.managerNom : 'N/A' }}  {{ poste.managerPrenom ? poste.managerPrenom : 'N/A' }}</p>
-          </td>
-          <td *ngIf="poste.competences && poste.competences.length > 0">
-            <div class="pill-container">
-               <ng-container *ngFor="let competence of poste.competences; let i = index">
-                 <span *ngIf="i < 3 || showAllCompetences" class="pill" >
-                   {{ competence.nom }}
-                 </span>
-               </ng-container>
-               <a *ngIf="poste.competences.length > 3 && !showAllCompetences" (click)="toggleCompetences()" class="view-more-link">Voir plus</a>
-               <a *ngIf="poste.competences.length > 3 && showAllCompetences" (click)="toggleCompetences()" class="view-less-link">Voir moins</a>
-            
+                <p>{{ selectedPoste.description }}</p>
               </div>
-           </td>
-          <td>
-            <button (click)="toggleDetailsPanel(poste)" type="button" class="btn btn-inverse-info btn-icon">
-              <i class="mdi mdi mdi-eye      "></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <ng-template #noPostes>
-    <p>Aucune demande de poste</p>
-  </ng-template>
-  
-  <div *ngIf="selectedPoste" class="details-panel" style="width: 600px;" (click)="closeDetailsPanel()" [@panelAnimation]="selectedPoste ? '*' : 'void'">
-    <br>
-<br>
-<br>
-    <div class="details-container">
 
-      <!-- Static Cover Photo -->
-  
-      <div class="details-section">
-       
-        <h4>{{ selectedPoste.titre }}</h4>
-        <h6>Reference du poste : #{{selectedPoste.id}}</h6>
+              <div>
+                <!-- Si approuveParManagerRH est égal à true, affiche un message -->
+                <div class="button-container">
+                  <button
+                    class="refuse-button"
+                    (click)="onRefuse(selectedPoste.id)"
+                  >
+                    Refuser
+                  </button>
+                  <button
+                    class="accept-button"
+                    (click)="onAccept(selectedPoste.id)"
+                  >
+                    Accepter
+                  </button>
+                </div>
 
-
-        <h6 *ngIf="selectedPoste.managerService" style="font-weight: normal; color: gray; font-style: italic; text-decoration: underline;">
-          Demande de :
-          {{ selectedPoste.managerNom ? selectedPoste.managerNom : 'N/A' }}
-          {{ selectedPoste.managerPrenom ? selectedPoste.managerPrenom : 'N/A' }}
-       </h6>
-     
-       <h6 style="font-weight: normal; color: rgb(56, 53, 53); font-style: italic;">
-       Type de Contrat: {{ selectedPoste.typeContrat }}
-      </h6>
-       <br>
-       <div class="details-section">
-        <h4>Compétences Requises</h4>
-        <div class="pill-container">
-          <span *ngFor="let competence of selectedPoste.competences; let i = index" class="pill" >
-            {{ competence.nom }}
-          </span>
-        </div>
-      </div>
-      <hr>
-      <h4>Description</h4>
-
-        <p>{{ selectedPoste.description }}</p>
-      </div>
-     
-      <div >
-        <!-- Si approuveParManagerRH est égal à true, affiche un message -->
-        <div class="button-container">
-          <button  class="refuse-button" (click)="onRefuse(selectedPoste.id)">Refuser</button>
-          <button class="accept-button" (click)="onAccept(selectedPoste.id)">Accepter</button>
-        </div>
-        
-        
-        <!-- Sinon, affiche les boutons -->
-      
-      </div>
-      
-       
-  </div>
-    <!-- <div class="d-flex justify-content-center">
-      <pagination-controls (pageChange)="p = $event"></pagination-controls>
-    </div> -->
-    
-  <!-- <ng-template #noManagerServices>
-    <p>Aucun Manager Service trouvé</p>
-  </ng-template> -->
-
+                <!-- Sinon, affiche les boutons -->
               </div>
             </div>
+            <!-- <div class="d-flex justify-content-center">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div> -->
+
+            <!-- <ng-template #noManagerServices>
+    <p>Aucun Manager Service trouvé</p>
+  </ng-template> -->
           </div>
-          
+        </div>
       </div>
     </div>
-
-
-  
+  </div>
+</div>

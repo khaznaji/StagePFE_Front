@@ -252,108 +252,148 @@
  
          <br>
          <!-- Formulaire -->
-         <div class="card mx-auto text-center"  tabindex="-1" role="dialog">
-            <div class="card-body">
-             
-             
- 
-         <!-- Liste des catégories -->
-             <div class="card">
-               <div class="card-body">
-                 <h4 class="card-title">Liste de mes Candidatures</h4>
-                 <div class="d-flex justify-content-end mb-3">
-   </div>
-                 <div>
-         
-   </div>
- 
- 
-
-   <div class="table-responsive" *ngIf="postulations && postulations.length > 0">
-     
-     <table class="table table-striped card-table">
-       <thead>
-         <tr>
-           <th>Poste</th>
-           <th>Manager Service</th>
-           <th>Status</th>
-           <th>Action</th> 
-         </tr>
-       </thead>
-       <tbody *ngIf="postulations && postulations.length > 0">
-         <tr *ngFor="let poste of postulations; let i = index">
-           <td class="poste-titre">{{ poste.poste.titre }}  </td>
-           <td class="poste-titre">{{ poste.poste.managerNom ? poste.poste.managerNom : 'N/A' }} {{ poste.poste.managerPrenom ? poste.poste.managerPrenom : 'N/A' }} </td>
-           <td *ngIf="poste.etatPostulation">
-            <ng-container  class="pill-container">
-            <span [ngClass]="{
-              'status-accepted': poste.etatPostulation.toString() === 'ACCEPTEE',
-              'status-refused': poste.etatPostulation.toString() === 'REFUSEE',
-              'status-in-progress': poste.etatPostulation.toString() ===  'EN_ATTENTE',
-
-
-            }">
-              {{ formatEtat(poste.etatPostulation.toString().replace('_', ' ')) }}
-            </span>
-         </ng-container>
-          </td>
-        <td>
-          <button (click)="togglePosteDetails(poste.poste.id)" type="button" class="btn btn-inverse-info btn-icon">
-            <i class="mdi mdi mdi-eye      "></i>
-          </button>
-        </td>
-
-      
-
-         </tr>
-       </tbody>
-     </table>
-   </div>
-   <div *ngIf="!(postulations && postulations.length > 0)">
-    <p>Vous n'avez aucune candidature.</p>
-  </div>
-   
- 
-             </div>
-           </div>
-           
-       </div>
-     </div>
-    
-     <div *ngIf="selectedPosteId !== null" class="details-panel" style="width: 600px;" (click)="closeDetailsPanel()" [@panelAnimation]="selectedPoste ? '*' : 'void'">
-      <br>
-      <br>
-      <br>
-      <div class="details-container">
+         <div class="container">
+          <div class="row">
+            <br>
+            <!-- Formulaire -->
+            <div class="card mx-auto text-center" tabindex="-1" role="dialog">
+              <div class="card-body">
+                <!-- Liste des catégories -->
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Liste de mes Candidatures</h4>
+                    <div class="d-flex justify-content-end mb-3">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Rechercher par poste..."
+                        [(ngModel)]="searchTerm"
+                        (input)="filterPostulations()"
+                      />
+                    </div>
+                    <div class="table-responsive" *ngIf="filteredPostulations.length > 0">
+                      <table class="table table-striped card-table">
+                        <thead>
+                          <tr>
+                            <th>Poste</th>
+                            <th>Manager Service</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let poste of filteredPostulations; let i = index">
+                            <td class="poste-titre">{{ poste.poste.titre }}</td>
+                            <td class="poste-titre">{{ poste.poste.managerNom ? poste.poste.managerNom : 'N/A' }} {{ poste.poste.managerPrenom ? poste.poste.managerPrenom : 'N/A' }}</td>
+                            <td *ngIf="poste.etatPostulation">
+                              <ng-container class="pill-container">
+                                <span [ngClass]="{
+                                  'status-accepted': poste.etatPostulation.toString() === 'ACCEPTEE',
+                                  'status-refused': poste.etatPostulation.toString() === 'REFUSEE',
+                                  'status-in-progress': poste.etatPostulation.toString() === 'Preselection' ||
+                                                        poste.etatPostulation.toString() === 'EN_ATTENTE' ||
+                                                        poste.etatPostulation.toString() === 'Entretien' || 
+                                                        poste.etatPostulation.toString() === 'EN_ATTENTE_ENTRETIEN' || 
+                                                        poste.etatPostulation.toString() === 'Entretien_Rh' ||
+                                                        poste.etatPostulation.toString() === 'EN_ATTENTE_ENTRETIEN_RH'
+                                }">
+                                  {{ formatEtat(poste.etatPostulation.toString().replace('_', ' ')) }}
+                                </span>
+                              </ng-container>
+                            </td>
+                            <td>
+                            <button
+                      (click)="toggleDetailsPanel(poste.poste)"
+                      type="button"
+                      class="btn btn-inverse-info btn-icon"
+                    >
+                      <i class="mdi mdi mdi-eye"></i>
+                    </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div *ngIf="filteredPostulations.length === 0">
+                      <p>Vous n'avez aucune candidature.</p>
+                    </div>
+                    <div
+                    *ngIf="selectedPoste"
+                    class="details-panel"
+                    style="width: 600px"
+                    (click)="closeDetailsPanel()"
+                    [@panelAnimation]="selectedPoste ? '*' : 'void'"
+                  >
+                    <br />
+                    <br />
+                    <br />
+                    <div class="details-container">
+                      <!-- Static Cover Photo -->
         
-         <!-- Static Cover Photo -->
-         <div class="details-section">
-           <h4>{{ selectedPoste?.titre }}</h4>
-           <h6>Reference du poste : #{{selectedPoste?.id}}</h6>
-           <h6 *ngIf="selectedPoste?.managerService" style="font-weight: normal; color: gray; font-style: italic; text-decoration: underline;">
-             Demande de :
-             {{ selectedPoste?.managerNom ? selectedPoste?.managerNom : 'N/A' }}
-             {{ selectedPoste?.managerPrenom ? selectedPoste?.managerPrenom : 'N/A' }}
-           </h6>
-
-           <h6 style="font-weight: normal; color: rgb(56, 53, 53); font-style: italic;">
-             Type de Contrat : {{ selectedPoste?.typeContrat }}
-           </h6>
-           <br>
-           <div class="details-section">
-            <h4>Compétences Requises</h4>
-            <div class="pill-container">
-              <span *ngFor="let competence of selectedPoste?.competences; let i = index" class="pill" >
-                {{ competence.nom }}
-              </span>
+                      <div class="details-section">
+                        <h4>{{ selectedPoste.titre }}</h4>
+                        <h6>Reference du poste : #{{ selectedPoste.id }}</h6>
+        
+                        <h6
+                          *ngIf="selectedPoste.managerService"
+                          style="
+                            font-weight: normal;
+                            color: gray;
+                            font-style: italic;
+                            text-decoration: underline;
+                          "
+                        >
+                          Demande de :
+                          {{
+                            selectedPoste.managerNom ? selectedPoste.managerNom : "N/A"
+                          }}
+                          {{
+                            selectedPoste.managerPrenom
+                              ? selectedPoste.managerPrenom
+                              : "N/A"
+                          }}
+                        </h6>
+        
+                        <h6
+                          style="
+                            font-weight: normal;
+                            color: rgb(56, 53, 53);
+                            font-style: italic;
+                          "
+                        >
+                          Type de Contrat: {{ selectedPoste.typeContrat }}
+                        </h6>
+                        <br />
+                        <div class="details-section">
+                          <h4>Compétences Requises</h4>
+                          <div class="pill-container">
+                            <span
+                              *ngFor="
+                                let competence of selectedPoste.competences;
+                                let i = index
+                              "
+                              class="pill"
+                            >
+                              {{ competence.nom }}
+                            </span>
+                          </div>
+                        </div>
+                        <hr />
+                        <h4>Description</h4>
+        
+                        <p>{{ selectedPoste.description }}</p>
+                      </div>
+        
+                    
+                    </div>
+                  
+                  </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        <hr>
-        <h4>Detail Du Poste </h4>
-           <p>{{ selectedPoste?.description }}</p>
-         </div>
-       
-      </div>
-     </div>
+        </div>
+        
      
    

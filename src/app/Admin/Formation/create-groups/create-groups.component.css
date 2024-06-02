@@ -1,0 +1,12 @@
+.card-header {
+  background-color: #faf9f8; /* Couleur de fond grise claire */
+  padding: 10px; /* Espacement intérieur autour du contenu */
+}
+
+.text-center {
+  text-align: center; /* Centrer le texte horizontalement */
+}
+
+.mb-0 {
+  margin-bottom: 0; /* Supprimer la marge en bas pour éviter des espacements indésirables */
+}

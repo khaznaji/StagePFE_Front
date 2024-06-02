@@ -37,8 +37,12 @@ export class AddQuestionComponent implements OnInit {
               text: 'La question a été ajoutée avec succès au quiz.',
               icon: 'success',
               confirmButtonText: 'OK'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Recharger la page lorsque l'utilisateur clique sur OK
+                window.location.reload();
+              }
             });
-            // Handle the response, for example, refresh the list of quiz questions
           },
           (error) => {
             console.error('Error adding question to quiz:', error);

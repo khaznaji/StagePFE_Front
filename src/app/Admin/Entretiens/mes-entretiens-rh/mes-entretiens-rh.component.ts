@@ -5,7 +5,7 @@ import { EntretienRhService } from 'src/app/service/entretien-rh.service';
 @Component({
   selector: 'app-mes-entretiens-rh',
   templateUrl: './mes-entretiens-rh.component.html',
-  styleUrls: ['./mes-entretiens-rh.component.css']
+  styleUrls: ['./mes-entretiens-rh.component.css'],
 })
 export class MesEntretiensRhComponent {
   entretiens: any[] = [];
@@ -14,6 +14,11 @@ export class MesEntretiensRhComponent {
 
   ngOnInit(): void {
     this.getEntretiens();
+  }
+  canJoinInterview(dateEntretien: string, heureDebut: string): boolean {
+    const entretienDateTime = new Date(`${dateEntretien}T${heureDebut}`);
+    const now = new Date();
+    return now >= entretienDateTime;
   }
   getEntretiens() {
     this.service.getManagerEntretien().subscribe(

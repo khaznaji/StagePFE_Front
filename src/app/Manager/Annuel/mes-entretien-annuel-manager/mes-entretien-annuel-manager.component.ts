@@ -15,6 +15,11 @@ export class MesEntretienAnnuelManagerComponent{
   ngOnInit(): void {
     this.getEntretiens();
   }
+  canJoinInterview(dateEntretien: string, heureDebut: string): boolean {
+    const entretienDateTime = new Date(`${dateEntretien}T${heureDebut}`);
+    const now = new Date();
+    return now >= entretienDateTime;
+  }
   getEntretiens() {
     this.service.getEntretiensAnnuelDuManagerConnecte().subscribe(
       (data: any) => {

@@ -38,6 +38,9 @@
     <h4 class="card-title">Formateur</h4>
     <hr />
     <form [formGroup]="managerServiceForm" (ngSubmit)="onSubmit()">
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
       <div *ngIf="currentStep === 1">
         <div class="d-flex justify-content-end">
           <a class="btn btn-link" (click)="nextStep()">
@@ -256,6 +259,8 @@
                 id="dateEntree"
                 formControlName="dateEntree"
                 required
+                [max]="todayDate()"
+
                 [ngClass]="{
                   'is-invalid':
                     managerServiceForm.get('dateEntree')?.invalid &&

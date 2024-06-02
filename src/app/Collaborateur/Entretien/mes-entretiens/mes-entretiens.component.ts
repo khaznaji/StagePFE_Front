@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EntretienService } from 'src/app/service/entretien.service';
 
@@ -7,7 +7,7 @@ import { EntretienService } from 'src/app/service/entretien.service';
   templateUrl: './mes-entretiens.component.html',
   styleUrls: ['./mes-entretiens.component.css'],
 })
-export class MesEntretiensComponent {
+export class MesEntretiensComponent implements OnInit {
   entretiens: any[] = [];
 
   constructor(private service: EntretienService, private router: Router) {}
@@ -15,6 +15,7 @@ export class MesEntretiensComponent {
   ngOnInit(): void {
     this.getEntretiens();
   }
+
   getEntretiens() {
     this.service.getCollaborateurEntretien().subscribe(
       (data: any) => {
@@ -26,7 +27,14 @@ export class MesEntretiensComponent {
       }
     );
   }
+
   joinInterview(roomId: string, candidatureId: string) {
     this.router.navigate(['/collaborateur/interview', roomId, candidatureId]);
+  }
+
+  canJoinInterview(dateEntretien: string, heureDebut: string): boolean {
+    const entretienDateTime = new Date(`${dateEntretien}T${heureDebut}`);
+    const now = new Date();
+    return now >= entretienDateTime;
   }
 }

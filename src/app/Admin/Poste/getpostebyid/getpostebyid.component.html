@@ -178,7 +178,7 @@
                   <th>Prénom</th>
                   <th>Match</th>
 
-                  <th> Commentaire du Manager Service</th>
+                  <th>Email</th>
                 </tr>
               </thead>
               <tbody>
@@ -187,33 +187,25 @@
 
                   <td>{{ candidat.prenom }}</td>
                   <td>
+                    <div class="d-flex justify-content-center align-items-center">                    {{ candidat.match }} %
+                    </div>
                     <div class="progress">
-                      <div class="progress">
-                        <div
-                          class="progress-bar"
-                          [ngClass]="{
-                            'bg-danger': candidat.match < 50,
-                            'bg-success': candidat.match >= 50 , 
-
-                          }"
-                          role="progressbar"
-                          [style.width]="candidat.match + '%'"
-                        >
-                          {{ candidat.match }}%
-                        </div>
+                      <div
+                        class="progress-bar"
+                        role="progressbar"
+                        [style.width]="candidat.match + '%'"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      >
                       </div>
                     </div>
+
                   </td>
 
                   <td>
-                    <ng-container *ngIf="candidat.commentaire && candidat.commentaire.length > 0; else noComment">
-                      {{ candidat.commentaire }}
-                    </ng-container>
-                    <ng-template #noComment>
-                      Aucun Commentaire .
-                    </ng-template>
+                    {{ candidat.email }}
                   </td>
-                  
+
                   <td>
                     <button
                       (click)="openModal(candidat.id)"

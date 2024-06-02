@@ -1,9 +1,18 @@
-<div class="container">
-  <h2>Créer un nouveau groupe</h2>
+<div>
+  <div class="row justify-content-center">
+    <div class="">
+      <div class="card">
+        <div class="card-header">
+          <h3 
+            class="text-center mb-0"
+            
+          >
+          Créer un nouveau groupe          </h3>
+        </div><div class="container">
   <form [formGroup]="groupForm" (ngSubmit)="ajouterGroupe()">
       <div>
         <label for="nom">Nom :</label>
-        <input type="text" id="nom" formControlName="nom">
+        <input type="text" id="nom" class="form-control" formControlName="nom">
       </div>
       <div class="form-group" formGroupName="collaborateursId">
         <label>Collaborateurs confirmés:</label><br>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EntretienRhService } from 'src/app/service/entretien-rh.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-evaluate-interview-rh',
@@ -12,7 +13,7 @@ export class EvaluateInterviewRhComponent
     candidatureId!: string;
     salaire: number = 0;
   
-    constructor(private route: ActivatedRoute ,     private entretienService: EntretienRhService // Injectez le service EntretienService
+    constructor(private route: ActivatedRoute , private router : Router ,    private entretienService: EntretienRhService // Injectez le service EntretienService
     ) { }
   
     ngOnInit(): void {
@@ -24,9 +25,25 @@ export class EvaluateInterviewRhComponent
       // Appelez la méthode noter du service EntretienService
       this.entretienService.noter(+this.candidatureId, this.salaire)
         .subscribe(response => {
-          console.log(response); // Affichez la réponse de l'API
+          {
+            console.log(response); // Affichez la réponse de l'API
+    
+            // Affichez un message de succès à l'utilisateur
+            Swal.fire({
+              icon: 'success',
+              title: 'Entretien noté avec succès',
+              text: 'Votre entretien a été noté avec succès.',
+              confirmButtonText: 'OK',
+            }).then((result) => {
+              // Faites quelque chose après avoir noté l'entretien, par exemple, redirigez l'utilisateur vers une autre page
+              if (result.isConfirmed) {
+                // Redirection vers une autre page
+                this.router.navigate(['/managerRh/dashboard']);
+              }
+            });
+          }},
           // Faites quelque chose après avoir noté l'entretien, par exemple, redirigez l'utilisateur vers une autre page ou affichez un message de confirmation.
-        }, error => {
+         error => {
           console.error(error); // Gérez les erreurs
           // Faites quelque chose en cas d'erreur, par exemple, affichez un message d'erreur à l'utilisateur.
         });

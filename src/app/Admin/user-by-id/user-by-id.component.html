@@ -1,183 +1,240 @@
-
-
-      <div class="container">
-        <div class="row">
-                <div class="col-lg-4">
-                   <div class="profile-card-4 z-depth-3">
-                    <div class="card">
-                      <div class="card-body text-center bg-primary rounded-top">
-                       <div class="user-box" *ngIf="userDetails">
-                        <img [src]="'assets/images/' + userDetails.image " alt="Admin" class="rounded-circle" width="150">
-                      </div>
-                      <h5 class="mb-1 text-white">{{ userDetails.nom }} {{ userDetails.prenom }}</h5>
-                      <h6 class="text-light">{{ userDetails.role === 'ManagerService' ? userDetails.managerService.poste : userDetails.collaborateur.poste }}</h6>
-
-                    </div>
-                      <div class="card-body">
-                        
-                        <ul class="list-group shadow-none">
-                          <li class="list-group-item">
-                         
-
-                            <div class="list-icon">
-                              <i class="fa fa-phone-square"></i>
-                            </div>
-  
-                            <div class="list-details">
-                              <span>                            {{ userDetails.isActivated ? 'Compte Activé' : 'Compte Désactivé' }}
-                              </span>
-                              <small>Status Du Compte</small>
-                            </div>
-                          </li>
-                        <li class="list-group-item">
-                         
-
-                          <div class="list-icon">
-                            <i class="fa fa-phone-square"></i>
-                          </div>
-
-                          <div class="list-details">
-                            <span>{{ userDetails.numtel }}</span>
-                            <small>Numero de Telephone</small>
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="list-icon">
-                              <i class="fa fa-envelope"></i>
-                          </div>
-                          <div class="list-details">
-                            <span class="email-address" style="word-wrap: break-word; display: inline-block; max-width: 20ch;">{{ userDetails.email }}</span>
-                            <small>Addresse Email</small>
-                          </div>
-                      </li>
-                      
-                        <li class="list-group-item">
-                          <div class="list-icon">
-                            <i class="fa fa-globe"></i>
-                          </div>
-                          <div class="list-details">
-                            <span>{{userDetails.gender}}   </span>
-                            <small>Genre</small>
-                          </div>
-                        </li>
-                        
-                        </ul>
-                        <br>
-                        <div class="d-flex justify-content-center align-items-center">
-                          <button *ngIf="userDetails.isActivated" class="btn btn-inverse-danger" (click)="toggleActivation(userDetails.id)">Bannir Le Compte</button>
-                          <button *ngIf="!userDetails.isActivated" class="btn btn-inverse-success" (click)="toggleActivation(userDetails.id)">Activer Le Compte</button>
-                        </div>
-                        
-                        
-                       </div>
-                     
-                     </div>
-                   </div>
-                </div>
-                <div class="col-lg-8">
-                   <div class="card z-depth-3">
-                    <div class="card-body">
-                    <div class="tab-content p-3">
-                        <div class="tab-pane active show" id="profile">
-                            <h5 class="mb-3">Profile de l'utilisateur</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6>Departement</h6>
-                                    <p>
-                                      {{ userDetails.role === 'ManagerService' ? userDetails.managerService.department : userDetails.collaborateur.department }}                                   
-                                    </p>
-                                    <ng-container *ngIf="userDetails.role === 'Collaborateur'">
-                                      <h6>Manager Service </h6>
-
-                                      <p>
-                                        <a [routerLink]="['/managerRh/user-detail', userDetails['ManagerServices'].id]">
-                                          {{ userDetails['Nom ManagerServices'] }} {{ userDetails['Prenom ManagerServices'] }}
-                                        </a>
-                                    </p>
-                                    
-                                    </ng-container>
-<h6>Date Entree</h6>
-<p>
-  {{ userDetails.role === 'ManagerService' ? userDetails.managerService.dateEntree : userDetails.collaborateur.dateEntree }}                                   
-</p>
-                                  
-                                        </div>
-                                <div class="col-md-6">
-                                  <ng-container *ngIf="userDetails.role === 'ManagerService'">
-                                    <!-- ... Affichage des détails du Collaborateur ... -->
-                            
-                                    <!-- Affichage des compétences pour le Collaborateur -->
-                                    <div *ngIf="userDetails.competences && userDetails.competences.length > 0">
-                                      <h6>Competences:</h6>
-                                      <div class="d-flex flex-wrap">
-                                        <a  href="javascript:void();" class="badge badge-dark badge-pill" style="color: black;" *ngFor="let competence of userDetails.competences">
-                                          {{ competence.nom }} 
-                                        </a>
-</div>                                   
- </div>
-                                </ng-container>
-                                <ng-container *ngIf="userDetails.role === 'Collaborateur'">
-                                  <!-- ... Affichage des détails du Collaborateur ... -->
-                          
-                                  <!-- Affichage des compétences pour le Collaborateur -->
-                                  <div *ngIf="userDetails.competences && userDetails.competences.length > 0">
-                                    <h6>Competences:</h6>
-                                    <div class="d-flex flex-wrap">
-                                      <a  href="javascript:void();" class="badge badge-dark badge-pill" style="color: black;" *ngFor="let competence of userDetails.competences">
-                                        {{ competence.nom }} 
-                                      </a>
-</div>                                   
-</div>
-                              </ng-container>
-                              </div>
-                              <ng-container *ngIf="userDetails.role === 'ManagerService'">
-
-                                <div class="col-md-12">
-                                  <h5 class="mt-2 mb-3"><span class="fa fa-clock-o ion-clock float-right"></span> Equipe</h5>
-                                
-                                  <!-- Afficher le message si userDetails.collaborateurs est vide -->
-                                  <div *ngIf="userDetails.collaborateurs && userDetails.collaborateurs.length === 0">
-                                      Aucun collaborateur n'est associé à ce manager de service.
-                                  </div>
-                                
-                                  <!-- Afficher le tableau uniquement si userDetails.collaborateurs existe et a des éléments -->
-                                  <table *ngIf="userDetails.collaborateurs && userDetails.collaborateurs.length > 0" class="table table-hover table-striped">
-                                      <tbody>
-                                          <tr *ngFor="let collaborateur of userDetails.collaborateurs">
-                                              <td (click)="redirectToUserDetail(collaborateur.id)">
-                                                  <strong>{{ collaborateur.nom }}</strong> {{ collaborateur.prenom }}
-                                              </td>
-                                          </tr>
-                                      </tbody>
-                                  </table>
-                              </div>
-                              
-                              
-                                </ng-container>
-                            </div>
-                            <!--/row-->
-                        </div>
-                        
-                        
-                    </div>
-                </div>
-              </div>
-              </div>
-                
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="profile-card-4 z-depth-3">
+        <div class="card">
+          <div class="card-body text-center bg-primary rounded-top">
+            <div class="user-box" *ngIf="userDetails">
+              <img
+                [src]="'assets/images/' + userDetails.image"
+                alt="Admin"
+                class="rounded-circle"
+                width="150"
+              />
             </div>
+            <h5 class="mb-1 text-white">
+              {{ userDetails.nom }} {{ userDetails.prenom }}
+            </h5>
+            <h6 class="text-light">
+              {{
+                userDetails.role === "ManagerService"
+                  ? userDetails.managerService.poste
+                  : userDetails.collaborateur.poste
+              }}
+            </h6>
+          </div>
+
+          <div class="card-body">
+            <ul class="list-group shadow-none">
+              <li class="list-group-item">
+                <div class="list-icon">
+                  <i class="fa fa-phone-square"></i>
+                </div>
+
+                <div class="list-details">
+                  <span>
+                    {{
+                      userDetails.isActivated
+                        ? "Compte Activé"
+                        : "Compte Désactivé"
+                    }}
+                  </span>
+                  <small>Status Du Compte</small>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="list-icon">
+                  <i class="fa fa-phone-square"></i>
+                </div>
+
+                <div class="list-details">
+                  <span>{{ userDetails.numtel }}</span>
+                  <small>Numero de Telephone</small>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="list-icon">
+                  <i class="fa fa-envelope"></i>
+                </div>
+                <div class="list-details">
+                  <span
+                    class="email-address"
+                    style="
+                      word-wrap: break-word;
+                      display: inline-block;
+                      max-width: 20ch;
+                    "
+                    >{{ userDetails.email }}</span
+                  >
+                  <small>Addresse Email</small>
+                </div>
+              </li>
+
+              <li class="list-group-item">
+                <div class="list-icon">
+                  <i class="fa fa-globe"></i>
+                </div>
+                <div class="list-details">
+                  <span>{{ userDetails.gender }} </span>
+                  <small>Genre</small>
+                </div>
+              </li>
+            </ul>
+            <br />
+            <div class="d-flex justify-content-center align-items-center">
+              <button
+                *ngIf="userDetails.isActivated"
+                class="btn btn-inverse-danger"
+                (click)="toggleActivation(userDetails.id)"
+              >
+                Bannir Le Compte
+              </button>
+              <button
+                *ngIf="!userDetails.isActivated"
+                class="btn btn-inverse-success"
+                (click)="toggleActivation(userDetails.id)"
+              >
+                Activer Le Compte
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="card z-depth-3">
+        <div class="card-body">
+          <div class="tab-content p-3">
+            <div class="tab-pane active show" id="profile">
+              <h5 class="mb-3">Profile de l'utilisateur</h5>
+              <div class="row">
+                <div class="col-md-6">
+                  <h6>Departement</h6>
+                  <p>
+                    {{
+                      userDetails.role === "ManagerService"
+                        ? userDetails.managerService.department
+                        : userDetails.collaborateur.department
+                    }}
+                  </p>
+                  <ng-container *ngIf="userDetails.role === 'Collaborateur'">
+                    <h6>Manager Service</h6>
 
+                    <p>
+                      <a
+                        [routerLink]="[
+                          '/managerRh/user-detail',
+                          userDetails['ManagerServices'].id
+                        ]"
+                      >
+                        {{ userDetails["Nom ManagerServices"] }}
+                        {{ userDetails["Prenom ManagerServices"] }}
+                      </a>
+                    </p>
+                  </ng-container>
+                  <h6>Date Entree</h6>
+                  <p>
+                    {{
+                      userDetails.role === "ManagerService"
+                        ? userDetails.managerService.dateEntree
+                        : userDetails.collaborateur.dateEntree
+                    }}
+                  </p>
+                </div>
+                <div class="col-md-6">
+                  <ng-container *ngIf="userDetails.role === 'ManagerService'">
+                    <!-- ... Affichage des détails du Collaborateur ... -->
 
+                    <!-- Affichage des compétences pour le Collaborateur -->
+                    <div
+                      *ngIf="
+                        userDetails.competences &&
+                        userDetails.competences.length > 0
+                      "
+                    >
+                      <h6>Competences:</h6>
+                      <div class="d-flex flex-wrap">
+                        <a
+                          href="javascript:void();"
+                          class="badge badge-dark badge-pill"
+                          style="color: black"
+                          *ngFor="let competence of userDetails.competences"
+                        >
+                          {{ competence.nom }}
+                        </a>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="userDetails.role === 'Collaborateur'">
+                    <!-- ... Affichage des détails du Collaborateur ... -->
 
+                    <!-- Affichage des compétences pour le Collaborateur -->
+                    <div
+                      *ngIf="
+                        userDetails.competences &&
+                        userDetails.competences.length > 0
+                      "
+                    >
+                      <h6>Competences:</h6>
+                      <div class="d-flex flex-wrap">
+                        <a
+                          href="javascript:void();"
+                          class="badge badge-dark badge-pill"
+                          style="color: black"
+                          *ngFor="let competence of userDetails.competences"
+                        >
+                          {{ competence.nom }}
+                        </a>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+                <ng-container *ngIf="userDetails.role === 'ManagerService'">
+                  <div class="col-md-12">
+                    <h5 class="mt-2 mb-3">
+                      <span class="fa fa-clock-o ion-clock float-right"></span>
+                      Equipe
+                    </h5>
 
+                    <!-- Afficher le message si userDetails.collaborateurs est vide -->
+                    <div
+                      *ngIf="
+                        userDetails.collaborateurs &&
+                        userDetails.collaborateurs.length === 0
+                      "
+                    >
+                      Aucun collaborateur n'est associé à ce manager de service.
+                    </div>
 
-
-
-
-
-
-
-
-
-
-
+                    <!-- Afficher le tableau uniquement si userDetails.collaborateurs existe et a des éléments -->
+                    <table
+                      *ngIf="
+                        userDetails.collaborateurs &&
+                        userDetails.collaborateurs.length > 0
+                      "
+                      class="table table-hover table-striped"
+                    >
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let collaborateur of userDetails.collaborateurs
+                          "
+                        >
+                          <td (click)="redirectToUserDetail(collaborateur.id)">
+                            <strong>{{ collaborateur.nom }}</strong>
+                            {{ collaborateur.prenom }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </ng-container>
+              </div>
+              <!--/row-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

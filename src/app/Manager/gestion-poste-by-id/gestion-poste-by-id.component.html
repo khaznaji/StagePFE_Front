@@ -171,15 +171,30 @@
                   <th>Prénom</th>
                   <th>Match Pourcentage</th>
 
-                  <th>Commentaire</th>
+                  <th>Email</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let candidat of filteredPostes">
                   <td>{{ candidat.nom }}</td>
                   <td>{{ candidat.prenom }}</td>
-                  <td>{{ candidat.match }} %</td>
-                  <td>{{ candidat.commentaire }}</td>
+                  <td>
+                    <div class="d-flex justify-content-center align-items-center">                    {{ candidat.match }} %
+                    </div>
+
+                    <div class="progress">
+                      <div
+                        class="progress-bar"
+                        role="progressbar"
+                        [style.width]="candidat.match + '%'"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      >
+                      </div>
+                    </div>
+
+                  </td>
+                                    <td>{{ candidat.email }}</td>
 
                   <td>
                     <button

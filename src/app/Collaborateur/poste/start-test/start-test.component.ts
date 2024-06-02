@@ -47,7 +47,8 @@ export class StartTestComponent implements OnInit {
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: any) {
     if (!this.isSubmit) {
-      event.returnValue = 'Are you sure you want to leave? Your progress will be lost.';
+      event.returnValue =
+        'Are you sure you want to leave? Your progress will be lost.';
     }
   }
 
@@ -92,7 +93,7 @@ export class StartTestComponent implements OnInit {
   }
 
   preventPageReload() {
-    window.onbeforeunload = function() {
+    window.onbeforeunload = function () {
       return 'Are you sure you want to leave? Your progress will be lost.';
     };
   }
@@ -108,7 +109,7 @@ export class StartTestComponent implements OnInit {
         this.evaluateQuiz();
       } else if (result.isDenied) {
         Swal.fire('Changes are not saved', '', 'info');
-      } 
+      }
     });
   }
 
@@ -133,8 +134,16 @@ export class StartTestComponent implements OnInit {
     const newScore = this.marksGot;
     this.posteService.updateScore(this.candidatureId, newScore).subscribe(
       (response) => {
-        console.log(response);
-        Swal.fire('Score soumis avec succès!', '', 'success');
+        Swal.fire({
+          title: 'Succès!',
+          text: 'Score soumis avec succès!',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.router.navigate(['/collaborateur/all-poste']);
+          }
+        });
       },
       (error) => {
         console.error(error);

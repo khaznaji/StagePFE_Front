@@ -29,7 +29,7 @@
 
           <div class="form-group">
             <label for="exampleInputNumtel">Numero de telephone</label>
-            <input type="text" class="form-control" id="numtel" formControlName="numtel" placeholder="Numero de telephone"
+            <input type="number" class="form-control" id="numtel" formControlName="numtel" placeholder="Numero de telephone"
               required [ngClass]="{ 'is-invalid': managerServiceForm.get('numtel')?.invalid && managerServiceForm.get('numtel')?.touched }"
               pattern="[0-9]{8}"> <!-- Utilisation de l'attribut pattern pour limiter à 8 chiffres -->
             <div *ngIf="managerServiceForm.get('numtel')?.invalid && managerServiceForm.get('numtel')?.touched"

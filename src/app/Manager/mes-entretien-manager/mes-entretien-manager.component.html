@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-12 mb-4">
-      <h2
+      <h5
         style="
           font-size: 24px;
           font-weight: bold;
@@ -10,7 +10,7 @@
         "
       >
         Mes Entretiens Technique
-      </h2>
+      </h5>
     </div>
     <ng-container *ngIf="entretiens && entretiens.length > 0; else noEntretien">
       <div *ngFor="let entretien of entretiens" class="col-md-4 mb-4">
@@ -43,6 +43,8 @@
 
             <button
               class="btn btn-inverse-primary"
+              [disabled]="!canJoinInterview(entretien.entretien.dateEntretien, entretien.entretien.heureDebut)"
+
               (click)="
                 joinInterview(
                   entretien.entretien.roomId,
@@ -52,6 +54,8 @@
             >
               Rejoindre l'interview
             </button>
+            <p style="color: red;"> NB : Vous ne pouvez pas rejoindre l'entretien avant la date et l heure indiquée</p>
+
           </div>
         </div>
       </div>

@@ -4,21 +4,26 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Mes Demandes de Formations</h4>
-        <div class="d-flex justify-content-end mb-3"></div>
-        <div></div>
-        <div
-          *ngIf="mesFormations && mesFormations.length > 0"
-          class="table-responsive"
-        >
+        <div class="d-flex justify-content-end mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Rechercher par titre de la formation..."
+            [(ngModel)]="searchTerm"
+            (input)="filterFormations()"
+          />
+        </div>
+        <div *ngIf="filteredFormations.length > 0" class="table-responsive">
           <table class="table table-striped card-table">
             <thead>
               <tr>
                 <th scope="col">Titre de la Formation</th>
                 <th scope="col">État</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let formation of mesFormations">
+              <tr *ngFor="let formation of filteredFormations">
                 <td>{{ formation.titre }}</td>
                 <td style="width: 15px">
                   <span
@@ -42,11 +47,8 @@
             </tbody>
           </table>
         </div>
-        <div
-          *ngIf="!(mesFormations && mesFormations.length > 0)"
-          class="text-center"
-        >
-          <p>Vous n'avez postuler pour aucune formation.</p>
+        <div *ngIf="filteredFormations.length === 0" class="text-center">
+          <p>Vous n'avez postulé pour aucune formation.</p>
         </div>
       </div>
     </div>

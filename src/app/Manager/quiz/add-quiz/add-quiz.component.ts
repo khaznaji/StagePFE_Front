@@ -57,13 +57,13 @@ export class AddQuizComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Success!',
-            text: 'Quiz ajouté avec succès!',
+            text: 'Test Technique ajouté avec succès!',
 
             showConfirmButton: false,
             timer: 1500
           }).then(() => {
-            this.router.navigate(['/managerService/poste-approuve', this.postId]);
-          });
+            window.location.reload();
+});
         },
         error => {
           console.error(error);

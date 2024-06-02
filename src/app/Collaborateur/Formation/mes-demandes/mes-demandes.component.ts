@@ -10,6 +10,9 @@ import { FormationDetailComponent } from '../formation-detail/formation-detail.c
 })
 export class MesDemandesComponent implements OnInit {
   mesFormations!: any[];
+  filteredFormations!: any[];
+  searchTerm: string = '';
+  modalRef!: BsModalRef;
 
   constructor(
     private participationFormationService: ParticapationFormationService,
@@ -25,7 +28,14 @@ export class MesDemandesComponent implements OnInit {
       .getMesFormations()
       .subscribe((formations) => {
         this.mesFormations = formations;
+        this.filteredFormations = formations; // Initialize filtered list
       });
+  }
+
+  filterFormations(): void {
+    this.filteredFormations = this.mesFormations.filter((formation) =>
+      formation.titre.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   getBadgeClasses(etatParticipation: string): string {
@@ -42,7 +52,6 @@ export class MesDemandesComponent implements OnInit {
         return 'badge badge-secondary';
     }
   }
-  modalRef!: BsModalRef;
 
   openModalById(formationId: number): void {
     const initialState = {

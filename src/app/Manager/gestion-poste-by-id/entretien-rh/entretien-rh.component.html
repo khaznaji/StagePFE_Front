@@ -1,6 +1,17 @@
-<div class="container">
-    <input type="text" class="form-control mb-3" placeholder="Rechercher par nom" [(ngModel)]="searchTerm" (input)="filterCandidats()">
-    
+<div class="card">
+  <div class="card-header">
+    <h3 class="text-center mb-0">Liste Des Candidats</h3>
+    <p>Choisissez le(s) candidats qui passeront un entretien Rh</p>
+  </div>
+  <div class="container">
+    <input
+      type="text"
+      class="form-control mb-3"
+      placeholder="Rechercher par nom"
+      [(ngModel)]="searchTerm"
+      (input)="filterCandidats()"
+    />
+
     <!-- Tableau des candidats -->
     <table class="table">
       <thead>
@@ -13,7 +24,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let candidat of filteredPostes">
+        <tr *ngFor="let candidat of filteredPostes  | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: filteredPostes.length }">
           <td>{{ candidat.nom }}</td>
           <td>{{ candidat.prenom }}</td>
           <td>{{ candidat.score }}</td>
@@ -24,8 +35,15 @@
         </tr>
       </tbody>
     </table>
-    
+    <div class="d-flex justify-content-center">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
     <!-- Bouton Valider -->
-    <button class="btn btn-primary" (click)="updateCandidaturesEtatToEnAttente()">Valider</button>
+    <button
+      class="btn btn-primary"
+      (click)="updateCandidaturesEtatToEnAttente()"
+    >
+      Valider
+    </button>
   </div>
-  
+</div>

@@ -125,11 +125,18 @@ export class PostApprouvedIdComponent implements OnInit {
         this.posteService.PubliePoste(postId).subscribe(
           () => {
             // Si la publication est réussie, afficher une boîte de dialogue de succès
-            Swal.fire(
-              'Publié !',
-              'Le poste a été publié avec succès.',
-              'success'
-            );
+
+            Swal.fire({
+              title: 'Publié!',
+              text: 'Le poste a été publié avec succès.',
+              icon: 'success',
+              confirmButtonText: 'OK',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Recharger la page lorsque l'utilisateur clique sur OK
+                this.router.navigate(['/managerService/poste-publie']);
+              }
+            });
             console.log('Poste publié avec succès');
             // Ajoutez ici votre logique après la publication du poste
           },

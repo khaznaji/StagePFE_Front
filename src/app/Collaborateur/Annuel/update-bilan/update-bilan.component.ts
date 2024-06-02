@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BilanService } from 'src/app/service/bilan.service';
 import { CollaborateurService } from 'src/app/service/collaborateur.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-update-bilan',
@@ -63,7 +64,14 @@ export class UpdateBilanComponent implements OnInit {
       .subscribe(
         (data) => {
           console.log('Bilan annuel mis à jour avec succès : ', data);
-          // Redirigez l'utilisateur vers une autre page après la mise à jour, par exemple la liste des bilans
+          // Afficher une notification SweetAlert pour indiquer que la mise à jour a réussi
+          Swal.fire({
+            icon: 'success',
+            title: 'Succès!',
+            text: 'Bilan annuel mis à jour avec succès.',
+          }).then(() => {
+            this.router.navigate(['/collaborateur/mes-bilans']);
+          });
         },
         (error) => {
           console.error(
@@ -73,6 +81,7 @@ export class UpdateBilanComponent implements OnInit {
         }
       );
   }
+  
   mettreAJouretEnvoyeBilanAnnuel() {
     this.bilanAnnuelService
       .mettreAJouretEnvoyeBilanAnnuel(
@@ -82,7 +91,14 @@ export class UpdateBilanComponent implements OnInit {
       .subscribe(
         (data) => {
           console.log('Bilan annuel mis à jour avec succès : ', data);
-          // Redirigez l'utilisateur vers une autre pagea après la mise à jour, par exemple la liste des bilans
+          // Afficher une notification SweetAlert pour indiquer que la mise à jour a réussi
+          Swal.fire({
+            icon: 'success',
+            title: 'Succès!',
+            text: 'Bilan annuel envoye avec succès.',
+          }).then(() => {
+            this.router.navigate(['/collaborateur/mes-bilans']);
+          });
         },
         (error) => {
           console.error(

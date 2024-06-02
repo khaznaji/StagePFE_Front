@@ -34,12 +34,16 @@
 
           <button
             class="btn btn-inverse-primary"
+            [disabled]="!canJoinInterview(entretien.entretien.dateEntretien, entretien.entretien.heureDebut)"
+
             (click)="
               joinInterview(entretien.entretien.roomId, entretien.entretien.id)
             "
           >
             Rejoindre l'interview
           </button>
+          <p style="color: red;"> NB : Vous ne pouvez pas rejoindre l'entretien avant la date et l heure indiquée</p>
+
         </div>
       </div>
     </div>

@@ -7,6 +7,16 @@
   margin-right: 10px; /* Espace entre les cartes */
   margin-left: 10px; /* Espace entre les cartes */
 }
+.progress {
+  height: 20px;
+}
+
+.progress-bar {
+  background-color: #5082b7; /* couleur de la barre de progression */
+  color: #00080e; /* couleur du texte à l'intérieur de la barre */
+  font-weight: bold;
+}
+
 /* src/app/note-entretien/note-entretien.component.css */
 /* src/app/score-test-technique/score-test-technique.component.css */
 .card-container {

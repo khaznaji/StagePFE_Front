@@ -8,16 +8,13 @@
         <div class="card-body">
           <div class="d-flex justify-content-between mb-3">
             <h5 class="card-title">{{ entretien.entretien.poste.titre }}</h5>
-
             <p class="card-title">Ref: #{{ entretien.entretien.poste.id }}</p>
           </div>
 
           <h6 class="card-subtitle mb-2" style="color: rgb(72, 55, 55)">
             Avec
-            <b
-              >{{ entretien.entretien.poste.managerNom }}
-              {{ entretien.entretien.poste.managerPrenom }} </b
-            >son poste est
+            <b>{{ entretien.entretien.poste.managerNom }} {{ entretien.entretien.poste.managerPrenom }}</b>
+            son poste est
             <b>{{ entretien.entretien.poste.managerService.poste }}</b>
           </h6>
           <p class="card-text">
@@ -26,27 +23,24 @@
           </p>
           <p class="card-text">
             <i class="mdi mdi-clock-outline"></i> Heure de début:
-            {{ entretien.entretien.heureDebut | slice : 0 : 5 }}
+            {{ entretien.entretien.heureDebut | slice: 0 : 5 }}
           </p>
           <p class="card-text">
             <i class="mdi mdi-clock-outline"></i> Heure de fin:
-            {{ entretien.entretien.heureFin | slice : 0 : 5 }}
+            {{ entretien.entretien.heureFin | slice: 0 : 5 }}
           </p>
 
           <button
             class="btn btn-inverse-primary"
-            (click)="
-              joinInterview(
-                entretien.entretien.roomId,
-                entretien.entretien.id           )
-            "
+            [disabled]="!canJoinInterview(entretien.entretien.dateEntretien, entretien.entretien.heureDebut)"
+            (click)="joinInterview(entretien.entretien.roomId, entretien.entretien.id)"
           >
             Rejoindre l'interview
           </button>
+          <p style="color: red;"> NB : Vous ne pouvez pas rejoindre l'entretien avant la date et l heure indiquée</p>
         </div>
       </div>
     </div>
-    
   </div>
   <ng-template #noEntretiens>
     <div class="row">

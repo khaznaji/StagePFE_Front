@@ -6,6 +6,7 @@ import { AddCompteCollabComponent } from 'src/app/Admin/Collaborateur/add-compte
 import { UserService } from 'src/app/service/user.service';
 import { AddCompteFormateurComponent } from '../../add-compte-formateur/add-compte-formateur.component';
 import { FormateurService } from 'src/app/service/formateur.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-all-formateur',
@@ -21,6 +22,38 @@ export class AllFormateurComponent  implements OnInit {
     this.filterOption = 'all';  // Set the default filter option
     this.applyFilter();         // Apply the default filter
 
+  }
+  toggleActivation(userId: number): void {
+    this.userService.activateUser(userId).subscribe(
+      response => {
+        console.log(response); // Gérez la réponse de l'API comme nécessaire
+  
+        // Afficher l'alerte avec le message approprié
+        
+        Swal.fire({
+          icon: 'success',
+          title: `Status Compte Modifié`,
+          text: `Le statut d'activation de votre compte a été modifié avec succès. Un e-mail de notification a été envoyé pour vous informer du changement.`,
+          confirmButtonText: 'OK',
+          timer: 3000,  // Fermer automatiquement après 3 secondes
+          showConfirmButton: false,  // Ne pas afficher le bouton de confirmation
+        });
+        setTimeout(() => {
+          location.reload();
+        }, 3000);
+      },
+      error => {
+        console.error(error); // Gérez les erreurs
+  
+        // Afficher une alerte d'erreur en cas d'échec
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: `Une erreur s'est produite lors de la modification du statut d'activation du compte.`,
+          confirmButtonText: 'OK',
+        });
+      }
+    );
   }
   modalRef!: BsModalRef;
 

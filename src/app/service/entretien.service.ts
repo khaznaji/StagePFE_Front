@@ -36,9 +36,9 @@ export class EntretienService {
 
     return this.http.put<string>(url, {}, { headers: headers });
   }
-  noter(id: number, note: number, commentaire: string): Observable<string> {
+  noter(id: number, note: number): Observable<string> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${this.baseUrl}/${id}/noter?note=${note}&commentaire=${commentaire}`;
+    const url = `${this.baseUrl}/${id}/noter?note=${note}`;
 
     return this.http.put<string>(url, {}, { headers: headers });
   }

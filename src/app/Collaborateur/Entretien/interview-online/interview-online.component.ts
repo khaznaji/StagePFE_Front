@@ -30,11 +30,11 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private http: HttpClient
   ) {}
- 
 
   handleClose = () => {
     console.log('handleClose');
   };
+
   data: any = [];
 
   getUserById(id: any) {
@@ -47,6 +47,12 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
       console.log('username ', this.username);
 
       // Initialize JitsiMeetExternalAPI with the updated username and room ID
+      const roomId = this.route.snapshot.params['roomId'];
+      if (roomId) {
+        this.initializeJitsi(roomId);
+      } else {
+        console.error("ID de salle manquant dans l'URL");
+      }
     });
   }
 
@@ -64,7 +70,6 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
     console.log('handleVideoConferenceJoined', participant); // { roomName: "bwb-bfqi-vmh", id: "8c35a951", displayName: "Akash Verma", formattedDisplayName: "Akash Verma (me)"}
     const data = await this.getParticipants();
   };
- 
 
   handleVideoConferenceLeft = () => {
     console.log('handleVideoConferenceLeft');
@@ -136,19 +141,6 @@ export class InterviewOnlineComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const roomId = params.get('roomId');
-      if (roomId) {
-        // Initialiser la réunion Jitsi directement
-        this.initializeJitsi(roomId);
-      } else {
-        console.error("ID de salle manquant dans l'URL");
-      }
-    });
-    this.user = {
-      name: this.username, // Set your username
-    };
-
     this.getUserById(localStorage.getItem('id'));
   }
 
