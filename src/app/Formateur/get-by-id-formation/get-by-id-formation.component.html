@@ -2,8 +2,18 @@
   <div class="card">
     <div class="card-body">
       <div class="poste-details">
-        <h2>{{ formationInfo.title }}</h2>
-        <h6></h6>
+        <div class="d-flex justify-content-center">
+          <h2
+            style="
+              font-size: 24px;
+              font-weight: bold;
+              color: #333;
+              margin-bottom: 20px;
+            "
+          >
+            {{ formationInfo.title }}
+          </h2>
+        </div>
       </div>
 
       <h6></h6>
@@ -49,47 +59,47 @@
             role="tabpanel"
             aria-labelledby="overview-tab"
           >
-            <div>
-              <br />
-              <div class="d-flex flex-wrap">
-                <!-- Première carte pour les informations de la formation -->
-                <div class="card m-2">
-                  <div class="card-body">
-                    <h4>A propos Du Formateur</h4>
-                    <ul class="custom-list">
-                      <div class="image-container">
+            <div class="container py-5">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+                      <h4 class="card-title mb-3 d-flex justify-content-center">
+                        {{ formationInfo.formateurName }}
+                      </h4>
+                      <div class="media d-flex justify-content-center">
                         <img
-                          [src]="
-                            'assets/images/' + formationInfo.formateurImage
-                          "
+                          src="assets/images/{{ formationInfo.formateurImage }}"
+                          class="mr-3"
                           alt="Formateur"
-                          width="150"
+                          width="100"
                         />
                       </div>
-                      <div class="infos">
-                        <br />
-                        <h6 style="color: grey">
-                          {{ formationInfo.formateurName }}
-                        </h6>
-                      </div>
-                    </ul>
+                    </div>
                   </div>
                 </div>
-                <div class="card m-3">
-                  <div class="card-body">
-                    <h4>A propos de la Formation</h4>
-                    <p>{{ formationInfo.description }}</p>
-                    <p>
-                      <b>Nombre de Chapitres :</b> {{ formationInfo.chapitre }}
-                    </p>
-                    <p>
-                      <b>Durée de la Formation :</b> {{ formationInfo.duree }}
-                    </p>
-                    <p><b>Département :</b> {{ formationInfo.department }}</p>
+                <div class="col-lg-8">
+                  <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+                      <h4 class="card-title mb-3">A propos de la Formation</h4>
+                      <p class="card-text">{{ formationInfo.description }}</p>
+                      <ul class="list-unstyled">
+                        <li>
+                          <strong>Nombre de Chapitres :</strong>
+                          {{ formationInfo.chapitre }}
+                        </li>
+                        <li>
+                          <strong>Durée de la Formation :</strong>
+                          {{ formationInfo.duree }}
+                        </li>
+                        <li>
+                          <strong>Département :</strong>
+                          {{ formationInfo.department }}
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-
-                <!-- Deuxième carte pour les informations du formateur -->
               </div>
             </div>
           </div>
@@ -112,107 +122,127 @@
 
             <div class="container">
               <div class="row">
-                <div class="col-lg-4 col-md-6" *ngFor="let groupe of groupes">
-                  <div class="card">
-                    <div class="row mt-2 mx-2">
-                      <!-- Modifié la classe mt-4 à mt-2 -->
-                      <div class="nav-profile d-flex align-items-center">
-                        <span class="fw-bold">{{ groupe.groupe.nom }}</span>
-                        <span>
-                          <div class="filter">
-                            <button
-                              class="icon"
-                              data-bs-toggle="dropdown"
-                              style="border: none; background-color: #ffffff00"
-                            >
-                              <i
-                                class="mdi mdi-dots-vertical"
-                                style="margin-left: 80px"
-                              ></i>
-                            </button>
-                            <ul
-                              class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                            >
-                              <li class="dropdown-header text-start"></li>
+                <select
+                  class="form-select"
+                  [(ngModel)]="selectedEtat"
+                  (change)="applyFilter()"
+                >
+                  <option value="Tous">Tous</option>
+                  <option value="En_Attente">En Attente</option>
+                  <option value="Termine">Session Crée</option>
+                  <option value="Certifie">Certifié</option>
+                </select>
+                <br>
+                <br>
 
-                              <li>
-                                <button
-                                  class="dropdown-item mb-2"
-                                  (click)="openModael(groupe.groupe.id)"
-                                >
-                                  <span><i class="mdi mdi-eye"></i> </span>
-                                  Insight
-                                </button>
-                              </li>
+                <ng-container
+                  *ngIf="filteredGroupes.length > 0; else noManagerServices"
+                >
+                  <div
+                    class="col-lg-4 col-md-6"
+                    *ngFor="let groupe of filteredGroupes"
+                  >
+                    <div class="card">
+                      <div class="row mt-2 mx-2">
+                        <!-- Modifié la classe mt-4 à mt-2 -->
+                        <div class="nav-profile d-flex align-items-center">
+                          <span class="fw-bold">{{ groupe.groupe.nom }}</span>
+                          <span>
+                            <div class="filter">
+                              <button
+                                class="icon"
+                                data-bs-toggle="dropdown"
+                                style="
+                                  border: none;
+                                  background-color: #ffffff00;
+                                "
+                              >
+                                <i
+                                  class="mdi mdi-dots-vertical"
+                                  style="margin-left: 80px"
+                                ></i>
+                              </button>
+                              <ul
+                                class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                              >
+                                <li class="dropdown-header text-start"></li>
 
-                             
-                              <li>
-                                <button
-                                  class="dropdown-item mb-2 text-danger"
-                                  (click)="deleteGroup(groupe.groupe.id)"
-                                >
-                                  <span
-                                    ><i class="mdi mdi-delete me-1"></i> </span
-                                  >Supprimer
-                                </button>
-                              </li>
-                            </ul>
-                          </div></span
-                        >
+                                <li>
+                                  <button
+                                    class="dropdown-item mb-2"
+                                    (click)="openModael(groupe.groupe.id)"
+                                  >
+                                    <span><i class="mdi mdi-eye"></i> </span>
+                                    Detail du groupe
+                                  </button>
+                                </li>
+                              </ul>
+                            </div></span
+                          >
+                        </div>
                       </div>
-                    </div>
 
-                    <div class="card-body">
-                      <div class="mb-3 align-items-center d-flex">
-                        <span class="fw-bold"
-                          >Nombre de participants: &nbsp; &nbsp; &nbsp;
-                        </span>
-                        <span class="badge bg-danger">{{
-                          groupe.nombreMembres
-                        }}</span>
-                      </div>
-                      <div class="mb-3 align-items-center d-flex">
-                        <span class="fw-bold">Etat: &nbsp; &nbsp; &nbsp; </span>
-                        <span
-                          class="badge"
-                          [class.bg-danger]="
-                            groupe.groupe.etat === 'En_Attente'
-                          "
-                          [class.bg-warning]="groupe.groupe.etat === 'Termine'"
-                          [class.bg-success]="groupe.groupe.etat === 'Certifie'"
-                          [style.color]="'white'"
-                        >
-                          {{
-                            groupe.groupe.etat === "En_Attente"
-                              ? "En Attente"
-                              : groupe.groupe.etat === "Termine"
-                              ? "Session Crée"
-                              : groupe.groupe.etat
-                          }}
-                        </span>
-                      </div>
-                      <div
-                        class="trainer-profile d-flex align-items-center mb-3"
-                      >
-                        <span class="fw-bold"
-                          >Members: &nbsp; &nbsp; &nbsp;</span
-                        >
-                        <div class="avatar-stack">
-                          <img
-                            *ngFor="
-                              let image of groupe.collaborateurImages;
-                              let i = index
+                      <div class="card-body">
+                        <div class="mb-3 align-items-center d-flex">
+                          <span class="fw-bold"
+                            >Nombre de participants: &nbsp; &nbsp; &nbsp;
+                          </span>
+                          <span class="badge bg-danger">{{
+                            groupe.nombreMembres
+                          }}</span>
+                        </div>
+                        <div class="mb-3 align-items-center d-flex">
+                          <span class="fw-bold"
+                            >Etat: &nbsp; &nbsp; &nbsp;
+                          </span>
+                          <span
+                            class="badge"
+                            [class.bg-danger]="
+                              groupe.groupe.etat === 'En_Attente'
                             "
-                            [src]="'assets/images/' + image"
-                            [style.left.px]="i * 20"
-                            [style.zIndex]="3 - i"
-                            class="rounded-circle"
-                          />
+                            [class.bg-warning]="
+                              groupe.groupe.etat === 'Termine'
+                            "
+                            [class.bg-success]="
+                              groupe.groupe.etat === 'Certifie'
+                            "
+                            [style.color]="'white'"
+                          >
+                            {{
+                              groupe.groupe.etat === "En_Attente"
+                                ? "En Attente"
+                                : groupe.groupe.etat === "Termine"
+                                ? "Session Crée"
+                                : groupe.groupe.etat
+                            }}
+                          </span>
+                        </div>
+                        <div
+                          class="trainer-profile d-flex align-items-center mb-3"
+                        >
+                          <span class="fw-bold"
+                            >Members: &nbsp; &nbsp; &nbsp;</span
+                          >
+                          <div class="avatar-stack">
+                            <img
+                              *ngFor="
+                                let image of groupe.collaborateurImages;
+                                let i = index
+                              "
+                              [src]="'assets/images/' + image"
+                              [style.left.px]="i * 20"
+                              [style.zIndex]="3 - i"
+                              class="rounded-circle"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </ng-container>
+                <ng-template #noManagerServices>
+                  <p>Aucun Groupe trouvé</p>
+                </ng-template>
               </div>
             </div>
           </div>

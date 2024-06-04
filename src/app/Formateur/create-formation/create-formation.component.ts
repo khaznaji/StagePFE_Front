@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Formation } from 'src/app/model/formation.model';
 import { FormationService } from 'src/app/service/formation.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-create-formation',
@@ -23,7 +24,7 @@ export class CreateFormationComponent implements OnInit{
   selectedFiles!: File;
   status: boolean = true;
 
-  constructor(private formBuilder: FormBuilder,private projectService: FormationService )
+  constructor(private formBuilder: FormBuilder,private projectService: FormationService , private router : Router  )
    {   this.projectForm = this.formBuilder.group({
     price: ['', Validators.required] // Ajoutez Validators.required pour la validation
   });}
@@ -66,41 +67,45 @@ thumbnails: string[] = [];
 
 
 
+addProject() {
+  // Ajoutez les champs du projet à la FormData
+  this.projectData.append('title', this.project.title);
+  this.projectData.append('chapitre', this.project.chapitre.toString());
+  this.projectData.append('duree', this.project.duree.toString());
+  this.projectData.append('disponibilite', this.project.disponibilite.toString());
+  this.projectData.append('description', this.project.description);
+  this.projectData.append('departement', this.project.department.toString());
 
-  addProject() {
-    // Ajoutez les champs du projet à la FormData
-    this.projectData.append('title', this.project.title);
-    this.projectData.append('chapitre', this.project.chapitre.toString());
-    this.projectData.append('duree', this.project.duree.toString());
-
-    this.projectData.append('disponibilite', this.project.disponibilite.toString());
-
-    this.projectData.append('description', this.project.description);
-
-    this.projectData.append('departement', this.project.departement.toString());
-
-
-    // Ajoutez les images à la FormData
-    for (let i = 0; i < this.files.length; i++) {
-      this.projectData.append('image', this.files[i]);
-    }
-
-    // Appelez le service pour ajouter le projet
-    this.projectService.addProject(this.projectData).subscribe(
-      response => {
-        // Réponse réussie, effectuez les actions nécessaires
-        console.log('Projet ajouté avec succès', response);
-        this.project = new Formation();
-
-
-      },
-      error => {
-        // Gérez les erreurs
-        console.error('Erreur lors de l\'ajout du projet', error);
-      }
-    );
+  // Ajoutez les images à la FormData
+  for (let i = 0; i < this.files.length; i++) {
+    this.projectData.append('image', this.files[i]);
   }
-  
+
+  // Appelez le service pour ajouter le projet
+  this.projectService.addProject(this.projectData).subscribe(
+    response => {
+      // Réponse réussie, effectuez les actions nécessaires
+      console.log('Projet ajouté avec succès', response);
+
+      // Show SweetAlert confirmation
+      Swal.fire({
+        title: 'Succès',
+        text: 'Formation ajoutée avec succès',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then((result) => {
+        // Redirect to '/formateur/all' if user clicks OK
+        if (result.isConfirmed) {
+          window.location.reload();
+        }
+      });
+    },
+    error => {
+      // Gérez les erreurs
+      console.error('Erreur lors de l\'ajout du projet', error);
+    }
+  );
+}
   id!: number;
   isEdit = false;
   submitted = false;

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Collaborateur } from 'src/app/model/collaborateur.model';
 import { CollaborateurService } from 'src/app/service/collaborateur.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-bio-pop-up',
@@ -27,23 +28,33 @@ export class BioPopUpComponent implements OnInit {
       });
   }
   updateProfile() {
-    // Assurez-vous que les évaluations sont correctement associées aux compétences sélectionnées
-  
-  
-    // Créez un FormData et ajoutez les données pertinentes
     const formData = new FormData();
     formData.append('bio', this.project.bio);
-    // Appelez le service pour mettre à jour le profil
+  
     this.collaborateurService.updateProfile(formData)
       .subscribe(
         response => {
           console.log('Profile updated successfully:', response);
+          
+          Swal.fire({
+            title: 'Succès',
+            text: 'Bio modifiée avec succès',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
+  
           // Mettez à jour les compétences dans votre modèle Angular si elles sont renvoyées par le backend
-       
-
         },
         error => {
           console.error('Failed to update profile:', error);
+          
+          Swal.fire({
+            title: 'Erreur',
+            text: 'Échec de la mise à jour du profil',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+  
           // Ajoutez ici la logique pour gérer les erreurs
         }
       );

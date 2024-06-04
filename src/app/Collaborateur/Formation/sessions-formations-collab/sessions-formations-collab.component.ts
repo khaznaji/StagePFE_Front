@@ -15,18 +15,30 @@ export class SessionsFormationsCollabComponent {
   ngOnInit(): void {
     this.getEntretiens();
   }
+
   getEntretiens() {
     this.service.mesSessionsCollab().subscribe(
       (data: any) => {
-        this.entretiens = data;
-        console.log(data); // pour le débogage, vérifiez les données récupérées
+        // Filtrer les entretiens dont la date de fin n'est pas encore passée
+        this.entretiens = data.filter((entretien: any) => {
+          const dateFin = new Date(entretien.dateFin);
+          return dateFin >= new Date(); // Retourne true si la date de fin n'est pas passée
+        });
+        console.log(this.entretiens); // pour le débogage, vérifiez les données filtrées
       },
       (error) => {
         console.error("Une erreur s'est produite : ", error);
       }
     );
   }
+
   joinInterview(roomId: string, candidatureId: string) {
     this.router.navigate(['/collaborateur/interview', roomId, candidatureId]);
+  }
+
+  canJoinInterview(dateDebut: string): boolean {
+    const entretienDateTime = new Date(dateDebut);
+    const now = new Date();
+    return now >= entretienDateTime;
   }
 }

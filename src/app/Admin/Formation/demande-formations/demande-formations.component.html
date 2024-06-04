@@ -2,302 +2,340 @@
   <div class="card">
     <div class="card-body">
       <div class="poste-details">
-        <h2>{{ formationInfo.title }}</h2>
+       
+        <div class="d-flex justify-content-center">
+          <h2
+          style="
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+          "
+        >{{ formationInfo.title }}
+        </h2>        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            class="btn btn-inverse-info"
+            (click)="redirectToFullCalendar(formationInfo.id)"
+          >
+            Gestion des Sessions de Formation
+          </button>
+        </div>
+
         <h6></h6>
       </div>
-
-      <h6></h6>
     </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="col-md-12 grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body dashboard-tabs p-0">
-        <ul class="nav nav-tabs px-4" role="tablist">
-          <li class="nav-item">
-            <a
-              class="nav-link active"
-              id="overview-tab"
-              data-bs-toggle="tab"
-              href="#overview"
-              role="tab"
-              aria-controls="overview"
-              aria-selected="true"
-              >Detail de la Formation</a
+  <div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body dashboard-tabs p-0">
+          <ul class="nav nav-tabs px-4" role="tablist">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                id="overview-tab"
+                data-bs-toggle="tab"
+                href="#overview"
+                role="tab"
+                aria-controls="overview"
+                aria-selected="true"
+                >Detail de la Formation</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                id="sales-tab"
+                data-bs-toggle="tab"
+                href="#sales"
+                role="tab"
+                aria-controls="sales"
+                aria-selected="false"
+                >Demandes des Collaborateurs</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                id="purchases-tab"
+                data-bs-toggle="tab"
+                href="#purchases"
+                role="tab"
+                aria-controls="purchases"
+                aria-selected="false"
+                >Groupes
+              </a>
+            </li>
+          </ul>
+          <div class="tab-content py-0 px-0">
+            <div
+              class="tab-pane fade show active"
+              id="overview"
+              role="tabpanel"
+              aria-labelledby="overview-tab"
             >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              id="sales-tab"
-              data-bs-toggle="tab"
-              href="#sales"
-              role="tab"
-              aria-controls="sales"
-              aria-selected="false"
-              >Demandes des Collaborateurs</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              id="purchases-tab"
-              data-bs-toggle="tab"
-              href="#purchases"
-              role="tab"
-              aria-controls="purchases"
-              aria-selected="false"
-              >Groupes
-            </a>
-          </li>
-        </ul>
-        <div class="tab-content py-0 px-0">
-          <div
-            class="tab-pane fade show active"
-            id="overview"
-            role="tabpanel"
-            aria-labelledby="overview-tab"
-          >
-            <div>
-              <br />
-              <div class="row">
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-body">
-                      <h4>A propos de la Formations</h4>
-                      <p>{{ formationInfo.description }}</p>
-                      <p>
-                        <b>Nombre de Chapitres :</b>
-                        {{ formationInfo.chapitre }}
-                      </p>
-                      <p>
-                        <b>Duree de la Formation :</b> {{ formationInfo.duree }}
-                      </p>
-                      <p><b>Departement :</b> {{ formationInfo.department }}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- Deuxième carte pour les compétences -->
-              <div class="row">
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-body">
-                      <h4>A propos Du Formateur</h4>
-                      <ul class="custom-list">
-                        <div class="image-container">
+              <div class="container py-5">
+                <div class="row">
+                  <select
+                  class="form-select"
+                  [(ngModel)]="selectedEtat"
+                  (change)="applyFilter()"
+                >
+                  <option value="Tous">Tous</option>
+                  <option value="En_Attente">En Attente</option>
+                  <option value="Termine">Session Crée</option>
+                  <option value="Certifie">Certifié</option>
+                </select>
+                <br>
+                <br>
+                  <div class="col-lg-4">
+                    <div class="card shadow-sm border-0">
+                      <div class="card-body p-4">
+                        <h4
+                          class="card-title mb-3 d-flex justify-content-center"
+                        >
+                          {{ formationInfo.formateurName }}
+                        </h4>
+                        <div class="media d-flex justify-content-center">
                           <img
-                            [src]="
-                              'assets/images/' + formationInfo.formateurImage
-                            "
+                            src="assets/images/{{
+                              formationInfo.formateurImage
+                            }}"
+                            class="mr-3"
                             alt="Formateur"
-                            width="150"
+                            width="100"
                           />
                         </div>
-                        <div class="infos">
-                          <h6 style="color: grey">
-                            {{ formationInfo.formateurName }}
-                          </h6>
-                        </div>
-                      </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-8">
+                    <div class="card shadow-sm border-0">
+                      <div class="card-body p-4">
+                        <h4 class="card-title mb-3">
+                          A propos de la Formation
+                        </h4>
+                        <p class="card-text">{{ formationInfo.description }}</p>
+                        <ul class="list-unstyled">
+                          <li>
+                            <strong>Nombre de Chapitres :</strong>
+                            {{ formationInfo.chapitre }}
+                          </li>
+                          <li>
+                            <strong>Durée de la Formation :</strong>
+                            {{ formationInfo.duree }}
+                          </li>
+                          <li>
+                            <strong>Département :</strong>
+                            {{ formationInfo.department }}
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div
-            class="tab-pane fade"
-            id="sales"
-            role="tabpanel"
-            aria-labelledby="sales-tab"
-          >
-            <br />
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">
-                  Liste des Demandes des collaborateurs
-                </h4>
-                <div class="d-flex justify-content-end mb-3">
-                  <!-- Bouton ajouté ici -->
-                </div>
-                <div></div>
-                <div class="table-responsive">
-                  <table class="table table-striped card-table">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Collaborateur</th>
-                        <th>Poste</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let formation of formationsAcceptees">
-                        <td>
-                          <img
-                            [src]="'assets/images/' + formation.image"
-                            alt=""
-                            style="max-width: 40px; max-height: 40px"
-                          />
-                        </td>
-                        <td>{{ formation.nom }} {{ formation.prenom }}</td>
-
-                        <td>{{ formation.poste }}</td>
-                        <td>
-                          <button
-                            (click)="
-                              updateEtatAccepte(formation.idParticipation)
-                            "
-                            class="btn btn-success"
-                          >
-                            Accepter
-                          </button>
-                        </td>
-                        <td>
-                          <button
-                            (click)="
-                              updateEtatRefusee(formation.idParticipation)
-                            "
-                            class="btn btn-danger"
-                          >
-                            Refuser
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                  <ng-template #noFormations>
-                    <p>Aucune demande de collaborateur trouvée.</p>
-                  </ng-template>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tab-pane fade"
-            id="purchases"
-            role="tabpanel"
-            aria-labelledby="purchases-tab"
-          >
-            <br />
-            <button
-              class="btn btn-inverse-info"
-              (click)="openCreateGroupsModal(formationInfo.id)"
+            <div
+              class="tab-pane fade"
+              id="sales"
+              role="tabpanel"
+              aria-labelledby="sales-tab"
             >
-              Creer un groupe
-            </button>
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-4 col-md-6" *ngFor="let groupe of groupes">
-                  <div class="card">
-                    <div class="row mt-2 mx-2">
-                      <!-- Modifié la classe mt-4 à mt-2 -->
-                      <div class="nav-profile d-flex align-items-center">
-                        <span class="fw-bold">{{ groupe.groupe.nom }}</span>
-                        <span>
-                          <div class="filter">
+              <br />
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">
+                    Liste des Demandes des collaborateurs
+                  </h4>
+                  <div class="d-flex justify-content-end mb-3">
+                    <!-- Bouton ajouté ici -->
+                  </div>
+                  <div></div>
+                  <div class="table-responsive">
+                    <table class="table table-striped card-table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Collaborateur</th>
+                          <th>Poste</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let formation of formationsAcceptees">
+                          <td>
+                            <img
+                              [src]="'assets/images/' + formation.image"
+                              alt=""
+                              style="max-width: 40px; max-height: 40px"
+                            />
+                          </td>
+                          <td>{{ formation.nom }} {{ formation.prenom }}</td>
+
+                          <td>{{ formation.poste }}</td>
+                          <td>
                             <button
-                              class="icon"
-                              data-bs-toggle="dropdown"
-                              style="border: none; background-color: #ffffff00"
+                              (click)="
+                                updateEtatAccepte(formation.idParticipation)
+                              "
+                              class="btn btn-success"
                             >
-                              <i
-                                class="mdi mdi-dots-vertical"
-                                style="margin-left: 80px"
-                              ></i>
+                              Accepter
                             </button>
-                            <ul
-                              class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                          </td>
+                          <td>
+                            <button
+                              (click)="
+                                updateEtatRefusee(formation.idParticipation)
+                              "
+                              class="btn btn-danger"
                             >
-                              <li class="dropdown-header text-start"></li>
+                              Refuser
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
 
-                              <li>
-                                <button
-                                  class="dropdown-item mb-2"
-                                  (click)="openModael(groupe.groupe.id)"
-                                >
-                                  <span><i class="mdi mdi-eye"></i> </span>
-                                  Insight
-                                </button>
-                              </li>
+                    <ng-template #noFormations>
+                      <p>Aucune demande de collaborateur trouvée.</p>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="purchases"
+              role="tabpanel"
+              aria-labelledby="purchases-tab"
+            >
+              <br />
+              <div class="d-flex justify-content-center">
+                <button
+                  class="btn btn-inverse-info"
+                  (click)="openCreateGroupsModal(formationInfo.id)"
+                >
+                  Creer un groupe
+                </button>
+              </div>
+              &nbsp;
+              <br />
 
-                              <li>
-                                <button class="dropdown-item mb-2">
-                                  <span
-                                    ><i
-                                      class="fa-regular fa-calendar me-4"
-                                    ></i> </span
-                                  >Calendar
-                                </button>
-                              </li>
-                              <li>
-                                <button
-                                  class="dropdown-item mb-2 text-danger"
-                                  (click)="deleteGroup(groupe.groupe.id)"
-                                >
-                                  <span
-                                    ><i class="mdi mdi-delete me-1"></i> </span
-                                  >Supprimer
-                                </button>
-                              </li>
-                            </ul>
-                          </div></span
-                        >
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-4 col-md-6" *ngFor="let groupe of groupes">
+                    <div class="card">
+                      <div class="row mt-2 mx-2">
+                        <!-- Modifié la classe mt-4 à mt-2 -->
+                        <div class="nav-profile d-flex align-items-center">
+                          <span class="fw-bold">{{ groupe.groupe.nom }}</span>
+                          <span>
+                            <div class="filter">
+                              <button
+                                class="icon"
+                                data-bs-toggle="dropdown"
+                                style="
+                                  border: none;
+                                  background-color: #ffffff00;
+                                "
+                              >
+                                <i
+                                  class="mdi mdi-dots-vertical"
+                                  style="margin-left: 80px"
+                                ></i>
+                              </button>
+                              <ul
+                                class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                              >
+                                <li class="dropdown-header text-start"></li>
+
+                                <li>
+                                  <button
+                                    class="dropdown-item mb-2"
+                                    (click)="openModael(groupe.groupe.id)"
+                                  >
+                                    <span><i class="mdi mdi-eye"></i> </span>
+                                    Detail du groupe
+                                  </button>
+                                </li>
+
+                                
+                                <li>
+                                  <button
+                                    class="dropdown-item mb-2 text-danger"
+                                    (click)="deleteGroup(groupe.groupe.id)"
+                                  >
+                                    <span
+                                      ><i
+                                        class="mdi mdi-delete me-1"
+                                      ></i> </span
+                                    >Supprimer
+                                  </button>
+                                </li>
+                              </ul>
+                            </div></span
+                          >
+                        </div>
                       </div>
-                    </div>
 
-                    <div class="card-body">
-                      <div class="mb-3 align-items-center d-flex">
-                        <span class="fw-bold"
-                          >Nombre de participants: &nbsp; &nbsp; &nbsp;
-                        </span>
-                        <span class="badge bg-danger">{{
-                          groupe.nombreMembres
-                        }}</span>
-                      </div>
-                      <div class="mb-3 align-items-center d-flex">
-                        <span class="fw-bold">Etat: &nbsp; &nbsp; &nbsp; </span>
-                        <span
-                          class="badge"
-                          [class.bg-danger]="
-                            groupe.groupe.etat === 'En_Attente'
-                          "
-                          [class.bg-warning]="groupe.groupe.etat === 'Termine'"
-                          [class.bg-success]="groupe.groupe.etat === 'Certifie'"
-
-                          [style.color]="'white'"
-                        >
-                        {{
-                          groupe.groupe.etat === 'En_Attente'
-                            ? 'En Attente'
-                            : groupe.groupe.etat === 'Termine'
-                              ? 'Session Crée'
-                              : groupe.groupe.etat
-                        }}
-                        </span>
-                      </div>
-                      <div
-                        class="trainer-profile d-flex align-items-center mb-3"
-                      >
-                        <span class="fw-bold"
-                          >Members: &nbsp; &nbsp; &nbsp;</span
-                        >
-                        <div class="avatar-stack">
-                          <img
-                            *ngFor="
-                              let image of groupe.collaborateurImages;
-                              let i = index
+                      <div class="card-body">
+                        <div class="mb-3 align-items-center d-flex">
+                          <span class="fw-bold"
+                            >Nombre de participants: &nbsp; &nbsp; &nbsp;
+                          </span>
+                          <span class="badge bg-danger">{{
+                            groupe.nombreMembres
+                          }}</span>
+                        </div>
+                        <div class="mb-3 align-items-center d-flex">
+                          <span class="fw-bold"
+                            >Etat: &nbsp; &nbsp; &nbsp;
+                          </span>
+                          <span
+                            class="badge"
+                            [class.bg-danger]="
+                              groupe.groupe.etat === 'En_Attente'
                             "
-                            [src]="'assets/images/' + image"
-                            [style.left.px]="i * 20"
-                            [style.zIndex]="3 - i"
-                            class="rounded-circle"
-                          />
+                            [class.bg-warning]="
+                              groupe.groupe.etat === 'Termine'
+                            "
+                            [class.bg-success]="
+                              groupe.groupe.etat === 'Certifie'
+                            "
+                            [style.color]="'white'"
+                          >
+                            {{
+                              groupe.groupe.etat === "En_Attente"
+                                ? "En Attente"
+                                : groupe.groupe.etat === "Termine"
+                                ? "Session Crée"
+                                : groupe.groupe.etat
+                            }}
+                          </span>
+                        </div>
+                        <div
+                          class="trainer-profile d-flex align-items-center mb-3"
+                        >
+                          <span class="fw-bold"
+                            >Members: &nbsp; &nbsp; &nbsp;</span
+                          >
+                          <div class="avatar-stack">
+                            <img
+                              *ngFor="
+                                let image of groupe.collaborateurImages;
+                                let i = index
+                              "
+                              [src]="'assets/images/' + image"
+                              [style.left.px]="i * 20"
+                              [style.zIndex]="3 - i"
+                              class="rounded-circle"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -305,14 +343,14 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            class="tab-pane fade"
-            id="test"
-            role="tabpanel"
-            aria-labelledby="test-tab"
-          >
-            <br />
+            <div
+              class="tab-pane fade"
+              id="test"
+              role="tabpanel"
+              aria-labelledby="test-tab"
+            >
+              <br />
+            </div>
           </div>
         </div>
       </div>

@@ -18,7 +18,10 @@ export class MesSessionsFormateurComponent {
   getEntretiens() {
     this.service.mesSessionFormateurs().subscribe(
       (data: any) => {
-        this.entretiens = data;
+        this.entretiens = data.filter((entretien: any) => {
+          const dateFin = new Date(entretien.dateFin);
+          return dateFin >= new Date(); // Retourne true si la date de fin n'est pas passée
+        });
         console.log(data); // pour le débogage, vérifiez les données récupérées
       },
       (error) => {
@@ -28,5 +31,10 @@ export class MesSessionsFormateurComponent {
   }
   joinInterview(roomId: string, candidatureId: string) {
     this.router.navigate(['/formateur/interview', roomId, candidatureId]);
+  }
+  canJoinInterview(dateDebut: string): boolean {
+    const entretienDateTime = new Date(`${dateDebut}`);
+    const now = new Date();
+    return now >= entretienDateTime;
   }
 }

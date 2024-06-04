@@ -20,12 +20,16 @@ export class AllFormationsComponent implements OnInit {
     this.getUserByid(localStorage.getItem('id'));
     this.filterOption = 'all'; // Set the default filter option
     this.applyFilter(); // Apply the default filter
+    this.applyFilters(); // Apply the default filter
+
   }
 
   filterOption: string = 'all'; // Initialisez à la valeur par défaut
 
   onFilterChange() {
     this.applyFilter();
+    this.applyFilters();
+
   }
   searchTerm: string = '';
   filteredEvents: any[] = [];
@@ -121,7 +125,9 @@ export class AllFormationsComponent implements OnInit {
     this.events = this.formationService.mesformations().subscribe((res) => {
       this.events = res;
       console.log(res);
-      this.applyFilter(); // Apply the filter after loading the data
+      this.applyFilter(); 
+      this.applyFilters(); // Apply the filter after loading the data
+      // Apply the filter after loading the data
     });
   }
   ToList() {
@@ -148,11 +154,33 @@ export class AllFormationsComponent implements OnInit {
       initialState,
     });
   }
+  applyFilters() {
+    // Copy the main list to avoid modifying it directly
+    let filteredEvents = [...this.events];
+  
+    // Apply filter based on the selected option
+    switch (this.filterOption) {
+      case 'disponible':
+        filteredEvents = filteredEvents.filter((event: any) => event.disponibilite);
+        break;
+      case 'non-disponible':
+        filteredEvents = filteredEvents.filter((event: any) => !event.disponibilite);
+        break;
+      default:
+        // If "Toutes" option is selected, reset the list
+        break;
+    }
+  
+    // Update the main list with filtered results
+    this.filteredEvents = filteredEvents;
+    this.p = 1;
+  }
+  
   deleteFormation(quesId: any) {
     Swal.fire({
       icon: 'info',
       title: 'Etes vous sûre de supprimer cette formation ?',
-      confirmButtonText: 'Delete',
+      confirmButtonText: 'Supprimer',
       showCancelButton: true,
     }).then((result) => {
       if (result.isConfirmed) {

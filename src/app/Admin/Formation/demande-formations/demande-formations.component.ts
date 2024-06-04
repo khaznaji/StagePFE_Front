@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { FormationService } from 'src/app/service/formation.service';
@@ -18,7 +18,7 @@ import { DetailsGroupComponent } from '../details-group/details-group.component'
 })
 export class DemandeFormationsComponent implements OnInit  {
   constructor(private route: ActivatedRoute ,  private modalService: BsModalService,
-    private participationFormation : ParticapationFormationService , private formationService: FormationService , private groupsService: GroupsService , private http: HttpClient , private modalRef: BsModalRef) { }
+    private participationFormation : ParticapationFormationService , private formationService: FormationService , private groupsService: GroupsService , private router: Router , private modalRef: BsModalRef) { }
   id!: number;
   formationsAcceptees: any[] = []; // Initialisez une variable pour stocker les formations acceptées
 
@@ -28,9 +28,18 @@ export class DemandeFormationsComponent implements OnInit  {
    this.getFormation(); // Appel de la méthode pour récupérer les informations du collaborateur
 this.getFormationsAccepte();
 this.getGroupesByFormation();
-
+this.applyFilter(); 
     });}
-  
+    filteredGroupes!: any[];
+    selectedEtat: string = 'Tous';
+
+    applyFilter(): void {
+      if (this.selectedEtat === 'Tous') {
+        this.filteredGroupes = this.groupes; // Si "Tous" est sélectionné, afficher tous les groupes
+      } else {
+        this.filteredGroupes = this.groupes.filter((groupe: { groupe: { etat: string; }; }) => groupe.groupe.etat === this.selectedEtat);
+      }
+    }
      
   formationInfo: any;
   groupes: any;
@@ -48,6 +57,10 @@ this.getGroupesByFormation();
     };
     this.modalService.show(DetailsGroupComponent, { initialState });
   }
+  redirectToFullCalendar(postId: number) {
+    // Naviguez vers la page Full Calendar avec le 'postId' dans l'URL
+    this.router.navigate(['/managerRh/session', postId]);
+  } 
   deleteGroup(groupId: number): void {
     // Utilisation de SweetAlert2 pour afficher une boîte de dialogue de confirmation
     Swal.fire({
@@ -103,6 +116,7 @@ this.getGroupesByFormation();
       .subscribe(
         (data: any[]) => {
           this.groupes = data;
+          this.applyFilter(); 
         },
         error => {
           console.log(error);

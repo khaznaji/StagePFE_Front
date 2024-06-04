@@ -26,14 +26,13 @@ export class EntretienRhService {
   }
   updateEntretien(
     id: number,
-    candidatureId: number,
     dateEntretien: string,
     heureDebut: string,
     heureFin: string , 
     userId : number 
   ): Observable<string> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${this.baseUrl}/${id}/update/?candidatureId=${candidatureId}&userId=${userId}&dateEntretien=${dateEntretien}&heureDebut=${heureDebut}&heureFin=${heureFin}`;
+    const url = `${this.baseUrl}/${id}/update?userId=${userId}&dateEntretien=${dateEntretien}&heureDebut=${heureDebut}&heureFin=${heureFin}`;
 
     return this.http.put<string>(url, {}, { headers: headers });
   }

@@ -197,18 +197,39 @@ export class EntretienAnnuelCalendarComponent implements OnInit {
     );
   }
   
-
   deleteEntretien(id: number): void {
-    this.entretienService.deleteEntretien(id).subscribe(
-      () => {
-        console.log('Entretien supprimé avec succès.');
-        // Ajoutez ici toute logique supplémentaire après la suppression réussie
-      },
-      (error) => {
-        console.error("Erreur lors de la suppression de l'entretien :", error);
-        // Gérer l'erreur ici
+    Swal.fire({
+      title: 'Êtes-vous sûr?',
+      text: "Vous ne pourrez pas revenir en arrière!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimez-le!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.entretienService.deleteEntretienAnnuel(id).subscribe(
+          () => {
+            Swal.fire(
+              'Supprimé!',
+              "L'entretien a été supprimé.",
+              'success'
+            );
+            console.log('Entretien supprimé avec succès.');
+            // Ajoutez ici toute logique supplémentaire après la suppression réussie
+          },
+          (error) => {
+            Swal.fire(
+              'Erreur!',
+              "Erreur lors de la suppression de l'entretien: " + error.message,
+              'error'
+            );
+            console.error("Erreur lors de la suppression de l'entretien :", error);
+            // Gérer l'erreur ici
+          }
+        );
       }
-    );
+    });
   }
   editMode: boolean = false; // Variable pour suivre l'état de l'affichage du formulaire de modification
   preRemplirFormulaire(): void {
@@ -218,31 +239,38 @@ export class EntretienAnnuelCalendarComponent implements OnInit {
       this.heureDebut = this.entretienDetails.entretien.heureDebut;
       this.heureFin = this.entretienDetails.entretien.heureFin;
     }
-    this.editMode = true; // Activer le mode d'édition
   }
   
 
   updateEntretienAnnuel(entretienId: number): void {
-    this.editMode = true; // Activer le mode d'édition
-
-    this.entretienService
-      .updateEntretienAnnuel(
-        entretienId,
-        this.dateEntretien,
-        this.heureDebut,
-        this.heureFin
-      )
-      .subscribe(
-        (response) => {
-          console.log(response); // Afficher la réponse du serveur après la mise à jour de l'entretien
-          // Vous pouvez également rediriger l'utilisateur vers une autre page ou effectuer d'autres actions ici
-        },
-        (error) => {
-          console.error("Erreur lors de la mise à jour de l'entretien:", error);
-          // Gérer l'erreur, afficher un message à l'utilisateur, etc.
-        }
-      );
+    Swal.fire({
+      title: 'Êtes-vous sûr?',
+      text: 'Voulez-vous vraiment mettre à jour cet entretien?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, mettre à jour!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.entretienService
+          .updateEntretienAnnuel(entretienId, this.dateEntretien, this.heureDebut, this.heureFin)
+          .subscribe(
+            (response) => {
+              Swal.fire('Succès!', "L'entretien a été mis à jour avec succès.", 'success').then(() => {
+                setTimeout(() => {
+                  window.location.reload();
+                }, 2000);
+              });
+            },
+            (error) => {
+              Swal.fire('Erreur!', "Une erreur s'est produite lors de la mise à jour de l'entretien.", 'error');
+            }
+          );
+      }
+    });
   }
+
   submitUpdatedEntretien(entretienId: number): void {
     Swal.fire({
       title: 'Êtes-vous sûr?',

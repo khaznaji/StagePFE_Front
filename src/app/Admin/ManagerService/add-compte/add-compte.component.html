@@ -153,7 +153,8 @@
          <div class="col-md-6">
             <div class="form-group">
               <label for="dateEntree">Date d'entrée:</label>
-              <input type="date" class="form-control" id="dateEntree" formControlName="dateEntree" required
+              <input type="date" class="form-control" id="dateEntree" formControlName="dateEntree" required                 [max]="todayDate()"
+
                 [ngClass]="{ 'is-invalid': managerServiceForm.get('dateEntree')?.invalid && managerServiceForm.get('dateEntree')?.touched }">
         
               <div *ngIf="managerServiceForm.get('dateEntree')?.invalid && managerServiceForm.get('dateEntree')?.errors?.['required'] && managerServiceForm.get('dateEntree')?.touched"

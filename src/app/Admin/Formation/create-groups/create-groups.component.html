@@ -8,19 +8,27 @@
             
           >
           Créer un nouveau groupe          </h3>
-        </div><div class="container">
+        </div>
+        </div>
+        <div class="container">
   <form [formGroup]="groupForm" (ngSubmit)="ajouterGroupe()">
       <div>
         <label for="nom">Nom :</label>
         <input type="text" id="nom" class="form-control" formControlName="nom">
       </div>
       <div class="form-group" formGroupName="collaborateursId">
-        <label>Collaborateurs confirmés:</label><br>
+        <label>Liste des Collaborateurs :</label><br>
+        <div *ngIf="collaborateursConfirme && collaborateursConfirme.length > 0; else noCollaborators">
+
         <div *ngFor="let collaborateur of collaborateursConfirme; let i = index">
            <input type="checkbox" [formControlName]="i" [value]="collaborateur.idC"> {{ collaborateur.nom }} {{ collaborateur.prenom }}
         </div>
        </div>
+       <ng-template #noCollaborators>
+        <p>Aucun collaborateur trouvé</p>
+      </ng-template>
+       </div>
        
-    <button type="submit" class="btn btn-primary">Créer</button>
+    <button type="submit" class="btn btn-primary"  [disabled]="!collaborateursConfirme || collaborateursConfirme.length === 0">Créer</button>
   </form>
 </div>

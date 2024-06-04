@@ -146,16 +146,38 @@ export class FullCalendarComponent implements OnInit {
     );
   }
   deleteEntretien(id: number): void {
-    this.entretienService.deleteEntretien(id).subscribe(
-      () => {
-        console.log('Entretien supprimé avec succès.');
-        // Ajoutez ici toute logique supplémentaire après la suppression réussie
-      },
-      (error) => {
-        console.error("Erreur lors de la suppression de l'entretien :", error);
-        // Gérer l'erreur ici
+    Swal.fire({
+      title: 'Êtes-vous sûr?',
+      text: "Vous ne pourrez pas revenir en arrière!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimez-le!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.entretienService.deleteEntretien(id).subscribe(
+          () => {
+            Swal.fire(
+              'Supprimé!',
+              "L'entretien a été supprimé.",
+              'success'
+            );
+            console.log('Entretien supprimé avec succès.');
+            // Ajoutez ici toute logique supplémentaire après la suppression réussie
+          },
+          (error) => {
+            Swal.fire(
+              'Erreur!',
+              "Erreur lors de la suppression de l'entretien: " + error.message,
+              'error'
+            );
+            console.error("Erreur lors de la suppression de l'entretien :", error);
+            // Gérer l'erreur ici
+          }
+        );
       }
-    );
+    });
   }
   preRemplirFormulaire(): void {
     if (this.entretienDetails) {
@@ -175,7 +197,6 @@ export class FullCalendarComponent implements OnInit {
     this.entretienService
       .updateEntretien(
         id,
-        this.candidatureId,
         this.dateEntretien,
         this.heureDebut,
         this.heureFin
@@ -203,7 +224,6 @@ export class FullCalendarComponent implements OnInit {
     this.entretienService
       .updateEntretien(
         id,
-        this.candidatureId,
         this.dateEntretien,
         this.heureDebut,
         this.heureFin

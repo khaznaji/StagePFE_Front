@@ -17,6 +17,8 @@ import { Chart, registerables } from 'chart.js/auto';
 import { EntretienService } from 'src/app/service/entretien.service';
 import { EntretienRhComponent } from './entretien-rh/entretien-rh.component';
 import { EntretienRhService } from 'src/app/service/entretien-rh.service';
+import { Quiz } from 'src/app/model/quiz.model';
+import { QuizService } from 'src/app/service/quiz.service';
 
 @Component({
   selector: 'app-gestion-poste-by-id',
@@ -28,6 +30,8 @@ export class GestionPosteByIdComponent implements OnInit {
   collaborateursAcceptees: number = 0;
   collaborateursRefusees: number = 0;
   filteredPostes: any[] = [];
+  quizzes: Quiz[] = [];
+
   searchTerm: string = '';
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -38,7 +42,7 @@ export class GestionPosteByIdComponent implements OnInit {
       this.AllCandidaturePreselectionne();
       this.EntretiensSpecifiques();
       this.EntretiensRhSpecifiques();
-
+this.loadQuizzesByPostId(this.postId) ; 
       this.posteService
         .countCollaborateursEnAttente(this.postId)
         .subscribe((count) => {
@@ -59,6 +63,17 @@ export class GestionPosteByIdComponent implements OnInit {
       // Fetch post details when component initializes
     });
   }
+  loadQuizzesByPostId(postId: number): void {
+    this.quizService.getQuizzesByPostId(postId).subscribe(
+      (quizzes: Quiz[]) => {
+        this.quizzes = quizzes;
+      },
+      (error) => {
+        console.error('Error fetching quizzes:', error);
+        // Gérer l'erreur, par exemple, afficher un message d'erreur à l'utilisateur
+      }
+    );
+  }
   postId!: number;
   poste: any;
 
@@ -69,6 +84,7 @@ export class GestionPosteByIdComponent implements OnInit {
     private modalService: BsModalService, 
     private entretienService: EntretienService, 
     private entretienRhService: EntretienRhService, 
+    private quizService : QuizService
 
 
   ) {

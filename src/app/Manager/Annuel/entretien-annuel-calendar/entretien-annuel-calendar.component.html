@@ -63,6 +63,14 @@
                       <button class="btn btn-primary" (click)="preRemplirFormulaire(); editMode = true">
                         Modifier
                       </button>
+                      &nbsp; &nbsp;
+
+                      <button
+                        class="btn btn-danger"
+                        (click)="deleteEntretien(entretienDetails.entretien.id)"
+                      >
+                        Supprimer
+                      </button>
                       
                     </div>
                     <div *ngIf="editMode">

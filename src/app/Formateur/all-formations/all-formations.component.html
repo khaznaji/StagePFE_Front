@@ -136,17 +136,16 @@
               </button>
             </div>
             <!-- Ajoutez une barre de recherche -->
-
-            <div class="d-flex justify-content-end mb-3">
-              <select
-                class="form-control"
-                [(ngModel)]="sortOption"
-                (change)="applySort()"
-              >
-                <option value="recent">Du plus Recent</option>
-                <option value="old">Du plus Ancien</option>
-              </select>
-            </div>
+            <select
+              class="form-control"
+              [(ngModel)]="filterOption"
+              (change)="applyFilters()"
+            >
+              <option value="all">Toutes</option>
+              <option value="disponible">Disponible</option>
+              <option value="non-disponible">Non Disponible</option>
+            </select>
+            <br />
 
             <div class="d-flex align-items-center mb-3">
               <div class="flex-grow-1">
@@ -188,26 +187,40 @@
                     "
                   >
                     <td>{{ event.title }}</td>
-                    <td>{{ event.disponibilite }}</td>
+                    <td>{{ event.disponibilite ? "Oui" : "Non" }}</td>
                     <td>{{ event.duree }} Heures</td>
-                    <td>{{ event.chapitre }}</td>
-
+                    <td>{{ event.chapitre }} Chapitres</td>
                     <td>
-                      <div class="col-sm-6 col-md-4 col-lg-3">
-                        <!-- <a
-                          class="mdi mdi-eye"
-                          (click)="openModalById(event.id)"
-                        ></a> -->
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-lg-3">
-                        <button class="btn btn-inverse-success" (click)="openModalUpdate(event.id)">Mettre a jour</button>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-lg-3">
-                        <button class="btn btn-inverse-danger" (click)="deleteFormation(event.id)">Supprimer</button>
+                      <div class="row">
+                        <div class="col-sm-6 col-md-3">
+                          <button
+                            class="btn btn-inverse-success"
+                            (click)="openModalUpdate(event.id)"
+                          >
+                            <i class="mdi mdi-eyedropper"></i>
+                          </button>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                          <button
+                            class="btn btn-inverse-danger"
+                            (click)="deleteFormation(event.id)"
+                          >
+                            <i class="mdi mdi-delete"></i>
+                          </button>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                          <button
+                            class="btn btn-inverse-primary"
+                            [routerLink]="[
+                              '/formateur/formation-byId',
+                              event.id
+                            ]"
+                          >
+                            <i class="mdi mdi-eye"></i>
+                          </button>
+                        </div>
                       </div>
                     </td>
-                    <td>    <button class="btn btn-primary" [routerLink]="['/formateur/formation-byId', event.id]">Voir détails</button>
-
                   </tr>
                 </table>
                 <div class="d-flex justify-content-center">

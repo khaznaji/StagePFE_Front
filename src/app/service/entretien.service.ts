@@ -26,13 +26,12 @@ export class EntretienService {
   }
   updateEntretien(
     id: number,
-    candidatureId: number,
     dateEntretien: string,
     heureDebut: string,
     heureFin: string
   ): Observable<string> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${this.baseUrl}/${id}/update/?candidatureId=${candidatureId}&dateEntretien=${dateEntretien}&heureDebut=${heureDebut}&heureFin=${heureFin}`;
+    const url = `${this.baseUrl}/${id}/update?dateEntretien=${dateEntretien}&heureDebut=${heureDebut}&heureFin=${heureFin}`;
 
     return this.http.put<string>(url, {}, { headers: headers });
   }
@@ -56,6 +55,10 @@ export class EntretienService {
   private handleError(error: any): Observable<never> {
     console.error('An error occurred:', error);
     return throwError('Something went wrong. Please try again later.');
+  }
+  deleteEntretienAnnuel(id: number): Observable<void> {
+    const url = `${this.baseUrl}/deleteAnnuel/${id}`;
+    return this.http.delete<void>(url).pipe(catchError(this.handleError));
   }
   getCollaborateurEntretien(): Observable<any> {
     const authToken = this.authService.getToken();

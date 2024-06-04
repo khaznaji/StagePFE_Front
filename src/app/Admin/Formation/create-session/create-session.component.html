@@ -1,115 +1,30 @@
-<div class="container mt-5">
+<div class="container">
   <div class="row">
-     <div class="col-md-4">
-       <div *ngIf="showModal">
-         <h2 class="text-center mb-4">Ajouter une Session</h2>
-         <div class="form-group">
-           <label for="groupId">Candidat:</label>
-           <select
-           id="groupId"
-           name="groupId"
-           [(ngModel)]="groupId"
-           class="form-control"
-           required
-         >
-           <option
-             *ngFor="let candidat of candidats"
-             [value]="candidat.groupe.id"
-           >
-             {{ candidat.groupe.nom }}
-           </option>
-         </select>
-         </div>
-         <div class="row">
-           <div class="col-md-6">
-             <div class="form-group">
-               <label for="dateDebut">Date début:</label>
-               <input
-                 type="date"
-                 id="dateDebut"
-                 name="dateDebut"
-                 [(ngModel)]="dateDebut"
-                 class="form-control rounded-pill"
-                 required
-               />
-             </div>
-           </div>
-           <div class="col-md-6">
-             <div class="form-group">
-               <label for="dateFin">Date fin:</label>
-               <input
-                 type="date"
-                 id="dateFin"
-                 name="dateFin"
-                 [(ngModel)]="dateFin"
-                 class="form-control rounded-pill"
-                 required
-               />
-             </div>
-           </div>
-         </div>
- 
-         <div class="button-container d-flex justify-content-center mt-4">
-          
-           <button (click)="addEvent()" class="btn btn-primary mx-2">
-             Ajouter
-           </button>
-         </div>
-       </div>
-    <div *ngIf="showModal2" class="card">
-      <div>
-        <span class="close" (click)="closeModal()">&times;</span>
-        <h2>Détails de la session</h2>
-        <div *ngIf="entretienDetails && !editMode">
-          <p><strong>ID:</strong> {{ entretienDetails.id }}</p>
-          <p>
-            <strong>Nom Du Group :</strong>
-            {{ entretienDetails.group.nom }}
-          </p>
-          <p>
-            <strong>Date debut:</strong>
-            {{ entretienDetails.dateDebut }}
-          </p>
-          <p></p>
-          <p>
-            <strong>Date fin:</strong>
-            {{ entretienDetails.dateFin }}
-          </p>
-
-          <p>
-            <strong>Room Id:</strong>
-            {{ entretienDetails.roomId | slice : 0 : 5 }}
-          </p>
-          <!-- Ajoutez d'autres détails de l'entretien au besoin -->
-        </div>
-        <button (click)="updateEntretien(entretienDetails.id)">Modifier</button>
-        <button (click)="deleteEntretien(entretienDetails.id)">
-          Supprimer
-        </button>
-        <div *ngIf="editMode">
-          <form
-            (submit)="submitUpdatedEntretien(entretienDetails.id)"
-          >
-            <div class="form-group">
-              <label for="groupId">Candidat:</label>
+    <div class="col-md-4">
+      <div *ngIf="showModal" class="card">
+        <div class="card-header bg-primary text-white">Ajouter une Session</div>
+        <div class="card-body">
+          <form>
+            <div class="mb-3">
+              <label for="groupId" class="form-label">Nom du groupe :</label>
               <select
                 id="groupId"
                 name="groupId"
                 [(ngModel)]="groupId"
-                class="form-control"
+                class="form-select"
                 required
               >
-              <option
-             *ngFor="let candidat of candidats"
-             [value]="candidat.groupe.id"
-           >
-             {{ candidat.groupe.nom }}
-           </option>
+                <option
+                  *ngFor="let candidat of candidats"
+                  [value]="candidat.groupe.id"
+                >
+                  {{ candidat.groupe.nom }}
+                </option>
               </select>
             </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="dateDebut">Date début:</label>
+            <div>
+              <div class="mb-3">
+                <label for="dateDebut" class="form-label">Date début:</label>
                 <input
                   type="date"
                   id="dateDebut"
@@ -120,9 +35,9 @@
                 />
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="dateFin">Date fin:</label>
+            <div>
+              <div class="mb-3">
+                <label for="dateFin" class="form-label">Date fin:</label>
                 <input
                   type="date"
                   id="dateFin"
@@ -133,19 +48,138 @@
                 />
               </div>
             </div>
-            <button type="submit">Enregistrer</button>
-            <button type="button" (click)="editMode = false">Annuler</button>
+            <div class="d-grid gap-2">
+              <button (click)="addEvent()" class="btn btn-success">
+                Ajouter
+              </button>
+            </div>
           </form>
         </div>
-        <button (click)="closeModal()">Fermer</button>
+      </div>
+      <div *ngIf="showModal2" class="card">
+        <div>
+          <div class="card-header bg-primary text-white">
+            Details De La Session
+          </div>
+          <div *ngIf="entretienDetails && !editMode" class="card">
+            <ul>
+              &nbsp;
+              <li>
+                <strong>Nom Du Groupe :</strong>
+                {{ entretienDetails.group.nom }}
+              </li>
+              &nbsp;
+              <li>
+                <strong>Date debut:</strong>
+                {{ entretienDetails.dateDebut }}
+              </li>
+              &nbsp;
+              <li>
+                <strong>Date fin:</strong>
+                {{ entretienDetails.dateFin }}
+              </li>
+
+              &nbsp;
+              <li>
+                <strong>Room Id:</strong>
+                {{ entretienDetails.roomId | slice : 0 : 5 }}
+              </li>
+            </ul>
+            <!-- Ajoutez d'autres détails de l'entretien au besoin -->
+            <div class="d-flex">
+              &nbsp; &nbsp; &nbsp; &nbsp;
+
+              <button
+                class="btn btn-primary mr-2"
+                (click)="updateEntretien(entretienDetails.id)"
+              >
+                Modifier
+              </button>
+              &nbsp; &nbsp; &nbsp;
+
+              <button
+                class="btn btn-danger"
+                (click)="deleteEntretien(entretienDetails.id)"
+              >
+                Supprimer
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="editMode">
+            <form (submit)="submitUpdatedEntretien(entretienDetails.id)">
+              <div class="mb-3">
+                <label for="groupId" class="form-label">Nom du groupe :</label>
+                <select
+                  id="groupId"
+                  name="groupId"
+                  [(ngModel)]="groupId"
+                  class="form-select"
+                  required
+                >
+                  <option
+                    *ngFor="let candidat of candidats"
+                    [value]="candidat.groupe.id"
+                  >
+                    {{ candidat.groupe.nom }}
+                  </option>
+                </select>
+              </div>
+              <div>
+                <div class="mb-3">
+                  <label for="dateDebut" class="form-label">Date début:</label>
+                  <input
+                    type="date"
+                    id="dateDebut"
+                    name="dateDebut"
+                    [(ngModel)]="dateDebut"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="mb-3">
+                  <label for="dateFin" class="form-label">Date fin:</label>
+                  <input
+                    type="date"
+                    id="dateFin"
+                    name="dateFin"
+                    [(ngModel)]="dateFin"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="d-flex">
+                &nbsp; &nbsp; &nbsp; &nbsp;
+
+                <button class="btn btn-primary mr-2" type="submit">
+                  Enregistrer
+                </button>
+                &nbsp; &nbsp; &nbsp;
+
+                <button class="btn btn-danger" (click)="editMode = false">
+                  Annuler
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="col-md-8">
-    <full-calendar
-      [options]="calendarOptions"
-      [ngClass]="{ 'cursor-not-allowed': isPastDate }"
-    ></full-calendar>
+    <div class="card col-md-8">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-calendar-alt"></i> Calendrier Des Sessions
+      </div>
+      <div class="card-body">
+        <div>
+          <full-calendar
+            [options]="calendarOptions"
+            [ngClass]="{ 'cursor-not-allowed': isPastDate }"
+          ></full-calendar>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

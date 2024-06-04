@@ -27,6 +27,7 @@ export class GetByIdFormationComponent implements OnInit  {
    this.getFormation(); // Appel de la méthode pour récupérer les informations du collaborateur
 this.getFormationsAccepte();
 this.getGroupesByFormation();
+this.applyFilter(); 
 
     });}
   
@@ -47,6 +48,10 @@ this.getGroupesByFormation();
     };
     this.modalService.show(DetailsGroupsOfFormateurComponent, { initialState });
   }
+  selectedEtat: string = 'Tous';
+
+
+
   deleteGroup(groupId: number): void {
     // Utilisation de SweetAlert2 pour afficher une boîte de dialogue de confirmation
     Swal.fire({
@@ -97,11 +102,23 @@ this.getGroupesByFormation();
          console.log('Une erreur s\'est produite lors de la récupération des informations de la formation:', error);
        });
    }
+   filteredGroupes!: any[];
+
+   applyFilter(): void {
+    if (this.selectedEtat === 'Tous') {
+      this.filteredGroupes = this.groupes; // Si "Tous" est sélectionné, afficher tous les groupes
+    } else {
+      this.filteredGroupes = this.groupes.filter((groupe: { groupe: { etat: string; }; }) => groupe.groupe.etat === this.selectedEtat);
+    }
+  }
    getGroupesByFormation(): void {
     this.groupsService.getGroupesByFormation(this.id)
       .subscribe(
         (data: any[]) => {
           this.groupes = data;
+
+          this.applyFilter(); // Appliquer le filtre une fois les données récupérées
+
         },
         error => {
           console.log(error);

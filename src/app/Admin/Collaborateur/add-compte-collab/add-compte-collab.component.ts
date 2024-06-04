@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -182,20 +183,12 @@ onSubmit() {
     formData.append('gender', this.managerServiceForm.get('gender')?.value || '');
     formData.append('department', this.managerServiceForm.get('department')?.value || '');
     formData.append('poste', this.managerServiceForm.get('poste')?.value || '');
+    formData.append('dateEntree', this.managerServiceForm.get('dateEntree')?.value || '');
+
    formData.append('managerServiceId', this.managerServiceForm.get('managerServiceId')!.value);
 // Obtenez la valeur de dateEntree du formulaire
-const dateEntree: Date | null = this.managerServiceForm.get('dateEntree')?.value;
 
-// Vérifiez si dateEntree est définie et non nulle
-if (dateEntree instanceof Date && !isNaN(dateEntree.getTime())) {
-    // Formatez la date au format ISO
-    const formattedDate: string = dateEntree.toISOString();
 
-    // Ajoutez la date formatée à FormData
-    formData.append('dateEntree', formattedDate);
-} else {
-    console.error('La valeur de dateEntree est invalide ou nulle.');
-}
 
 
     // Ajoutez les compétences en tant qu'ID séparés par des virgules
@@ -233,7 +226,10 @@ if (dateEntree instanceof Date && !isNaN(dateEntree.getTime())) {
 
 
 
-
+todayDate(): string {
+  const currentDate = new Date();
+  return formatDate(currentDate, 'yyyy-MM-dd', 'en-US');
+}
 
 
 }

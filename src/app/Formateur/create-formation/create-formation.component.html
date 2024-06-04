@@ -1,15 +1,18 @@
-<div class="container">
+<div >
+  <div class="minimal-header">
+    <h3>Créer Une Formation</h3>
+</div>
+  
     <div class="main-body">
       <!-- <form (ngSubmit)="addProject()" enctype="multipart/form-data"> -->
         <form (ngSubmit)="addProject()" #foodForm="ngForm" class="mx-auto">
 
-        <div class="row gutters-sm mt-5">
+        <div class="row ">
       
-        <div class="col-md-8 container">
+        <div class=" container">
           <div class="card">
             <div class="card-body">
-              <h4 class="text-center"><u>Ajout du produit</u></h4>
-
+           
              <div class="form-group mb-3">
                   <label for="name">Titre</label>
                   <input class="form-control" type="text" id="title" [(ngModel)]="project.title" name="title" required #thisTitle="ngModel">
@@ -28,17 +31,17 @@
                   </div>
                 </div>
                 <div class="form-group mb-3">
-                  <label for="description">Chapitre</label>
-                  <textarea class="form-control" id="description" [(ngModel)]="project.chapitre" name="gr" required #gr="ngModel"></textarea>
+                  <label for="description">Nombre de Chapitre</label>
+                  <input  type="number" class="form-control" id="description" [(ngModel)]="project.chapitre" name="gr" required #gr="ngModel"/>
                   <div class="alert alert-danger" *ngIf="gr.touched && gr.invalid">
                     <div *ngIf="gr?.errors?.['required']">Chapitre est obligatoire!</div>
                   </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="description">duree</label>
-                    <textarea class="form-control" id="description" [(ngModel)]="project.duree" name="duree" required #duree="ngModel"></textarea>
+                    <label for="description">Durée</label>
+                    <input type="number" class="form-control" id="description" [(ngModel)]="project.duree" name="duree" required #duree="ngModel"/>
                     <div class="alert alert-danger" *ngIf="duree.touched && duree.invalid">
-                      <div *ngIf="duree?.errors?.['required']">duree est obligatoire!</div>
+                      <div *ngIf="duree?.errors?.['required']">Durée est obligatoire!</div>
                     </div>
                   </div>
 
@@ -51,7 +54,7 @@
                 
                   <div class="form-group mb-3">
                     <label for="departement">Département</label>
-                    <select class="form-control" id="departement" [(ngModel)]="project.departement" name="departement" required #departement="ngModel">
+                    <select class="form-control" id="departement" [(ngModel)]="project.department" name="departement" required #departement="ngModel">
                         <option value="" disabled selected>-- Sélectionnez un département --</option>
                         <option value="Ressources_Humaines">Ressources Humaines</option>
                         <option value="Financier">Financier</option>
@@ -91,15 +94,16 @@
 
                 Veuillez sélectionner une image.
               </div>
-<div class="row">
-  <div class="col-md-12">
-    <div class="thumbnails-container">
-      <div *ngFor="let thumbnail of thumbnails" class="thumbnail">
-        <img [src]="thumbnail" alt="Thumbnail">
-      </div>
-    </div>
-  </div>
-</div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="thumbnails-container">
+                    <div *ngFor="let thumbnail of thumbnails" class="thumbnail">
+                      <img [src]="thumbnail" alt="Thumbnail" class="img-thumbnail">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
             </div>
       
 </div>

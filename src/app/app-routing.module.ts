@@ -87,6 +87,7 @@ import { PosteArchiveByIdComponent } from './Manager/poste-archive-by-id/poste-a
 import { DashboardManagerServiceComponent } from './Manager/dashboard-manager-service/dashboard-manager-service.component';
 import { GetCertificatsComponent } from './Collaborateur/get-certificats/get-certificats.component';
 import { MesEntretiensAnnuelCollabComponent } from './Collaborateur/Annuel/mes-entretiens-annuel-collab/mes-entretiens-annuel-collab.component';
+import { ViewQuestionsComponent } from './Manager/gestion-poste-by-id/view-questions/view-questions.component';
 
 const routes: Routes = [
   {
@@ -100,52 +101,144 @@ const routes: Routes = [
       { path: 'request-password', component: RequestPasswordComponent },
       { path: 'reset-password', component: ResetPasswordComponent },
       { path: 'activate-account', component: ActivationCompteComponent },
-      { path: 'profile/:id', component: GetCertificatsComponent  ,  canActivate: [AuthGuard] },
-
+      {
+        path: 'profile/:id',
+        component: GetCertificatsComponent,
+        canActivate: [AuthGuard],
+      },
     ],
   },
   {
     path: 'managerRh',
     component: AdminMenuComponent,
     children: [
+      {
+        path: 'dashboard',
+        component: DashboardManagerRhComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'user-profile/:id',
+        component: ProfileUsersComponent,
+        canActivate: [AuthGuard],
+      },
 
-      { path: 'dashboard', component: DashboardManagerRhComponent ,  canActivate: [AuthGuard]},
-      { path: 'user-profile/:id', component: ProfileUsersComponent  ,  canActivate: [AuthGuard] },
-
-      { path: 'all-manager-service', component: AllUsersComponent  ,  canActivate: [AuthGuard] },
-      { path: 'all-formateurs', component: AllFormateurComponent  ,  canActivate: [AuthGuard]},
-      { path: 'edit-profile', component: EditProfileComponent  ,  canActivate: [AuthGuard]},
-      { path: 'profile', component: ProfileComponent  ,  canActivate: [AuthGuard] },
-      { path: 'add-manager-service', component: AddCompteComponent  ,  canActivate: [AuthGuard] },
-      { path: 'add-collaborateur', component: AddCompteCollabComponent  ,  canActivate: [AuthGuard]},
-      { path: 'competence', component: GestionCompetenceComponent  ,  canActivate: [AuthGuard] },
-      { path: 'all-collaborateur', component: AllcollabComponent  ,  canActivate: [AuthGuard] },
-      { path: 'user-detail/:id', component: UserByIdComponent  ,  canActivate: [AuthGuard] },
-      { path: 'dashboard', component: DashboardAdminComponent  ,  canActivate: [AuthGuard]},
-      { path: 'demande-poste', component: GetallposteComponent  ,  canActivate: [AuthGuard]},
-      { path: 'poste-candidats', component: CandidatureComponent  ,  canActivate: [AuthGuard]},
-      { path: 'poste/:postId', component: GetpostebyidComponent  ,  canActivate: [AuthGuard]},
-      { path: 'fullcalendar/:postId', component: FullCalendarComponent  ,  canActivate: [AuthGuard]},
-      { path: 'fullcalendarRh/:postId', component: FullCalendarRhComponent  ,  canActivate: [AuthGuard]},
-      { path: 'mes-entretiens-Rh', component: MesEntretiensRhComponent  ,  canActivate: [AuthGuard]},
-      { path: 'create-group/:formationId', component: CreateGroupsComponent  ,  canActivate: [AuthGuard]},
-      { path: 'session/:formationId', component: CreateSessionComponent  ,  canActivate: [AuthGuard] },
+      {
+        path: 'all-manager-service',
+        component: AllUsersComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'all-formateurs',
+        component: AllFormateurComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'edit-profile',
+        component: EditProfileComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'add-manager-service',
+        component: AddCompteComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'add-collaborateur',
+        component: AddCompteCollabComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'competence',
+        component: GestionCompetenceComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'all-collaborateur',
+        component: AllcollabComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'user-detail/:id',
+        component: UserByIdComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'dashboard',
+        component: DashboardAdminComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'demande-poste',
+        component: GetallposteComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'poste-candidats',
+        component: CandidatureComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'poste/:postId',
+        component: GetpostebyidComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'fullcalendar/:postId',
+        component: FullCalendarComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'fullcalendarRh/:postId',
+        component: FullCalendarRhComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'mes-entretiens-Rh',
+        component: MesEntretiensRhComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'create-group/:formationId',
+        component: CreateGroupsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'session/:formationId',
+        component: CreateSessionComponent,
+        canActivate: [AuthGuard],
+      },
 
       {
         path: 'interview/:roomId/:candidatureId',
-        component: InterviewOnlineComponent, canActivate: [AuthGuard]
+        component: InterviewOnlineComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'evaluate-interview-Rh/:candidatureId',
-        component: EvaluateInterviewRhComponent,canActivate: [AuthGuard]
+        component: EvaluateInterviewRhComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'all-formations',
-        component: ListFormationComponent,canActivate: [AuthGuard]
+        component: ListFormationComponent,
+        canActivate: [AuthGuard],
       },
-      { path: 'formation-byId/:id', component: DemandeFormationsComponent , canActivate: [AuthGuard] },
-      { path: 'chat/:user', component: ChatComponent , canActivate: [AuthGuard] },
-
+      {
+        path: 'formation-byId/:id',
+        component: DemandeFormationsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'chat/:user',
+        component: ChatComponent,
+        canActivate: [AuthGuard],
+      },
     ],
   },
 
@@ -153,34 +246,110 @@ const routes: Routes = [
     path: 'collaborateur',
     component: CollabMenuComponent,
     children: [
-      { path: 'all-poste', component: GetAllPosteCollabComponent ,  canActivate: [AuthGuard]},
-      { path: 'all-formations', component: ListeDesFormationsComponent ,  canActivate: [AuthGuard]},
-      { path: 'audio', component: AudioRecorderComponent ,  canActivate: [AuthGuard] },
-      { path: 'mes-entretiens-annuels', component: MesEntretiensAnnuelCollabComponent ,  canActivate: [AuthGuard]},
+      {
+        path: 'all-poste',
+        component: GetAllPosteCollabComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'all-formations',
+        component: ListeDesFormationsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'audio',
+        component: AudioRecorderComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'mes-entretiens-annuels',
+        component: MesEntretiensAnnuelCollabComponent,
+        canActivate: [AuthGuard],
+      },
 
       { path: 'compte', component: ProfileComponent },
-      { path: 'mes-postulations', component: MespostulationsComponent ,  canActivate: [AuthGuard]},
-      { path: 'profile', component: GestionProfileComponent ,  canActivate: [AuthGuard] },
-      { path: 'edit-profile', component: EditProfileComponent ,  canActivate: [AuthGuard]},
-      { path: 'mes-tests-techniques', component: MestesttechniqueComponent ,  canActivate: [AuthGuard]},
-      { path: 'start-test/:qid/:candidatureId', component: StartTestComponent ,  canActivate: [AuthGuard] },
+      {
+        path: 'mes-postulations',
+        component: MespostulationsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'profile',
+        component: GestionProfileComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'edit-profile',
+        component: EditProfileComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'mes-tests-techniques',
+        component: MestesttechniqueComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'start-test/:qid/:candidatureId',
+        component: StartTestComponent,
+        canActivate: [AuthGuard],
+      },
       {
         path: 'interview/:roomId/:candidatureId',
-        component: InterviewOnlineComponent,  canActivate: [AuthGuard]
+        component: InterviewOnlineComponent,
+        canActivate: [AuthGuard],
       },
-      { path: 'mes-entretiens', component: MesEntretiensComponent ,  canActivate: [AuthGuard]},
-      { path: 'thank-you', component: ThankYouComponent,  canActivate: [AuthGuard] },
-      { path: 'mes-entretiens-Rh', component: EntretienRhCollabComponent ,  canActivate: [AuthGuard]},
-      { path: 'mes-demandes-formation', component: MesDemandesComponent ,  canActivate: [AuthGuard]},
-      { path: 'mes-sessions', component: SessionsFormationsCollabComponent ,  canActivate: [AuthGuard]},
+      {
+        path: 'mes-entretiens',
+        component: MesEntretiensComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'thank-you',
+        component: ThankYouComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'mes-entretiens-Rh',
+        component: EntretienRhCollabComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'mes-demandes-formation',
+        component: MesDemandesComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'mes-sessions',
+        component: SessionsFormationsCollabComponent,
+        canActivate: [AuthGuard],
+      },
 
-      { path: 'mes-bilans', component: MesBilanComponent ,  canActivate: [AuthGuard]},
-      { path: 'bilan/:id', component: GetBilanByIdCollabComponent ,  canActivate: [AuthGuard]},
+      {
+        path: 'mes-bilans',
+        component: MesBilanComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'bilan/:id',
+        component: GetBilanByIdCollabComponent,
+        canActivate: [AuthGuard],
+      },
 
-      { path: 'updateBilan/:id', component: UpdateBilanComponent ,  canActivate: [AuthGuard]},
-      { path: 'chat/:user', component: ChatComponent ,  canActivate: [AuthGuard]},
-      { path: 'user-profile/:id', component: ProfileUsersComponent  ,  canActivate: [AuthGuard] },
-
+      {
+        path: 'updateBilan/:id',
+        component: UpdateBilanComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'chat/:user',
+        component: ChatComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'user-profile/:id',
+        component: ProfileUsersComponent,
+        canActivate: [AuthGuard],
+      },
     ],
   },
 
@@ -188,66 +357,203 @@ const routes: Routes = [
     path: 'managerService',
     component: ManagerMenuComponent,
     children: [
-      { path: 'user-profile/:id', component: ProfileUsersComponent  ,  canActivate: [AuthGuard] },
+      {
+        path: 'user-profile/:id',
+        component: ProfileUsersComponent,
+        canActivate: [AuthGuard],
+      },
 
-      { path: 'historiqueposte', component: HistoriqueDesPosteComponent ,  canActivate: [AuthGuard]},
-      { path: 'postearchive/:postId', component: PosteArchiveByIdComponent ,  canActivate: [AuthGuard]},
-      { path: 'dashboard', component: DashboardManagerServiceComponent ,  canActivate: [AuthGuard]},
+      {
+        path: 'historiqueposte',
+        component: HistoriqueDesPosteComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'postearchive/:postId',
+        component: PosteArchiveByIdComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'dashboard',
+        component: DashboardManagerServiceComponent,
+        canActivate: [AuthGuard],
+      },
 
-      { path: 'add-fiche-de-poste', component: AddFicheDePosteComponent ,  canActivate: [AuthGuard]},
-      { path: 'profile', component: ProfileComponent ,  canActivate: [AuthGuard]},
-      { path: 'mes-postes', component: DisplayMesPostesComponent ,  canActivate: [AuthGuard]},
-      { path: 'edit-postes/:postId', component: EditFicheComponent ,  canActivate: [AuthGuard]},
-      { path: 'poste/:postId', component: GestionPosteByIdComponent ,  canActivate: [AuthGuard] },
-      { path: 'postes-approuve', component: AppouvedPosteComponent ,  canActivate: [AuthGuard]},
-      { path: 'poste-approuve/:postId', component: PostApprouvedIdComponent ,  canActivate: [AuthGuard]},
-      { path: 'add-test/:postId', component: AddQuizComponent ,  canActivate: [AuthGuard]},
-      { path: 'update-test/:id', component: UpdateQuizComponent ,  canActivate: [AuthGuard]},
-      { path: 'all-test', component: ViewQuizComponent ,  canActivate: [AuthGuard]},
-      { path: 'add-question/:id', component: AddQuestionComponent ,  canActivate: [AuthGuard]},
-      { path: 'view-question/:qid/:qtitle', component: ViewQuestionComponent ,  canActivate: [AuthGuard] },
-      { path: 'update-question/:quesId', component: UpdateQuestionComponent ,  canActivate: [AuthGuard]},
-      { path: 'poste-publie', component: DisplayDemandePublieComponent ,  canActivate: [AuthGuard]},
-      { path: 'poste-encours/:postId', component: PostByIdComponent ,  canActivate: [AuthGuard]},
-      { path: 'mes-entretiens', component: MesEntretienManagerComponent ,  canActivate: [AuthGuard]},
-      { path: 'mon-equipe', component: BilanComponent ,  canActivate: [AuthGuard]},
+      {
+        path: 'add-fiche-de-poste',
+        component: AddFicheDePosteComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'mes-postes',
+        component: DisplayMesPostesComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'edit-postes/:postId',
+        component: EditFicheComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'poste/:postId',
+        component: GestionPosteByIdComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'postes-approuve',
+        component: AppouvedPosteComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'poste-approuve/:postId',
+        component: PostApprouvedIdComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'add-test/:postId',
+        component: AddQuizComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'update-test/:id',
+        component: UpdateQuizComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'all-test',
+        component: ViewQuizComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'add-question/:id',
+        component: AddQuestionComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'view-question/:qid/:qtitle',
+        component: ViewQuestionComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'view-question-poste/:qid/:qtitle',
+        component: ViewQuestionsComponent,
+        canActivate: [AuthGuard],
+      },
+
+      {
+        path: 'update-question/:quesId',
+        component: UpdateQuestionComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'poste-publie',
+        component: DisplayDemandePublieComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'poste-encours/:postId',
+        component: PostByIdComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'mes-entretiens',
+        component: MesEntretienManagerComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'mon-equipe',
+        component: BilanComponent,
+        canActivate: [AuthGuard],
+      },
 
       {
         path: 'interview/:roomId/:candidatureId',
-        component: InterviewOnlineComponent,  canActivate: [AuthGuard]
+        component: InterviewOnlineComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'evaluate-interview/:candidatureId',
-        component: EvaluateInterviewComponent,  canActivate: [AuthGuard]
+        component: EvaluateInterviewComponent,
+        canActivate: [AuthGuard],
       },
-      { path: 'demande-formation', component: DemandeDesCollabsComponent ,  canActivate: [AuthGuard]},
-      { path: 'bilan-collab/:id', component: ListBilanDesCollabComponent ,  canActivate: [AuthGuard] },
-      { path: 'bilan-by-id/:id/:idCollab', component: GetBilanByIdComponent ,  canActivate: [AuthGuard]},
-      { path: 'entretien-annuel', component: EntretienAnnuelCalendarComponent ,  canActivate: [AuthGuard]},
+      {
+        path: 'demande-formation',
+        component: DemandeDesCollabsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'bilan-collab/:id',
+        component: ListBilanDesCollabComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'bilan-by-id/:id/:idCollab',
+        component: GetBilanByIdComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'entretien-annuel',
+        component: EntretienAnnuelCalendarComponent,
+        canActivate: [AuthGuard],
+      },
 
       {
         path: 'mes-entretien-annuel',
-        component: MesEntretienAnnuelManagerComponent,  canActivate: [AuthGuard]
+        component: MesEntretienAnnuelManagerComponent,
+        canActivate: [AuthGuard],
       },
-      { path: 'chat/:user', component: ChatComponent ,  canActivate: [AuthGuard]},
+      {
+        path: 'chat/:user',
+        component: ChatComponent,
+        canActivate: [AuthGuard],
+      },
     ],
   },
   {
     path: 'formateur',
     component: FormateurMenuComponent,
     children: [
-      { path: 'user-profile/:id', component: ProfileUsersComponent  ,  canActivate: [AuthGuard] },
+      {
+        path: 'user-profile/:id',
+        component: ProfileUsersComponent,
+        canActivate: [AuthGuard],
+      },
 
-      { path: 'profile', component: ProfileComponent ,  canActivate: [AuthGuard] },
-      { path: 'all', component: AllFormationsComponent ,  canActivate: [AuthGuard]},
-      { path: 'formation-byId/:id', component: GetByIdFormationComponent ,  canActivate: [AuthGuard] },
-      { path: 'mes-sessions', component: MesSessionsFormateurComponent ,  canActivate: [AuthGuard] },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'all',
+        component: AllFormationsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'formation-byId/:id',
+        component: GetByIdFormationComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'mes-sessions',
+        component: MesSessionsFormateurComponent,
+        canActivate: [AuthGuard],
+      },
       {
         path: 'interview/:roomId/:candidatureId',
-        component: MeetFormationsComponent,  canActivate: [AuthGuard]
+        component: MeetFormationsComponent,
+        canActivate: [AuthGuard],
       },
-      { path: 'chat/:user', component: ChatComponent ,  canActivate: [AuthGuard] },
-
+      {
+        path: 'chat/:user',
+        component: ChatComponent,
+        canActivate: [AuthGuard],
+      },
     ],
   },
 ];

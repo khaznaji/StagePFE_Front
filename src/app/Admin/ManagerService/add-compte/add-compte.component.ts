@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -37,6 +38,10 @@ export class AddCompteComponent implements OnInit{
       dateEntree: ['', Validators.required],
   
     });
+  }
+  todayDate(): string {
+    const currentDate = new Date();
+    return formatDate(currentDate, 'yyyy-MM-dd', 'en-US');
   }
 
   isHomme: boolean = false;

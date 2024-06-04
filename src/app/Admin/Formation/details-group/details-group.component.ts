@@ -71,12 +71,18 @@ export class DetailsGroupComponent  implements OnInit {
     this.groupsService.editGroupName(this.groupId, this.nom)
       .subscribe(
         response => {
-          console.log('Le nom du groupe a été modifié avec succès : ', response);
-          // Réinitialiser les valeurs après la modification réussie
-          this.nom = '';
-          this.editing = false;
-          this.contextModal = true;
-          this.getGroupesDetails();
+          Swal.fire({
+            title: 'Succès',
+            text: 'Nom du groupe modifié avec succès',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            this.nom = '';
+            this.editing = false;
+            this.contextModal = true;
+            this.getGroupesDetails();
+          });         // Réinitialiser les valeurs après la modification réussie
+        
 
         },
         error => {
@@ -102,9 +108,16 @@ export class DetailsGroupComponent  implements OnInit {
       this.groupsService.removeUserFromGroup(this.groupId, userId)
         .subscribe(
           response => {
-            console.log(response);
-            // Rafraîchir les détails du groupe après la suppression de l'utilisateur
-            this.getGroupesDetails();
+            Swal.fire({
+              title: 'Succès',
+              text: 'Collaborateur supprimé du groupe avec succès',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            }).then(() => {
+            
+              this.getGroupesDetails();
+            });   
+          
           },
           error => {
             console.error('Erreur lors de la suppression de l\'utilisateur du groupe :', error);
@@ -134,11 +147,18 @@ export class DetailsGroupComponent  implements OnInit {
        this.groupsService.addCollaborateursToGroup(this.id,this.groupId, collaborateursId)
          .subscribe(
            response => {
-             console.log('Groupe ajouté avec succès' ,collaborateursId);
-             this.showAddParticipantFormFlag = false;
-             this.contextModal=true ; 
-             this.getGroupesDetails();
-             this.groupForm.reset();
+            Swal.fire({
+              title: 'Succès',
+              text: 'Collaborateur(s) ajouté avec succès',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            })   .then(() => {
+              this.showAddParticipantFormFlag = false;
+              this.contextModal=true ; 
+              this.getGroupesDetails();
+              this.groupForm.reset();
+            });            
+             
            },
            error => {
              console.error('Erreur lors de l\'ajout du groupe :', error);

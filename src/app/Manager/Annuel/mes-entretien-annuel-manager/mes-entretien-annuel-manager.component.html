@@ -3,7 +3,9 @@
     <h2 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Mes Entretiens Annuels</h2>
   </div>
     <div class="row">
-      <div *ngFor="let entretien of entretiens" class="col-md-4 mb-4">
+      <ng-container *ngIf="entretiens && entretiens.length > 0; else noEntretien">
+
+      <div *ngFor="let entretien of entretiens " class="col-md-4 mb-4">
         <div class="card">
           <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
@@ -41,6 +43,11 @@
           </div>
         </div>
       </div>
+   </ng-container>
+   <ng-template #noEntretien>
+    <div class="col-12">
+      <p>Aucun entretien n'est disponible pour le moment.</p>
     </div>
+  </ng-template> </div>
   </div>
   

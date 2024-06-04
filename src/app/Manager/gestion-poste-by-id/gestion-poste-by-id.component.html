@@ -70,6 +70,18 @@
           <li class="nav-item">
             <a
               class="nav-link"
+              id="test-tab"
+              data-bs-toggle="tab"
+              href="#test"
+              role="tab"
+              aria-controls="test"
+              aria-selected="false"
+              >Tests Technique</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
               id="sales-tab"
               data-bs-toggle="tab"
               href="#sales"
@@ -94,11 +106,11 @@
           <li class="nav-item">
             <a
               class="nav-link"
-              id="test-tab"
+              id="tests-tab"
               data-bs-toggle="tab"
-              href="#test"
+              href="#tests"
               role="tab"
-              aria-controls="test"
+              aria-controls="tests"
               aria-selected="false"
               >Statistiques</a
             >
@@ -147,7 +159,50 @@
               </div>
             </div>
           </div>
-
+          <div
+            class="tab-pane fade"
+            id="test"
+            role="tabpanel"
+            aria-labelledby="test-tab"
+          >
+            <div class="containers">
+              <br />
+              <br />
+              <div *ngIf="quizzes.length > 0; else noQuizzes">
+                <ul class="list-unstyled">
+                  <li *ngFor="let quiz of quizzes" class="card mb-3">
+                    <div class="card-body">
+                      <h3 class="card-title">{{ quiz.title }}</h3>
+                      <p class="card-text">
+                        Description: {{ quiz.description }}
+                      </p>
+                      <p class="card-text">Max Marks: {{ quiz.maxMarks }}</p>
+                      <p class="card-text">
+                        Total Questions: {{ quiz.numberOfQuestions }}
+                      </p>
+                      <div class="d-flex justify-content-end">
+                        <button
+                          class="btn btn-inverse-success"
+                          [routerLink]="
+                            '/managerService/view-question-poste/' +
+                            quiz.qid +
+                            '/' +
+                            quiz.title
+                          "
+                        >
+                          <i class="mdi mdi-comment-question-outline"> </i>
+                        </button>
+                        &nbsp;
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <ng-template #noQuizzes>
+                <p>Aucun test technique trouvé.</p>
+              </ng-template>
+            </div>
+          </div>
           <div
             class="tab-pane fade"
             id="sales"
@@ -179,7 +234,10 @@
                   <td>{{ candidat.nom }}</td>
                   <td>{{ candidat.prenom }}</td>
                   <td>
-                    <div class="d-flex justify-content-center align-items-center">                    {{ candidat.match }} %
+                    <div
+                      class="d-flex justify-content-center align-items-center"
+                    >
+                      {{ candidat.match }} %
                     </div>
 
                     <div class="progress">
@@ -189,12 +247,10 @@
                         [style.width]="candidat.match + '%'"
                         aria-valuemin="0"
                         aria-valuemax="100"
-                      >
-                      </div>
+                      ></div>
                     </div>
-
                   </td>
-                                    <td>{{ candidat.email }}</td>
+                  <td>{{ candidat.email }}</td>
 
                   <td>
                     <button
@@ -530,9 +586,9 @@
           </div>
           <div
             class="tab-pane fade"
-            id="test"
+            id="tests"
             role="tabpanel"
-            aria-labelledby="test-tab"
+            aria-labelledby="tests-tab"
           >
             <br />
             <div class="text-center">

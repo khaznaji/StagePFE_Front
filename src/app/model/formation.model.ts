@@ -11,4 +11,4 @@ export class Formation {
     disponibilite!: boolean;
     createdAt!: Date;
     formateur!: Formateur;
-    departement!: Departement;}
+    department!: Departement;}

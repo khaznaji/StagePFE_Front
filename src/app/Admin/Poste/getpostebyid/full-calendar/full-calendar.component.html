@@ -61,8 +61,19 @@
                           }}
                         </dd>
                       </dl>
-                      <button class="btn btn-primary"  (click)="editMode = true" (click)="preRemplirFormulaire(); ">
+                      <button
+                        class="btn btn-primary"
+                        (click)="editMode = true"
+                        (click)="preRemplirFormulaire()"
+                      >
                         Modifier
+                      </button>
+                      &nbsp; &nbsp;
+                      <button
+                        class="btn btn-danger"
+                        (click)="deleteEntretien(entretienDetails.entretien.id)"
+                      >
+                        Supprimer
                       </button>
                     </div>
                     <div *ngIf="editMode">
@@ -72,21 +83,10 @@
                         "
                       >
                         <div>
-                          <label for="candidatureId">Candidature:</label>
-                          <select
-                            class="form-control"
-                            id="candidatureId"
-                            name="candidatureId"
-                            [(ngModel)]="candidatureId"
-                            required
-                          >
-                            <option
-                              *ngFor="let candidat of candidats"
-                              [value]="candidat.id"
-                            >
-                              {{ candidat.nom }} {{ candidat.prenom }}
-                            </option>
-                          </select>
+                          <div class="d-flex justify-content-center">
+                          <strong for="candidatureId">Candidature de :   {{ entretienDetails.nomCollaborateur }}
+                            {{ entretienDetails.prenomCollaborateur }}</strong></div>
+                          
                         </div>
 
                         <div>
@@ -128,17 +128,21 @@
                             [(ngModel)]="heureFin"
                             required
                             (change)="checkHeureFin()"
-
-                          />   <div *ngIf="!checkHeureFin()" style="color: red
-                          ;"> <p>L'heure de fin doit être supérieure à l'heure de début.</p></div>
-  
+                          />
+                          <div *ngIf="!checkHeureFin()" style="color: red">
+                            <p>
+                              L'heure de fin doit être supérieure à l'heure de
+                              début.
+                            </p>
+                          </div>
                         </div>
                       </form>
                     </div>
                   </div>
                   <div class="modal-footer">
                     <button
-                      class="btn btn-success" [disabled]="!checkHeureFin()"
+                      class="btn btn-success"
+                      [disabled]="!checkHeureFin()"
                       (click)="
                         submitUpdatedEntretien(entretienDetails.entretien.id)
                       "
@@ -208,7 +212,6 @@
                             max="18:00"
                             (change)="checkHeureFin()"
                           />
-                          
                         </div>
                         <div class="col">
                           <label for="heureFin" class="form-label"
@@ -223,14 +226,21 @@
                             [min]="getMinTime()"
                             max="18:00"
                             (change)="checkHeureFin()"
-
-                          />   <div *ngIf="!checkHeureFin()" style="color: red
-                          ;"> <p>L'heure de fin doit être supérieure à l'heure de début.</p></div>
-  
+                          />
+                          <div *ngIf="!checkHeureFin()" style="color: red">
+                            <p>
+                              L'heure de fin doit être supérieure à l'heure de
+                              début.
+                            </p>
+                          </div>
                         </div>
                       </div>
                       <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success" [disabled]="!checkHeureFin()">
+                        <button
+                          type="submit"
+                          class="btn btn-success"
+                          [disabled]="!checkHeureFin()"
+                        >
                           Ajouter Entretien
                         </button>
                         &nbsp;

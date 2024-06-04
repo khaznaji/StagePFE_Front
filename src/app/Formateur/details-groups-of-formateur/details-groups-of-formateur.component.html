@@ -1,23 +1,32 @@
 <div *ngIf="groupes">
-  <h2>Détails du Groupe</h2>
-  <button
-    type="button"
-    class="btn btn-light"
-    (click)="openAddCertifDialog(groupes.group.id)"
-  >
-    Certificates
-  </button>
+  
+    <div class="minimal-header">
+      <h3>        {{ groupes.group.nom }}
+      </h3>
+  </div>
+  
 
   <div *ngIf="contextModal">
-    <p><strong>Nom du Formateur :</strong> {{ groupes.formateurNom }}</p>
-    <p><strong>Prénom du Formateur :</strong> {{ groupes.formateurPrenom }}</p>
-    <h2>Collaborateurs</h2>
+   <br>
+   <div class=" d-flex justify-content-center">
+
+    <button
+   type="button"
+   class="btn btn-inverse-secondary"
+   (click)="openAddCertifDialog(groupes.group.id)"
+ >
+   Certificats
+ </button>
+ </div>
+   <br>
+    <h4>Liste des Collaborateurs</h4>
     <table class="table">
       <thead>
         <tr>
+          <th>#</th>
+
           <th>Nom</th>
           <th>Prénom</th>
-          <th>Image</th>
         </tr>
       </thead>
       <tbody>
@@ -31,23 +40,16 @@
                     totalItems: groupes.collaborateurs.length
                   }
           "
-        >
+        > <td>
+          <img
+            [src]="'assets/images/' + collaborateur.image"
+            alt="Image Collaborateur"
+          />
+        </td>
           <td>{{ collaborateur.nom }}</td>
           <td>{{ collaborateur.prenom }}</td>
-          <td>
-            <img
-              [src]="'assets/images/' + collaborateur.image"
-              alt="Image Collaborateur"
-            />
-          </td>
-          <td>
-            <button
-              class="btn btn-danger"
-              (click)="removeUserFromGroup(collaborateur.id)"
-            >
-              Supprimer
-            </button>
-          </td>
+         
+         
         </tr>
       </tbody>
     </table>
@@ -58,7 +60,7 @@
   <div>
     <div *ngIf="modifyCertificatesModal">
       <div class="certificate-dialog">
-        <h2 mat-dialog-title class="dialog-title">Modify Certificates</h2>
+        <h2 mat-dialog-title class="dialog-title">Modifier Certificats</h2>
 
         <div class="form-container">
           <form
@@ -66,61 +68,69 @@
             (ngSubmit)="modifyCertificates()"
             class="form-container"
           >
-            <mat-form-field class="form-field">
-              <mat-label>Month</mat-label>
-              <input matInput formControlName="month" placeholder="Month" />
-            </mat-form-field>
+            <!-- <mat-form-field class="form-field">
+              <mat-label>Mois</mat-label>
+              <input matInput  placeholder="Month" />
+            </mat-form-field> -->
+            &nbsp; &nbsp; <label>Mois : </label>
+            &nbsp; &nbsp; <select class="form-control" formControlName="month" name="month">
+              <option value="" disabled selected>Choisissez un mois</option>
+              <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+            </select>
+            
+            <div class=" d-flex justify-content-center">
 
             <button class="btn modify-button" type="submit">
-              Modify Certificates
+              Modifier 
             </button>
+            </div>
           </form>
         </div>
       </div>
     </div>
     <div *ngIf="nouser">
-      <h2 mat-dialog-title>No Users</h2>
+      <h2 mat-dialog-title>Aucun utilisateur</h2>
       <mat-dialog-content>
-        <p>No users are assigned to this group.</p>
+        <p>Aucun utilisateur n'est affecté à ce groupe.</p>
       </mat-dialog-content>
       <mat-dialog-actions>
         <button mat-button mat-dialog-close>OK</button>
       </mat-dialog-actions>
     </div>
     <div *ngIf="certificatesGenerated">
-      <h2 mat-dialog-title>Certificates Already Generated</h2>
+      <h4 mat-dialog-title>Certificats déjà générés</h4>
 
       <div class="confirmation-dialog">
         <mat-dialog-content>
-          <p>The certificates have already been generated for this group.</p>
+          <p>Les certificats ont déjà été générés pour ce groupe.</p>
         </mat-dialog-content>
         <div class="button-container">
-          <button mat-button class="btn-yes" (click)="openModifyCertifDialog()">
-            Update Certificates
+         
+         &nbsp; <button mat-button class="btn btn-primary" (click)="openModifyCertifDialog()">
+           Modifier
           </button>
+          &nbsp;
           <button
             mat-button
-            class="btn-yes"
+            class="btn btn-danger"
             (click)="deleteCertificates(groupes.group.id)"
           >
-            Delete Certificates
-          </button>
+Supprimer          </button>
         </div>
       </div>
     </div>
     <div *ngIf="showFormGenererCertif">
       <div class="certificate-dialog">
-        <h2 mat-dialog-title class="dialog-title">Generate Certificates</h2>
+       &nbsp;  &nbsp;  &nbsp;   <h4 mat-dialog-title class="dialog-title">Generer Certificats </h4>
 
         <div class="row">
           <form (ngSubmit)="saveCertif()">
-            <input
-              type="text"
-              [(ngModel)]="certif.month"
-              name="month"
-              placeholder="Month"
-              class="form-control"
-            />
+            &nbsp; &nbsp; <label>Mois : </label>
+            &nbsp; &nbsp; <select class="form-control" [(ngModel)]="certif.month" name="month">
+              <option value="" disabled selected>Choisissez un mois</option>
+              <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+            </select>
+            
             <br />
             <mat-progress-bar
               *ngIf="isLoading"
@@ -128,11 +138,11 @@
             ></mat-progress-bar>
             <br />
             <button
-              class="btn generate-button"
+              class="btn btn-success"
               type="submit"
               [disabled]="!isValidCertif()"
             >
-              Generate Certificates
+              Generer Certificats
             </button>
           </form>
         </div>

@@ -94,10 +94,14 @@ updateEvaluation(selectedEvaluation: Evaluation, newEvaluationValue: number): vo
         'Succès!',
         'L\'évaluation a été mise à jour avec succès.',
         'success'
-      );
-      // Réactualisez les évaluations après la mise à jour
-      this.getEvaluations();
-      this.closeModifyForm(); // Fermez le formulaire de modification après la mise à jour
+      ).then((result) => {
+        // Vérifie si l'utilisateur a appuyé sur le bouton OK
+        if (result.isConfirmed) {
+          // Réactualise les évaluations après la mise à jour
+          this.getEvaluations();
+          this.closeModifyForm(); // Ferme le formulaire de modification
+        }
+      });
     }, error => {
       // Afficher un message d'erreur en cas d'échec de la mise à jour
       Swal.fire(
@@ -129,9 +133,15 @@ updateEvaluation(selectedEvaluation: Evaluation, newEvaluationValue: number): vo
               'Supprimé!',
               'L\'évaluation a été supprimée avec succès.',
               'success'
-            );
+            ).then((result) => {
+              // Vérifie si l'utilisateur a appuyé sur le bouton OK
+              if (result.isConfirmed) {
+                // Réactualise les évaluations après la mise à jour
+                this.getEvaluations();
+                this.closeModifyForm(); // Ferme le formulaire de modification
+              }
+            });
             // Réactualiser les évaluations après la suppression
-            this.getEvaluations();
           }, error => {
             // Afficher un message d'erreur en cas d'échec de la suppression
             Swal.fire(
@@ -186,7 +196,13 @@ addEvaluation(): void {
             icon: 'success',
             title: 'Succès!',
             text: 'Évaluation ajoutée avec succès: ' + response.message,
-          });
+          }).then((result) => {
+            // Vérifie si l'utilisateur a appuyé sur le bouton OK
+            if (result.isConfirmed) {
+              // Réactualise les évaluations après la mise à jour
+              this.getEvaluations();
+            }
+          });;
           // Ajoutez ici la logique de traitement de la réponse si nécessaire
 
         },

@@ -136,6 +136,7 @@ handleDateClick(arg: any) {
     const eventId = eventClickInfo.event.id; // Récupérez l'identifiant de l'événement FullCalendar
     this.sessionFormationService.getSessionById(eventId).subscribe(
       (entretien) => {
+        this.preRemplirFormulaire()
         this.entretienDetails = entretien;
         this.showModal2 = true;
         this.showModal = false;
@@ -191,12 +192,19 @@ handleDateClick(arg: any) {
       }
     });
   }
-  
+  preRemplirFormulaire(): void {
+    if (this.entretienDetails) {
+      this.groupId = this.entretienDetails.group.id;
+      this.dateDebut = this.entretienDetails.dateDebut;
+      this.dateFin = this.entretienDetails.dateFin;
+    }
+    console.log('ra', this.entretienDetails);
+  }
   editMode: boolean = false; // Variable pour suivre l'état de l'affichage du formulaire de modification
 
   updateEntretien(id: number): void {
     this.editMode = true;
-  
+  this.preRemplirFormulaire()
     const updatedGroupId = this.groupId;
     const updatedDateDebut = this.dateDebut;
     const updatedDateFin = this.dateFin;
@@ -207,18 +215,7 @@ handleDateClick(arg: any) {
           console.log(response);
   
           // Affichez une fenêtre modale Swal pour indiquer que l'événement a été mis à jour avec succès
-          Swal.fire({
-            icon: 'success',
-            title: 'Session mis à jour avec succès!',
-            showConfirmButton: false,
-            timer: 3000 // Affichez la fenêtre modale pendant 3 secondes
-          }).then(() => {
-            // Rechargez la page après 3 secondes
-            setTimeout(() => {
-              window.location.reload();
-            }, 3000);
-          });
-  
+         
           // Vous pouvez également effectuer d'autres actions ici, comme rediriger l'utilisateur vers une autre page
         },
         (error) => {
@@ -240,8 +237,18 @@ id ,        this.groupId,
       .subscribe(
         (response) => {
           console.log(response); // Afficher la réponse du serveur après la mise à jour de l'entretien
-          // Réinitialiser le mode d'édition et recharger les données si nécessaire
-          this.editMode = false;
+          Swal.fire({
+            icon: 'success',
+            title: 'Session mis à jour avec succès!',
+            showConfirmButton: false,
+            timer: 3000 // Affichez la fenêtre modale pendant 3 secondes
+          }).then(() => {
+            // Rechargez la page après 3 secondes
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          });
+            this.editMode = false;
         },
         (error) => {
           console.error("Erreur lors de la mise à jour de l'entretien:", error);
@@ -252,7 +259,7 @@ id ,        this.groupId,
   candidats: any[] = [];
 
   getGroupesByFormation(): void {
-    this.groupService.getGroupesByFormation(this.formationId)
+    this.groupService.getGroupesByFormationNonCertifie(this.formationId)
       .subscribe(
         candidats => {
           this.candidats = candidats;

@@ -10,3 +10,18 @@
 .mb-0 {
     margin-bottom: 0; /* Supprimer la marge en bas pour éviter des espacements indésirables */
 }
+.minimal-header {
+    background-color: #852121; /* Couleur sombre pour le fond */
+    color: white;
+    padding: 10px 20px; /* Padding minimal pour le contenu */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Ombre subtile pour un look nettoyé */
+    border-radius: 0; /* Coins carrés pour un aspect pur */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.minimal-header h3 {
+    margin: 0; /* Suppression des marges par défaut */
+    font-size: 18px; /* Taille de police plus petite pour minimiser */
+    font-weight: normal; /* Pas besoin de poids fort ici */
+}

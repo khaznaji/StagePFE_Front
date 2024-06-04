@@ -1,209 +1,334 @@
 <style>
   /* Style pour les champs de saisie invalides */
-      .disabled-cursor {
-        cursor: not-allowed; /* Utiliser le curseur "not allowed" lorsque le bouton est désactivé */
-      }
-      .dropdown {
-  position: relative;
-  display: inline-block;
-}
+  .disabled-cursor {
+    cursor: not-allowed; /* Utiliser le curseur "not allowed" lorsque le bouton est désactivé */
+  }
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
 
-.dropdown-menu {
-  display: none;
-  position: absolute;
-  z-index: 1000;
-}
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+  }
 
-.dropdown:hover .dropdown-menu {
-  display: block;
-}
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
 
-      .custom-error-message {
-          color: red; /* Couleur du texte en rouge */
-          font-size: 0.8rem; /* Taille de la police */
-          margin-top: 0.25rem; /* Marge en haut pour séparer le message d'erreur du champ de saisie */
-      }
-      /* Couleur de la barre de progression */
-      .progress-bar-strength {
-          background-color: #28a745; /* Couleur verte */
-      }
-      
-      /* Animation de la barre de progression */
-      .progress-bar-strength {
-          transition: width 0.3s ease; /* Animation fluide de la largeur */
-      }
-      
-          
-          </style>
+  .custom-error-message {
+    color: red; /* Couleur du texte en rouge */
+    font-size: 0.8rem; /* Taille de la police */
+    margin-top: 0.25rem; /* Marge en haut pour séparer le message d'erreur du champ de saisie */
+  }
+  /* Couleur de la barre de progression */
+  .progress-bar-strength {
+    background-color: #28a745; /* Couleur verte */
+  }
+
+  /* Animation de la barre de progression */
+  .progress-bar-strength {
+    transition: width 0.3s ease; /* Animation fluide de la largeur */
+  }
+</style>
 <div class="card">
   <div class="card-body">
-    <h4 class="card-title"> Collaborateur</h4>
-    <hr>
+    <h4 class="card-title">Collaborateur</h4>
+    <hr />
     <form [formGroup]="managerServiceForm" (ngSubmit)="onSubmit()">
       <div *ngIf="errorMessage" class="alert alert-danger">
         {{ errorMessage }}
       </div>
-      
-      
+
       <div *ngIf="currentStep === 1">
         <div class="d-flex justify-content-end">
-          <a  class="btn btn-link" (click)="nextStep()">
-            <p> <i class="mdi mdi-arrow-right"> </i>   </p>  </a>  
-          </div>
-        <p class="card-description">
-          Ajout Compte Collaborateur </p>
-         
+          <a class="btn btn-link" (click)="nextStep()">
+            <p><i class="mdi mdi-arrow-right"> </i></p>
+          </a>
+        </div>
+        <p class="card-description">Ajout Compte Collaborateur</p>
+
         <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="exampleInputName1">Nom</label>
-            <input type="text" class="form-control" id="nom" formControlName="nom" placeholder="Nom" required
-              [ngClass]="{ 'is-invalid': managerServiceForm.get('nom')?.invalid && managerServiceForm.get('nom')?.touched }">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="exampleInputName1">Nom</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nom"
+                formControlName="nom"
+                placeholder="Nom"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    managerServiceForm.get('nom')?.invalid &&
+                    managerServiceForm.get('nom')?.touched
+                }"
+              />
 
-            <div *ngIf="managerServiceForm.get('nom')?.invalid && managerServiceForm.get('nom')?.errors?.['required'] && managerServiceForm.get('nom')?.touched"
-              class="custom-error-message">
-              Le nom est obligatoire
+              <div
+                *ngIf="managerServiceForm.get('nom')?.invalid && managerServiceForm.get('nom')?.errors?.['required'] && managerServiceForm.get('nom')?.touched"
+                class="custom-error-message"
+              >
+                Le nom est obligatoire
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="exampleInputPrenom">Prenom</label>
+              <input
+                type="text"
+                class="form-control"
+                id="prenom"
+                formControlName="prenom"
+                placeholder="Prenom"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    managerServiceForm.get('prenom')?.invalid &&
+                    managerServiceForm.get('prenom')?.touched
+                }"
+              />
+
+              <div
+                *ngIf="managerServiceForm.get('prenom')?.invalid && managerServiceForm.get('prenom')?.errors?.['required'] && managerServiceForm.get('prenom')?.touched"
+                class="custom-error-message"
+              >
+                Le prenom est obligatoire
+              </div>
             </div>
           </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="exampleInputNumtel">Numero de telephone</label>
+              <input
+                type="number"
+                class="form-control"
+                id="numtel"
+                formControlName="numtel"
+                placeholder="Numero de telephone"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    managerServiceForm.get('numtel')?.invalid &&
+                    managerServiceForm.get('numtel')?.touched
+                }"
+              />
 
-          <div class="form-group">
-            <label for="exampleInputPrenom">Prenom</label>
-            <input type="text" class="form-control" id="prenom" formControlName="prenom" placeholder="Prenom" required
-              [ngClass]="{ 'is-invalid': managerServiceForm.get('prenom')?.invalid && managerServiceForm.get('prenom')?.touched }">
+              <div
+                *ngIf="
+                  managerServiceForm.get('numtel')?.invalid &&
+                  managerServiceForm.get('numtel')?.touched
+                "
+                class="custom-error-message"
+              >
+                Le numero de telephone est obligatoire
+              </div>
+            </div>
 
-            <div *ngIf="managerServiceForm.get('prenom')?.invalid && managerServiceForm.get('prenom')?.errors?.['required'] && managerServiceForm.get('prenom')?.touched"
-              class="custom-error-message">
-              Le prenom est obligatoire
+            <!-- Champ 2 -->
+            <div class="form-group">
+              <label for="exampleInputMatricule">Matricule</label>
+              <input
+                type="text"
+                class="form-control"
+                id="matricule"
+                formControlName="matricule"
+                placeholder="Matricule"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    managerServiceForm.get('matricule')?.invalid &&
+                    managerServiceForm.get('matricule')?.touched
+                }"
+              />
+
+              <div
+                *ngIf="managerServiceForm.get('matricule')?.invalid && managerServiceForm.get('matricule')?.errors?.['required'] && managerServiceForm.get('matricule')?.touched"
+                class="custom-error-message"
+              >
+                Le matricule est obligatoire
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="exampleInputNumtel">Numero de telephone</label>
-            <input type="number" class="form-control" id="numtel" formControlName="numtel" placeholder="Numero de telephone" required
-              [ngClass]="{ 'is-invalid': managerServiceForm.get('numtel')?.invalid && managerServiceForm.get('numtel')?.touched }">
 
-            <div *ngIf="managerServiceForm.get('numtel')?.invalid && managerServiceForm.get('numtel')?.touched"
-              class="custom-error-message">
-              Le numero de telephone est obligatoire
+        <!-- Deuxième moitié de la card -->
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="exampleInputEmail3">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                formControlName="email"
+                placeholder="hello@example.com"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    managerServiceForm.get('email')?.invalid &&
+                    managerServiceForm.get('email')?.touched
+                }"
+              />
+
+              <div
+                *ngIf="
+                  managerServiceForm.get('email')?.invalid &&
+                  managerServiceForm.get('email')?.touched
+                "
+                class="custom-error-message"
+              >
+                L'email est obligatoire
+              </div>
+
+              <div
+                *ngIf="
+                  !isSopraHrEmail(managerServiceForm.get('email')?.value) &&
+                  managerServiceForm.get('email')?.touched
+                "
+                class="custom-error-message"
+              >
+                L'email doit se terminer par '@gmail.com' ou '@soprahr.com'
+              </div>
+
+              <div class="text-danger" *ngIf="emailExists">
+                L'email existe déjà.
+              </div>
+            </div>
+            <!-- Champ 2 -->
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="exampleSelectGender">Genre</label>
+              <select
+                class="form-control"
+                id="exampleSelectGender"
+                formControlName="gender"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    managerServiceForm.get('gender')?.invalid &&
+                    managerServiceForm.get('gender')?.touched
+                }"
+              >
+                <option value="" disabled selected>
+                  -- Sélectionnez un genre --
+                </option>
+                <option value="Homme">Homme</option>
+                <option value="Femme">Femme</option>
+              </select>
+
+              <div
+                *ngIf="
+                  managerServiceForm.get('gender')?.invalid &&
+                  managerServiceForm.get('gender')?.touched
+                "
+                class="custom-error-message"
+              >
+                Le Genre est obligatoire
+              </div>
             </div>
           </div>
-
-          <!-- Champ 2 -->
-          <div class="form-group">
-            <label for="exampleInputMatricule">Matricule</label>
-            <input type="text" class="form-control" id="matricule" formControlName="matricule" placeholder="Matricule" required
-              [ngClass]="{ 'is-invalid': managerServiceForm.get('matricule')?.invalid && managerServiceForm.get('matricule')?.touched }">
-
-            <div *ngIf="managerServiceForm.get('matricule')?.invalid && managerServiceForm.get('matricule')?.errors?.['required'] && managerServiceForm.get('matricule')?.touched"
-              class="custom-error-message">
-              Le matricule est obligatoire
-            </div>
-          </div>        </div>
-      </div>
-
-      <!-- Deuxième moitié de la card -->
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="exampleInputEmail3">Email</label>
-            <input type="email" class="form-control" id="email" formControlName="email" placeholder="hello@example.com" required
-              [ngClass]="{ 'is-invalid': managerServiceForm.get('email')?.invalid && managerServiceForm.get('email')?.touched }">
-            
-            <div *ngIf="managerServiceForm.get('email')?.invalid && managerServiceForm.get('email')?.touched" class="custom-error-message">
-              L'email est obligatoire
-            </div>
-            
-            <div *ngIf="!isSopraHrEmail(managerServiceForm.get('email')?.value) && managerServiceForm.get('email')?.touched" class="custom-error-message">
-              L'email doit se terminer par '@gmail.com' ou '@soprahr.com'
-            </div> 
-            
-            <div class="text-danger" *ngIf="emailExists">L'email existe déjà.</div>
-          </div>
-          <!-- Champ 2 -->
-           
-           </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="exampleSelectGender">Genre</label>
-            <select class="form-control" id="exampleSelectGender" formControlName="gender" required
-              [ngClass]="{ 'is-invalid': managerServiceForm.get('gender')?.invalid && managerServiceForm.get('gender')?.touched }">
-              <option value="" disabled selected>-- Sélectionnez un genre --</option>
-              <option value="Homme">Homme</option>
-              <option value="Femme">Femme</option>
-            </select>
-        
-            <div *ngIf="managerServiceForm.get('gender')?.invalid && managerServiceForm.get('gender')?.touched" class="custom-error-message">
-              Le Genre est obligatoire
-            </div>
-          </div>           
         </div>
-      </div>
-      <!-- Reste du formulaire -->
-      <!-- ... (ajoutez le reste de votre formulaire ici) ... -->
-      
-      <!-- Boutons de soumission -->
-    </div>
- 
-<div *ngIf="currentStep === 2">
-  <div class="d-flex justify-content-start">
-    <a  class="btn btn-link" (click)="Step()">
-      <p> <i class="mdi mdi-arrow-left"> </i>   </p>   </a> 
-  </div>
-          <p class="card-description">
+        <!-- Reste du formulaire -->
+        <!-- ... (ajoutez le reste de votre formulaire ici) ... -->
 
-        Ajout Profile Collaborateur  </p>
-       
+        <!-- Boutons de soumission -->
+      </div>
+
+      <div *ngIf="currentStep === 2">
+        <div class="d-flex justify-content-start">
+          <a class="btn btn-link" (click)="Step()">
+            <p><i class="mdi mdi-arrow-left"> </i></p>
+          </a>
+        </div>
+        <p class="card-description">Ajout Profile Collaborateur</p>
+
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label for="poste">Poste:</label>
-              <input type="text" class="form-control" id="poste" formControlName="poste" placeholder="Poste" required
-                [ngClass]="{ 'is-invalid': managerServiceForm.get('poste')?.invalid && managerServiceForm.get('poste')?.touched }">
-        
-              <div *ngIf="managerServiceForm.get('poste')?.invalid && managerServiceForm.get('poste')?.errors?.['required'] && managerServiceForm.get('poste')?.touched"
-                class="custom-error-message">
+              <input
+                type="text"
+                class="form-control"
+                id="poste"
+                formControlName="poste"
+                placeholder="Poste"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    managerServiceForm.get('poste')?.invalid &&
+                    managerServiceForm.get('poste')?.touched
+                }"
+              />
+
+              <div
+                *ngIf="managerServiceForm.get('poste')?.invalid && managerServiceForm.get('poste')?.errors?.['required'] && managerServiceForm.get('poste')?.touched"
+                class="custom-error-message"
+              >
                 Le poste est obligatoire
               </div>
             </div>
           </div>
           <div class="col-md-6">
-            <div class="form-group">   
-              <label> Manager Service</label>     <!-- Assuming allManagerService is an array of ManagerService objects -->
-<select id="managerService" formControlName="managerServiceId" class="form-control">
-  <option value="" disabled selected>-- Sélectionnez un manager service --</option>
-  <option *ngFor="let managerService of allManagerService" [value]="managerService.id">{{ managerService.nom }} {{ managerService.prenom }}</option>
-</select>
-</div>
-</div>
-          
+            <div class="form-group">
+              <label> Manager Service</label>
+              <!-- Assuming allManagerService is an array of ManagerService objects -->
+              <select
+                id="managerService"
+                formControlName="managerServiceId"
+                class="form-control"
+              >
+                <option value="" disabled selected>
+                  -- Sélectionnez un manager service --
+                </option>
+                <option
+                  *ngFor="let managerService of allManagerService"
+                  [value]="managerService.id"
+                >
+                  {{ managerService.nom }} {{ managerService.prenom }}
+                </option>
+              </select>
+            </div>
+          </div>
 
-         <div class="col-md-6">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="dateEntree">Date d'entrée:</label>
-              <input type="date" class="form-control" id="dateEntree" formControlName="dateEntree" required
-                [ngClass]="{ 'is-invalid': managerServiceForm.get('dateEntree')?.invalid && managerServiceForm.get('dateEntree')?.touched }">
-        
-              <div *ngIf="managerServiceForm.get('dateEntree')?.invalid && managerServiceForm.get('dateEntree')?.errors?.['required'] && managerServiceForm.get('dateEntree')?.touched"
-                class="custom-error-message">
+              <input
+                type="date"
+                class="form-control"
+                id="dateEntree"
+                [max]="todayDate()"
+                formControlName="dateEntree"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    managerServiceForm.get('dateEntree')?.invalid &&
+                    managerServiceForm.get('dateEntree')?.touched
+                }"
+              />
+
+              <div
+                *ngIf="managerServiceForm.get('dateEntree')?.invalid && managerServiceForm.get('dateEntree')?.errors?.['required'] && managerServiceForm.get('dateEntree')?.touched"
+                class="custom-error-message"
+              >
                 La date d'entrée est obligatoire
               </div>
             </div>
-           
-            
           </div>
-          <br>
-          <br>
-           <!-- Second Column -->
-         
+          <br />
+          <br />
+          <!-- Second Column -->
         </div>
-      
-        
+
         <div class="d-flex justify-content-end">
-         
-        <button type="submit" class="btn btn-primary mr-2" >Ajouter</button>
+          <button type="submit" class="btn btn-primary mr-2">Ajouter</button>
         </div>
-</div>
+      </div>
     </form>
   </div>
 </div>

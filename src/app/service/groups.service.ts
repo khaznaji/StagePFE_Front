@@ -30,6 +30,9 @@ export class GroupsService {
   getGroupesByFormation(formationId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl2}/groupesParFormation/${formationId}`);
   }
+  getGroupesByFormationNonCertifie(formationId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl2}/groupesParFormationNonCertifie/${formationId}`);
+  }
   
   editGroupName(groupId: number, nom: string): Observable<any> {
 

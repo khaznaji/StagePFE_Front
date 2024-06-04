@@ -1,0 +1,46 @@
+<div class="card mx-auto text-center"  tabindex="-1" role="dialog">
+    <div class="card-body">
+        <div class="card">
+            <div class="card-body">
+                    <div class="card-title">Les Questions Du {{ qtitle }}</div>
+    <div class="row">
+      <div >
+    
+  <br>
+  <br>
+        <ul *ngFor="let ques of question; let i = index" class="mb-2 question-list">
+          <li class="question-item">
+            <p>
+              <b>Question {{ i + 1 }} ) </b>
+              <span class="d-inline-block" [innerHTML]="ques.content"></span>
+            </p>
+  
+            <div class="options">
+              <div class="row">
+                <div class="col-md-6">
+                 <p><b>1)</b> {{ ques.option1 }}</p>
+                </div>
+                <div class="col-md-6">
+                 <p><b>2)</b> {{ ques.option2 }}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                 <p><b>3)</b> {{ ques.option3 }}</p>
+                </div>
+                <div class="col-md-6">
+                 <p><b>4)</b> {{ ques.option4 }}</p>
+                </div>
+              </div>
+            </div>
+  
+            <div class="answer-section" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+                <div class="mt-2"><b>Reponse Correcte : </b>{{ ques.answer }}</div>
+               
+            </div>
+            
+          </li>
+        </ul>
+      </div>
+    </div>
+ </div>

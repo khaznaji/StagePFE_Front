@@ -1,83 +1,107 @@
-<style>/* Style pour les champs de saisie invalides */
-    .disabled-cursor {
-      cursor: not-allowed; /* Utiliser le curseur "not allowed" lorsque le bouton est désactivé */
-    }
-    
-    .custom-error-message {
-        color: red; /* Couleur du texte en rouge */
-        font-size: 0.8rem; /* Taille de la police */
-        margin-top: 0.25rem; /* Marge en haut pour séparer le message d'erreur du champ de saisie */
-    }
-    /* Couleur de la barre de progression */
-    .progress-bar-strength {
-        background-color: #28a745; /* Couleur verte */
-    }
-    
-    /* Animation de la barre de progression */
-    .progress-bar-strength {
-        transition: width 0.3s ease; /* Animation fluide de la largeur */
-    }
+<style>
+  /* Style pour les champs de saisie invalides */
+  .disabled-cursor {
+    cursor: not-allowed; /* Utiliser le curseur "not allowed" lorsque le bouton est désactivé */
+  }
+
+  .custom-error-message {
+    color: red; /* Couleur du texte en rouge */
+    font-size: 0.8rem; /* Taille de la police */
+    margin-top: 0.25rem; /* Marge en haut pour séparer le message d'erreur du champ de saisie */
+  }
+  /* Couleur de la barre de progression */
+  .progress-bar-strength {
+    background-color: #28a745; /* Couleur verte */
+  }
+
+  /* Animation de la barre de progression */
+  .progress-bar-strength {
+    transition: width 0.3s ease; /* Animation fluide de la largeur */
+  }
   /* Ajoutez un style personnalisé pour définir la hauteur de la carte */
   .custom-card {
     max-height: 100vh;
-}
+  }
 
   .custom-margin {
     margin-top: 1rem;
- 
-}
+  }
+</style>
+<body>
+  <div class="authincation h-100">
+    <div class="container-fluid h-100">
+      <div class="row justify-content-center h-100 align-items-center">
+        <div class="col-md-7">
+          <div class="authincation-content">
+            <div class="row no-gutters">
+              <div
+                class="col-xl-8 offset-xl-2 col-lg-6 offset-lg-3 custom-card custom-margin"
+              >
+                <div class="auth-form">
+                  <h4 class="text-center mb-4">
+                    <img
+                      src="../../../assets/images/logos.PNG"
+                      class="img-fluid"
+                      style="max-width: 170px"
+                    />
+                  </h4>
 
-        </style><body>
-    <div class="authincation h-100" >
-        <div class="container-fluid h-100">
-            <div class="row justify-content-center h-100 align-items-center">
-                <div class="col-md-7">
-                    <div class="authincation-content">
-                        <div class="row no-gutters">
-                            <div class="col-xl-8 offset-xl-2 col-lg-6 offset-lg-3 custom-card custom-margin">
-                                <div class="auth-form">
-                                    <h4 class="text-center mb-4"><img src="../../../assets/images/logos.PNG" class="img-fluid" style="max-width: 170px;"></h4>
-                                   
-                                   <div class="mb-4">
-                                       <img src="../../../assets/images/4you.PNG" style="max-width: 40px;">
-                                        <b class="ml-2">Bienvenue sur 4You</b>
-                                   
-                                   
-                                    <p class=" mb-4">Connectez-vous pour accéder à l'ensemble de nos fonctionnalités.</p>
-                                </div>
-                                <form (ngSubmit)="onSubmit(form)" #form="ngForm">
-                                    <div>
-                                      <label for="email"><strong>Code</strong></label>
-                                      <input class="form-control"  type="text" id="code" name="code" [(ngModel)]="code" required
-                                       #thisemail="ngModel" 
+                  <div class="mb-4">
+                    <img
+                      src="../../../assets/images/4you.PNG"
+                      style="max-width: 40px"
+                    />
+                    <b class="ml-2">Bienvenue sur 4You</b>
 
-                                      [ngClass]="{ 'is-invalid': (thisemail.invalid && thisemail.touched)}">
-                               <div *ngIf="thisemail.touched && !thisemail.value" class="custom-error-message">
-                                          Le code est obligatoire
-                                      </div>
-                                    
-                                      <div *ngIf="errorMessage" class="custom-error-message">
-                                        {{ errorMessage }}
-                                      </div> 
-                                    </div>
-                                    <div class="float-right mb-3">
-                                        <button (click)="regenerateCode()" class="btn btn-link">Renvoyer le code</button>
-                                      </div>
-                                                                          <div>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary btn-block"
-                                        >
-                                        Réinitialiser le mot de passe
-                                      </button>
-                                       </div>
-                                  </form>
-                                  
-                           </div>
-                            </div>
-                        </div>
+                    <p class="mb-4">
+                      Connectez-vous pour accéder à l'ensemble de nos
+                      fonctionnalités.
+                    </p>
+                  </div>
+                  <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+                    <div>
+                      <label for="email"><strong>Code</strong></label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        id="code"
+                        name="code"
+                        [(ngModel)]="code"
+                        required
+                        #thisemail="ngModel"
+                        [ngClass]="{
+                          'is-invalid': thisemail.invalid && thisemail.touched
+                        }"
+                      />
+                      <div
+                        *ngIf="thisemail.touched && !thisemail.value"
+                        class="custom-error-message"
+                      >
+                        Le code est obligatoire
+                      </div>
+
+                      <div *ngIf="errorMessage" class="custom-error-message">
+                        {{ errorMessage }}
+                      </div>
                     </div>
+                    <div class="float-right mb-3">
+                      <button (click)="regenerateCode()" class="btn btn-link">
+                        Renvoyer le code
+                      </button>
+                    </div>
+                    <div>
+                      <br />
+                      <button type="submit" class="btn btn-primary btn-block">
+                        Activer mon compte
+                      </button>
+                    </div>
+                  </form>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</body> 
+  </div>
+</body>
