@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../model/user.model';
@@ -18,5 +18,13 @@ export class FormateurService {
   getAllFormateur(): Observable<any> {
     return this.http.get(`${this.api_url}/formateur`);
   }
-
+  getCollaborateurInfo(): Observable<any> {
+    const authToken = this.authService.getToken();
+  
+    // Ajoutez le jeton d'authentification aux en-têtes de la requête
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${authToken}`
+    });
+    return this.http.get<any>(`${this.api_url}/formateur/info`,  { headers });
+  }
 }

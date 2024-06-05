@@ -88,6 +88,8 @@ import { DashboardManagerServiceComponent } from './Manager/dashboard-manager-se
 import { GetCertificatsComponent } from './Collaborateur/get-certificats/get-certificats.component';
 import { MesEntretiensAnnuelCollabComponent } from './Collaborateur/Annuel/mes-entretiens-annuel-collab/mes-entretiens-annuel-collab.component';
 import { ViewQuestionsComponent } from './Manager/gestion-poste-by-id/view-questions/view-questions.component';
+import { ProfileFormateurComponent } from './Formateur/profile-formateur/profile-formateur.component';
+import { ProfileManagerComponent } from './Manager/profile-manager/profile-manager.component';
 
 const routes: Routes = [
   {
@@ -362,7 +364,11 @@ const routes: Routes = [
         component: ProfileUsersComponent,
         canActivate: [AuthGuard],
       },
-
+      {
+        path: 'profile-manager',
+        component: ProfileManagerComponent,
+        canActivate: [AuthGuard],
+      },
       {
         path: 'historiqueposte',
         component: HistoriqueDesPosteComponent,
@@ -532,6 +538,11 @@ const routes: Routes = [
       {
         path: 'all',
         component: AllFormationsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'profile-formateur',
+        component: ProfileFormateurComponent,
         canActivate: [AuthGuard],
       },
       {

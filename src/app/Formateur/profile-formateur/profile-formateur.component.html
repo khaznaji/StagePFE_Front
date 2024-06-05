@@ -1,0 +1,147 @@
+<div class="container db-social">
+    <div class="jumbotron jumbotron-fluid"></div>
+    <div class="container-fluid" id="profile-container">
+      <div class="row justify-content-center">
+        <div class="col-xl-11">
+          <div class="widget head-profile has-shadow">
+            <div class="widget-body pb-0">
+              <div class="row d-flex align-items-center">
+                <div
+                  class="col-xl-4 col-md-4 d-flex justify-content-lg-start justify-content-md-start justify-content-center"
+                >
+                  <ul></ul>
+                </div>
+                <div
+                  class="col-xl-4 col-md-4 d-flex justify-content-center"
+                  *ngIf="userInfo"
+                >
+                  <div class="image-default">
+                    <img
+                      class="rounded-circle"
+                      [src]="'assets/images/' + userInfo.image"
+                      alt="Profile Image"
+                    />
+                  </div>
+                  <div class="infos d-flex align-items-center">
+                    <h2 class="mb-0 mr-2">
+                      {{ userInfo.nom }} {{ userInfo.prenom }}
+                    </h2>
+                    
+                </div>
+                <div
+                  class="col-xl-4 col-md-4 d-flex justify-content-lg-end justify-content-md-end justify-content-center"
+                >
+                  <div class="follow d-flex align-items-center">
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="container-fluid" id="profile-container">
+          <!-- Zone de contenu pour les informations du formateur -->
+          <div
+            class="row justify-content-center"
+          >
+          <div class="col-xl-9">
+            <!-- Card pour afficher les formations du formateur -->
+            <div class="card mb-4">
+              <div class="card-body">
+                <h5 class="card-title">
+                  Formations Créées ({{ userInfo.nombreformationCrees }})
+                </h5>
+                <!-- Utilisez *ngFor pour itérer sur chaque formation -->
+                <div class="row">
+                  <div
+                    *ngFor="let formation of getPaginatedFormations()"
+                    class="col-md-6 mb-3"
+                  >
+                    <div class="card d-flex flex-column h-100">
+                      <div class="card-body flex-fill">
+                        <img
+                          class="card-img-top"
+                          [src]="'assets/images/Formations/' + formation.imagePoste"
+                          alt="Image de la formation"
+                        />
+          
+                        <!-- Titre de la formation -->
+                        <h6 class="card-subtitle mb-2 text-muted">
+                          {{ formation.titre }}
+                        </h6>
+                        <!-- Détails de la formation -->
+                        <p class="card-text">
+                          <strong>Chapitre:</strong> {{ formation.chapitre }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Durée:</strong> {{ formation.duree }}
+                        </p>
+                        <!-- Vous pouvez ajouter d'autres détails de la formation ici -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Afficher les boutons de pagination -->
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                  <button
+                    class="btn btn-primary"
+                    (click)="previousPage()"
+                    [disabled]="currentPage === 1"
+                  >
+                    Précédent
+                  </button>
+                  <p>Page {{ currentPage }} sur {{ totalPages }}</p>
+                  <button
+                    class="btn btn-primary"
+                    (click)="nextPage()"
+                    [disabled]="currentPage === totalPages"
+                  >
+                    Suivant
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+  
+            <div class="col-xl-3">
+              <!-- Card pour afficher les informations sur le formateur -->
+              <div class="card mb-4">
+                <div class="card-body">
+                  <h5 class="card-title">A propos</h5>
+                  <ul class="custom-list">
+                    <li><strong>Poste :</strong> Formateur</li>
+                    <li>
+                      <strong>Département :</strong> {{ userInfo.departement }}
+                    </li>
+                    <li>
+                      <strong>Date d'entrée :</strong> {{ userInfo.dateEntree }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+   
+  
+    
+      <br />
+  
+    
+      <br />
+      <div>
+        <!-- Curriculum Vitae -->
+       
+        <div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -16,6 +16,15 @@ export class ManagerserviceService {
       formData
     );
   }
+  getCollaborateurInfo(): Observable<any> {
+    const authToken = this.authService.getToken();
+  
+    // Ajoutez le jeton d'authentification aux en-têtes de la requête
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${authToken}`
+    });
+    return this.http.get<any>(`${this.BASE_URL2}/manager/info`,  { headers });
+  }
 
   getMembers(): Observable<any> {
     const authToken = this.authService.getToken();
