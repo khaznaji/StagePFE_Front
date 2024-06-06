@@ -8,7 +8,7 @@ import { UserAuthService } from './user-auth.service';
   providedIn: 'root'
 })
 export class UserService {
-  private BASE_URL = 'http://localhost:8080/auth';
+  private BASE_URL = 'http://192.168.56.2:8085/auth';
   private BASE_URL2 = 'http://localhost:8080/api/User';
 
   requestHeader = new HttpHeaders({ 'No-Auth': 'True' });
