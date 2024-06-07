@@ -6,7 +6,7 @@ import { EntretienRhService } from 'src/app/service/entretien-rh.service';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import { PosteService } from 'src/app/service/poste.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timeGrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import { UserService } from 'src/app/service/user.service';
 import Swal from 'sweetalert2';
 @Component({

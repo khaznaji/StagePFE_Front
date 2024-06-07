@@ -5,7 +5,7 @@ import { EventInput } from '@fullcalendar/core';
 import { GroupsService } from 'src/app/service/groups.service';
 import { SessionFormationService } from 'src/app/service/session-formation.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timeGrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import Swal from 'sweetalert2';
 

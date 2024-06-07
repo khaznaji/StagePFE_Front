@@ -5,7 +5,7 @@ import { EventInput } from '@fullcalendar/core';
 import { EntretienService } from 'src/app/service/entretien.service';
 import { PosteService } from 'src/app/service/poste.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timeGrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import { ManagerserviceService } from 'src/app/service/managerservice.service';
@@ -35,9 +35,7 @@ export class EntretienAnnuelCalendarComponent implements OnInit {
     // this.route.params.subscribe((params) => {
     //   this.postId = +params['postId'];
     this.loadCandidatureDates();
-    // });
-    // this.loadCandidatureDates();
-    // this.getCandidatsByPoste();
+  
     this.reloadData();
   }
   checkHeureFin(): boolean {

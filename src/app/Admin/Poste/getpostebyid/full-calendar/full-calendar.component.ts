@@ -5,7 +5,7 @@ import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { PosteService } from 'src/app/service/poste.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timeGrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 
 import { EntretienService } from 'src/app/service/entretien.service';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
