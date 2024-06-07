@@ -13,6 +13,15 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": ["stompjs" ,"sweetalert2","ngx-embed-video","sockjs-client"
+          , "html2canvas" ,"rgbcolor","raf", "core-js/modules/web.dom-collections.iterator.js" ,
+          "core-js/modules/es.string.trim.js",
+          "core-js/modules/es.string.starts-with.js" ,"core-js/modules/es.string.split.js" , "core-js/modules/es.string.replace.js",
+          "core-js/modules/es.string.match.js" ,"core-js/modules/es.string.includes.js","core-js/modules/es.string.ends-with.js",
+          "core-js/modules/es.regexp.to-string.js" ,"core-js/modules/es.promise.js" ,"core-js/modules/es.array.reverse.js" ,"core-js/modules/es.array.reduce.js",
+          "core-js/modules/es.array.iterator.js" ,"core-js/modules/es.array.index-of.js"
+        ]
+,
             "outputPath": "dist/frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -32,10 +41,14 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "5mb",
+                  "maximumWarning": "9mb",
                   "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "610kb",
+                  "maximumError": "620kb"
                 }
-               
               ],
               "outputHashing": "all"
             },

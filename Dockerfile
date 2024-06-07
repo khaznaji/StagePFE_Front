@@ -17,8 +17,6 @@ RUN npm install --force
 # Copy the rest of the application code
 COPY --chown=node:node . .
 
-# Modify angular.json file to remove CSS budget constraint
-RUN sed -i '/"type": "anyComponentStyle",/,+2 d' angular.json
 
 RUN ng build --configuration "production"
 
