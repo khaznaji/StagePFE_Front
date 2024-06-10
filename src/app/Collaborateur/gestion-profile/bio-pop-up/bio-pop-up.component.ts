@@ -41,6 +41,11 @@ export class BioPopUpComponent implements OnInit {
             text: 'Bio modifiée avec succès',
             icon: 'success',
             confirmButtonText: 'OK'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Recharger la page après confirmation
+              window.location.reload();
+            }
           });
   
           // Mettez à jour les compétences dans votre modèle Angular si elles sont renvoyées par le backend

@@ -14,6 +14,7 @@ import { EvaluationService } from 'src/app/service/evaluation.service';
 import { EvaluationPopUpComponent } from './evaluation-pop-up/evaluation-pop-up.component';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { BioPopUpComponent } from './bio-pop-up/bio-pop-up.component';
+import Swal from 'sweetalert2';
 
   @Component({
     selector: 'app-gestion-profile',
@@ -269,24 +270,41 @@ onFileSelected(event: any) {
 updateProfile() {
   // Assurez-vous que les évaluations sont correctement associées aux compétences sélectionnées
 
-
   // Créez un FormData et ajoutez les données pertinentes
   const formData = new FormData();
   if (this.resume) {
     formData.append('resume', this.resume);
   }
+
   // Appelez le service pour mettre à jour le profil
   this.collaborateurService.updateCollaborateurResume(formData)
     .subscribe(
       response => {
         console.log('Profile updated successfully:', response);
         // Mettez à jour les compétences dans votre modèle Angular si elles sont renvoyées par le backend
-     
-
+        
+        // Afficher une alerte de succès avec confirmation
+        Swal.fire({
+          title: 'Succès',
+          text: ' CURRICULUM VITAE a été ajouté avec succès',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Recharger la page après confirmation
+            window.location.reload();
+          }
+        });
       },
       error => {
         console.error('Failed to update profile:', error);
-        // Ajoutez ici la logique pour gérer les erreurs
+        // Afficher une alerte d'erreur
+        Swal.fire({
+          title: 'Erreur',
+          text: 'Échec de la mise à jour du profil',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       }
     );
 }

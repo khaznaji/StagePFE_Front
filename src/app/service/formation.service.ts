@@ -8,7 +8,7 @@ import { UserAuthService } from './user-auth.service';
   providedIn: 'root'
 })
 export class FormationService {
-  private BASE_URL2 = 'http://localhost:8080/api/Formation';
+  private BASE_URL2 = 'http://192.168.56.2:8085/api/Formation';
   
   constructor(private http: HttpClient , private authService: UserAuthService) { }
 

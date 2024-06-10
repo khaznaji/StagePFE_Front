@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class BilanService {
 
-  private BASE_URL2 = 'http://localhost:8080/api/BilanAnnuel';
+  private BASE_URL2 = 'http://192.168.56.2:8085/api/BilanAnnuel';
 
   constructor(private http: HttpClient , private authService: UserAuthService) { }
 

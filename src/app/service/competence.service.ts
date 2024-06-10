@@ -7,7 +7,7 @@ import { Competence } from '../model/competence.model';
   providedIn: 'root'
 })
 export class CompetenceService {
-  private apiUrl = 'http://localhost:8080/api/Competence';  // Remplacez par l'URL de votre API
+  private apiUrl = 'http://192.168.56.2:8085/api/Competence';  // Remplacez par l'URL de votre API
 
   constructor(private http: HttpClient) {}
 

@@ -10,7 +10,7 @@ import { EtatPostulation } from '../model/etatpostulation.model';
   providedIn: 'root',
 })
 export class PosteService {
-  private BASE_URL2 = 'http://localhost:8080/api/Poste';
+  private BASE_URL2 = 'http://192.168.56.2:8085/api/Poste';
   constructor(private http: HttpClient, private authService: UserAuthService) {}
 
   createPoste(formData: FormData): Observable<Poste> {

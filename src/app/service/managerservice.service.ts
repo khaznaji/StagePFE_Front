@@ -7,7 +7,7 @@ import { UserAuthService } from './user-auth.service';
   providedIn: 'root',
 })
 export class ManagerserviceService {
-  private BASE_URL2 = 'http://localhost:8080/api/ManagerService';
+  private BASE_URL2 = 'http://192.168.56.2:8085/api/ManagerService';
 
   constructor(private http: HttpClient, private authService: UserAuthService) {}
   createManagerService(formData: FormData): Observable<User> {

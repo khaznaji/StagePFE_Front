@@ -7,7 +7,7 @@ import { UserAuthService } from './user-auth.service';
   providedIn: 'root'
 })
 export class EntretienRhService {
-  private baseUrl = 'http://localhost:8080/api/entretienRh';
+  private baseUrl = 'http://192.168.56.2:8085/api/entretienRh';
 
   constructor(private http: HttpClient, private authService: UserAuthService) {}
 

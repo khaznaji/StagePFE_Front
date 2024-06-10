@@ -36,7 +36,7 @@ export class FormationDetailComponent implements OnInit  {
          console.log('Une erreur s\'est produite lors de la récupération des informations de la formation:', error);
        });
    }
-   private BASE_URL2 = 'http://localhost:8080/api/ParticipationFormation';
+   private BASE_URL2 = 'http://192.168.56.2:8085/api/ParticipationFormation';
 
    postulerAuPoste(postId: number): void {
      console.log("Début de la méthode postulerAuPoste");

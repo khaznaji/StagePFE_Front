@@ -168,11 +168,7 @@
                   class="mdi mdi-fullscreen"
                   (click)="openPdfFullScreen()"
                 ></a>
-                <a
-                  *ngIf="collaborateurInfo.resume"
-                  (click)="downloadResume()"
-                  class="mdi mdi-download"
-                ></a>
+              
               </div>
             </div>
             <div class="pdf-container">
@@ -183,9 +179,9 @@
                 ></iframe>
               </div>
               <!-- Conteneur pour le glisser-déposer -->
-              <div class="dropzone" *ngIf="!collaborateurInfo.resume">
+              <div class="dropzone" >
                 <input type="file" (change)="onFileSelected($event)" />
-                <button (click)="updateProfile()">Sauvegarder</button>
+                <button class="btn btn-primary " (click)="updateProfile()">Sauvegarder</button>
               </div>
             </div>
           </div>

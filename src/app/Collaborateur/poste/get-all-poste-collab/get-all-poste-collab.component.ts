@@ -29,7 +29,7 @@ export class GetAllPosteCollabComponent implements OnInit {
 }
  
   
-  private BASE_URL2 = 'http://localhost:8080/api/Poste';
+  private BASE_URL2 = 'http://192.168.56.2:8085/api/Poste';
 
   postulerAuPoste(postId: number): void {
     console.log("Début de la méthode postulerAuPoste");

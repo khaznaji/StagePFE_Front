@@ -8,7 +8,7 @@ import { Formation } from '../model/formation.model';
   providedIn: 'root',
 })
 export class ParticapationFormationService {
-  private BASE_URL2 = 'http://localhost:8080/api/ParticipationFormation';
+  private BASE_URL2 = 'http://192.168.56.2:8085/api/ParticipationFormation';
 
   constructor(private http: HttpClient, private authService: UserAuthService) {}
 

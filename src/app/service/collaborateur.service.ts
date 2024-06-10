@@ -8,7 +8,7 @@ import { User } from '../model/user.model';
   providedIn: 'root'
 })
 export class CollaborateurService {
-  private api_url = 'http://localhost:8080/api/Collaborateur';
+  private api_url = 'http://192.168.56.2:8085/api/Collaborateur';
 
   constructor(private http: HttpClient ,  private authService: UserAuthService) { }
 

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CertificatService {
-  private baseUrl = 'http://localhost:8080/api/certif';
+  private baseUrl = 'http://192.168.56.2:8085/api/certif';
 
   constructor(private http: HttpClient) { }
   create(idgroupe: number , formData: FormData): Observable<void> {

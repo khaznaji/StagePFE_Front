@@ -8,7 +8,7 @@ import { Evaluation } from '../model/evaluation.model';
   providedIn: 'root'
 })
 export class EvaluationService {
-  private api_url = 'http://localhost:8080/api/Evaluation';
+  private api_url = 'http://192.168.56.2:8085/api/Evaluation';
 
   constructor(private http: HttpClient ,  private authService: UserAuthService) { }
   getEvaluation(): Observable<Evaluation[]> {

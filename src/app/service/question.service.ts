@@ -7,7 +7,7 @@ import { Question } from '../model/question.model';
   providedIn: 'root'
 })
 export class QuestionService {
-  private baseUrl = 'http://localhost:8080/api/question';
+  private baseUrl = 'http://192.168.56.2:8085/api/question';
 
   constructor(private http: HttpClient) {}
   public addQuestion(data: any) {

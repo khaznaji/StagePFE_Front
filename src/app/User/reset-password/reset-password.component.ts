@@ -40,7 +40,7 @@ export class ResetPasswordComponent implements OnInit {
         password: this.password  // Assurez-vous que le nom du champ correspond au paramètre côté serveur
 }
     };
-    this.http.post<any>('http://localhost:8080/auth/reset', resetData, options).subscribe(
+    this.http.post<any>('http://192.168.56.2:8085/auth/reset', resetData, options).subscribe(
       response => {
         this.successMessage = response;
         this.errorMessage = '';

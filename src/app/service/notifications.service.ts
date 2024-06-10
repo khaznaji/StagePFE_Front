@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class NotificationsService {
-  private BASE_URL2 = 'http://localhost:8080/api/Notifications/notifications';
+  private BASE_URL2 = 'http://192.168.56.2:8085/api/Notifications/notifications';
 
   constructor(private http: HttpClient, private authService: UserAuthService) {}
   getUserNotifications(): Observable<any[]> {

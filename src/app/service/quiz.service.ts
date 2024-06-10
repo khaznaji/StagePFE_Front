@@ -7,7 +7,7 @@ import { Quiz } from '../model/quiz.model';
   providedIn: 'root'
 })
 export class QuizService {
-  private baseUrl = 'http://localhost:8080/api/quizz';
+  private baseUrl = 'http://192.168.56.2:8085/api/quizz';
 
   constructor(private http: HttpClient) {}
   public addQuiz(data: any) {

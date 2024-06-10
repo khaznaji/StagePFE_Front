@@ -62,7 +62,7 @@ export class ActivationCompteComponent {
         params: { token: this.token, code: this.code }
     };
 
-    this.http.post<any>('http://localhost:8080/auth/activate', resetData, options).subscribe(
+    this.http.post<any>('http://192.168.56.2:8085/auth/activate', resetData, options).subscribe(
         response => {
             this.successMessage = response.message;
             this.errorMessage = '';

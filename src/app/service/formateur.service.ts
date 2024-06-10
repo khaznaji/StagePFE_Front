@@ -9,7 +9,7 @@ import { UserAuthService } from './user-auth.service';
 })
 export class FormateurService {
 
-  private api_url = 'http://localhost:8080/api/Formateur';
+  private api_url = 'http://192.168.56.2:8085/api/Formateur';
 
   constructor(private http: HttpClient ,  private authService: UserAuthService) { }
   createFormateur(formData: FormData): Observable<User> {

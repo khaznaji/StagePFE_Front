@@ -6,8 +6,8 @@ import { Observable, catchError, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class GroupsService {
-  private baseUrl = 'http://localhost:8080/api/groups/ajouterGroupe';
-  private baseUrl2 = 'http://localhost:8080/api/groups';
+  private baseUrl = 'http://192.168.56.2:8085/api/groups/ajouterGroupe';
+  private baseUrl2 = 'http://192.168.56.2:8085/api/groups';
 
   constructor(private http: HttpClient) {}
 
